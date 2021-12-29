@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.App.RadioButton" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.RadioButton</item>
+    </style>
+
+    <style name="ThemeOverlay.App.RadioButton" parent="">
+        <item name="colorOnSurface">@color/radiobutton_gray</item>
+        <item name="colorSecondary">@color/medium_sea_green</item>
+        <item name="android:textColor">@color/light_black</item>
+        <item name="android:textSize">@dimen/size_16</item>
+        <item name="fontFamily">@font/montserrat_semibold</item>
+        <item name="android:paddingLeft">@dimen/size_25</item>
+    </style>
+
+    <style name="MaterialAlertDialogRounded" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Dialog.Rounded</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Dialog.Rounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_20</item>
+    </style>
+
+
+    <style name="TabLayoutTextFont" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="fontFamily">@font/montserrat_semibold</item>
+        <item name="android:textSize">@dimen/text_14</item>
+        <item name="tabIndicatorColor">@color/medium_sea_green</item>
+        <item name="tabSelectedTextColor">@color/medium_sea_green</item>
+        <item name="tabTextColor">@color/gray</item>
+        <item name="tabMode">fixed</item>
+    </style>
+
+    <style name="CustomBottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_bottom_sheet</item>
+        <item name="behavior_draggable">false</item>
+        <item name="behavior_hideable">false</item>
+    </style>
+
+    <style name="CredentialsStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/size_12</item>
+        <item name="colorOnSurface">@color/gainsboro</item>
+        <item name="colorSecondary">@color/medium_sea_green</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radius_10</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radius_10</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radius_10</item>
+        <item name="boxCornerRadiusTopStart">@dimen/radius_10</item>
+        <item name="helperTextTextColor">@color/red</item>
+    </style>
+</resources>

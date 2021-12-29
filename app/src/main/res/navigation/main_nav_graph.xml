@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/programsFragment">
+
+    <fragment
+        android:id="@+id/programsFragment"
+        android:name="com.mvproject.tvprogramguide.programs.ProgramsFragment"
+        tools:layout="@layout/fragment_programs">
+        <action
+            android:id="@+id/toSettingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/customListFragment"
+        android:name="com.mvproject.tvprogramguide.customlists.CustomListFragment"
+        tools:layout="@layout/fragment_custom_list">
+        <argument
+            android:name="listFoEdit"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.mvproject.tvprogramguide.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/toSettingChannelsListFragment"
+            app:destination="@id/settingChannelsListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingChannelsListFragment"
+        android:name="com.mvproject.tvprogramguide.settings.SettingsChannelsListFragment"
+        tools:layout="@layout/fragment_settings_channels_list">
+        <action
+            android:id="@+id/toCustomListFragment"
+            app:destination="@id/customListFragment" />
+    </fragment>
+
+</navigation>
