@@ -9,22 +9,22 @@
 
     <TextView
         android:id="@+id/programTime"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/view_size_48"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/size_16"
         android:fontFamily="@font/montserrat_medium"
         android:textColor="@color/chocolate"
         android:textSize="@dimen/text_14"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Name" />
+        tools:text="00:00" />
 
     <TextView
         android:id="@+id/programName"
         android:layout_width="@dimen/view_size_0"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/size_16"
-        android:fontFamily="@font/montserrat_medium"
+        android:fontFamily="@font/montserrat_semibold"
         android:textColor="@color/darkorange"
         android:textSize="@dimen/text_14"
         app:layout_constrainedWidth="true"

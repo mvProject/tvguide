@@ -39,7 +39,6 @@ class ProgramsViewModel @Inject constructor(
 
     init {
         updatePrograms(selected.value)
-        //  checkSelected()
         viewModelScope.launch(Dispatchers.IO) {
             customListRepository.loadChannelsLists().collect {
                 _availableLists = it
@@ -55,31 +54,10 @@ class ProgramsViewModel @Inject constructor(
         savedList = listName
 
         viewModelScope.launch(Dispatchers.IO) {
-            //storeManager.saveSelectedList(listName)
             _selected.emit(listName)
         }
 
     }
-
-    //  private fun checkSelected() = viewModelScope.launch(Dispatchers.IO) {
-    //      storeManager.selectedList.collect { name ->
-    // _selected.emit(name)
-//
-    // val alreadySelected =
-    //     selectedChannelRepository.loadSelectedChannels(name)
-    // val channels =
-    //     channelProgramRepository.loadChannelsProgram(alreadySelected.map { it.channelId })
-//
-//
-    // val time = Calendar.getInstance().timeInMillis - DateUtils.HOUR_IN_MILLIS
-//
-    // val filtered = channels.filter { it.dateTime > time }
-    // val programs = filtered.toSortedSelectedChannelsPrograms(alreadySelected, 6)
-//
-//
-    // _channels.emit(programs)
-    //     }
-    //   }
 
     private fun updatePrograms(name: String) = viewModelScope.launch(Dispatchers.IO) {
         val alreadySelected =

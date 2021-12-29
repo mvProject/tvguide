@@ -4,19 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="@dimen/size_8"
     android:background="@color/gainsboro">
+
+    <ImageView
+        android:id="@+id/channelLogo"
+        android:layout_width="@dimen/view_size_60"
+        android:layout_height="@dimen/view_size_48"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_settings" />
 
     <TextView
         android:id="@+id/channelTitle"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/view_size_0"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/size_16"
         android:fontFamily="@font/montserrat_medium"
         android:textColor="?attr/color_main_title"
         android:textSize="@dimen/text_16"
-        android:padding="@dimen/size_8"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/channelLogo"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:text="Name" />
 </androidx.constraintlayout.widget.ConstraintLayout>

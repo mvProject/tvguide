@@ -5,14 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.size.Scale
 import com.mvproject.tvprogramguide.databinding.ChannelHeaderItemBinding
 import com.mvproject.tvprogramguide.databinding.ProgramItemBinding
-import com.mvproject.tvprogramguide.model.data.*
+import com.mvproject.tvprogramguide.model.data.Channel
+import com.mvproject.tvprogramguide.model.data.IChannel
+import com.mvproject.tvprogramguide.model.data.Program
 import com.mvproject.tvprogramguide.sticky.StickyHeaders
-import com.mvproject.tvprogramguide.utils.Utils.convertDateToReadableFormat
 import com.mvproject.tvprogramguide.utils.Utils.convertTimeToReadableFormat
 import com.mvproject.tvprogramguide.utils.Utils.parseChannelName
-import java.lang.StringBuilder
 
 class ProgramsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     StickyHeaders {
@@ -69,21 +71,21 @@ class ProgramsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
             else -> throw IllegalArgumentException()
         }
 
-    private fun onBindHeader(holder: RecyclerView.ViewHolder, row: Channel) {
+    private fun onBindHeader(holder: RecyclerView.ViewHolder, chn: Channel) {
         (holder as ChannelViewHolder).binding.apply {
-            channelTitle.text = row.channelName.parseChannelName()
+            channelLogo.load(chn.channelIcon) {
+                crossfade(true)
+                scale(Scale.FIT)
+            }
+
+            channelTitle.text = chn.channelName.parseChannelName()
         }
     }
 
-    private fun onBindMessage(holder: RecyclerView.ViewHolder, row: Program) {
+    private fun onBindMessage(holder: RecyclerView.ViewHolder, prg: Program) {
         (holder as ProgramViewHolder).binding.apply {
-            programTime.text = StringBuilder().apply {
-                append(row.dateTime.convertTimeToReadableFormat())
-                append("\n")
-                append(row.dateTime.convertDateToReadableFormat())
-            }
-
-            programName.text = row.title
+            programTime.text = prg.dateTime.convertTimeToReadableFormat()
+            programName.text = prg.title
         }
     }
 
