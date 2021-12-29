@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="color_default_background" format="color|reference" />
+
+    <attr name="color_main_title" format="color|reference" />
+    <attr name="color_main_tint" format="color|reference" />
+
+    <attr name="color_default_title" format="color|reference" />
+</resources>

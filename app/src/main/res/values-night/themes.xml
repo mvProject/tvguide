@@ -1,0 +1,25 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.TVProgramGuide" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/medium_sea_green_alpha20</item>
+        <item name="colorPrimaryVariant">@color/medium_sea_green_alpha20</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/chocolate</item>
+        <item name="colorSecondaryVariant">@color/chocolate</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+
+        <item name="radioButtonStyle">@style/Widget.App.RadioButton</item>
+        <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
+
+        <item name="color_default_background">@color/light_black</item>
+        <item name="color_main_tint">@color/chocolate</item>
+        <item name="color_main_title">@color/chocolate</item>
+
+        <item name="color_default_title">@color/lavender</item>
+    </style>
+</resources>

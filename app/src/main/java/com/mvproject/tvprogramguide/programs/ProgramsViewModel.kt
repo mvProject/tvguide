@@ -1,0 +1,99 @@
+package com.mvproject.tvprogramguide.programs
+
+import android.text.format.DateUtils
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.mvproject.tvprogramguide.StoreManager
+import com.mvproject.tvprogramguide.model.data.IChannel
+import com.mvproject.tvprogramguide.model.entity.CustomListEntity
+import com.mvproject.tvprogramguide.repository.ChannelProgramRepository
+import com.mvproject.tvprogramguide.repository.CustomListRepository
+import com.mvproject.tvprogramguide.repository.SelectedChannelRepository
+import com.mvproject.tvprogramguide.utils.Mappers.toSortedSelectedChannelsPrograms
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import java.util.*
+import javax.inject.Inject
+
+@HiltViewModel
+class ProgramsViewModel @Inject constructor(
+    private val storeManager: StoreManager,
+    private val selectedChannelRepository: SelectedChannelRepository,
+    private val channelProgramRepository: ChannelProgramRepository,
+    private val customListRepository: CustomListRepository
+) : ViewModel() {
+
+    private var _selected = MutableStateFlow(storeManager.defaultChannelList)
+    val selected = _selected.asStateFlow()
+
+    private var _channels = MutableStateFlow<List<IChannel>>(emptyList())
+    val channels = _channels.asStateFlow()
+
+    private var _availableLists: List<CustomListEntity> = emptyList()
+
+    private var savedList = storeManager.defaultChannelList
+
+    init {
+        updatePrograms(selected.value)
+        //  checkSelected()
+        viewModelScope.launch(Dispatchers.IO) {
+            customListRepository.loadChannelsLists().collect {
+                _availableLists = it
+            }
+        }
+    }
+
+    val availableLists get() = _availableLists.map { it.name }
+
+    fun saveSelectedList(listName: String) {
+        updatePrograms(listName)
+        storeManager.setDefaultChannelList(listName)
+        savedList = listName
+
+        viewModelScope.launch(Dispatchers.IO) {
+            //storeManager.saveSelectedList(listName)
+            _selected.emit(listName)
+        }
+
+    }
+
+    //  private fun checkSelected() = viewModelScope.launch(Dispatchers.IO) {
+    //      storeManager.selectedList.collect { name ->
+    // _selected.emit(name)
+//
+    // val alreadySelected =
+    //     selectedChannelRepository.loadSelectedChannels(name)
+    // val channels =
+    //     channelProgramRepository.loadChannelsProgram(alreadySelected.map { it.channelId })
+//
+//
+    // val time = Calendar.getInstance().timeInMillis - DateUtils.HOUR_IN_MILLIS
+//
+    // val filtered = channels.filter { it.dateTime > time }
+    // val programs = filtered.toSortedSelectedChannelsPrograms(alreadySelected, 6)
+//
+//
+    // _channels.emit(programs)
+    //     }
+    //   }
+
+    private fun updatePrograms(name: String) = viewModelScope.launch(Dispatchers.IO) {
+        val alreadySelected =
+            selectedChannelRepository.loadSelectedChannels(name)
+        val channels =
+            channelProgramRepository.loadChannelsProgram(alreadySelected.map { it.channelId })
+
+
+        val time = Calendar.getInstance().timeInMillis - DateUtils.HOUR_IN_MILLIS
+
+        val filtered = channels.filter { it.dateTime > time }
+        val programs = filtered.toSortedSelectedChannelsPrograms(alreadySelected, 6)
+
+
+        _channels.emit(programs)
+    }
+}

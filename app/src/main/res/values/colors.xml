@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="red">#D32F2F</color>
+    <color name="dark_slate_gray">#333333</color>
+    <color name="gray">#8F928E</color>
+    <color name="radiobutton_gray">#757575</color>
+    <color name="medium_sea_green">#4EAC55</color>
+    <color name="medium_sea_green_alpha20">#dceedd</color>
+    <color name="light_black">#1C1D1D</color>
+    <color name="gainsboro">#DEE2DC</color>
+    <color name="lavender">#E6EBEA</color>
+    <color name="chocolate">#EB4F27</color>
+    <color name="darkorange">#FF881E</color>
+    <color name="snow">#F9F9F9</color>
+    <color name="mistyrose">#fce5df</color>
+</resources>
