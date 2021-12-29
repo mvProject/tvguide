@@ -8,6 +8,7 @@ import com.mvproject.tvprogramguide.model.entity.ChannelEntity
 import com.mvproject.tvprogramguide.model.entity.ProgramEntity
 import com.mvproject.tvprogramguide.model.json.JsonChannelModel
 import com.mvproject.tvprogramguide.model.json.JsonProgram
+import com.mvproject.tvprogramguide.utils.Utils.correctTimeZone
 import com.mvproject.tvprogramguide.utils.Utils.toMillis
 
 object Mappers {
@@ -43,7 +44,7 @@ object Mappers {
 
     private fun JsonProgram.asProgramFromJson() = with(this) {
         Program(
-            dateTime = start.toMillis(),
+            dateTime = start.toMillis().correctTimeZone(),
             title = title,
             description = description,
             category = category
@@ -52,7 +53,7 @@ object Mappers {
 
     private fun JsonProgram.asProgramFromJson(channelId: String) = with(this) {
         Program(
-            dateTime = start.toMillis(),
+            dateTime = start.toMillis().correctTimeZone(),
             title = title,
             description = description,
             category = category,
@@ -71,7 +72,7 @@ object Mappers {
     private fun JsonProgram.asProgramEntity(channelId: String, selectedId: String = "") =
         with(this) {
             ProgramEntity(
-                dateTime = start.toMillis(),
+                dateTime = start.toMillis().correctTimeZone(),
                 title = title,
                 description = description,
                 category = category,

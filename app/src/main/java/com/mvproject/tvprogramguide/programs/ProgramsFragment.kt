@@ -13,8 +13,6 @@ import com.mvproject.tvprogramguide.utils.collectFlow
 import com.mvproject.tvprogramguide.utils.createSelectDialog
 import com.mvproject.tvprogramguide.utils.routeTo
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import timber.log.Timber
 
 @AndroidEntryPoint
 class ProgramsFragment : Fragment() {
