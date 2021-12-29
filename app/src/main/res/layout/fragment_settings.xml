@@ -5,6 +5,12 @@
     android:layout_height="@dimen/view_size_420"
     android:paddingBottom="@dimen/size_22">
 
+    <include
+        android:id="@+id/settingsToolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        layout="@layout/layout_toolbar_minimal"/>
+
     <TextView
         android:id="@+id/optionNotification"
         android:layout_width="wrap_content"
@@ -17,7 +23,7 @@
         android:textColor="?attr/color_main_title"
         android:textSize="@dimen/text_16"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/settingsToolbar" />
 
     <TextView
         android:id="@+id/optionChannels"
