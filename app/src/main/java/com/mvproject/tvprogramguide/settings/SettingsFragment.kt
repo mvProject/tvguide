@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
+import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.databinding.FragmentSettingsBinding
 import com.mvproject.tvprogramguide.utils.routeTo
+import com.mvproject.tvprogramguide.utils.routeToBack
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
-class SettingsFragment : Fragment(){
+class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
 
@@ -28,9 +29,14 @@ class SettingsFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Timber.d("testing SettingsFragment onViewCreated")
-
         with(binding) {
+            settingsToolbar.apply {
+                toolbarTitle.text = getString(R.string.settings_title)
+                btnBack.setOnClickListener {
+                    routeToBack()
+                }
+            }
+
             optionChannels.setOnClickListener {
                 routeTo(destination = SettingsFragmentDirections.toSettingChannelsListFragment())
             }
