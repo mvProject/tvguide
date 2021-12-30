@@ -1,7 +1,7 @@
 package com.mvproject.tvprogramguide.repository
 
-import com.mvproject.tvprogramguide.database.CustomListDao
-import com.mvproject.tvprogramguide.model.entity.CustomListEntity
+import com.mvproject.tvprogramguide.database.dao.CustomListDao
+import com.mvproject.tvprogramguide.database.entity.CustomListEntity
 import javax.inject.Inject
 import kotlin.random.Random
 

@@ -1,7 +1,7 @@
 package com.mvproject.tvprogramguide.netwotk
 
-import com.mvproject.tvprogramguide.model.json.JsonChannelList
-import com.mvproject.tvprogramguide.model.json.JsonProgramList
+import com.mvproject.tvprogramguide.netwotk.json.JsonChannelList
+import com.mvproject.tvprogramguide.netwotk.json.JsonProgramList
 import retrofit2.http.GET
 import retrofit2.http.Path
 

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mvproject.tvprogramguide.StoreManager
 import com.mvproject.tvprogramguide.model.data.Channel
-import com.mvproject.tvprogramguide.model.entity.SelectedChannelEntity
+import com.mvproject.tvprogramguide.database.entity.SelectedChannelEntity
 import com.mvproject.tvprogramguide.repository.AllChannelRepository
 import com.mvproject.tvprogramguide.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.utils.COUNT_ONE

@@ -9,10 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.databinding.FragmentSelectedChannelsBinding
-import com.mvproject.tvprogramguide.decoration.ItemSpacingDecorator
+import com.mvproject.tvprogramguide.utils.decoration.ItemSpacingDecorator
 import com.mvproject.tvprogramguide.utils.collectFlow
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class SelectedChannelsFragment : Fragment() {

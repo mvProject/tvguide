@@ -2,10 +2,14 @@ package com.mvproject.tvprogramguide.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.mvproject.tvprogramguide.model.entity.ChannelEntity
-import com.mvproject.tvprogramguide.model.entity.CustomListEntity
-import com.mvproject.tvprogramguide.model.entity.ProgramEntity
-import com.mvproject.tvprogramguide.model.entity.SelectedChannelEntity
+import com.mvproject.tvprogramguide.database.dao.AllChannelDao
+import com.mvproject.tvprogramguide.database.dao.CustomListDao
+import com.mvproject.tvprogramguide.database.dao.ProgramDao
+import com.mvproject.tvprogramguide.database.dao.SelectedChannelDao
+import com.mvproject.tvprogramguide.database.entity.ChannelEntity
+import com.mvproject.tvprogramguide.database.entity.CustomListEntity
+import com.mvproject.tvprogramguide.database.entity.ProgramEntity
+import com.mvproject.tvprogramguide.database.entity.SelectedChannelEntity
 
 @Database(entities = [
     ChannelEntity::class,
