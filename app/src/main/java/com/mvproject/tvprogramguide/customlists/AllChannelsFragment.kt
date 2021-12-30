@@ -9,11 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.databinding.FragmentAllChannelsBinding
-import com.mvproject.tvprogramguide.decoration.ItemSpacingDecorator
+import com.mvproject.tvprogramguide.utils.decoration.ItemSpacingDecorator
 import com.mvproject.tvprogramguide.utils.collectFlow
 import com.mvproject.tvprogramguide.utils.onTextChanged
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class AllChannelsFragment : Fragment() {

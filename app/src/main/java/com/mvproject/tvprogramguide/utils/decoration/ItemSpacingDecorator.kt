@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.decoration
+package com.mvproject.tvprogramguide.utils.decoration
 
 import android.graphics.Rect
 import android.view.View

@@ -60,7 +60,6 @@ class ProgramsFragment : Fragment() {
                 ) { result ->
                     programsViewModel.saveSelectedList(result)
                     alertDialog?.cancel()
-                    // todo update list
                 }.apply {
                     show()
                 }
@@ -70,6 +69,8 @@ class ProgramsFragment : Fragment() {
                 routeTo(destination = ProgramsFragmentDirections.toSettingsFragment())
             }
         }
+
+        programsViewModel.reloadChannels()
     }
 
     override fun onDestroyView() {

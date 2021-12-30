@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.model.json
+package com.mvproject.tvprogramguide.netwotk.json
 
 data class JsonChannelList(
     val channels: List<JsonChannelModel>

@@ -4,10 +4,10 @@ import com.mvproject.tvprogramguide.model.data.Channel
 import com.mvproject.tvprogramguide.model.data.IChannel
 import com.mvproject.tvprogramguide.model.data.Program
 import com.mvproject.tvprogramguide.model.data.SingleChannelProgramList
-import com.mvproject.tvprogramguide.model.entity.ChannelEntity
-import com.mvproject.tvprogramguide.model.entity.ProgramEntity
-import com.mvproject.tvprogramguide.model.json.JsonChannelModel
-import com.mvproject.tvprogramguide.model.json.JsonProgram
+import com.mvproject.tvprogramguide.database.entity.ChannelEntity
+import com.mvproject.tvprogramguide.database.entity.ProgramEntity
+import com.mvproject.tvprogramguide.netwotk.json.JsonChannelModel
+import com.mvproject.tvprogramguide.netwotk.json.JsonProgram
 import com.mvproject.tvprogramguide.utils.Utils.correctTimeZone
 import com.mvproject.tvprogramguide.utils.Utils.toMillis
 
@@ -24,7 +24,7 @@ object Mappers {
 
     fun List<Program>.toSortedSelectedChannelsPrograms(
         alreadySelected: List<Channel>,
-        itemsCount: Int = 0
+        itemsCount: Int = COUNT_ZERO
     ): List<IChannel> {
         val sortedPrograms = mutableListOf<IChannel>()
         val programs = this.groupBy { it.channel }
@@ -33,7 +33,7 @@ object Mappers {
             programs[chn.channelId]?.let {
                 sortedPrograms.add(chn)
                 sortedPrograms.addAll(
-                    if (itemsCount > 0)
+                    if (itemsCount > COUNT_ZERO)
                         it.take(itemsCount)
                     else it
                 )
@@ -42,63 +42,57 @@ object Mappers {
         return sortedPrograms
     }
 
-    private fun JsonProgram.asProgramFromJson() = with(this) {
-        Program(
-            dateTime = start.toMillis().correctTimeZone(),
-            title = title,
-            description = description,
-            category = category
-        )
-    }
-
-    private fun JsonProgram.asProgramFromJson(channelId: String) = with(this) {
-        Program(
-            dateTime = start.toMillis().correctTimeZone(),
-            title = title,
-            description = description,
-            category = category,
-            channel = channelId
-        )
-    }
-
-    fun List<JsonProgram>.asProgramsFromJson() = this.map { item ->
-        item.asProgramFromJson()
-    }
-
-    fun List<JsonProgram>.asProgramsFromJson(channelId: String) = this.map { item ->
-        item.asProgramFromJson(channelId)
-    }
-
-    private fun JsonProgram.asProgramEntity(channelId: String, selectedId: String = "") =
+    private fun JsonProgram.asProgramEntity(
+        channelId: String,
+        durationTime: Long = COUNT_ZERO_LONG
+    ) =
         with(this) {
             ProgramEntity(
                 dateTime = start.toMillis().correctTimeZone(),
+                duration = durationTime,
                 title = title,
                 description = description,
                 category = category,
-                channelId = channelId,
-                selectedId = selectedId
+                channelId = channelId
             )
         }
 
 
-    fun List<JsonProgram>.asProgramEntities(channelId: String, selectedId: String = "") =
-        this.map { item ->
-            item.asProgramEntity(channelId, selectedId)
+    fun List<JsonProgram>.asProgramEntities(
+        channelId: String
+    ) =
+        this.filter { it.start.toMillis().correctTimeZone() > Utils.actualDay }
+            .mapIndexed { index, item ->
+                val durations = this.calculateDurations()
+                val durationTime = durations.elementAtOrNull(index) ?: COUNT_ZERO_LONG
+                item.asProgramEntity(channelId, durationTime)
+            }
+
+    private fun List<JsonProgram>.calculateDurations(): List<Long> = with(this) {
+        val durations = mutableListOf<Long>()
+        zipWithNext().forEach { p ->
+            val duration = p.second.start.toMillis() - p.first.start.toMillis()
+            durations.add(duration)
+        }
+        durations
+    }
+
+    private fun ProgramEntity.asProgramFromEntity(channelId: String) =
+        with(this) {
+            Program(
+                dateTime = dateTime,
+                duration = duration,
+                title = title,
+                description = description,
+                category = category,
+                channel = channelId,
+            )
         }
 
-    private fun ProgramEntity.asProgramFromEntity() = with(this) {
-        Program(
-            dateTime = dateTime,
-            title = title,
-            description = description,
-            category = category
-        )
-    }
-
-    fun List<ProgramEntity>.asProgramFromEntities() = this.map { item ->
-        item.asProgramFromEntity()
-    }
+    fun List<ProgramEntity>.asProgramFromEntities(channelId: String) =
+        this.map { item ->
+            item.asProgramFromEntity(channelId)
+        }
 
 
     private fun JsonChannelModel.asChannelEntity() = with(this) {
@@ -111,18 +105,6 @@ object Mappers {
 
     fun List<JsonChannelModel>.asChannelEntities() = this.map { item ->
         item.asChannelEntity()
-    }
-
-    private fun JsonChannelModel.asChannelFromJson() = with(this) {
-        Channel(
-            channelName = chan_names,
-            channelIcon = chan_icon,
-            channelId = chan_id
-        )
-    }
-
-    fun List<JsonChannelModel>.asChannelsFromJsons() = this.map { item ->
-        item.asChannelFromJson()
     }
 
     private fun ChannelEntity.asChannelFromEntity() = with(this) {

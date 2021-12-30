@@ -2,7 +2,7 @@ package com.mvproject.tvprogramguide.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mvproject.tvprogramguide.model.entity.CustomListEntity
+import com.mvproject.tvprogramguide.database.entity.CustomListEntity
 import com.mvproject.tvprogramguide.repository.CustomListRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
