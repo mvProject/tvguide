@@ -67,7 +67,8 @@ class ProgramsViewModel @Inject constructor(
             channelProgramRepository.loadChannelsProgram(alreadySelected.map { it.channelId })
 
         val programs = channels
-            .filter { it.dateTime >= System.currentTimeMillis() - it.duration  }
+          //  .filter { it.dateTime >= System.currentTimeMillis() - it.duration  }
+            .filter { it.dateTime + it.duration > System.currentTimeMillis()}
             .toSortedSelectedChannelsPrograms(alreadySelected, 4)
 
         _channels.emit(programs)

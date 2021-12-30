@@ -1,3 +1,5 @@
+import org.gradle.api.artifacts.dsl.DependencyHandler
+
 object Dependencies {
 
     // android ui
@@ -51,8 +53,16 @@ object Dependencies {
     const val hilt = "com.google.dagger:hilt-android:${Versions.daggerHilt}"
     const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.daggerHilt}"
 
+    // Room
+    const val roomRuntime = "androidx.room:room-runtime:${Versions.room}"
+    const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
+    const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
+
     private const val recyclerview = "androidx.recyclerview:recyclerview:${Versions.recyclerView}"
+
     private const val viewpager2 = "androidx.viewpager2:viewpager2:${Versions.viewPager2}"
+
+    private const val coilKt = "io.coil-kt:coil:${Versions.coil}"
 
     val appLibraries = arrayListOf<String>().apply {
         add(coreKtx)
@@ -78,6 +88,10 @@ object Dependencies {
 
     val pager= arrayListOf<String>().apply {
         add(viewpager2)
+    }
+
+    val coil= arrayListOf<String>().apply {
+        add(coilKt)
     }
 
     val navigationKtx = arrayListOf<String>().apply {
@@ -110,4 +124,15 @@ object Dependencies {
     val testLibraries = arrayListOf<String>().apply {
         add(junit)
     }
+}
+
+fun DependencyHandler.implementationHilt() {
+    implementation(Dependencies.hilt)
+    kapt(Dependencies.hiltCompiler)
+}
+
+fun DependencyHandler.implementationRoom() {
+    implementation(Dependencies.roomRuntime)
+    implementation(Dependencies.roomKtx)
+    kapt(Dependencies.roomCompiler)
 }

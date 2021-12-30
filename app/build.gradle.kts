@@ -10,7 +10,7 @@ android {
     compileSdk = Config.compileSdk
 
     defaultConfig {
-        applicationId = "com.kinectpro.tvprogramguide"
+        applicationId = "com.mvproject.tvprogramguide"
         minSdk = Config.minSdk
         targetSdk = Config.targetSdk
         versionCode = Config.versionCode
@@ -19,7 +19,7 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
+        debug{
             isDebuggable = true
             setProperty(
                 "archivesBaseName",
@@ -27,8 +27,7 @@ android {
             )
         }
 
-        getByName("release") {
-            //  signingConfig = signingConfigs.getByName("configRelease")
+        release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -65,15 +64,13 @@ dependencies {
     implementation(Dependencies.navigationKtx)
     implementation(Dependencies.coroutines)
     implementation(Dependencies.pager)
+    implementation(Dependencies.coil)
 
     implementation("androidx.datastore:datastore-preferences:1.0.0")
-    implementation("androidx.room:room-runtime:2.4.0")
-    implementation("androidx.room:room-ktx:2.4.0")
-    kapt("androidx.room:room-compiler:2.4.0")
 
-    implementation("io.coil-kt:coil:1.4.0")
+    implementationRoom()
 
-    hilt()
+    implementationHilt()
 
     testImplementation(Dependencies.testLibraries)
     androidTestImplementation(Dependencies.androidTestLibraries)
