@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.mvproject.tvprogramguide.databinding.FragmentProgramsBinding
@@ -50,6 +51,11 @@ class ProgramsFragment : Fragment() {
 
             collectFlow(programsViewModel.channels) {
                 programsAdapter.items = it
+            }
+
+            collectFlow(programsViewModel.loading) { loading ->
+                channelList.isVisible = !loading
+                progressBar.isVisible = loading
             }
 
             selectListIcon.setOnClickListener {

@@ -31,6 +31,9 @@ class ProgramsViewModel @Inject constructor(
     private var _channels = MutableStateFlow<List<IChannel>>(emptyList())
     val channels = _channels.asStateFlow()
 
+    private var _loading = MutableStateFlow(false)
+    val loading = _loading.asStateFlow()
+
     private var _availableLists: List<CustomListEntity> = emptyList()
 
     private var savedList = storeManager.defaultChannelList
@@ -61,16 +64,18 @@ class ProgramsViewModel @Inject constructor(
     }
 
     private fun updatePrograms(name: String) = viewModelScope.launch(Dispatchers.IO) {
+        _loading.emit(true)
         val alreadySelected =
             selectedChannelRepository.loadSelectedChannels(name)
         val channels =
             channelProgramRepository.loadChannelsProgram(alreadySelected.map { it.channelId })
 
         val programs = channels
-          //  .filter { it.dateTime >= System.currentTimeMillis() - it.duration  }
             .filter { it.dateTime + it.duration > System.currentTimeMillis()}
             .toSortedSelectedChannelsPrograms(alreadySelected, 4)
 
+        _loading.emit(false)
         _channels.emit(programs)
+
     }
 }
