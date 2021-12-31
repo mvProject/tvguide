@@ -1,11 +1,10 @@
 package com.mvproject.tvprogramguide.programs
 
-import android.text.format.DateUtils
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mvproject.tvprogramguide.StoreManager
 import com.mvproject.tvprogramguide.model.data.IChannel
-import com.mvproject.tvprogramguide.model.entity.CustomListEntity
+import com.mvproject.tvprogramguide.database.entity.CustomListEntity
 import com.mvproject.tvprogramguide.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.repository.CustomListRepository
 import com.mvproject.tvprogramguide.repository.SelectedChannelRepository
@@ -16,7 +15,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,17 +31,23 @@ class ProgramsViewModel @Inject constructor(
     private var _channels = MutableStateFlow<List<IChannel>>(emptyList())
     val channels = _channels.asStateFlow()
 
+    private var _loading = MutableStateFlow(false)
+    val loading = _loading.asStateFlow()
+
     private var _availableLists: List<CustomListEntity> = emptyList()
 
     private var savedList = storeManager.defaultChannelList
 
     init {
-        updatePrograms(selected.value)
         viewModelScope.launch(Dispatchers.IO) {
             customListRepository.loadChannelsLists().collect {
                 _availableLists = it
             }
         }
+    }
+
+    fun reloadChannels() {
+        updatePrograms(selected.value)
     }
 
     val availableLists get() = _availableLists.map { it.name }
@@ -60,18 +64,18 @@ class ProgramsViewModel @Inject constructor(
     }
 
     private fun updatePrograms(name: String) = viewModelScope.launch(Dispatchers.IO) {
+        _loading.emit(true)
         val alreadySelected =
             selectedChannelRepository.loadSelectedChannels(name)
         val channels =
             channelProgramRepository.loadChannelsProgram(alreadySelected.map { it.channelId })
 
+        val programs = channels
+            .filter { it.dateTime + it.duration > System.currentTimeMillis()}
+            .toSortedSelectedChannelsPrograms(alreadySelected, 4)
 
-        val time = Calendar.getInstance().timeInMillis - DateUtils.HOUR_IN_MILLIS
-
-        val filtered = channels.filter { it.dateTime > time }
-        val programs = filtered.toSortedSelectedChannelsPrograms(alreadySelected, 6)
-
-
+        _loading.emit(false)
         _channels.emit(programs)
+
     }
 }

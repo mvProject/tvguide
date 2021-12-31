@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mvproject.tvprogramguide.databinding.ItemCustomListBinding
-import com.mvproject.tvprogramguide.model.entity.CustomListEntity
+import com.mvproject.tvprogramguide.database.entity.CustomListEntity
 import com.mvproject.tvprogramguide.utils.OnItemClickListener
 
 class CustomListAdapter(private val onClickListener: OnItemClickListener<CustomListEntity>) :

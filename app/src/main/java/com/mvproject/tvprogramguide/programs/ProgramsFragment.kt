@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.mvproject.tvprogramguide.databinding.FragmentProgramsBinding
@@ -52,6 +53,11 @@ class ProgramsFragment : Fragment() {
                 programsAdapter.items = it
             }
 
+            collectFlow(programsViewModel.loading) { loading ->
+                channelList.isVisible = !loading
+                progressBar.isVisible = loading
+            }
+
             selectListIcon.setOnClickListener {
                 alertDialog?.cancel()
                 alertDialog = createSelectDialog(
@@ -60,7 +66,6 @@ class ProgramsFragment : Fragment() {
                 ) { result ->
                     programsViewModel.saveSelectedList(result)
                     alertDialog?.cancel()
-                    // todo update list
                 }.apply {
                     show()
                 }
@@ -70,6 +75,8 @@ class ProgramsFragment : Fragment() {
                 routeTo(destination = ProgramsFragmentDirections.toSettingsFragment())
             }
         }
+
+        programsViewModel.reloadChannels()
     }
 
     override fun onDestroyView() {

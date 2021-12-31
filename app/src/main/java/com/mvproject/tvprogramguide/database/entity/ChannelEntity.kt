@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.model.entity
+package com.mvproject.tvprogramguide.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

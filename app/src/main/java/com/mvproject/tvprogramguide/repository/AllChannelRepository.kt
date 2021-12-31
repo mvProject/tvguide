@@ -1,13 +1,12 @@
 package com.mvproject.tvprogramguide.repository
 
-import com.mvproject.tvprogramguide.database.AllChannelDao
+import com.mvproject.tvprogramguide.database.dao.AllChannelDao
 import com.mvproject.tvprogramguide.model.data.Channel
-import com.mvproject.tvprogramguide.model.entity.ChannelEntity
+import com.mvproject.tvprogramguide.database.entity.ChannelEntity
 import com.mvproject.tvprogramguide.netwotk.EpgService
 import com.mvproject.tvprogramguide.utils.Mappers.asChannelEntities
 import com.mvproject.tvprogramguide.utils.Mappers.asChannelsFromEntities
 import com.mvproject.tvprogramguide.utils.Mappers.filterNoEpg
-import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 import javax.inject.Inject
 

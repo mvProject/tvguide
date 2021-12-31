@@ -41,6 +41,9 @@ object Versions {
     const val gson = "2.8.9"
     const val gsonConverter = "2.9.0"
 
+    const val coil = "1.4.0"
+
+    const val room = "2.4.0"
     // di
     const val daggerHilt = "2.40.2"
 }

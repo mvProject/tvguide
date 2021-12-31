@@ -1,5 +1,6 @@
 package com.mvproject.tvprogramguide.utils
 
+import android.text.format.DateUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -53,5 +54,7 @@ object Utils {
         } ?: 0).toLong()
         return this - offset
     }
+
+    val actualDay = System.currentTimeMillis() - DateUtils.DAY_IN_MILLIS
 
 }

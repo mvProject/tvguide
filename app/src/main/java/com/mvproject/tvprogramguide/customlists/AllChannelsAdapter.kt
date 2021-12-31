@@ -9,9 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.mvproject.tvprogramguide.databinding.ItemAllChannelsBinding
-import com.mvproject.tvprogramguide.databinding.ItemCustomListBinding
 import com.mvproject.tvprogramguide.model.data.Channel
-import com.mvproject.tvprogramguide.model.entity.CustomListEntity
 import com.mvproject.tvprogramguide.utils.OnClickListener
 import com.mvproject.tvprogramguide.utils.Utils.parseChannelName
 

@@ -1,8 +1,8 @@
 package com.mvproject.tvprogramguide.di
 
-import com.mvproject.tvprogramguide.database.AllChannelDao
-import com.mvproject.tvprogramguide.database.CustomListDao
-import com.mvproject.tvprogramguide.database.ProgramDao
+import com.mvproject.tvprogramguide.database.dao.AllChannelDao
+import com.mvproject.tvprogramguide.database.dao.CustomListDao
+import com.mvproject.tvprogramguide.database.dao.ProgramDao
 import com.mvproject.tvprogramguide.netwotk.EpgService
 import com.mvproject.tvprogramguide.repository.*
 import dagger.Module
