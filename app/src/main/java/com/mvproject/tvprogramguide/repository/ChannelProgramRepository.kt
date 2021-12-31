@@ -35,4 +35,14 @@ class ChannelProgramRepository @Inject constructor(
 
         return networkPrograms
     }
+
+    suspend fun load(channels: List<String>): List<Program> {
+        return programDao.getSelectedChannelPrograms2(channels).asProgramFromEntities()
+    }
+
+    suspend fun loadProgram(id: String) {
+        val ch = epgService.getChannelProgram(id).ch_programme
+        val entities = ch.asProgramEntities(id)
+        programDao.insertPrograms(entities)
+    }
 }

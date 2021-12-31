@@ -2,8 +2,8 @@ object Versions {
     // app level
     const val gradle = "4.2.2"
     const val kotlin = "1.5.30"
-    const val ktLint = "10.2.0"
-    const val depUpdate = "0.39.0"
+    const val ktLint = "10.2.1"
+    const val depUpdate = "0.40.0"
     // libs
     const val coreKtx = "1.7.0"
     const val appcompat = "1.4.0"
@@ -22,8 +22,8 @@ object Versions {
     const val lifecycle = "2.4.0"
 
     // coroutines
-    const val coroutinesCoreKtx = "1.5.2"
-    const val coroutinesAndroid = "1.5.2"
+    const val coroutinesCoreKtx = "1.6.0"
+    const val coroutinesAndroid = "1.6.0"
 
     // test
     const val junit = "4.13.2"
@@ -45,5 +45,5 @@ object Versions {
 
     const val room = "2.4.0"
     // di
-    const val daggerHilt = "2.40.2"
+    const val daggerHilt = "2.40.5"
 }

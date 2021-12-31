@@ -71,6 +71,12 @@ dependencies {
     // startup
     implementation("androidx.startup:startup-runtime:1.1.0")
 
+    // WorkManager
+    implementation ("androidx.work:work-runtime-ktx:2.7.1")
+
+    implementation("androidx.hilt:hilt-work:1.0.0")
+    kapt("androidx.hilt:hilt-compiler:1.0.0")
+
     implementationRoom()
 
     implementationHilt()
