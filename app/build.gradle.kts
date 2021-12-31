@@ -68,6 +68,9 @@ dependencies {
 
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
+    // startup
+    implementation("androidx.startup:startup-runtime:1.1.0")
+
     implementationRoom()
 
     implementationHilt()

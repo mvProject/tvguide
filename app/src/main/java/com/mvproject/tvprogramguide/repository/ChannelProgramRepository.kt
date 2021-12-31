@@ -23,22 +23,13 @@ class ChannelProgramRepository @Inject constructor(
             if (programs.isEmpty()) {
                 val ch = epgService.getChannelProgram(id).ch_programme
                 val entities = ch.asProgramEntities(id)
-                entities.first().also {
-                    Timber.i("testing entity $it")
-                }
                 programDao.insertPrograms(entities)
                 val models = entities.asProgramFromEntities(id)
-                models.first().also {
-                    Timber.i("testing models $it")
-                }
                 networkPrograms.addAll(models)
             } else {
                 networkPrograms.addAll(
                     programs.asProgramFromEntities(id)
                 )
-                networkPrograms.first().also {
-                    Timber.i("testing networkPrograms $it")
-                }
             }
         }
 
