@@ -14,6 +14,9 @@ interface ProgramDao {
     @Query("SELECT * FROM programs WHERE channelId = :id")
     suspend fun getSelectedChannelPrograms(id: String): List<ProgramEntity>
 
+    @Query("SELECT * FROM programs WHERE channelId IN (:ids)")
+    suspend fun getSelectedChannelPrograms2(ids: List<String>): List<ProgramEntity>
+
     @Query("SELECT * FROM programs")
     suspend fun getPrograms(): List<ProgramEntity>
 }

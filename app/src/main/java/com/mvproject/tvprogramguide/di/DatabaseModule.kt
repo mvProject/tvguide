@@ -3,7 +3,7 @@ package com.mvproject.tvprogramguide.di
 import android.app.Application
 import androidx.room.Room
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.database.*
+import com.mvproject.tvprogramguide.database.AppDatabase
 import com.mvproject.tvprogramguide.database.dao.AllChannelDao
 import com.mvproject.tvprogramguide.database.dao.CustomListDao
 import com.mvproject.tvprogramguide.database.dao.ProgramDao
