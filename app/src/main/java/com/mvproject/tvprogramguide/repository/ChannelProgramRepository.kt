@@ -16,28 +16,28 @@ class ChannelProgramRepository @Inject constructor(
         Timber.d("Injection ChannelProgramRepository")
     }
 
-    suspend fun loadChannelsProgram(channels: List<String>): List<Program> {
-        val networkPrograms = mutableListOf<Program>()
-        channels.forEach { id ->
-            val programs = programDao.getSelectedChannelPrograms(id)
-            if (programs.isEmpty()) {
-                val ch = epgService.getChannelProgram(id).ch_programme
-                val entities = ch.asProgramEntities(id)
-                programDao.insertPrograms(entities)
-                val models = entities.asProgramFromEntities(id)
-                networkPrograms.addAll(models)
-            } else {
-                networkPrograms.addAll(
-                    programs.asProgramFromEntities(id)
-                )
-            }
-        }
+   //suspend fun loadChannelsProgram(channels: List<String>): List<Program> {
+   //    val networkPrograms = mutableListOf<Program>()
+   //    channels.forEach { id ->
+   //        val programs = programDao.getSelectedChannelPrograms2(id)
+   //        if (programs.isEmpty()) {
+   //            val ch = epgService.getChannelProgram(id).ch_programme
+   //            val entities = ch.asProgramEntities(id)
+   //            programDao.insertPrograms(entities)
+   //            val models = entities.asProgramFromEntities(id)
+   //            networkPrograms.addAll(models)
+   //        } else {
+   //            networkPrograms.addAll(
+   //                programs.asProgramFromEntities(id)
+   //            )
+   //        }
+   //    }
 
-        return networkPrograms
-    }
+   //    return networkPrograms
+   //}
 
     suspend fun load(channels: List<String>): List<Program> {
-        return programDao.getSelectedChannelPrograms2(channels).asProgramFromEntities()
+        return programDao.getSelectedChannelPrograms(channels).asProgramFromEntities()
     }
 
     suspend fun loadProgram(id: String) {
