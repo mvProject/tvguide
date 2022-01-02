@@ -16,10 +16,8 @@ import com.mvproject.tvprogramguide.model.data.Program
 import com.mvproject.tvprogramguide.sticky.StickyHeaders
 import com.mvproject.tvprogramguide.utils.Utils.convertTimeToReadableFormat
 import com.mvproject.tvprogramguide.utils.Utils.parseChannelName
-import timber.log.Timber
-import java.time.temporal.ChronoUnit
 
-class ProgramsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     StickyHeaders {
 
     override fun getItemCount() = items.size
@@ -87,8 +85,15 @@ class ProgramsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
 
     private fun onBindMessage(holder: RecyclerView.ViewHolder, prg: Program) {
         (holder as ProgramViewHolder).binding.apply {
-            programTime.text = prg.dateTime.convertTimeToReadableFormat()
+            programTime.text = prg.dateTimeStart.convertTimeToReadableFormat()
             programName.text = prg.title
+            if (prg.category.isNotEmpty()){
+                programType.apply {
+                    visibility = View.VISIBLE
+                    text = prg.category
+                }
+            }
+
           // val time = System.currentTimeMillis()
           // if (time > prg.dateTime) {
           //     val end = prg.dateTime + prg.duration

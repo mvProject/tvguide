@@ -35,6 +35,21 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Name" />
 
+    <TextView
+        android:id="@+id/programType"
+        android:layout_width="@dimen/view_size_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_16"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/chocolate"
+        android:textSize="@dimen/text_12"
+        android:visibility="gone"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/programTime"
+        app:layout_constraintTop_toBottomOf="@id/programName"
+        tools:text="Name" />
+
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/programProgress"
         android:layout_width="@dimen/view_size_0"

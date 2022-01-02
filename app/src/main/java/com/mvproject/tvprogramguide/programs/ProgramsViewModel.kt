@@ -87,7 +87,7 @@ class ProgramsViewModel @Inject constructor(
             val alreadyObtainedChannels = channels.groupBy { it.channel }.keys
             if (channels.count() > COUNT_ZERO) {
                 val programs = channels
-                    .filter { it.dateTime + it.duration > System.currentTimeMillis() }
+                    .filter { it.dateTimeEnd > System.currentTimeMillis() }
                     .toSortedSelectedChannelsPrograms(alreadySelected, 4)
 
                 _channels.emit(programs)
