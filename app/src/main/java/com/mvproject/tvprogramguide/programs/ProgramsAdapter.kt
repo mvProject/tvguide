@@ -1,6 +1,7 @@
 package com.mvproject.tvprogramguide.programs
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -15,6 +16,8 @@ import com.mvproject.tvprogramguide.model.data.Program
 import com.mvproject.tvprogramguide.sticky.StickyHeaders
 import com.mvproject.tvprogramguide.utils.Utils.convertTimeToReadableFormat
 import com.mvproject.tvprogramguide.utils.Utils.parseChannelName
+import timber.log.Timber
+import java.time.temporal.ChronoUnit
 
 class ProgramsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     StickyHeaders {
@@ -86,6 +89,20 @@ class ProgramsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
         (holder as ProgramViewHolder).binding.apply {
             programTime.text = prg.dateTime.convertTimeToReadableFormat()
             programName.text = prg.title
+          // val time = System.currentTimeMillis()
+          // if (time > prg.dateTime) {
+          //     val end = prg.dateTime + prg.duration
+          //     val toEnd = end - time
+          //     val fromStart = prg.duration - toEnd
+
+          //     programProgress.visibility = View.VISIBLE
+          //     programProgress.max = prg.duration.toInt()
+          //     programProgress.progress = fromStart.toInt()
+          // } else {
+          //     programProgress.visibility = View.GONE
+          // }
+            //programProgress.visibility = View.GONE
+
         }
     }
 
