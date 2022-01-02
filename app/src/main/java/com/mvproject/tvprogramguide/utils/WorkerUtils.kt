@@ -21,6 +21,8 @@ const val NOTIFICATION_CONDITION = "NOTIFY"
 const val CHANNEL_LIST_NAME = "CHANNEL_LIST_NAME"
 const val DOWNLOAD_PROGRAMS = "DOWNLOAD_PROGRAMS"
 const val CHANNEL_INDEX = "CHANNEL_INDEX"
+const val CHANNEL_COUNT = "CHANNEL_COUNT"
+const val CHANNEL_MISSING_COUNT = "CHANNEL_MISSING_COUNT"
 
 /**
  * Create a Notification that is shown as a heads-up notification if possible.
@@ -73,9 +75,10 @@ fun sleep() {
 
 }
 
-fun createInputDataForUri(listName: String, isNotificationOn: Boolean): Data {
+fun createInputDataForUri(listName: String, missingArray: Array<String>, isNotificationOn: Boolean): Data {
     return Data.Builder().apply {
         putString(CHANNEL_LIST_NAME, listName)
+        putStringArray(CHANNEL_MISSING_COUNT, missingArray)
         putBoolean(NOTIFICATION_CONDITION, isNotificationOn)
     }.build()
 }

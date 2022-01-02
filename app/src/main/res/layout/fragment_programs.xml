@@ -6,16 +6,14 @@
     android:layout_height="match_parent"
     android:background="?attr/color_default_background">
 
-
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBarLinear"
         android:layout_width="@dimen/view_size_0"
-        android:layout_height="@dimen/size_4"
+        android:layout_height="@dimen/size_2"
+        android:layout_marginTop="@dimen/size_8"
         android:progressBackgroundTint="@color/medium_sea_green_alpha20"
         android:progressTint="@color/medium_sea_green"
-        android:visibility="visible"
-        android:max="30"
-        android:layout_marginTop="@dimen/size_4"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/settingsLanguagesTitle"
@@ -70,18 +68,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/progressBarLinear" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="@dimen/view_size_48"
-        android:layout_height="@dimen/view_size_48"
-        android:layout_marginTop="@dimen/size_20"
-        android:indeterminate="true"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/settingsLanguagesTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
