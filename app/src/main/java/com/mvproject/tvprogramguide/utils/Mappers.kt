@@ -1,11 +1,11 @@
 package com.mvproject.tvprogramguide.utils
 
+import com.mvproject.tvprogramguide.database.entity.ChannelEntity
+import com.mvproject.tvprogramguide.database.entity.ProgramEntity
 import com.mvproject.tvprogramguide.model.data.Channel
 import com.mvproject.tvprogramguide.model.data.IChannel
 import com.mvproject.tvprogramguide.model.data.Program
 import com.mvproject.tvprogramguide.model.data.SingleChannelProgramList
-import com.mvproject.tvprogramguide.database.entity.ChannelEntity
-import com.mvproject.tvprogramguide.database.entity.ProgramEntity
 import com.mvproject.tvprogramguide.netwotk.json.JsonChannelModel
 import com.mvproject.tvprogramguide.netwotk.json.JsonProgram
 import com.mvproject.tvprogramguide.utils.Utils.correctTimeZone
@@ -14,7 +14,7 @@ import com.mvproject.tvprogramguide.utils.Utils.toMillis
 object Mappers {
     fun List<Program>.toSortedSingleChannelPrograms(): List<SingleChannelProgramList> {
         val sortedPrograms = mutableListOf<SingleChannelProgramList>()
-        this.groupBy { it.dateTime }.forEach { (date, list) ->
+        this.groupBy { it.dateTimeStart }.forEach { (date, list) ->
             sortedPrograms.add(
                 SingleChannelProgramList(date, list)
             )
@@ -44,12 +44,12 @@ object Mappers {
 
     private fun JsonProgram.asProgramEntity(
         channelId: String,
-        durationTime: Long = COUNT_ZERO_LONG
+        endTime: Long = COUNT_ZERO_LONG
     ) =
         with(this) {
             ProgramEntity(
-                dateTime = start.toMillis().correctTimeZone(),
-                duration = durationTime,
+                dateTimeStart = start.toMillis(),
+                dateTimeEnd = endTime,
                 title = title,
                 description = description,
                 category = category,
@@ -60,28 +60,29 @@ object Mappers {
 
     fun List<JsonProgram>.asProgramEntities(
         channelId: String
-    ) =
-        this.filter { it.start.toMillis().correctTimeZone() > Utils.actualDay }
-            .mapIndexed { index, item ->
-                val durations = this.calculateDurations()
-                val durationTime = durations.elementAtOrNull(index) ?: COUNT_ZERO_LONG
-                item.asProgramEntity(channelId, durationTime)
-            }
-
-    private fun List<JsonProgram>.calculateDurations(): List<Long> = with(this) {
-        val durations = mutableListOf<Long>()
-        zipWithNext().forEach { p ->
-            val duration = p.second.start.toMillis() - p.first.start.toMillis()
-            durations.add(duration)
+    ): List<ProgramEntity> {
+        val filtered = this.filter { it.start.toMillis() > Utils.actualDay }
+        val endings = filtered.calculateEndings()
+        return filtered.mapIndexed { index, item ->
+            val endingTime = endings.elementAtOrNull(index) ?: COUNT_ZERO_LONG
+            item.asProgramEntity(channelId, endingTime)
         }
-        durations
+    }
+
+
+    private fun List<JsonProgram>.calculateEndings(): List<Long> = with(this) {
+        val endings = mutableListOf<Long>()
+        zipWithNext().forEach { p ->
+            endings.add(p.second.start.toMillis())
+        }
+        endings
     }
 
     private fun ProgramEntity.asProgramFromEntity(channelId: String) =
         with(this) {
             Program(
-                dateTime = dateTime,
-                duration = duration,
+                dateTimeStart = dateTimeStart.correctTimeZone(),
+                dateTimeEnd = dateTimeEnd.correctTimeZone(),
                 title = title,
                 description = description,
                 category = category,
@@ -92,8 +93,8 @@ object Mappers {
     private fun ProgramEntity.asProgramFromEntity() =
         with(this) {
             Program(
-                dateTime = dateTime,
-                duration = duration,
+                dateTimeStart = dateTimeStart.correctTimeZone(),
+                dateTimeEnd = dateTimeEnd.correctTimeZone(),
                 title = title,
                 description = description,
                 category = category,
