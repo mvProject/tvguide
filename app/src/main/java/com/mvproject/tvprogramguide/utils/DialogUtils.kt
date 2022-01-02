@@ -35,11 +35,7 @@ fun createAddDialog(
         with(binding) {
             dialogTitle.text = title
             fieldName.onTextChanged {
-                if (it.length > 1) {
-                    Timber.d("length is success")
-                } else {
-                    Timber.d("length is not success")
-                }
+                btnAddClose.isEnabled = it.length > COUNT_ONE
             }
             btnAddClose.setOnClickListener { confirmClick(fieldName.text.toString()) }
         }
