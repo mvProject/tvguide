@@ -89,9 +89,26 @@ object Mappers {
             )
         }
 
+    private fun ProgramEntity.asProgramFromEntity() =
+        with(this) {
+            Program(
+                dateTime = dateTime,
+                duration = duration,
+                title = title,
+                description = description,
+                category = category,
+                channel = channelId,
+            )
+        }
+
     fun List<ProgramEntity>.asProgramFromEntities(channelId: String) =
         this.map { item ->
             item.asProgramFromEntity(channelId)
+        }
+
+    fun List<ProgramEntity>.asProgramFromEntities() =
+        this.map { item ->
+            item.asProgramFromEntity()
         }
 
 

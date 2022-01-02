@@ -20,7 +20,8 @@ class SelectedChannelRepository @Inject constructor(
         return databaseChannels.asChannelsFromEntities()
     }
 
-    fun loadSelectedChannelsFlow(listName: String) = selectedChannelDao.getSelectedChannelsFlow(listName).map { it.asChannelsFromEntities() }
+    fun loadSelectedChannelsFlow(listName: String) =
+        selectedChannelDao.getSelectedChannelsFlow(listName).map { it.asChannelsFromEntities() }
 
     suspend fun addChannel(selectedChannel: SelectedChannelEntity) {
         selectedChannelDao.insertChannel(selectedChannel)
