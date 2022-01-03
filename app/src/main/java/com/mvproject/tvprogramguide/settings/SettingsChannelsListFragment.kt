@@ -60,17 +60,19 @@ class SettingsChannelsListFragment : Fragment() {
         }
 
         with(binding) {
-            addCustomList.setOnClickListener {
-                alertDialog?.cancel()
-                alertDialog = createAddDialog(
-                    activity = requireActivity(),
-                    title = getString(R.string.add_new_custom_list),
-                ) { result ->
-                    settingsChannelsListViewModel.addCustomList(result)
+            channelsToolbar.apply {
+                toolbarTitle.text = getString(R.string.custom_channels_list_title)
+                btnAdd.setOnClickListener {
                     alertDialog?.cancel()
-                    // todo update list
-                }.apply {
-                    show()
+                    alertDialog = createAddDialog(
+                        activity = requireActivity(),
+                        title = getString(R.string.add_new_custom_list),
+                    ) { result ->
+                        settingsChannelsListViewModel.addCustomList(result)
+                        alertDialog?.cancel()
+                    }.apply {
+                        show()
+                    }
                 }
             }
 

@@ -8,8 +8,9 @@
     <color name="gray">#8F928E</color>
     <color name="radiobutton_gray">#757575</color>
     <color name="medium_sea_green">#4EAC55</color>
-    <color name="medium_sea_green_alpha20">#dceedd</color>
+    <color name="medium_sea_green_alpha40">#664EAC55</color>
     <color name="light_black">#1C1D1D</color>
+    <color name="light_black_alpha60">#991C1D1D</color>
     <color name="gainsboro">#DEE2DC</color>
     <color name="lavender">#E6EBEA</color>
     <color name="chocolate">#EB4F27</color>

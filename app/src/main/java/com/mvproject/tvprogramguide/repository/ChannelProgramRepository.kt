@@ -1,5 +1,6 @@
 package com.mvproject.tvprogramguide.repository
 
+import androidx.room.Transaction
 import com.mvproject.tvprogramguide.database.dao.ProgramDao
 import com.mvproject.tvprogramguide.model.data.Program
 import com.mvproject.tvprogramguide.netwotk.EpgService
@@ -40,9 +41,11 @@ class ChannelProgramRepository @Inject constructor(
         return programDao.getSelectedChannelPrograms(channels).asProgramFromEntities()
     }
 
+    @Transaction
     suspend fun loadProgram(id: String) {
         val ch = epgService.getChannelProgram(id).ch_programme
         val entities = ch.asProgramEntities(id)
+        programDao.deletePrograms(id)
         programDao.insertPrograms(entities)
     }
 }
