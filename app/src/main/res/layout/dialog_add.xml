@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/view_size_318"
     android:layout_height="wrap_content"
+    android:background="?attr/color_dialog_background"
     android:padding="@dimen/size_22">
 
 
@@ -12,16 +13,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_bold"
-        android:textColor="?attr/color_main_title"
+        android:textColor="?attr/color_dialog_title"
         android:textSize="@dimen/text_20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Кормовая дорога работает!" />
+        tools:text="dialogTitle" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fieldNameLayout"
-        style="@style/CredentialsStyle"
+        style="@style/EditStyle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dialogTitle">
 
@@ -35,15 +36,17 @@
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnAddClose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size_20"
+        android:background="?attr/color_dialog_btn_background"
         android:elevation="@dimen/size_20"
         android:enabled="false"
         android:fontFamily="@font/montserrat_bold"
         android:text="ok"
+        android:textColor="?attr/color_dialog_btn_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fieldNameLayout" />

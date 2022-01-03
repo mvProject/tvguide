@@ -14,7 +14,7 @@
         android:id="@+id/allChannelList"
         android:layout_width="match_parent"
         android:layout_height="@dimen/view_size_0"
-        android:layout_marginTop="@dimen/size_16"
+        android:layout_marginTop="@dimen/size_12"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

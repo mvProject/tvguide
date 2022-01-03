@@ -19,4 +19,7 @@ interface ProgramDao {
 
     @Query("SELECT * FROM programs")
     suspend fun getPrograms(): List<ProgramEntity>
+
+    @Query("DELETE FROM programs WHERE channelId = :id")
+    suspend fun deletePrograms(id: String)
 }

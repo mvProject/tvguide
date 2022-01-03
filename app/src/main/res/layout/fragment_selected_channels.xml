@@ -6,43 +6,14 @@
     android:layout_height="match_parent"
     android:background="?attr/color_default_background">
 
-    <ImageView
-        android:id="@+id/addCustomList"
-        android:layout_width="@dimen/size_24"
-        android:layout_height="@dimen/size_24"
-        android:layout_marginTop="@dimen/size_16"
-        android:layout_marginEnd="@dimen/size_16"
-        android:contentDescription="settings"
-        android:src="@drawable/ic_post_add"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="?attr/color_main_tint" />
-
-    <TextView
-        android:id="@+id/settingsChannelsListTitle"
-        android:layout_width="@dimen/view_size_0"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/size_16"
-        android:layout_marginTop="@dimen/size_16"
-        android:layout_marginEnd="@dimen/size_16"
-        android:fontFamily="@font/montserrat_bold"
-        android:lineSpacingExtra="11sp"
-        android:text="@string/selected_channels_title"
-        android:textColor="?attr/color_main_title"
-        android:textSize="@dimen/text_18"
-        app:layout_constraintEnd_toStartOf="@id/addCustomList"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/selectedChannelList"
         android:layout_width="match_parent"
         android:layout_height="@dimen/view_size_0"
-        android:layout_marginTop="@dimen/size_16"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/settingsChannelsListTitle" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

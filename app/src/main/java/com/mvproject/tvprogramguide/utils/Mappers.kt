@@ -30,13 +30,15 @@ object Mappers {
         val programs = this.groupBy { it.channel }
 
         alreadySelected.forEach { chn ->
-            programs[chn.channelId]?.let {
-                sortedPrograms.add(chn)
-                sortedPrograms.addAll(
-                    if (itemsCount > COUNT_ZERO)
-                        it.take(itemsCount)
-                    else it
-                )
+            programs[chn.channelId]?.let { prg ->
+                if (prg.count() > COUNT_ZERO) {
+                    sortedPrograms.add(chn)
+                    sortedPrograms.addAll(
+                        if (itemsCount > COUNT_ZERO)
+                            prg.take(itemsCount)
+                        else prg
+                    )
+                }
             }
         }
         return sortedPrograms

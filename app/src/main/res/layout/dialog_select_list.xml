@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/view_size_318"
+    android:background="?attr/color_dialog_background"
     android:paddingBottom="@dimen/size_22">
 
     <ScrollView
@@ -10,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/view_size_220"
         android:layout_marginStart="@dimen/size_18"
-        android:layout_marginEnd="@dimen/size_18"
         android:layout_marginTop="@dimen/size_12"
+        android:layout_marginEnd="@dimen/size_18"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -33,15 +34,15 @@
         android:id="@+id/btnApplySelection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/color_main_title"
-        android:textColor="@color/gainsboro"
         android:layout_marginStart="@dimen/size_16"
         android:layout_marginTop="@dimen/size_22"
         android:layout_marginEnd="@dimen/size_16"
+        android:background="?attr/color_dialog_btn_background"
         android:fontFamily="@font/montserrat_bold"
         android:text="Ok"
-        app:textAllCaps="true"
+        android:textColor="?attr/color_dialog_btn_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/scrollContainer" />
+        app:layout_constraintTop_toBottomOf="@id/scrollContainer"
+        app:textAllCaps="true" />
 </androidx.constraintlayout.widget.ConstraintLayout>

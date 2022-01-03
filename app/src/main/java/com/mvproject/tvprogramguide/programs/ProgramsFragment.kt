@@ -9,9 +9,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.work.WorkInfo
+import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.databinding.FragmentProgramsBinding
 import com.mvproject.tvprogramguide.sticky.StickyHeadersLinearLayoutManager
 import com.mvproject.tvprogramguide.utils.*
+import com.mvproject.tvprogramguide.utils.decoration.ItemSpacingDecorator
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -49,7 +51,7 @@ class ProgramsFragment : Fragment() {
             }
 
             collectFlow(programsViewModel.selected) { name ->
-                settingsLanguagesTitle.text = name
+                programsToolbar.toolbarTitle.text = name
 
                 if (name.isNotEmpty()) {
                     programsViewModel.outputWorkInfo.observe(
@@ -84,21 +86,22 @@ class ProgramsFragment : Fragment() {
                 programsAdapter.items = it
             }
 
-            selectListIcon.setOnClickListener {
-                alertDialog?.cancel()
-                alertDialog = createSelectDialog(
-                    activity = requireActivity(),
-                    options = programsViewModel.availableLists
-                ) { result ->
-                    programsViewModel.saveSelectedList(result)
+            programsToolbar.apply {
+                selectMenu.setOnClickListener {
                     alertDialog?.cancel()
-                }.apply {
-                    show()
+                    alertDialog = createSelectDialog(
+                        activity = requireActivity(),
+                        options = programsViewModel.availableLists
+                    ) { result ->
+                        programsViewModel.saveSelectedList(result)
+                        alertDialog?.cancel()
+                    }.apply {
+                        show()
+                    }
                 }
-            }
-
-            settings.setOnClickListener {
-                routeTo(destination = ProgramsFragmentDirections.toSettingsFragment())
+                optionsMenu.setOnClickListener {
+                    routeTo(destination = ProgramsFragmentDirections.toSettingsFragment())
+                }
             }
         }
 

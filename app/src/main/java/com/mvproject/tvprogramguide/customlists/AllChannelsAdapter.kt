@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
 import com.mvproject.tvprogramguide.databinding.ItemAllChannelsBinding
 import com.mvproject.tvprogramguide.model.data.Channel
 import com.mvproject.tvprogramguide.utils.OnClickListener
 import com.mvproject.tvprogramguide.utils.Utils.parseChannelName
+import com.mvproject.tvprogramguide.utils.Utils.pxToDp
 
 class AllChannelsAdapter(private val onClickListener: OnClickListener<Channel>) :
     RecyclerView.Adapter<AllChannelsAdapter.ItemViewHolder>() {
@@ -55,9 +57,13 @@ class AllChannelsAdapter(private val onClickListener: OnClickListener<Channel>) 
         holder.binding.apply {
             val item = items[position]
             channelName.text = item.channelName.parseChannelName()
-            channelLogo.load(item.channelIcon) {
-                crossfade(true)
-                transformations(RoundedCornersTransformation())
+            channelLogo.apply {
+                layoutParams.height = root.context.pxToDp(200f)
+                layoutParams.width = root.context.pxToDp(200f)
+                load(item.channelIcon) {
+                    crossfade(true)
+                    scale(Scale.FIT)
+                }
             }
 
             btnDelete.setOnClickListener {

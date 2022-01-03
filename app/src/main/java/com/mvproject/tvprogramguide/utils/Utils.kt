@@ -1,5 +1,6 @@
 package com.mvproject.tvprogramguide.utils
 
+import android.content.Context
 import android.text.format.DateUtils
 import java.text.SimpleDateFormat
 import java.util.*
@@ -8,6 +9,8 @@ private const val DATE_FORMAT = "dd-MM-yyyy HH:mm"
 
 private const val TARGET_DATE_FORMAT = "dd MM yyyy"
 private const val TARGET_TIME_FORMAT = "HH:mm"
+private const val TARGET_TIME_FORMAT_HOURS = "HH"
+private const val TARGET_TIME_FORMAT_MINUTES = "mm"
 
 private const val DEFAULT_TIME_ZONE_OFFSET = 10800000
 
@@ -48,6 +51,20 @@ object Utils {
         ).format(this)
     }
 
+    fun Long.toHoursFormat(): String {
+        return SimpleDateFormat(
+            TARGET_TIME_FORMAT_HOURS,
+            Locale.getDefault()
+        ).format(this)
+    }
+
+    fun Long.toMinutesFormat(): String {
+        return SimpleDateFormat(
+            TARGET_TIME_FORMAT_MINUTES,
+            Locale.getDefault()
+        ).format(this)
+    }
+
     fun Long.correctTimeZone(): Long {
         val offset = (TimeZone.getDefault()?.rawOffset?.let {
             DEFAULT_TIME_ZONE_OFFSET - it
@@ -57,4 +74,7 @@ object Utils {
 
     val actualDay = System.currentTimeMillis() - DateUtils.DAY_IN_MILLIS
 
+    fun Context.pxToDp(px: Float): Int {
+        return (px.toInt() / resources.displayMetrics.density).toInt()
+    }
 }

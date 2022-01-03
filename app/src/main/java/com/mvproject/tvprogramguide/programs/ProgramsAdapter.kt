@@ -3,6 +3,7 @@ package com.mvproject.tvprogramguide.programs
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +17,8 @@ import com.mvproject.tvprogramguide.model.data.Program
 import com.mvproject.tvprogramguide.sticky.StickyHeaders
 import com.mvproject.tvprogramguide.utils.Utils.convertTimeToReadableFormat
 import com.mvproject.tvprogramguide.utils.Utils.parseChannelName
+import com.mvproject.tvprogramguide.utils.Utils.pxToDp
+import timber.log.Timber
 
 class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     StickyHeaders {
@@ -74,11 +77,14 @@ class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
 
     private fun onBindHeader(holder: RecyclerView.ViewHolder, chn: Channel) {
         (holder as ChannelViewHolder).binding.apply {
-            channelLogo.load(chn.channelIcon) {
-                crossfade(true)
-                scale(Scale.FIT)
+            channelLogo.apply {
+                layoutParams.height = root.context.pxToDp(200f)
+                layoutParams.width = root.context.pxToDp(200f)
+                load(chn.channelIcon) {
+                    crossfade(true)
+                    scale(Scale.FIT)
+                }
             }
-
             channelTitle.text = chn.channelName.parseChannelName()
         }
     }
@@ -87,27 +93,25 @@ class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
         (holder as ProgramViewHolder).binding.apply {
             programTime.text = prg.dateTimeStart.convertTimeToReadableFormat()
             programName.text = prg.title
-            if (prg.category.isNotEmpty()){
-                programType.apply {
+
+            if (prg.description.isNotEmpty()) {
+                programDescription.text = prg.description
+                programDescriptionLogo.apply {
                     visibility = View.VISIBLE
-                    text = prg.category
+                    setOnClickListener {
+                        programDescription.isVisible = !programDescription.isVisible
+                    }
                 }
             }
 
-          // val time = System.currentTimeMillis()
-          // if (time > prg.dateTime) {
-          //     val end = prg.dateTime + prg.duration
-          //     val toEnd = end - time
-          //     val fromStart = prg.duration - toEnd
-
-          //     programProgress.visibility = View.VISIBLE
-          //     programProgress.max = prg.duration.toInt()
-          //     programProgress.progress = fromStart.toInt()
-          // } else {
-          //     programProgress.visibility = View.GONE
-          // }
-            //programProgress.visibility = View.GONE
-
+            val time = System.currentTimeMillis()
+            if (time > prg.dateTimeStart) {
+                programProgress.visibility = View.VISIBLE
+                programProgress.max = (prg.dateTimeEnd - prg.dateTimeStart).toInt()
+                programProgress.progress = (time - prg.dateTimeStart).toInt()
+            } else {
+                programProgress.visibility = View.GONE
+            }
         }
     }
 
