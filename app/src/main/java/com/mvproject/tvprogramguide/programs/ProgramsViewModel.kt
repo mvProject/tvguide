@@ -13,7 +13,6 @@ import com.mvproject.tvprogramguide.model.data.IChannel
 import com.mvproject.tvprogramguide.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.repository.CustomListRepository
 import com.mvproject.tvprogramguide.repository.SelectedChannelRepository
-import com.mvproject.tvprogramguide.utils.COUNT_ZERO
 import com.mvproject.tvprogramguide.utils.DOWNLOAD_PROGRAMS
 import com.mvproject.tvprogramguide.utils.Mappers.toSortedSelectedChannelsPrograms
 import com.mvproject.tvprogramguide.utils.createInputDataForUri
@@ -38,15 +37,17 @@ class ProgramsViewModel @Inject constructor(
     val outputWorkInfo: LiveData<List<WorkInfo>> =
         workManager.getWorkInfosForUniqueWorkLiveData(DOWNLOAD_PROGRAMS)
 
-    private var _selected = MutableStateFlow(storeManager.defaultChannelList)
-    val selected = _selected.asStateFlow()
+    private var _selectedList = MutableStateFlow(storeManager.defaultChannelList)
+    val selectedList = _selectedList.asStateFlow()
 
-    private var _channels = MutableStateFlow<List<IChannel>>(emptyList())
-    val channels = _channels.asStateFlow()
+    private var _selectedPrograms = MutableStateFlow<List<IChannel>>(emptyList())
+    val selectedPrograms = _selectedPrograms.asStateFlow()
 
     private var _availableLists: List<CustomListEntity> = emptyList()
 
     private var savedList = storeManager.defaultChannelList
+
+    private var visibleCount = storeManager.programByChannelDefaultCount
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -59,7 +60,7 @@ class ProgramsViewModel @Inject constructor(
     fun checkSavedList() {
         savedList = storeManager.defaultChannelList
         viewModelScope.launch(Dispatchers.IO) {
-            _selected.emit(savedList)
+            _selectedList.emit(savedList)
         }
     }
 
@@ -77,31 +78,38 @@ class ProgramsViewModel @Inject constructor(
 
     private fun updatePrograms() = viewModelScope.launch(Dispatchers.IO) {
         if (savedList.isNotEmpty()) {
-            val alreadySelected =
+            val selectedChannels =
                 selectedChannelRepository.loadSelectedChannels(savedList)
 
-            val alreadySelectedIds = alreadySelected.map { it.channelId }
-            val channels =
-                channelProgramRepository.load(alreadySelectedIds)
+            val selectedChannelIds = selectedChannels.map { it.channelId }
 
-            val alreadyObtainedChannels = channels.groupBy { it.channel }.keys
-            if (channels.count() > COUNT_ZERO) {
-                val programs = channels
-                    .filter { it.dateTimeEnd > System.currentTimeMillis() }
-                    .toSortedSelectedChannelsPrograms(alreadySelected, 4)
+            val programsWithChannels =
+                channelProgramRepository.loadPrograms(selectedChannelIds)
 
-                _channels.emit(programs)
-            } else {
-                 startDownload(false)
-            }
+            val obtainedChannelsIds = programsWithChannels.groupBy { it.channel }.keys
 
-            if (alreadySelectedIds.count() > alreadyObtainedChannels.count()) {
-                val missingIds = alreadySelectedIds.minus(alreadyObtainedChannels)
+            val programs = programsWithChannels
+                .toSortedSelectedChannelsPrograms(selectedChannels, visibleCount)
+
+            _selectedPrograms.emit(programs)
+
+            if (selectedChannelIds.count() > obtainedChannelsIds.count()) {
+                val missingIds = selectedChannelIds.minus(obtainedChannelsIds)
                 startDownload(false, missingIds.toTypedArray())
             }
 
         } else {
             Timber.d("testing no current saved list")
+        }
+    }
+
+    fun checkForUpdates() {
+        visibleCount = storeManager.programByChannelDefaultCount
+        if (storeManager.isNeedFullProgramsUpdate) {
+            startDownload(false)
+            Timber.d("testing is shouldFullUpdate")
+        } else {
+            Timber.d("testing is not shouldFullUpdate")
         }
     }
 

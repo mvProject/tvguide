@@ -2,17 +2,13 @@ package com.mvproject.tvprogramguide
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
+import android.text.format.DateUtils
 import androidx.preference.PreferenceManager
+import com.mvproject.tvprogramguide.utils.DEFAULT_PROGRAMS_UPDATE_PERIOD
+import com.mvproject.tvprogramguide.utils.DEFAULT_PROGRAMS_VISIBLE_COUNT
+import com.mvproject.tvprogramguide.utils.NO_VALUE_LONG
 import com.mvproject.tvprogramguide.utils.NO_VALUE_STRING
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
-
-
-private val Context.dataStore by preferencesDataStore("settings")
 
 class StoreManager @Inject constructor(context: Context) {
 
@@ -29,7 +25,7 @@ class StoreManager @Inject constructor(context: Context) {
     }
 
     val channelsUpdateLastTime
-        get() = preferences.getLong(LAST_UPDATE_CHANNELS, -1L)
+        get() = preferences.getLong(LAST_UPDATE_CHANNELS, NO_VALUE_LONG)
 
     fun setProgramsUpdateLastTime(time: Long?) {
         time?.let { value ->
@@ -41,7 +37,24 @@ class StoreManager @Inject constructor(context: Context) {
     }
 
     val programsUpdateLastTime
-        get() = preferences.getLong(LAST_UPDATE_PROGRAMS, -1L)
+        get() = preferences.getLong(LAST_UPDATE_PROGRAMS, NO_VALUE_LONG)
+
+    fun setProgramsUpdatePeriod(period: Int?) {
+        period?.let { value ->
+            preferences.edit().apply {
+                putInt(UPDATE_PROGRAM_LIST_PERIOD, value)
+                apply()
+            }
+        }
+    }
+
+    val programsUpdatePeriod
+        get() = preferences.getInt(UPDATE_PROGRAM_LIST_PERIOD, DEFAULT_PROGRAMS_UPDATE_PERIOD)
+
+    val isNeedFullProgramsUpdate
+        get() = defaultChannelList.isNotEmpty() &&
+                System.currentTimeMillis() - programsUpdateLastTime >
+                DateUtils.DAY_IN_MILLIS * programsUpdatePeriod
 
 
     fun setProgramByChannelDefaultCount(count: Int?) {
@@ -54,7 +67,7 @@ class StoreManager @Inject constructor(context: Context) {
     }
 
     val programByChannelDefaultCount
-        get() = preferences.getLong(DEFAULT_PROGRAMS_COUNT, -1L)
+        get() = preferences.getInt(DEFAULT_PROGRAMS_COUNT, DEFAULT_PROGRAMS_VISIBLE_COUNT)
 
     fun setDefaultChannelList(name: String?) {
         name?.let { value ->
@@ -80,27 +93,14 @@ class StoreManager @Inject constructor(context: Context) {
     val currentChannelList
         get() = preferences.getString(CURRENT_CHANNEL_LIST, NO_VALUE_STRING) ?: NO_VALUE_STRING
 
-  //  private val settingsDataStore = context.dataStore
-
-  //  private val SELECTED_LIST = stringPreferencesKey("selectedList")
-
-  //  val selectedList: Flow<String> = settingsDataStore.data
-  //      .map { preferences ->
-  //          // No type safety.
-  //          preferences[SELECTED_LIST] ?: ""
-  //      }
-
-   // suspend fun saveSelectedList(name: String) {
-   //     settingsDataStore.edit { settings ->
-   //         settings[SELECTED_LIST] = name
-   //     }
-   // }
-
     companion object {
         private const val LAST_UPDATE_CHANNELS = "LastUpdateChannels"
         private const val LAST_UPDATE_PROGRAMS = "LastUpdatePrograms"
         private const val DEFAULT_PROGRAMS_COUNT = "DefaultProgramsCount"
         private const val DEFAULT_CHANNEL_LIST = "DefaultChannelList"
         private const val CURRENT_CHANNEL_LIST = "CurrentChannelList"
+
+        private const val UPDATE_PROGRAM_LIST_PERIOD = "UpdateProgramListPeriod"
+        private const val UPDATE_CHANNEL_LIST_PERIOD = "UpdateChannelListPeriod"
     }
 }

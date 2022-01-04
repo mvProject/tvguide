@@ -50,8 +50,10 @@ class ProgramsFragment : Fragment() {
                 adapter = programsAdapter
             }
 
-            collectFlow(programsViewModel.selected) { name ->
+            collectFlow(programsViewModel.selectedList) { name ->
                 programsToolbar.toolbarTitle.text = name
+
+                Timber.d("testing selectedList is set")
 
                 if (name.isNotEmpty()) {
                     programsViewModel.outputWorkInfo.observe(
@@ -69,7 +71,6 @@ class ProgramsFragment : Fragment() {
                                     progressBarLinear.progress = current + 1
                                     progressBarLinear.max = count
                                     progressBarLinear.visibility = View.VISIBLE
-
                                 }
                                 if (workInfo.state == WorkInfo.State.SUCCEEDED) {
                                     progressBarLinear.visibility = View.GONE
@@ -82,7 +83,7 @@ class ProgramsFragment : Fragment() {
                 }
             }
 
-            collectFlow(programsViewModel.channels) {
+            collectFlow(programsViewModel.selectedPrograms) {
                 programsAdapter.items = it
             }
 
@@ -106,6 +107,12 @@ class ProgramsFragment : Fragment() {
         }
 
         programsViewModel.reloadChannels()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Timber.d("testing resume")
+        programsViewModel.checkForUpdates()
     }
 
     override fun onDestroyView() {
