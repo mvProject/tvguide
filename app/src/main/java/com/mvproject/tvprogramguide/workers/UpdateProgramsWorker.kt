@@ -1,11 +1,13 @@
 package com.mvproject.tvprogramguide.workers
 
 import android.content.Context
+import android.text.format.DateUtils
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.WorkerParameters
 import com.mvproject.tvprogramguide.R
+import com.mvproject.tvprogramguide.StoreManager
 import com.mvproject.tvprogramguide.model.data.Channel
 import com.mvproject.tvprogramguide.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.repository.SelectedChannelRepository
@@ -19,7 +21,8 @@ class UpdateProgramsWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
     private val selectedChannelRepository: SelectedChannelRepository,
-    private val channelProgramRepository: ChannelProgramRepository
+    private val channelProgramRepository: ChannelProgramRepository,
+    private val storeManager: StoreManager
 ) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
         val applicationContext = applicationContext
@@ -35,9 +38,10 @@ class UpdateProgramsWorker @AssistedInject constructor(
 
         channelListName?.let { listname ->
             val updateIds = inputData.getStringArray(CHANNEL_MISSING_COUNT)
-            updateIds?.let { ids ->
-                val idsCount = ids.count()
-                ids.forEachIndexed { ind, id ->
+            val idsCount = updateIds?.count() ?: COUNT_ZERO
+            Timber.d("testing UpdateProgramsWorker partially update idsCount $idsCount")
+            if (idsCount > COUNT_ZERO) {
+                updateIds?.forEachIndexed { ind, id ->
                     channelProgramRepository.loadProgram(id)
                     setProgressAsync(
                         Data.Builder()
@@ -46,9 +50,10 @@ class UpdateProgramsWorker @AssistedInject constructor(
                             .build()
                     )
                 }
-            } ?: run {
+            } else {
                 val selectedChannels = selectedChannelRepository.loadSelectedChannels(listname)
                 val channelsCount = selectedChannels.count()
+                Timber.d("testing UpdateProgramsWorker full update")
                 if (channelsCount > COUNT_ZERO) {
                     selectedChannels.forEachIndexed { ind, chn ->
                         channelProgramRepository.loadProgram(chn.channelId)
@@ -59,6 +64,9 @@ class UpdateProgramsWorker @AssistedInject constructor(
                                 .build()
                         )
                     }
+                    storeManager.setProgramsUpdateLastTime(System.currentTimeMillis())
+                } else {
+                    Timber.d("testing UpdateProgramsWorker full update count zero")
                 }
             }
         }
