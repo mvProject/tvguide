@@ -40,6 +40,10 @@ class SettingsFragment : Fragment() {
             optionChannels.setOnClickListener {
                 routeTo(destination = SettingsFragmentDirections.toSettingChannelsListFragment())
             }
+
+            optionSettings.setOnClickListener {
+                routeTo(destination = SettingsFragmentDirections.toAppSettingsFragment())
+            }
         }
     }
 }

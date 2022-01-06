@@ -4,10 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.text.format.DateUtils
 import androidx.preference.PreferenceManager
-import com.mvproject.tvprogramguide.utils.DEFAULT_PROGRAMS_UPDATE_PERIOD
-import com.mvproject.tvprogramguide.utils.DEFAULT_PROGRAMS_VISIBLE_COUNT
-import com.mvproject.tvprogramguide.utils.NO_VALUE_LONG
-import com.mvproject.tvprogramguide.utils.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.utils.*
 import javax.inject.Inject
 
 class StoreManager @Inject constructor(context: Context) {
@@ -93,6 +90,24 @@ class StoreManager @Inject constructor(context: Context) {
     val currentChannelList
         get() = preferences.getString(CURRENT_CHANNEL_LIST, NO_VALUE_STRING) ?: NO_VALUE_STRING
 
+    fun setSelectedTheme(mode: Int?) {
+        mode?.let { value ->
+            preferences.edit().putInt(CURRENT_THEME_MODE, value).apply()
+        }
+    }
+
+    fun setSelectedLanguage(lang: String?) {
+        lang?.let { value ->
+            preferences.edit().putString(CURRENT_LANG_MODE, value).apply()
+        }
+    }
+
+    val selectedTheme
+        get() = preferences.getInt(CURRENT_THEME_MODE, NO_VALUE_INT)
+
+    val selectedLang
+        get() = preferences.getString(CURRENT_LANG_MODE, NO_VALUE_STRING) ?: NO_VALUE_STRING
+
     companion object {
         private const val LAST_UPDATE_CHANNELS = "LastUpdateChannels"
         private const val LAST_UPDATE_PROGRAMS = "LastUpdatePrograms"
@@ -102,5 +117,8 @@ class StoreManager @Inject constructor(context: Context) {
 
         private const val UPDATE_PROGRAM_LIST_PERIOD = "UpdateProgramListPeriod"
         private const val UPDATE_CHANNEL_LIST_PERIOD = "UpdateChannelListPeriod"
+
+        private const val CURRENT_THEME_MODE = "CurrentThemeMode"
+        private const val CURRENT_LANG_MODE = "CurrentLangMode"
     }
 }

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?attr/color_default_background">
+
+    <include
+        android:id="@+id/appSettingsToolbar"
+        layout="@layout/layout_toolbar_with_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/sectionNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_24"
+        android:layout_marginTop="@dimen/size_22"
+        android:fontFamily="@font/montserrat_medium"
+        android:lineSpacingExtra="4sp"
+        android:text="updates"
+        android:textColor="?attr/color_default_title"
+        android:textSize="@dimen/text_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appSettingsToolbar" />
+
+    <TextView
+        android:id="@+id/sectionLanguages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_24"
+        android:layout_marginTop="@dimen/size_22"
+        android:fontFamily="@font/montserrat_medium"
+        android:lineSpacingExtra="4sp"
+        android:text="language"
+        android:textColor="?attr/color_default_title"
+        android:textSize="@dimen/text_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sectionNotification" />
+
+    <RadioGroup
+        android:id="@+id/langGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sectionLanguages"
+        android:orientation="vertical" >
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/sectionSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_24"
+        android:layout_marginTop="@dimen/size_22"
+        android:fontFamily="@font/montserrat_medium"
+        android:lineSpacingExtra="4sp"
+        android:text="themes"
+        android:textColor="?attr/color_default_title"
+        android:textSize="@dimen/text_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/langGroup" />
+
+    <RadioGroup
+        android:id="@+id/themeGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sectionSettings"
+        android:orientation="vertical" >
+    </RadioGroup>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

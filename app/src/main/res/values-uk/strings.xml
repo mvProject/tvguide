@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ТВ Программа</string>
+
+    <string name="add_new_custom_list">Додати новий список</string>
+    <string name="all_channels_title">Усі канали</string>
+    <string name="selected_channels_title">Вибрані канали</string>
+    <string name="hint_search">Пошук каналі</string>
+    <string name="custom_channels_list_title">Перелік каналів</string>
+
+    <string name="notif_programs_download">Оновлення программи</string>
+</resources>
