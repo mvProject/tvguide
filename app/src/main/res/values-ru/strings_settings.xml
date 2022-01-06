@@ -1,0 +1,6 @@
+<resources>
+    <string name="settings_title">Настройки</string>
+    <string name="settings_notification_title">Уведомления</string>
+    <string name="settings_channels_title">Каналы</string>
+    <string name="settings_app_settings_title">Приложение</string>
+</resources>

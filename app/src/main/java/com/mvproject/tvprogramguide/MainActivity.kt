@@ -21,12 +21,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            controller.backStack.forEach {
-                Timber.d(
-                    "currentStack ${it.destination.label}"
-                )
-            }
-        }
+        //navController.addOnDestinationChangedListener { controller, destination, arguments ->
+        //    controller.backStack.forEach {
+        //        Timber.d(
+        //            "currentStack ${it.destination.label}"
+        //        )
+        //    }
+        //}
     }
 }
