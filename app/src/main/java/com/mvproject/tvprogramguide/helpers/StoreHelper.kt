@@ -1,13 +1,16 @@
-package com.mvproject.tvprogramguide
+package com.mvproject.tvprogramguide.helpers
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.text.format.DateUtils
 import androidx.preference.PreferenceManager
 import com.mvproject.tvprogramguide.utils.*
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class StoreManager @Inject constructor(context: Context) {
+@Singleton
+class StoreHelper @Inject constructor(@ApplicationContext private val context: Context) {
 
     private val preferences: SharedPreferences =
         PreferenceManager.getDefaultSharedPreferences(context)
