@@ -1,14 +1,12 @@
 package com.mvproject.tvprogramguide.workers
 
 import android.content.Context
-import android.text.format.DateUtils
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.WorkerParameters
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.StoreManager
-import com.mvproject.tvprogramguide.model.data.Channel
+import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.utils.*
@@ -22,7 +20,7 @@ class UpdateProgramsWorker @AssistedInject constructor(
     @Assisted params: WorkerParameters,
     private val selectedChannelRepository: SelectedChannelRepository,
     private val channelProgramRepository: ChannelProgramRepository,
-    private val storeManager: StoreManager
+    private val storeHelper: StoreHelper
 ) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
         val applicationContext = applicationContext
@@ -64,7 +62,7 @@ class UpdateProgramsWorker @AssistedInject constructor(
                                 .build()
                         )
                     }
-                    storeManager.setProgramsUpdateLastTime(System.currentTimeMillis())
+                    storeHelper.setProgramsUpdateLastTime(System.currentTimeMillis())
                 } else {
                     Timber.d("testing UpdateProgramsWorker full update count zero")
                 }

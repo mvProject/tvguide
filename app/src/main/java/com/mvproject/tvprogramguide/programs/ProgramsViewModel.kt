@@ -7,7 +7,8 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import com.mvproject.tvprogramguide.StoreManager
+import com.mvproject.tvprogramguide.helpers.NetworkHelper
+import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.database.entity.CustomListEntity
 import com.mvproject.tvprogramguide.model.data.IChannel
 import com.mvproject.tvprogramguide.repository.ChannelProgramRepository
@@ -27,17 +28,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProgramsViewModel @Inject constructor(
-    private val storeManager: StoreManager,
+    private val storeHelper: StoreHelper,
     private val selectedChannelRepository: SelectedChannelRepository,
     private val channelProgramRepository: ChannelProgramRepository,
     private val customListRepository: CustomListRepository,
-    private val workManager: WorkManager
+    private val workManager: WorkManager,
+    private val networkHelper: NetworkHelper
 ) : ViewModel() {
 
     val outputWorkInfo: LiveData<List<WorkInfo>> =
         workManager.getWorkInfosForUniqueWorkLiveData(DOWNLOAD_PROGRAMS)
 
-    private var _selectedList = MutableStateFlow(storeManager.defaultChannelList)
+    private var _selectedList = MutableStateFlow(storeHelper.defaultChannelList)
     val selectedList = _selectedList.asStateFlow()
 
     private var _selectedPrograms = MutableStateFlow<List<IChannel>>(emptyList())
@@ -45,9 +47,9 @@ class ProgramsViewModel @Inject constructor(
 
     private var _availableLists: List<CustomListEntity> = emptyList()
 
-    private var savedList = storeManager.defaultChannelList
+    private var savedList = storeHelper.defaultChannelList
 
-    private var visibleCount = storeManager.programByChannelDefaultCount
+    private var visibleCount = storeHelper.programByChannelDefaultCount
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -58,7 +60,7 @@ class ProgramsViewModel @Inject constructor(
     }
 
     fun checkSavedList() {
-        savedList = storeManager.defaultChannelList
+        savedList = storeHelper.defaultChannelList
         viewModelScope.launch(Dispatchers.IO) {
             _selectedList.emit(savedList)
         }
@@ -68,10 +70,15 @@ class ProgramsViewModel @Inject constructor(
 
     fun reloadChannels() {
         updatePrograms()
+        if (networkHelper.isNetworkConnected()){
+            Timber.d("testing network connected")
+        } else {
+            Timber.d("testing network not connected")
+        }
     }
 
     fun saveSelectedList(listName: String) {
-        storeManager.setDefaultChannelList(listName)
+        storeHelper.setDefaultChannelList(listName)
         checkSavedList()
         updatePrograms()
     }
@@ -104,8 +111,8 @@ class ProgramsViewModel @Inject constructor(
     }
 
     fun checkForUpdates() {
-        visibleCount = storeManager.programByChannelDefaultCount
-        if (storeManager.isNeedFullProgramsUpdate) {
+        visibleCount = storeHelper.programByChannelDefaultCount
+        if (storeHelper.isNeedFullProgramsUpdate) {
             startDownload(false)
             Timber.d("testing is shouldFullUpdate")
         } else {

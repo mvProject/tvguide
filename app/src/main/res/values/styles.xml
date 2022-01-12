@@ -9,9 +9,9 @@
         <item name="colorOnSurface">?attr/color_default_title</item>
         <item name="colorSecondary">?attr/color_title_selected</item>
         <item name="android:textColor">?attr/color_title_unselected</item>
-        <item name="android:textSize">@dimen/size_16</item>
-        <item name="fontFamily">@font/montserrat_semibold</item>
-        <item name="android:paddingLeft">@dimen/size_25</item>
+        <item name="android:textSize">@dimen/size_14</item>
+        <item name="fontFamily">@font/montserrat_medium</item>
+        <item name="android:paddingLeft">@dimen/size_12</item>
     </style>
 
     <style name="MaterialAlertDialogRounded" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">

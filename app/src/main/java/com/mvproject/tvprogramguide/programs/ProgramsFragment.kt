@@ -5,15 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.work.WorkInfo
-import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.databinding.FragmentProgramsBinding
 import com.mvproject.tvprogramguide.sticky.StickyHeadersLinearLayoutManager
 import com.mvproject.tvprogramguide.utils.*
-import com.mvproject.tvprogramguide.utils.decoration.ItemSpacingDecorator
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
