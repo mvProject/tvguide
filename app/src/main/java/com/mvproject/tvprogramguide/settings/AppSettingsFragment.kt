@@ -12,6 +12,7 @@ import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.radiobutton.MaterialRadioButton
+import com.mvproject.tvprogramguide.MainActivity
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.databinding.FragmentAppSettingsBinding
 import com.mvproject.tvprogramguide.utils.Utils.toThemeMode
@@ -41,14 +42,15 @@ class AppSettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val langOptions = listOf("English", "Russian", "Ukrainian")
+        val supportedLocales = listOf("en", "ru", "uk")
         val themeOptions = listOf("Light", "Dark", "System")
         with(binding) {
             val params = RadioGroup.LayoutParams(binding.root.context, null).apply {
                 setMargins(
-                    LOAD_DEFAULT_ZERO,
-                    DEFAULT_TOP_MARGIN,
-                    LOAD_DEFAULT_ZERO,
-                    LOAD_DEFAULT_ZERO
+                    DEFAULT_HORIZONTAL_MARGIN,
+                    DEFAULT_VERTICAL_MARGIN,
+                    DEFAULT_HORIZONTAL_MARGIN,
+                    DEFAULT_VERTICAL_MARGIN
                 )
             }
 
@@ -62,7 +64,7 @@ class AppSettingsFragment : Fragment() {
                     MaterialRadioButton(binding.root.context, null, R.attr.radioButtonStyle).apply {
                         id = View.generateViewId()
                         text = langOptions[item]
-                        tag = langOptions[item]
+                        tag = supportedLocales[item]
                         layoutParams = params
                         setTextColor(
                             ContextCompat.getColorStateList(
@@ -101,8 +103,9 @@ class AppSettingsFragment : Fragment() {
                 }
                 langGroup.setOnCheckedChangeListener { radioGroup, clickedButton ->
                     langSelected =
-                        radioGroup.findViewById<RadioButton>(clickedButton).text.toString()
+                        radioGroup.findViewById<RadioButton>(clickedButton).tag.toString()
                     appSettingsViewModel.setSelectedLanguage(langSelected)
+                    (activity as? MainActivity)?.recreate()
                 }
 
                 val mode = appSettingsViewModel.selectedThemeMode
@@ -124,7 +127,7 @@ class AppSettingsFragment : Fragment() {
     }
 
     companion object {
-        private const val DEFAULT_TOP_MARGIN = 24
-        private const val LOAD_DEFAULT_ZERO = 0
+        private const val DEFAULT_VERTICAL_MARGIN = 4
+        private const val DEFAULT_HORIZONTAL_MARGIN = 22
     }
 }
