@@ -1,11 +1,13 @@
 package com.mvproject.tvprogramguide
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.mvproject.tvprogramguide.databinding.ActivityMainBinding
+import com.mvproject.tvprogramguide.helpers.LocaleHelper
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -28,5 +30,14 @@ class MainActivity : AppCompatActivity() {
         //        )
         //    }
         //}
+    }
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(LocaleHelper.wrapContext(base))
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        LocaleHelper.overrideLocale(this)
     }
 }
