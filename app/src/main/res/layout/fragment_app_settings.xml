@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="?attr/color_default_background">
 
     <include
@@ -40,6 +40,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sectionNotification" />
 
+    <com.mvproject.tvprogramguide.NumberValueSelector
+        android:id="@+id/channelUpdateSelector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/channelUpdatePeriodTitle"
+        app:nvs_minusImage="@drawable/ic_minus"
+        app:nvs_minusTint="?attr/color_search_tint"
+        app:nvs_numberColor="?attr/color_delete_tint"
+        app:nvs_plusImage="@drawable/ic_plus"
+        app:nvs_plusTint="?attr/color_search_tint" />
+
     <TextView
         android:id="@+id/programsUpdatePeriodTitle"
         android:layout_width="wrap_content"
@@ -54,6 +66,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/channelUpdatePeriodTitle" />
 
+    <com.mvproject.tvprogramguide.NumberValueSelector
+        android:id="@+id/programUpdateSelector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/programsUpdatePeriodTitle"
+        app:nvs_minusImage="@drawable/ic_minus"
+        app:nvs_minusTint="?attr/color_search_tint"
+        app:nvs_numberColor="?attr/color_delete_tint"
+        app:nvs_plusImage="@drawable/ic_plus"
+        app:nvs_plusTint="?attr/color_search_tint" />
+
     <TextView
         android:id="@+id/programsByDefaultTitle"
         android:layout_width="wrap_content"
@@ -67,6 +91,18 @@
         android:textSize="@dimen/text_14"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/programsUpdatePeriodTitle" />
+
+    <com.mvproject.tvprogramguide.NumberValueSelector
+        android:id="@+id/programViewSelector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/programsByDefaultTitle"
+        app:nvs_minusImage="@drawable/ic_minus"
+        app:nvs_minusTint="?attr/color_search_tint"
+        app:nvs_numberColor="?attr/color_delete_tint"
+        app:nvs_plusImage="@drawable/ic_plus"
+        app:nvs_plusTint="?attr/color_search_tint" />
 
     <TextView
         android:id="@+id/sectionLanguages"
@@ -86,11 +122,10 @@
         android:id="@+id/langGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sectionLanguages"
-        android:orientation="vertical" >
-    </RadioGroup>
+        app:layout_constraintTop_toBottomOf="@id/sectionLanguages"></RadioGroup>
 
     <TextView
         android:id="@+id/sectionSettings"
@@ -110,11 +145,10 @@
         android:id="@+id/themeGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sectionSettings"
-        android:orientation="vertical" >
-    </RadioGroup>
+        app:layout_constraintTop_toBottomOf="@id/sectionSettings"></RadioGroup>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
