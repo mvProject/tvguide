@@ -16,4 +16,7 @@ interface AllChannelDao {
 
     @Query("SELECT * FROM all_channels")
     suspend fun getChannelList(): List<ChannelEntity>
+
+    @Query("DELETE FROM all_channels")
+    suspend fun deleteChannels()
 }

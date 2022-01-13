@@ -8,4 +8,8 @@
     <string name="custom_channels_list_title">Перелік каналів</string>
 
     <string name="notif_programs_download">Оновлення программи</string>
+
+    <string name="settings_theme_light">Світла</string>
+    <string name="settings_theme_dark">Темна</string>
+    <string name="settings_theme_system">Вибір Системи</string>
 </resources>
