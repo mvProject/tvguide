@@ -15,9 +15,11 @@ import com.google.android.material.radiobutton.MaterialRadioButton
 import com.mvproject.tvprogramguide.MainActivity
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.databinding.FragmentAppSettingsBinding
-import com.mvproject.tvprogramguide.utils.Utils.toThemeMode
+import com.mvproject.tvprogramguide.utils.NO_VALUE_INT
+import com.mvproject.tvprogramguide.utils.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.utils.routeToBack
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class AppSettingsFragment : Fragment() {
@@ -26,8 +28,8 @@ class AppSettingsFragment : Fragment() {
 
     private val appSettingsViewModel: AppSettingsViewModel by viewModels()
 
-    private var langSelected = ""
-    private var themeSelected = ""
+    private var langSelected = NO_VALUE_STRING
+    private var themeSelected = NO_VALUE_INT
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,93 +43,125 @@ class AppSettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val langOptions = listOf("English", "Russian", "Ukrainian")
-        val supportedLocales = listOf("en", "ru", "uk")
-        val themeOptions = listOf("Light", "Dark", "System")
         with(binding) {
-            val params = RadioGroup.LayoutParams(binding.root.context, null).apply {
-                setMargins(
-                    DEFAULT_HORIZONTAL_MARGIN,
-                    DEFAULT_VERTICAL_MARGIN,
-                    DEFAULT_HORIZONTAL_MARGIN,
-                    DEFAULT_VERTICAL_MARGIN
-                )
-            }
-
             appSettingsToolbar.apply {
                 toolbarTitle.text = getString(R.string.settings_title)
                 btnBack.setOnClickListener {
                     routeToBack()
                 }
+            }
 
-                for (item in langOptions.indices) {
-                    MaterialRadioButton(binding.root.context, null, R.attr.radioButtonStyle).apply {
-                        id = View.generateViewId()
-                        text = langOptions[item]
-                        tag = supportedLocales[item]
-                        layoutParams = params
-                        setTextColor(
-                            ContextCompat.getColorStateList(
-                                binding.root.context,
-                                R.color.selector_dialog_text_color
-                            )
+            programUpdateSelector.apply {
+                setValue(appSettingsViewModel.updateProgramsPeriod)
+                onValueChange { value ->
+                    Timber.d("testing programUpdateSelector value is $value")
+                }
+            }
+            channelUpdateSelector.apply {
+                setValue(appSettingsViewModel.updateChannelsPeriod)
+                onValueChange { value ->
+                    Timber.d("testing channelUpdateSelector value is $value")
+                }
+            }
+            programViewSelector.apply {
+                setValue(appSettingsViewModel.programsViewCount)
+                onValueChange { value ->
+                    appSettingsViewModel.setProgramsCount(value)
+                }
+            }
+        }
+
+        initLanguagesSelector()
+
+        initThemesSelector()
+    }
+
+    private fun initLanguagesSelector() {
+        val langOptions = listOf(AppLang.English, AppLang.Russian, AppLang.Ukrainian)
+        with(binding) {
+            for (item in langOptions.indices) {
+                MaterialRadioButton(binding.root.context, null, R.attr.radioButtonStyle).apply {
+                    id = View.generateViewId()
+                    text = langOptions[item].name
+                    tag = langOptions[item].locale
+                    layoutParams = params
+                    setTextColor(
+                        ContextCompat.getColorStateList(
+                            binding.root.context,
+                            R.color.selector_dialog_text_color
                         )
-                    }.also { rb ->
-                        langGroup.addView(rb)
-                    }
+                    )
+                }.also { rb ->
+                    langGroup.addView(rb)
                 }
+            }
 
-                for (item in themeOptions.indices) {
-                    MaterialRadioButton(binding.root.context, null, R.attr.radioButtonStyle).apply {
-                        id = View.generateViewId()
-                        text = themeOptions[item]
-                        tag = themeOptions[item].toThemeMode()
-                        layoutParams = params
-                        setTextColor(
-                            ContextCompat.getColorStateList(
-                                binding.root.context,
-                                R.color.selector_dialog_text_color
-                            )
-                        )
-                    }.also { rb ->
-                        themeGroup.addView(rb)
+            val lang = appSettingsViewModel.selectedLanguage
+            langGroup.forEach { v ->
+                if (v is RadioButton) {
+                    if (v.tag.toString() == lang) {
+                        v.isChecked = true
                     }
                 }
-                val lang = appSettingsViewModel.selectedLanguage
-                langGroup.forEach { v ->
-                    if (v is RadioButton) {
-                        if (v.tag.toString() == lang) {
-                            v.isChecked = true
-                        }
-                    }
-                }
-                langGroup.setOnCheckedChangeListener { radioGroup, clickedButton ->
-                    langSelected =
-                        radioGroup.findViewById<RadioButton>(clickedButton).tag.toString()
-                    appSettingsViewModel.setSelectedLanguage(langSelected)
-                    (activity as? MainActivity)?.recreate()
-                }
-
-                val mode = appSettingsViewModel.selectedThemeMode
-                themeGroup.forEach { v ->
-                    if (v is RadioButton) {
-                        if (Integer.parseInt(v.tag.toString()) == mode) {
-                            v.isChecked = true
-                        }
-                    }
-                }
-
-                themeGroup.setOnCheckedChangeListener { radioGroup, clickedButton ->
-                    themeSelected =
-                        radioGroup.findViewById<RadioButton>(clickedButton).text.toString()
-                    appSettingsViewModel.setSelectedTheme(themeSelected)
-                }
+            }
+            langGroup.setOnCheckedChangeListener { radioGroup, clickedButton ->
+                langSelected =
+                    radioGroup.findViewById<RadioButton>(clickedButton).tag.toString()
+                appSettingsViewModel.setSelectedLanguage(langSelected)
+                (activity as? MainActivity)?.recreate()
             }
         }
     }
 
+    private fun initThemesSelector() {
+        val themeOptions = listOf(AppTheme.Light(), AppTheme.Dark(), AppTheme.System())
+        with(binding) {
+            for (item in themeOptions.indices) {
+                MaterialRadioButton(binding.root.context, null, R.attr.radioButtonStyle).apply {
+                    id = View.generateViewId()
+                    text = getString(themeOptions[item].getProperTitle())
+                    tag = themeOptions[item].value
+                    layoutParams = params
+                    setTextColor(
+                        ContextCompat.getColorStateList(
+                            binding.root.context,
+                            R.color.selector_dialog_text_color
+                        )
+                    )
+                }.also { rb ->
+                    themeGroup.addView(rb)
+                }
+            }
+
+            val mode = appSettingsViewModel.selectedThemeMode
+            themeGroup.forEach { v ->
+                if (v is RadioButton) {
+                    if (Integer.parseInt(v.tag.toString()) == mode) {
+                        v.isChecked = true
+                    }
+                }
+            }
+
+            themeGroup.setOnCheckedChangeListener { radioGroup, clickedButton ->
+                themeSelected =
+                    radioGroup.findViewById<RadioButton>(clickedButton).tag.toString().toInt()
+                appSettingsViewModel.setSelectedTheme(themeSelected)
+            }
+        }
+    }
+
+    private val params
+        get() = RadioGroup.LayoutParams(binding.root.context, null).apply {
+            setMargins(
+                DEFAULT_HORIZONTAL_MARGIN,
+                DEFAULT_VERTICAL_MARGIN,
+                DEFAULT_HORIZONTAL_MARGIN,
+                DEFAULT_VERTICAL_MARGIN
+            )
+        }
+
     companion object {
-        private const val DEFAULT_VERTICAL_MARGIN = 4
+        private const val DEFAULT_VERTICAL_MARGIN = 0
         private const val DEFAULT_HORIZONTAL_MARGIN = 22
     }
 }

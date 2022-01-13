@@ -3,7 +3,6 @@ package com.mvproject.tvprogramguide.settings
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
 import com.mvproject.tvprogramguide.helpers.StoreHelper
-import com.mvproject.tvprogramguide.utils.Utils.toThemeMode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -12,13 +11,17 @@ class AppSettingsViewModel @Inject constructor(
     private val storeHelper: StoreHelper
 ) : ViewModel() {
 
-    fun setSelectedTheme(themeSelected: String) {
-        AppCompatDelegate.setDefaultNightMode(themeSelected.toThemeMode())
-        storeHelper.setSelectedTheme(themeSelected.toThemeMode())
+    fun setSelectedTheme(themeMode: Int) {
+        AppCompatDelegate.setDefaultNightMode(themeMode)
+        storeHelper.setSelectedTheme(themeMode)
     }
 
     fun setSelectedLanguage(language: String){
         storeHelper.setSelectedLanguage(language)
+    }
+
+    fun setProgramsCount(count: Int){
+        storeHelper.setProgramByChannelDefaultCount(count)
     }
 
     val selectedThemeMode
@@ -26,4 +29,13 @@ class AppSettingsViewModel @Inject constructor(
 
     val selectedLanguage
         get() = storeHelper.selectedLang
+
+    val updateChannelsPeriod
+    get() = storeHelper.channelsUpdatePeriod
+
+    val updateProgramsPeriod
+        get() = storeHelper.programsUpdatePeriod
+
+    val programsViewCount
+        get() = storeHelper.programByChannelDefaultCount
 }

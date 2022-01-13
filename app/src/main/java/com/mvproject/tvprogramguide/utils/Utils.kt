@@ -79,10 +79,4 @@ object Utils {
     fun Context.pxToDp(px: Float): Int {
         return (px.toInt() / resources.displayMetrics.density).toInt()
     }
-
-    fun String.toThemeMode() = when (this) {
-        "Light" -> AppCompatDelegate.MODE_NIGHT_NO
-        "Dark" -> AppCompatDelegate.MODE_NIGHT_YES
-        else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-    }
 }
