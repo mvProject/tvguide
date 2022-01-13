@@ -41,4 +41,13 @@
     <attr name="color_search_title" format="color|reference" />
     <attr name="color_search_tint" format="color|reference" />
 
+    <declare-styleable name="NumberValueSelector">
+        <attr name="nvs_minusImage" format="reference" />
+        <attr name="nvs_minusTint" format="color|reference" />
+        <attr name="nvs_plusImage" format="reference" />
+        <attr name="nvs_plusTint" format="color|reference" />
+        <attr name="nvs_defaultNumber" format="integer" />
+        <attr name="nvs_numberColor" format="color|reference" />
+    </declare-styleable>
+
 </resources>

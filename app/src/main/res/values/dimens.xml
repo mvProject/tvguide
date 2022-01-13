@@ -5,6 +5,7 @@
     <dimen name="view_size_8">8dp</dimen>
     <dimen name="view_size_14">14dp</dimen>
     <dimen name="view_size_20">20dp</dimen>
+    <dimen name="view_size_24">24dp</dimen>
     <dimen name="view_size_26">26dp</dimen>
     <dimen name="view_size_28">28dp</dimen>
     <dimen name="view_size_40">40dp</dimen>

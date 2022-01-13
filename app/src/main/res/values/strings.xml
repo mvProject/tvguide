@@ -8,4 +8,8 @@
     <string name="custom_channels_list_title">Channels List</string>
 
     <string name="notif_programs_download">Downloading programs</string>
+
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_system">System Select</string>
 </resources>
