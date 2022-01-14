@@ -16,12 +16,20 @@ class AppSettingsViewModel @Inject constructor(
         storeHelper.setSelectedTheme(themeMode)
     }
 
-    fun setSelectedLanguage(language: String){
+    fun setSelectedLanguage(language: String) {
         storeHelper.setSelectedLanguage(language)
     }
 
-    fun setProgramsCount(count: Int){
+    fun setProgramsCount(count: Int) {
         storeHelper.setProgramByChannelDefaultCount(count)
+    }
+
+    fun setChannelsUpdatePeriod(period: Int) {
+        storeHelper.setChannelsUpdatePeriod(period)
+    }
+
+    fun setProgramsUpdatePeriod(period: Int) {
+        storeHelper.setProgramsUpdatePeriod(period)
     }
 
     val selectedThemeMode
@@ -31,7 +39,7 @@ class AppSettingsViewModel @Inject constructor(
         get() = storeHelper.selectedLang
 
     val updateChannelsPeriod
-    get() = storeHelper.channelsUpdatePeriod
+        get() = storeHelper.channelsUpdatePeriod
 
     val updateProgramsPeriod
         get() = storeHelper.programsUpdatePeriod

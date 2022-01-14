@@ -77,10 +77,15 @@ fun sleep() {
 
 }
 
-fun createInputDataForUri(listName: String, missingArray: Array<String>, isNotificationOn: Boolean): Data {
+fun createInputDataForPartialUpdate(isNotificationOn: Boolean = false, ids: Array<String>, ): Data {
     return Data.Builder().apply {
-        putString(CHANNEL_LIST_NAME, listName)
-        putStringArray(CHANNEL_MISSING_COUNT, missingArray)
+        putStringArray(CHANNEL_MISSING_COUNT, ids)
+        putBoolean(NOTIFICATION_CONDITION, isNotificationOn)
+    }.build()
+}
+
+fun createInputDataForUpdate(isNotificationOn: Boolean = false): Data {
+    return Data.Builder().apply {
         putBoolean(NOTIFICATION_CONDITION, isNotificationOn)
     }.build()
 }

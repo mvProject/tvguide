@@ -24,8 +24,17 @@ class StoreHelper @Inject constructor(@ApplicationContext private val context: C
         }
     }
 
-    val channelsUpdateLastTime
+    private val channelsUpdateLastTime
         get() = preferences.getLong(LAST_UPDATE_CHANNELS, NO_VALUE_LONG)
+
+    fun setChannelsUpdatePeriod(period: Int?) {
+        period?.let { value ->
+            preferences.edit().apply {
+                putInt(UPDATE_CHANNEL_LIST_PERIOD, value)
+                apply()
+            }
+        }
+    }
 
     val channelsUpdatePeriod
         get() = preferences.getInt(UPDATE_CHANNEL_LIST_PERIOD, DEFAULT_CHANNELS_UPDATE_PERIOD)
@@ -39,7 +48,7 @@ class StoreHelper @Inject constructor(@ApplicationContext private val context: C
         }
     }
 
-    val programsUpdateLastTime
+    private val programsUpdateLastTime
         get() = preferences.getLong(LAST_UPDATE_PROGRAMS, NO_VALUE_LONG)
 
     fun setProgramsUpdatePeriod(period: Int?) {
