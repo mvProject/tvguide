@@ -15,7 +15,7 @@
         android:layout_width="@dimen/view_size_48"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_medium"
-        android:textColor="?attr/color_program_item_tint"
+        android:textColor="?attr/color_program_item_title"
         android:textSize="@dimen/text_14"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

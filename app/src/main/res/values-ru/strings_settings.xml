@@ -3,4 +3,12 @@
     <string name="settings_notification_title">Уведомления</string>
     <string name="settings_channels_title">Каналы</string>
     <string name="settings_app_settings_title">Приложение</string>
+
+    <string name="settings_updates_title">Обновление (дней)</string>
+    <string name="settings_language_title">Язык</string>
+    <string name="settings_theme_title">Тема</string>
+
+    <string name="settings_channels_update_title">Период обновления доступных каналов</string>
+    <string name="settings_programs_update_title">Период обновления телепрограмм</string>
+    <string name="settings_programs_count_title">Количество отображаемых программ</string>
 </resources>

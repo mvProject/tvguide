@@ -22,22 +22,22 @@
         android:layout_width="@dimen/view_size_0"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/size_16"
-        android:layout_marginEnd="@dimen/size_20"
+        android:layout_marginEnd="@dimen/size_30"
         android:fontFamily="@font/montserrat_semibold"
         android:textColor="?attr/color_channel_item_title"
         android:textSize="@dimen/text_16"
         app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btnDelete"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/channelLogo"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Name" />
 
     <ImageView
         android:id="@+id/btnAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_post_add"
+        android:layout_width="@dimen/size_24"
+        android:layout_height="@dimen/size_24"
+        android:src="@drawable/ic_item_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -45,8 +45,8 @@
 
     <ImageView
         android:id="@+id/btnDelete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/size_24"
+        android:layout_height="@dimen/size_24"
         android:src="@drawable/ic_delete"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"

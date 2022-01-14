@@ -13,142 +13,192 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/sectionNotification"
+        android:id="@+id/appSettingUpdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/size_16"
         android:layout_marginTop="@dimen/size_12"
         android:fontFamily="@font/montserrat_semibold"
         android:lineSpacingExtra="4sp"
-        android:text="Updates"
+        android:text="@string/settings_updates_title"
         android:textColor="?attr/color_default_title"
-        android:textSize="@dimen/text_16"
+        android:textSize="@dimen/text_18"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appSettingsToolbar" />
 
+    <View
+        android:layout_width="@dimen/view_size_0"
+        android:layout_height="@dimen/size_1"
+        android:layout_marginStart="@dimen/size_16"
+        android:layout_marginTop="@dimen/size_2"
+        android:layout_marginEnd="@dimen/size_16"
+        android:background="?attr/color_default_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appSettingUpdate" />
+
     <TextView
         android:id="@+id/channelUpdatePeriodTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/view_size_0"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/size_24"
-        android:layout_marginTop="@dimen/size_12"
+        android:layout_marginEnd="@dimen/size_8"
         android:fontFamily="@font/montserrat_medium"
         android:lineSpacingExtra="4sp"
-        android:text="channel update period"
+        android:text="@string/settings_channels_update_title"
         android:textColor="?attr/color_default_title"
-        android:textSize="@dimen/text_14"
+        android:textSize="@dimen/text_12"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@id/channelUpdateSelector"
+        app:layout_constraintEnd_toStartOf="@id/channelUpdateSelector"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sectionNotification" />
+        app:layout_constraintTop_toTopOf="@id/channelUpdateSelector" />
 
     <com.mvproject.tvprogramguide.NumberValueSelector
         android:id="@+id/channelUpdateSelector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_8"
+        android:layout_marginEnd="@dimen/size_16"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/channelUpdatePeriodTitle"
+        app:layout_constraintTop_toBottomOf="@id/appSettingUpdate"
         app:nvs_minusImage="@drawable/ic_minus"
-        app:nvs_minusTint="?attr/color_search_tint"
-        app:nvs_numberColor="?attr/color_delete_tint"
+        app:nvs_minusTint="?attr/color_selector_action"
+        app:nvs_numberColor="?attr/color_selector_value"
         app:nvs_plusImage="@drawable/ic_plus"
-        app:nvs_plusTint="?attr/color_search_tint" />
+        app:nvs_plusTint="?attr/color_selector_action" />
 
     <TextView
         android:id="@+id/programsUpdatePeriodTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/view_size_0"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/size_24"
-        android:layout_marginTop="@dimen/size_12"
+        android:layout_marginEnd="@dimen/size_8"
         android:fontFamily="@font/montserrat_medium"
         android:lineSpacingExtra="4sp"
-        android:text="programs update period"
+        android:text="@string/settings_programs_update_title"
         android:textColor="?attr/color_default_title"
-        android:textSize="@dimen/text_14"
+        android:textSize="@dimen/text_12"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@id/programUpdateSelector"
+        app:layout_constraintEnd_toStartOf="@id/programUpdateSelector"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/channelUpdatePeriodTitle" />
+        app:layout_constraintTop_toTopOf="@id/programUpdateSelector" />
 
     <com.mvproject.tvprogramguide.NumberValueSelector
         android:id="@+id/programUpdateSelector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_4"
+        android:layout_marginEnd="@dimen/size_16"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/programsUpdatePeriodTitle"
+        app:layout_constraintTop_toBottomOf="@id/channelUpdateSelector"
         app:nvs_minusImage="@drawable/ic_minus"
-        app:nvs_minusTint="?attr/color_search_tint"
-        app:nvs_numberColor="?attr/color_delete_tint"
+        app:nvs_minusTint="?attr/color_selector_action"
+        app:nvs_numberColor="?attr/color_selector_value"
         app:nvs_plusImage="@drawable/ic_plus"
-        app:nvs_plusTint="?attr/color_search_tint" />
+        app:nvs_plusTint="?attr/color_selector_action" />
 
     <TextView
         android:id="@+id/programsByDefaultTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/view_size_0"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/size_24"
-        android:layout_marginTop="@dimen/size_12"
+        android:layout_marginEnd="@dimen/size_8"
         android:fontFamily="@font/montserrat_medium"
         android:lineSpacingExtra="4sp"
-        android:text="programs by default view count"
+        android:text="@string/settings_programs_count_title"
         android:textColor="?attr/color_default_title"
-        android:textSize="@dimen/text_14"
+        android:textSize="@dimen/text_12"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@id/programViewSelector"
+        app:layout_constraintEnd_toStartOf="@id/programViewSelector"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/programsUpdatePeriodTitle" />
+        app:layout_constraintTop_toTopOf="@id/programViewSelector" />
 
     <com.mvproject.tvprogramguide.NumberValueSelector
         android:id="@+id/programViewSelector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_4"
+        android:layout_marginEnd="@dimen/size_16"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/programsByDefaultTitle"
+        app:layout_constraintTop_toBottomOf="@id/programUpdateSelector"
         app:nvs_minusImage="@drawable/ic_minus"
-        app:nvs_minusTint="?attr/color_search_tint"
-        app:nvs_numberColor="?attr/color_delete_tint"
+        app:nvs_minusTint="?attr/color_selector_action"
+        app:nvs_numberColor="?attr/color_selector_value"
         app:nvs_plusImage="@drawable/ic_plus"
-        app:nvs_plusTint="?attr/color_search_tint" />
+        app:nvs_plusTint="?attr/color_selector_action" />
 
     <TextView
-        android:id="@+id/sectionLanguages"
+        android:id="@+id/appSettingLanguage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/size_16"
         android:layout_marginTop="@dimen/size_12"
         android:fontFamily="@font/montserrat_semibold"
         android:lineSpacingExtra="4sp"
-        android:text="Language"
+        android:text="@string/settings_language_title"
         android:textColor="?attr/color_default_title"
-        android:textSize="@dimen/text_16"
+        android:textSize="@dimen/text_18"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/programsByDefaultTitle" />
+
+    <View
+        android:layout_width="@dimen/view_size_0"
+        android:layout_height="@dimen/size_1"
+        android:layout_marginStart="@dimen/size_16"
+        android:layout_marginTop="@dimen/size_2"
+        android:layout_marginEnd="@dimen/size_16"
+        android:background="?attr/color_default_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appSettingLanguage" />
 
     <RadioGroup
         android:id="@+id/langGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_8"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sectionLanguages"></RadioGroup>
+        app:layout_constraintTop_toBottomOf="@id/appSettingLanguage" />
 
     <TextView
-        android:id="@+id/sectionSettings"
+        android:id="@+id/appSettingTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/size_16"
         android:layout_marginTop="@dimen/size_12"
         android:fontFamily="@font/montserrat_semibold"
         android:lineSpacingExtra="4sp"
-        android:text="Themes"
+        android:text="@string/settings_theme_title"
         android:textColor="?attr/color_default_title"
-        android:textSize="@dimen/text_16"
+        android:textSize="@dimen/text_18"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/langGroup" />
+
+    <View
+        android:layout_width="@dimen/view_size_0"
+        android:layout_height="@dimen/size_1"
+        android:layout_marginStart="@dimen/size_16"
+        android:layout_marginTop="@dimen/size_2"
+        android:layout_marginEnd="@dimen/size_16"
+        android:background="?attr/color_default_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appSettingTheme" />
 
     <RadioGroup
         android:id="@+id/themeGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_8"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sectionSettings"></RadioGroup>
+        app:layout_constraintTop_toBottomOf="@id/appSettingTheme" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

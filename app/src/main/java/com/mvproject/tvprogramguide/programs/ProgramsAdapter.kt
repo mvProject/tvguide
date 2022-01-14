@@ -15,14 +15,19 @@ import com.mvproject.tvprogramguide.model.data.Channel
 import com.mvproject.tvprogramguide.model.data.IChannel
 import com.mvproject.tvprogramguide.model.data.Program
 import com.mvproject.tvprogramguide.sticky.StickyHeaders
+import com.mvproject.tvprogramguide.utils.OnClickListener
 import com.mvproject.tvprogramguide.utils.Utils.convertTimeToReadableFormat
 import com.mvproject.tvprogramguide.utils.Utils.parseChannelName
 import com.mvproject.tvprogramguide.utils.Utils.pxToDp
-import timber.log.Timber
 
 class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     StickyHeaders {
 
+    private var headerListener: OnClickListener<String>? = null
+
+    fun setupHeaderListener(listener: OnClickListener<String>){
+        headerListener = listener
+    }
     override fun getItemCount() = items.size
 
     override fun isStickyHeader(position: Int) = items[position] is Channel
@@ -86,6 +91,9 @@ class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
                 }
             }
             channelTitle.text = chn.channelName.parseChannelName()
+            root.setOnClickListener {
+                headerListener?.onItemClick(chn.channelId)
+            }
         }
     }
 
@@ -96,11 +104,10 @@ class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
 
             if (prg.description.isNotEmpty()) {
                 programDescription.text = prg.description
-                programDescriptionLogo.apply {
-                    visibility = View.VISIBLE
-                    setOnClickListener {
-                        programDescription.isVisible = !programDescription.isVisible
-                    }
+                programDescriptionLogo.visibility = View.VISIBLE
+
+                root.setOnClickListener {
+                    programDescription.isVisible = !programDescription.isVisible
                 }
             }
 
