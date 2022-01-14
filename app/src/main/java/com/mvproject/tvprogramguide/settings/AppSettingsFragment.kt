@@ -19,7 +19,6 @@ import com.mvproject.tvprogramguide.utils.NO_VALUE_INT
 import com.mvproject.tvprogramguide.utils.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.utils.routeToBack
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class AppSettingsFragment : Fragment() {
@@ -54,13 +53,13 @@ class AppSettingsFragment : Fragment() {
             programUpdateSelector.apply {
                 setValue(appSettingsViewModel.updateProgramsPeriod)
                 onValueChange { value ->
-                    Timber.d("testing programUpdateSelector value is $value")
+                    appSettingsViewModel.setProgramsUpdatePeriod(value)
                 }
             }
             channelUpdateSelector.apply {
                 setValue(appSettingsViewModel.updateChannelsPeriod)
                 onValueChange { value ->
-                    Timber.d("testing channelUpdateSelector value is $value")
+                    appSettingsViewModel.setChannelsUpdatePeriod(value)
                 }
             }
             programViewSelector.apply {

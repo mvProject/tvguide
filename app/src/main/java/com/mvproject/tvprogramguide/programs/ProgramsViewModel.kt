@@ -14,10 +14,11 @@ import com.mvproject.tvprogramguide.model.data.IChannel
 import com.mvproject.tvprogramguide.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.repository.CustomListRepository
 import com.mvproject.tvprogramguide.repository.SelectedChannelRepository
+import com.mvproject.tvprogramguide.utils.DOWNLOAD_FULL_PROGRAMS
 import com.mvproject.tvprogramguide.utils.DOWNLOAD_PROGRAMS
 import com.mvproject.tvprogramguide.utils.Mappers.toSortedSelectedChannelsPrograms
-import com.mvproject.tvprogramguide.utils.createInputDataForUri
-import com.mvproject.tvprogramguide.workers.UpdateProgramsWorker
+import com.mvproject.tvprogramguide.utils.createInputDataForPartialUpdate
+import com.mvproject.tvprogramguide.workers.PartiallyUpdateProgramsWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,8 +37,11 @@ class ProgramsViewModel @Inject constructor(
     private val networkHelper: NetworkHelper
 ) : ViewModel() {
 
-    val outputWorkInfo: LiveData<List<WorkInfo>> =
+    val partiallyUpdateWorkInfo: LiveData<List<WorkInfo>> =
         workManager.getWorkInfosForUniqueWorkLiveData(DOWNLOAD_PROGRAMS)
+
+    val fullUpdateWorkInfo: LiveData<List<WorkInfo>> =
+        workManager.getWorkInfosForUniqueWorkLiveData(DOWNLOAD_FULL_PROGRAMS)
 
     private var _selectedList = MutableStateFlow(storeHelper.defaultChannelList)
     val selectedList = _selectedList.asStateFlow()
@@ -70,11 +74,11 @@ class ProgramsViewModel @Inject constructor(
 
     fun reloadChannels() {
         updatePrograms()
-        if (networkHelper.isNetworkConnected()){
-            Timber.d("testing network connected")
-        } else {
-            Timber.d("testing network not connected")
-        }
+       // if (networkHelper.isNetworkConnected()){
+       //     Timber.d("testing network connected")
+       // } else {
+       //     Timber.d("testing network not connected")
+       // }
     }
 
     fun saveSelectedList(listName: String) {
@@ -102,7 +106,7 @@ class ProgramsViewModel @Inject constructor(
 
             if (selectedChannelIds.count() > obtainedChannelsIds.count()) {
                 val missingIds = selectedChannelIds.minus(obtainedChannelsIds)
-                startDownload(false, missingIds.toTypedArray())
+                startPartiallyUpdate(missingIds.toTypedArray())
             }
 
         } else {
@@ -112,17 +116,11 @@ class ProgramsViewModel @Inject constructor(
 
     fun checkForUpdates() {
         visibleCount = storeHelper.programByChannelDefaultCount
-        if (storeHelper.isNeedFullProgramsUpdate) {
-            startDownload(false)
-            Timber.d("testing is shouldFullUpdate")
-        } else {
-            Timber.d("testing is not shouldFullUpdate")
-        }
     }
 
-    private fun startDownload(isNotificationOn: Boolean, missing: Array<String> = emptyArray()) {
-        val channelRequest = OneTimeWorkRequest.Builder(UpdateProgramsWorker::class.java)
-            .setInputData(createInputDataForUri(savedList, missing, isNotificationOn))
+    private fun startPartiallyUpdate(ids: Array<String> = emptyArray()) {
+        val channelRequest = OneTimeWorkRequest.Builder(PartiallyUpdateProgramsWorker::class.java)
+            .setInputData(createInputDataForPartialUpdate(ids = ids))
             .build()
         workManager.enqueueUniqueWork(
             DOWNLOAD_PROGRAMS,

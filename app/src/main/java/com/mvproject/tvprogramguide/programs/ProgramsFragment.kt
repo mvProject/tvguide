@@ -50,29 +50,41 @@ class ProgramsFragment : Fragment() {
             collectFlow(programsViewModel.selectedList) { name ->
                 programsToolbar.toolbarTitle.text = name
 
-                Timber.d("testing selectedList is set")
-
                 if (name.isNotEmpty()) {
-                    programsViewModel.outputWorkInfo.observe(
+                    programsViewModel.partiallyUpdateWorkInfo.observe(
                         viewLifecycleOwner,
                         { listOfWorkInfo: List<WorkInfo>? ->
                             if (listOfWorkInfo == null || listOfWorkInfo.isEmpty()) {
-                                Timber.d("testing worker listOfWorkInfo null")
+                                Timber.d("testing worker partiallyUpdateWorkInfo null")
                             } else {
                                 val workInfo = listOfWorkInfo[0]
                                 if (workInfo.state == WorkInfo.State.RUNNING) {
-                                    Timber.d("testing RUNNING")
                                     val progress = workInfo.progress
                                     val current = progress.getInt(CHANNEL_INDEX, COUNT_ZERO)
                                     val count = progress.getInt(CHANNEL_COUNT, COUNT_ZERO)
-                                    progressBarLinear.progress = current + 1
-                                    progressBarLinear.max = count
-                                    progressBarLinear.visibility = View.VISIBLE
+                                    showUpdateProgress(current, count)
                                 }
                                 if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                                    progressBarLinear.visibility = View.GONE
-                                    programsViewModel.reloadChannels()
-                                    Timber.d("testing SUCCEEDED")
+                                    showUpdateComplete()
+                                }
+                            }
+                        }
+                    )
+                    programsViewModel.fullUpdateWorkInfo.observe(
+                        viewLifecycleOwner,
+                        { listOfWorkInfo: List<WorkInfo>? ->
+                            if (listOfWorkInfo == null || listOfWorkInfo.isEmpty()) {
+                                Timber.d("testing worker fullUpdateWorkInfo null")
+                            } else {
+                                val workInfo = listOfWorkInfo[0]
+                                if (workInfo.state == WorkInfo.State.RUNNING) {
+                                    val progress = workInfo.progress
+                                    val current = progress.getInt(CHANNEL_INDEX, COUNT_ZERO)
+                                    val count = progress.getInt(CHANNEL_COUNT, COUNT_ZERO)
+                                    showUpdateProgress(current, count)
+                                }
+                                if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+                                    showUpdateComplete()
                                 }
                             }
                         }
@@ -106,9 +118,23 @@ class ProgramsFragment : Fragment() {
         programsViewModel.reloadChannels()
     }
 
+    private fun showUpdateProgress(current: Int, count: Int) {
+        Timber.d("testing partiallyUpdateWorkInfo RUNNING")
+        with(binding) {
+            progressBarLinear.progress = current + 1
+            progressBarLinear.max = count
+            progressBarLinear.visibility = View.VISIBLE
+        }
+    }
+
+    private fun showUpdateComplete() {
+        Timber.d("testing fullUpdateWorkInfo SUCCEEDED")
+        binding.progressBarLinear.visibility = View.GONE
+        programsViewModel.reloadChannels()
+    }
+
     override fun onResume() {
         super.onResume()
-        Timber.d("testing resume")
         programsViewModel.checkForUpdates()
     }
 

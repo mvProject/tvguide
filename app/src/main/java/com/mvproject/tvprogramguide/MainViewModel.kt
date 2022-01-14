@@ -8,7 +8,9 @@ import com.mvproject.tvprogramguide.helpers.NetworkHelper
 import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.utils.DOWNLOAD_CHANNELS
 import com.mvproject.tvprogramguide.utils.DOWNLOAD_FULL_PROGRAMS
-import com.mvproject.tvprogramguide.workers.UpdateAllProgramsWorker
+import com.mvproject.tvprogramguide.utils.createInputDataForPartialUpdate
+import com.mvproject.tvprogramguide.utils.createInputDataForUpdate
+import com.mvproject.tvprogramguide.workers.FullUpdateProgramsWorker
 import com.mvproject.tvprogramguide.workers.UpdateChannelsWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
@@ -22,21 +24,22 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     fun checkAvailableChannelsUpdate() {
-        Timber.d("testing MainViewModel checkAvailableChannelsUpdate is ${storeHelper.isNeedAvailableChannelsUpdate}")
+        Timber.d("testing checkAvailableChannelsUpdate ${storeHelper.isNeedAvailableChannelsUpdate}")
         if (storeHelper.isNeedAvailableChannelsUpdate) {
-            startChannelsDownload()
+            startChannelsUpdate()
         }
     }
 
     fun checkFullProgramsUpdate() {
-        Timber.d("testing MainViewModel checkFullProgramsUpdate is ${storeHelper.isNeedFullProgramsUpdate}")
+        Timber.d("testing checkAvailableChannelsUpdate ${storeHelper.isNeedFullProgramsUpdate}")
         if (storeHelper.isNeedFullProgramsUpdate) {
-            //startProgramsFullDownload()
+            startProgramsFullUpdate()
         }
     }
 
-    private fun startChannelsDownload() {
+    private fun startChannelsUpdate() {
         val channelRequest = OneTimeWorkRequest.Builder(UpdateChannelsWorker::class.java)
+            .setInputData(createInputDataForUpdate())
             .build()
         workManager.enqueueUniqueWork(
             DOWNLOAD_CHANNELS,
@@ -45,12 +48,9 @@ class MainViewModel @Inject constructor(
         )
     }
 
-    private fun startProgramsFullDownload(
-        isNotificationOn: Boolean,
-        missing: Array<String> = emptyArray()
-    ) {
-        val channelRequest = OneTimeWorkRequest.Builder(UpdateAllProgramsWorker::class.java)
-            //  .setInputData(createInputDataForUri(savedList, missing, isNotificationOn))
+    private fun startProgramsFullUpdate() {
+        val channelRequest = OneTimeWorkRequest.Builder(FullUpdateProgramsWorker::class.java)
+            .setInputData(createInputDataForUpdate())
             .build()
         workManager.enqueueUniqueWork(
             DOWNLOAD_FULL_PROGRAMS,
