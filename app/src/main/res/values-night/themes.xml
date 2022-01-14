@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.TVProgramGuide" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/black</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/lightsteelblue</item>
         <item name="colorAccent">@color/chocolate</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
@@ -10,43 +10,47 @@
         <item name="radioButtonStyle">@style/Widget.App.RadioButton</item>
 
         <item name="color_default_background">@color/light_black</item>
-        <item name="color_default_title">@color/lavender</item>
+        <item name="color_default_title">@color/lightsteelblue</item>
 
         <item name="color_title_selected">@color/chocolate</item>
-        <item name="color_title_unselected">@color/gainsboro</item>
+        <item name="color_title_unselected">@color/lightsteelblue</item>
 
         <item name="color_dialog_background">@color/light_black</item>
-        <item name="color_dialog_btn_background">@color/lavender</item>
+        <item name="color_dialog_btn_background">@color/lightsteelblue</item>
         <item name="color_dialog_btn_title">@color/light_black</item>
-        <item name="color_dialog_title">@color/lavender</item>
+        <item name="color_dialog_title">@color/lightsteelblue</item>
 
         <item name="color_add_tint">@color/medium_sea_green</item>
-        <item name="color_delete_tint">@color/chocolate</item>
+        <item name="color_delete_tint">@color/red</item>
 
         <item name="color_toolbar_background">@color/black</item>
-        <item name="color_toolbar_title">@color/white</item>
-        <item name="color_toolbar_tint">@color/white</item>
+        <item name="color_toolbar_title">@color/lightsteelblue</item>
+        <item name="color_toolbar_tint">@color/lightsteelblue</item>
 
         <item name="color_channel_header_background">@color/black</item>
-        <item name="color_channel_header_title">@color/lavender</item>
+        <item name="color_channel_header_title">@color/lightsteelblue</item>
 
         <item name="color_channel_item_background">@color/light_black</item>
-        <item name="color_channel_item_title">@color/lavender</item>
-        <item name="color_channel_item_tint">@color/lavender</item>
+        <item name="color_channel_item_title">@color/lightsteelblue</item>
+        <item name="color_channel_item_tint">@color/lightsteelblue</item>
 
         <item name="color_program_item_background">@color/light_black</item>
-        <item name="color_program_item_title">@color/lavender</item>
-        <item name="color_program_item_description">@color/gainsboro</item>
-        <item name="color_program_item_tint">@color/lavender</item>
+        <item name="color_program_item_title">@color/lightsteelblue</item>
+        <item name="color_program_item_description">@color/lightsteelblue_alpha50</item>
+        <item name="color_program_item_tint">@color/lightsteelblue</item>
 
-        <item name="color_tab_indicator">@color/lavender</item>
-        <item name="color_tab_text_selected">@color/lavender</item>
-        <item name="color_tab_text_unselected">@color/gray</item>
+        <item name="color_tab_indicator">@color/lightsteelblue</item>
+        <item name="color_tab_text_selected">@color/lightsteelblue</item>
+        <item name="color_tab_text_unselected">@color/lightslategray</item>
         <item name="color_tab_background">@color/light_black</item>
 
         <item name="color_search_background">@color/light_black</item>
-        <item name="color_search_title">@color/lavender</item>
-        <item name="color_search_tint">@color/lavender</item>
+        <item name="color_search_title">@color/lightsteelblue</item>
+        <item name="color_search_tint">@color/lightsteelblue</item>
+
+        <item name="color_selector_value">@color/chocolate</item>
+        <item name="color_selector_action">@color/lightsteelblue_alpha50</item>
+        <item name="color_current_progress">@color/lightsteelblue_alpha50</item>
 
     </style>
 </resources>

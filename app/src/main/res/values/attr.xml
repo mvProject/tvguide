@@ -41,6 +41,11 @@
     <attr name="color_search_title" format="color|reference" />
     <attr name="color_search_tint" format="color|reference" />
 
+    <attr name="color_selector_value" format="color|reference" />
+    <attr name="color_selector_action" format="color|reference" />
+
+    <attr name="color_current_progress" format="color|reference" />
+
     <declare-styleable name="NumberValueSelector">
         <attr name="nvs_minusImage" format="reference" />
         <attr name="nvs_minusTint" format="color|reference" />

@@ -6,8 +6,8 @@ object Versions {
     const val depUpdate = "0.40.0"
     // libs
     const val coreKtx = "1.7.0"
-    const val appcompat = "1.4.0"
-    const val constraintLayout = "2.1.2"
+    const val appcompat = "1.4.1"
+    const val constraintLayout = "2.1.3"
     const val preferenceKtx = "1.1.1"
     const val material = "1.4.0"
     const val activityKtx = "1.4.0"
@@ -43,7 +43,7 @@ object Versions {
 
     const val coil = "1.4.0"
 
-    const val room = "2.4.0"
+    const val room = "2.4.1"
     // di
     const val daggerHilt = "2.40.5"
 }
