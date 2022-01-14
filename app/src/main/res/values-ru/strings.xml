@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Телепрограмма</string>
+
+    <string name="add_new_custom_list">Новый список каналов</string>
+    <string name="all_channels_title">Все каналы</string>
+    <string name="selected_channels_title">Выбранные каналы</string>
+    <string name="hint_search">Поиск канала</string>
+    <string name="custom_channels_list_title">Список каналов</string>
+
+    <string name="notif_programs_download">Обновление программы</string>
+
+    <string name="settings_theme_light">Светлая</string>
+    <string name="settings_theme_dark">Темная</string>
+    <string name="settings_theme_system">Выбор Системы</string>
+</resources>

@@ -1,11 +1,15 @@
 package com.mvproject.tvprogramguide.repository
 
+import androidx.room.Transaction
 import com.mvproject.tvprogramguide.database.dao.AllChannelDao
 import com.mvproject.tvprogramguide.model.data.Channel
 import com.mvproject.tvprogramguide.database.entity.ChannelEntity
+import com.mvproject.tvprogramguide.model.data.Program
 import com.mvproject.tvprogramguide.netwotk.EpgService
 import com.mvproject.tvprogramguide.utils.Mappers.asChannelEntities
 import com.mvproject.tvprogramguide.utils.Mappers.asChannelsFromEntities
+import com.mvproject.tvprogramguide.utils.Mappers.asProgramEntities
+import com.mvproject.tvprogramguide.utils.Mappers.asProgramFromEntities
 import com.mvproject.tvprogramguide.utils.Mappers.filterNoEpg
 import timber.log.Timber
 import javax.inject.Inject
@@ -30,5 +34,17 @@ class AllChannelRepository @Inject constructor(
         } else {
             databaseChannels.asChannelsFromEntities()
         }
+    }
+
+    suspend fun loadPrograms(channels: List<String>): List<Channel> {
+        return allChannelDao.getChannelList().asChannelsFromEntities()
+    }
+
+    @Transaction
+    suspend fun loadProgramFromSource() {
+        val ch = epgService.getChannels().channels.filterNoEpg()
+        val entities = ch.asChannelEntities()
+        allChannelDao.deleteChannels()
+        allChannelDao.insertChannelList(entities)
     }
 }

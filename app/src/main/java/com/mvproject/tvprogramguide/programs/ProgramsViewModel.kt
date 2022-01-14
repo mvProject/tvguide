@@ -7,17 +7,18 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import com.mvproject.tvprogramguide.StoreManager
+import com.mvproject.tvprogramguide.helpers.NetworkHelper
+import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.database.entity.CustomListEntity
 import com.mvproject.tvprogramguide.model.data.IChannel
 import com.mvproject.tvprogramguide.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.repository.CustomListRepository
 import com.mvproject.tvprogramguide.repository.SelectedChannelRepository
-import com.mvproject.tvprogramguide.utils.COUNT_ZERO
+import com.mvproject.tvprogramguide.utils.DOWNLOAD_FULL_PROGRAMS
 import com.mvproject.tvprogramguide.utils.DOWNLOAD_PROGRAMS
 import com.mvproject.tvprogramguide.utils.Mappers.toSortedSelectedChannelsPrograms
-import com.mvproject.tvprogramguide.utils.createInputDataForUri
-import com.mvproject.tvprogramguide.workers.UpdateProgramsWorker
+import com.mvproject.tvprogramguide.utils.createInputDataForPartialUpdate
+import com.mvproject.tvprogramguide.workers.PartiallyUpdateProgramsWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,25 +29,31 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProgramsViewModel @Inject constructor(
-    private val storeManager: StoreManager,
+    private val storeHelper: StoreHelper,
     private val selectedChannelRepository: SelectedChannelRepository,
     private val channelProgramRepository: ChannelProgramRepository,
     private val customListRepository: CustomListRepository,
-    private val workManager: WorkManager
+    private val workManager: WorkManager,
+    private val networkHelper: NetworkHelper
 ) : ViewModel() {
 
-    val outputWorkInfo: LiveData<List<WorkInfo>> =
+    val partiallyUpdateWorkInfo: LiveData<List<WorkInfo>> =
         workManager.getWorkInfosForUniqueWorkLiveData(DOWNLOAD_PROGRAMS)
 
-    private var _selected = MutableStateFlow(storeManager.defaultChannelList)
-    val selected = _selected.asStateFlow()
+    val fullUpdateWorkInfo: LiveData<List<WorkInfo>> =
+        workManager.getWorkInfosForUniqueWorkLiveData(DOWNLOAD_FULL_PROGRAMS)
 
-    private var _channels = MutableStateFlow<List<IChannel>>(emptyList())
-    val channels = _channels.asStateFlow()
+    private var _selectedList = MutableStateFlow(storeHelper.defaultChannelList)
+    val selectedList = _selectedList.asStateFlow()
+
+    private var _selectedPrograms = MutableStateFlow<List<IChannel>>(emptyList())
+    val selectedPrograms = _selectedPrograms.asStateFlow()
 
     private var _availableLists: List<CustomListEntity> = emptyList()
 
-    private var savedList = storeManager.defaultChannelList
+    private var savedList = storeHelper.defaultChannelList
+
+    private var visibleCount = storeHelper.programByChannelDefaultCount
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -57,9 +64,9 @@ class ProgramsViewModel @Inject constructor(
     }
 
     fun checkSavedList() {
-        savedList = storeManager.defaultChannelList
+        savedList = storeHelper.defaultChannelList
         viewModelScope.launch(Dispatchers.IO) {
-            _selected.emit(savedList)
+            _selectedList.emit(savedList)
         }
     }
 
@@ -67,37 +74,39 @@ class ProgramsViewModel @Inject constructor(
 
     fun reloadChannels() {
         updatePrograms()
+       // if (networkHelper.isNetworkConnected()){
+       //     Timber.d("testing network connected")
+       // } else {
+       //     Timber.d("testing network not connected")
+       // }
     }
 
     fun saveSelectedList(listName: String) {
-        storeManager.setDefaultChannelList(listName)
+        storeHelper.setDefaultChannelList(listName)
         checkSavedList()
         updatePrograms()
     }
 
     private fun updatePrograms() = viewModelScope.launch(Dispatchers.IO) {
         if (savedList.isNotEmpty()) {
-            val alreadySelected =
+            val selectedChannels =
                 selectedChannelRepository.loadSelectedChannels(savedList)
 
-            val alreadySelectedIds = alreadySelected.map { it.channelId }
-            val channels =
-                channelProgramRepository.load(alreadySelectedIds)
+            val selectedChannelIds = selectedChannels.map { it.channelId }
 
-            val alreadyObtainedChannels = channels.groupBy { it.channel }.keys
-            if (channels.count() > COUNT_ZERO) {
-                val programs = channels
-                    .filter { it.dateTimeEnd > System.currentTimeMillis() }
-                    .toSortedSelectedChannelsPrograms(alreadySelected, 4)
+            val programsWithChannels =
+                channelProgramRepository.loadPrograms(selectedChannelIds)
 
-                _channels.emit(programs)
-            } else {
-                 startDownload(false)
-            }
+            val obtainedChannelsIds = programsWithChannels.groupBy { it.channel }.keys
 
-            if (alreadySelectedIds.count() > alreadyObtainedChannels.count()) {
-                val missingIds = alreadySelectedIds.minus(alreadyObtainedChannels)
-                startDownload(false, missingIds.toTypedArray())
+            val programs = programsWithChannels
+                .toSortedSelectedChannelsPrograms(selectedChannels, visibleCount)
+
+            _selectedPrograms.emit(programs)
+
+            if (selectedChannelIds.count() > obtainedChannelsIds.count()) {
+                val missingIds = selectedChannelIds.minus(obtainedChannelsIds)
+                startPartiallyUpdate(missingIds.toTypedArray())
             }
 
         } else {
@@ -105,9 +114,13 @@ class ProgramsViewModel @Inject constructor(
         }
     }
 
-    private fun startDownload(isNotificationOn: Boolean, missing: Array<String> = emptyArray()) {
-        val channelRequest = OneTimeWorkRequest.Builder(UpdateProgramsWorker::class.java)
-            .setInputData(createInputDataForUri(savedList, missing, isNotificationOn))
+    fun checkForUpdates() {
+        visibleCount = storeHelper.programByChannelDefaultCount
+    }
+
+    private fun startPartiallyUpdate(ids: Array<String> = emptyArray()) {
+        val channelRequest = OneTimeWorkRequest.Builder(PartiallyUpdateProgramsWorker::class.java)
+            .setInputData(createInputDataForPartialUpdate(ids = ids))
             .build()
         workManager.enqueueUniqueWork(
             DOWNLOAD_PROGRAMS,

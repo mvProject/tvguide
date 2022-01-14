@@ -1,5 +1,6 @@
 package com.mvproject.tvprogramguide.repository
 
+import androidx.room.Transaction
 import com.mvproject.tvprogramguide.database.dao.ProgramDao
 import com.mvproject.tvprogramguide.model.data.Program
 import com.mvproject.tvprogramguide.netwotk.EpgService
@@ -16,33 +17,17 @@ class ChannelProgramRepository @Inject constructor(
         Timber.d("Injection ChannelProgramRepository")
     }
 
-   //suspend fun loadChannelsProgram(channels: List<String>): List<Program> {
-   //    val networkPrograms = mutableListOf<Program>()
-   //    channels.forEach { id ->
-   //        val programs = programDao.getSelectedChannelPrograms2(id)
-   //        if (programs.isEmpty()) {
-   //            val ch = epgService.getChannelProgram(id).ch_programme
-   //            val entities = ch.asProgramEntities(id)
-   //            programDao.insertPrograms(entities)
-   //            val models = entities.asProgramFromEntities(id)
-   //            networkPrograms.addAll(models)
-   //        } else {
-   //            networkPrograms.addAll(
-   //                programs.asProgramFromEntities(id)
-   //            )
-   //        }
-   //    }
-
-   //    return networkPrograms
-   //}
-
-    suspend fun load(channels: List<String>): List<Program> {
-        return programDao.getSelectedChannelPrograms(channels).asProgramFromEntities()
+    suspend fun loadPrograms(channels: List<String>): List<Program> {
+        return programDao.getSelectedChannelPrograms(channels)
+            .asProgramFromEntities()
+            .filter { it.dateTimeEnd > System.currentTimeMillis() }
     }
 
+    @Transaction
     suspend fun loadProgram(id: String) {
         val ch = epgService.getChannelProgram(id).ch_programme
         val entities = ch.asProgramEntities(id)
+        programDao.deletePrograms(id)
         programDao.insertPrograms(entities)
     }
 }

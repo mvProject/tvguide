@@ -20,6 +20,8 @@ const val NOTIFICATION_ID = 1
 const val NOTIFICATION_CONDITION = "NOTIFY"
 const val CHANNEL_LIST_NAME = "CHANNEL_LIST_NAME"
 const val DOWNLOAD_PROGRAMS = "DOWNLOAD_PROGRAMS"
+const val DOWNLOAD_CHANNELS = "DOWNLOAD_CHANNELS"
+const val DOWNLOAD_FULL_PROGRAMS = "DOWNLOAD_FULL_PROGRAMS"
 const val CHANNEL_INDEX = "CHANNEL_INDEX"
 const val CHANNEL_COUNT = "CHANNEL_COUNT"
 const val CHANNEL_MISSING_COUNT = "CHANNEL_MISSING_COUNT"
@@ -75,10 +77,15 @@ fun sleep() {
 
 }
 
-fun createInputDataForUri(listName: String, missingArray: Array<String>, isNotificationOn: Boolean): Data {
+fun createInputDataForPartialUpdate(isNotificationOn: Boolean = false, ids: Array<String>, ): Data {
     return Data.Builder().apply {
-        putString(CHANNEL_LIST_NAME, listName)
-        putStringArray(CHANNEL_MISSING_COUNT, missingArray)
+        putStringArray(CHANNEL_MISSING_COUNT, ids)
+        putBoolean(NOTIFICATION_CONDITION, isNotificationOn)
+    }.build()
+}
+
+fun createInputDataForUpdate(isNotificationOn: Boolean = false): Data {
+    return Data.Builder().apply {
         putBoolean(NOTIFICATION_CONDITION, isNotificationOn)
     }.build()
 }

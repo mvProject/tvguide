@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/size_16">
+    android:background="?attr/color_toolbar_background"
+    android:padding="@dimen/size_12">
 
     <ImageView
         android:id="@+id/btnBack"
@@ -12,10 +13,10 @@
         android:layout_height="@dimen/size_24"
         android:contentDescription="back to previous screen"
         android:src="@drawable/ic_back"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:tint="?attr/color_main_tint" />
+        app:tint="?attr/color_toolbar_tint" />
 
     <TextView
         android:id="@+id/toolbarTitle"
@@ -26,8 +27,9 @@
         android:fontFamily="@font/montserrat_bold"
         android:gravity="center"
         android:lineSpacingExtra="11sp"
-        android:textColor="?attr/color_main_title"
+        android:textColor="?attr/color_toolbar_title"
         android:textSize="@dimen/text_18"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnBack"
         app:layout_constraintTop_toTopOf="parent"

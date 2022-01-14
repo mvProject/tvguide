@@ -16,6 +16,17 @@ android {
         versionCode = Config.versionCode
         versionName = Config.versionName
         testInstrumentationRunner = Config.androidTestInstrumentation
+
+        resourceConfigurations.addAll(listOf("en","ru","uk"))
+    }
+
+    signingConfigs {
+        register("configRelease").configure {
+            storeFile = file("../presale.jks")
+            storePassword = "iq2umgo9"
+            keyAlias = "presale"
+            keyPassword = "iq2umgo9"
+        }
     }
 
     buildTypes {
@@ -28,7 +39,9 @@ android {
         }
 
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            signingConfig = signingConfigs.getByName("configRelease")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

@@ -11,14 +11,12 @@ import javax.inject.Inject
 class SelectedChannelRepository @Inject constructor(
     private val selectedChannelDao: SelectedChannelDao
 ) {
-    init {
-        Timber.d("testing Injection SelectedChannelRepository")
+    suspend fun loadSelectedChannels(listName: String): List<Channel> {
+        return selectedChannelDao.getSelectedChannels(listName).asChannelsFromEntities()
     }
 
-    suspend fun loadSelectedChannels(listName: String): List<Channel> {
-        val databaseChannels = selectedChannelDao.getSelectedChannels(listName)
-        return databaseChannels.asChannelsFromEntities()
-    }
+    suspend fun loadSelectedChannelsIds() =
+        selectedChannelDao.getSelectedChannelsIds()
 
     fun loadSelectedChannelsFlow(listName: String) =
         selectedChannelDao.getSelectedChannelsFlow(listName).map { it.asChannelsFromEntities() }

@@ -31,6 +31,10 @@
         <action
             android:id="@+id/toSettingChannelsListFragment"
             app:destination="@id/settingChannelsListFragment" />
+
+        <action
+            android:id="@+id/toAppSettingsFragment"
+            app:destination="@id/appSettingsFragment" />
     </fragment>
 
     <fragment
@@ -42,4 +46,10 @@
             app:destination="@id/customListFragment" />
     </fragment>
 
+    <fragment
+        android:id="@+id/appSettingsFragment"
+        android:name="com.mvproject.tvprogramguide.settings.AppSettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_app_settings" >
+    </fragment>
 </navigation>

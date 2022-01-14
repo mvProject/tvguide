@@ -1,9 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="color_default_background" format="color|reference" />
+    <attr name="color_add_tint" format="color|reference" />
+    <attr name="color_delete_tint" format="color|reference" />
 
-    <attr name="color_main_title" format="color|reference" />
-    <attr name="color_main_tint" format="color|reference" />
+    <attr name="color_title_selected" format="color|reference" />
+    <attr name="color_title_unselected" format="color|reference" />
+
+    <attr name="color_dialog_background" format="color|reference" />
+    <attr name="color_dialog_btn_background" format="color|reference" />
+    <attr name="color_dialog_btn_title" format="color|reference" />
+    <attr name="color_dialog_title" format="color|reference" />
 
     <attr name="color_default_title" format="color|reference" />
+    <attr name="color_default_background" format="color|reference" />
+
+    <attr name="color_options_title" format="color|reference" />
+
+    <attr name="color_toolbar_background" format="color|reference" />
+    <attr name="color_toolbar_title" format="color|reference" />
+    <attr name="color_toolbar_tint" format="color|reference" />
+
+    <attr name="color_channel_header_background" format="color|reference" />
+    <attr name="color_channel_header_title" format="color|reference" />
+
+    <attr name="color_channel_item_background" format="color|reference" />
+    <attr name="color_channel_item_title" format="color|reference" />
+    <attr name="color_channel_item_tint" format="color|reference" />
+
+    <attr name="color_program_item_background" format="color|reference" />
+    <attr name="color_program_item_title" format="color|reference" />
+    <attr name="color_program_item_description" format="color|reference" />
+    <attr name="color_program_item_tint" format="color|reference" />
+
+    <attr name="color_tab_indicator" format="color|reference" />
+    <attr name="color_tab_text_selected" format="color|reference" />
+    <attr name="color_tab_text_unselected" format="color|reference" />
+    <attr name="color_tab_background" format="color|reference" />
+
+    <attr name="color_search_background" format="color|reference" />
+    <attr name="color_search_title" format="color|reference" />
+    <attr name="color_search_tint" format="color|reference" />
+
+    <attr name="color_selector_value" format="color|reference" />
+    <attr name="color_selector_action" format="color|reference" />
+
+    <attr name="color_current_progress" format="color|reference" />
+
+    <declare-styleable name="NumberValueSelector">
+        <attr name="nvs_minusImage" format="reference" />
+        <attr name="nvs_minusTint" format="color|reference" />
+        <attr name="nvs_plusImage" format="reference" />
+        <attr name="nvs_plusTint" format="color|reference" />
+        <attr name="nvs_defaultNumber" format="integer" />
+        <attr name="nvs_numberColor" format="color|reference" />
+    </declare-styleable>
+
 </resources>

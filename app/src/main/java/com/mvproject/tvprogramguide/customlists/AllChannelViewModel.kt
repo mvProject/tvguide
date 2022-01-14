@@ -2,7 +2,7 @@ package com.mvproject.tvprogramguide.customlists
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mvproject.tvprogramguide.StoreManager
+import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.model.data.Channel
 import com.mvproject.tvprogramguide.database.entity.SelectedChannelEntity
 import com.mvproject.tvprogramguide.repository.AllChannelRepository
@@ -14,7 +14,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,7 +21,7 @@ import javax.inject.Inject
 class AllChannelViewModel @Inject constructor(
     private val allChannelRepository: AllChannelRepository,
     private val selectedChannelRepository: SelectedChannelRepository,
-    private val storeManager: StoreManager
+    private val storeHelper: StoreHelper
 ) : ViewModel() {
 
     private var _allChannels = MutableStateFlow<List<Channel>>(emptyList())
@@ -31,7 +30,7 @@ class AllChannelViewModel @Inject constructor(
     private var _selectedChannels = MutableStateFlow<List<Channel>>(emptyList())
     val selectedChannels = _selectedChannels.asStateFlow()
 
-    private val listName = storeManager.currentChannelList
+    private val listName = storeHelper.currentChannelList
 
     private var queryText = NO_VALUE_STRING
 
