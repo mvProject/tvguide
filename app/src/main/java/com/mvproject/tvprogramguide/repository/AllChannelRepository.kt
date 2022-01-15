@@ -6,6 +6,7 @@ import com.mvproject.tvprogramguide.model.data.Channel
 import com.mvproject.tvprogramguide.database.entity.ChannelEntity
 import com.mvproject.tvprogramguide.model.data.Program
 import com.mvproject.tvprogramguide.netwotk.EpgService
+import com.mvproject.tvprogramguide.utils.COUNT_ZERO
 import com.mvproject.tvprogramguide.utils.Mappers.asChannelEntities
 import com.mvproject.tvprogramguide.utils.Mappers.asChannelsFromEntities
 import com.mvproject.tvprogramguide.utils.Mappers.asProgramEntities
@@ -44,7 +45,12 @@ class AllChannelRepository @Inject constructor(
     suspend fun loadProgramFromSource() {
         val ch = epgService.getChannels().channels.filterNoEpg()
         val entities = ch.asChannelEntities()
-        allChannelDao.deleteChannels()
-        allChannelDao.insertChannelList(entities)
+        if (entities.count() > COUNT_ZERO) {
+            allChannelDao.apply {
+                deleteChannels()
+                insertChannelList(entities)
+            }
+        }
+
     }
 }

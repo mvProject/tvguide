@@ -93,22 +93,19 @@ class ProgramsViewModel @Inject constructor(
                 selectedChannelRepository.loadSelectedChannels(savedList)
 
             val selectedChannelIds = selectedChannels.map { it.channelId }
-
             val programsWithChannels =
                 channelProgramRepository.loadPrograms(selectedChannelIds)
 
-            val obtainedChannelsIds = programsWithChannels.groupBy { it.channel }.keys
-
             val programs = programsWithChannels
                 .toSortedSelectedChannelsPrograms(selectedChannels, visibleCount)
-
             _selectedPrograms.emit(programs)
 
-            if (selectedChannelIds.count() > obtainedChannelsIds.count()) {
+            val obtainedChannelsIds = programsWithChannels.groupBy { it.channel }.keys
+            val obtainedChannelsIdsCount = channelProgramRepository.loadProgramsCount(selectedChannelIds)
+            if (selectedChannelIds.count() > obtainedChannelsIdsCount) {
                 val missingIds = selectedChannelIds.minus(obtainedChannelsIds)
                 startPartiallyUpdate(missingIds.toTypedArray())
             }
-
         } else {
             Timber.d("testing no current saved list")
         }
