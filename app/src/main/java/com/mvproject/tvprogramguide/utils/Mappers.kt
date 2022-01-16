@@ -63,7 +63,8 @@ object Mappers {
     fun List<JsonProgram>.asProgramEntities(
         channelId: String
     ): List<ProgramEntity> {
-        val filtered = this.filter { it.start.toMillis() > Utils.actualDay }
+        val actual = this.filter { it.start.toMillis() > Utils.actualDay }
+        val filtered = if (actual.count()> COUNT_ZERO) actual else this
         val endings = filtered.calculateEndings()
         return filtered.mapIndexed { index, item ->
             val endingTime = endings.elementAtOrNull(index) ?: COUNT_ZERO_LONG

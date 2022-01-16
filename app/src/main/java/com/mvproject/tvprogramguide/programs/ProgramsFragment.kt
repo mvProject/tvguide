@@ -122,7 +122,7 @@ class ProgramsFragment : Fragment() {
     }
 
     private fun showUpdateProgress(current: Int, count: Int) {
-        Timber.d("testing partiallyUpdateWorkInfo RUNNING")
+        Timber.d("testing showUpdateProgress")
         with(binding) {
             progressBarLinear.progress = current + 1
             progressBarLinear.max = count
@@ -131,7 +131,7 @@ class ProgramsFragment : Fragment() {
     }
 
     private fun showUpdateComplete() {
-        Timber.d("testing fullUpdateWorkInfo SUCCEEDED")
+        Timber.d("testing showUpdateComplete")
         binding.progressBarLinear.visibility = View.GONE
         programsViewModel.reloadChannels()
     }
