@@ -44,6 +44,7 @@ class ProgramsFragment : Fragment() {
 
             programsAdapter.setupHeaderListener { item ->
                 Timber.d("selected channel id is $item")
+                routeTo(destination = ProgramsFragmentDirections.toSingleChannelProgramsFragment(item))
             }
             channelList.apply {
                 layoutManager = StickyHeadersLinearLayoutManager<ProgramsAdapter>(requireContext())
