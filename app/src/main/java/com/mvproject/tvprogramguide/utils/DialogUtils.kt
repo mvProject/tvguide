@@ -48,12 +48,13 @@ fun createAddDialog(
 
 fun createSelectDialog(
     activity: Activity,
+    initialValue : String,
     options: List<String>,
     confirmClick: (result: String) -> Unit
 ): AlertDialog {
     val builder = MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogRounded)
     val binding = DialogSelectListBinding.inflate(LayoutInflater.from(activity))
-    var selected = ""
+    var selected = initialValue
 
     builder.setView(binding.root).apply {
         with(binding) {
@@ -77,6 +78,7 @@ fun createSelectDialog(
                             R.color.selector_dialog_text_color
                         )
                     )
+                    isChecked = text == selected
                 }.also { rb ->
                     radioGroupReceipts.addView(rb)
                 }

@@ -19,6 +19,12 @@ class ChannelProgramRepository @Inject constructor(
             .filter { it.dateTimeEnd > System.currentTimeMillis() }
     }
 
+    suspend fun loadChannelPrograms(channelsId: String): List<Program> {
+        return programDao.getSingleChannelPrograms(channelsId)
+            .asProgramFromEntities()
+            .filter { it.dateTimeEnd > System.currentTimeMillis() }
+       }
+
     suspend fun loadProgramsCount(channels: List<String>): Int {
         return programDao.getSelectedChannelPrograms(channels).groupBy { it.channelId }.keys.count()
     }

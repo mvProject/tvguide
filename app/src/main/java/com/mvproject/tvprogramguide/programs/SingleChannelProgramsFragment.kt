@@ -4,28 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.navArgs
-import androidx.work.WorkInfo
 import com.mvproject.tvprogramguide.databinding.FragmentProgramsSingleBinding
 import com.mvproject.tvprogramguide.sticky.StickyHeadersLinearLayoutManager
-import com.mvproject.tvprogramguide.utils.*
+import com.mvproject.tvprogramguide.utils.Utils.parseChannelName
+import com.mvproject.tvprogramguide.utils.collectFlow
+import com.mvproject.tvprogramguide.utils.routeToBack
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class SingleChannelProgramsFragment : Fragment() {
     private var _binding: FragmentProgramsSingleBinding? = null
     private val binding get() = _binding!!
 
-    // private val programsViewModel: ProgramsViewModel by viewModels()
+    private val singleChannelProgramsViewModel: SingleChannelProgramsViewModel by viewModels()
     private val arg: SingleChannelProgramsFragmentArgs by navArgs()
 
     private lateinit var singleProgramsAdapter: ProgramsAdapter
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,20 +38,21 @@ class SingleChannelProgramsFragment : Fragment() {
 
         with(binding) {
             arg.channelId?.let { id ->
-                singleChannelToolbar.toolbarTitle.text = id
+                val title = arg.channelName?.parseChannelName() ?: id
+                singleChannelToolbar.toolbarTitle.text = title
+                singleChannelProgramsViewModel.loadPrograms(id)
             }
-            //    singleProgramsAdapter = ProgramsAdapter()
 
-            //    singleChannelList.apply {
-            //        layoutManager = StickyHeadersLinearLayoutManager<ProgramsAdapter>(requireContext())
-            //        adapter = singleProgramsAdapter
-            //    }
+            singleProgramsAdapter = ProgramsAdapter()
 
+            singleChannelList.apply {
+                layoutManager = StickyHeadersLinearLayoutManager<ProgramsAdapter>(requireContext())
+                adapter = singleProgramsAdapter
+            }
 
-            //  collectFlow(programsViewModel.selectedPrograms) {
-            //      programsAdapter.items = it
-            //  }
-
+            collectFlow(singleChannelProgramsViewModel.selectedPrograms) {
+                singleProgramsAdapter.items = it
+            }
 
             singleChannelToolbar.btnBack.setOnClickListener {
                 routeToBack()

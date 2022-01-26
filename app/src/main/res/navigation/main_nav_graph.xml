@@ -30,7 +30,7 @@
         android:id="@+id/settingsFragment"
         android:name="com.mvproject.tvprogramguide.settings.SettingsFragment"
         android:label="SettingsFragment"
-        tools:layout="@layout/fragment_settings" >
+        tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/toSettingChannelsListFragment"
             app:destination="@id/settingChannelsListFragment" />
@@ -53,9 +53,14 @@
         android:id="@+id/singleChannelProgramsFragment"
         android:name="com.mvproject.tvprogramguide.programs.SingleChannelProgramsFragment"
         android:label="SingleChannelProgramsFragment"
-        tools:layout="@layout/fragment_programs_single" >
+        tools:layout="@layout/fragment_programs_single">
         <argument
             android:name="channelId"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="channelName"
             app:argType="string"
             app:nullable="true" />
     </fragment>
@@ -64,6 +69,5 @@
         android:id="@+id/appSettingsFragment"
         android:name="com.mvproject.tvprogramguide.settings.AppSettingsFragment"
         android:label="SettingsFragment"
-        tools:layout="@layout/fragment_app_settings" >
-    </fragment>
+        tools:layout="@layout/fragment_app_settings"></fragment>
 </navigation>
