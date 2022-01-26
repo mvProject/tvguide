@@ -2,22 +2,22 @@ package com.mvproject.tvprogramguide.utils
 
 import com.mvproject.tvprogramguide.database.entity.ChannelEntity
 import com.mvproject.tvprogramguide.database.entity.ProgramEntity
-import com.mvproject.tvprogramguide.model.data.Channel
-import com.mvproject.tvprogramguide.model.data.IChannel
-import com.mvproject.tvprogramguide.model.data.Program
-import com.mvproject.tvprogramguide.model.data.SingleChannelProgramList
+import com.mvproject.tvprogramguide.model.data.*
 import com.mvproject.tvprogramguide.netwotk.json.JsonChannelModel
 import com.mvproject.tvprogramguide.netwotk.json.JsonProgram
+import com.mvproject.tvprogramguide.utils.Mappers.toSortedSelectedChannelsPrograms
+import com.mvproject.tvprogramguide.utils.Utils.convertDateToReadableFormat
 import com.mvproject.tvprogramguide.utils.Utils.correctTimeZone
 import com.mvproject.tvprogramguide.utils.Utils.toMillis
+import timber.log.Timber
 
 object Mappers {
-    fun List<Program>.toSortedSingleChannelPrograms(): List<SingleChannelProgramList> {
-        val sortedPrograms = mutableListOf<SingleChannelProgramList>()
-        this.groupBy { it.dateTimeStart }.forEach { (date, list) ->
-            sortedPrograms.add(
-                SingleChannelProgramList(date, list)
-            )
+    fun List<Program>.toSortedSingleChannelPrograms(): List<IChannel> {
+        val sortedPrograms = mutableListOf<IChannel>()
+        val programs = this.groupBy { it.dateTimeStart.convertDateToReadableFormat() }
+        programs.forEach { (date, list) ->
+            sortedPrograms.add(DateHeader(date))
+            sortedPrograms.addAll(list)
         }
         return sortedPrograms
     }
@@ -64,7 +64,7 @@ object Mappers {
         channelId: String
     ): List<ProgramEntity> {
         val actual = this.filter { it.start.toMillis() > Utils.actualDay }
-        val filtered = if (actual.count()> COUNT_ZERO) actual else this
+        val filtered = if (actual.count() > COUNT_ZERO) actual else this
         val endings = filtered.calculateEndings()
         return filtered.mapIndexed { index, item ->
             val endingTime = endings.elementAtOrNull(index) ?: COUNT_ZERO_LONG

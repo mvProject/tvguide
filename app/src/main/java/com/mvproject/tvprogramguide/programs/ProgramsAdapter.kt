@@ -12,10 +12,12 @@ import coil.size.Scale
 import com.mvproject.tvprogramguide.databinding.ChannelHeaderItemBinding
 import com.mvproject.tvprogramguide.databinding.ProgramItemBinding
 import com.mvproject.tvprogramguide.model.data.Channel
+import com.mvproject.tvprogramguide.model.data.DateHeader
 import com.mvproject.tvprogramguide.model.data.IChannel
 import com.mvproject.tvprogramguide.model.data.Program
 import com.mvproject.tvprogramguide.sticky.StickyHeaders
 import com.mvproject.tvprogramguide.utils.OnClickListener
+import com.mvproject.tvprogramguide.utils.Utils.convertDateToReadableFormat
 import com.mvproject.tvprogramguide.utils.Utils.convertTimeToReadableFormat
 import com.mvproject.tvprogramguide.utils.Utils.parseChannelName
 import com.mvproject.tvprogramguide.utils.Utils.pxToDp
@@ -23,19 +25,22 @@ import com.mvproject.tvprogramguide.utils.Utils.pxToDp
 class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     StickyHeaders {
 
-    private var headerListener: OnClickListener<String>? = null
+    private var headerListener: OnClickListener<Channel>? = null
 
-    fun setupHeaderListener(listener: OnClickListener<String>){
+    fun setupHeaderListener(listener: OnClickListener<Channel>) {
         headerListener = listener
     }
+
     override fun getItemCount() = items.size
 
-    override fun isStickyHeader(position: Int) = items[position] is Channel
+    override fun isStickyHeader(position: Int) =
+        items[position] is Channel || items[position] is DateHeader
 
     override fun getItemViewType(position: Int): Int =
         when (items[position]) {
             is Channel -> TYPE_HEADER
             is Program -> TYPE_MESSAGE
+            is DateHeader -> TYPE_DATE
         }
 
     private val diffCallback = object : DiffUtil.ItemCallback<IChannel>() {
@@ -70,6 +75,13 @@ class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
                 false
             )
         )
+        TYPE_DATE -> DateViewHolder(
+            ChannelHeaderItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
         else -> throw IllegalArgumentException()
     }
 
@@ -77,6 +89,7 @@ class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
         when (holder.itemViewType) {
             TYPE_HEADER -> onBindHeader(holder, items[position] as Channel)
             TYPE_MESSAGE -> onBindMessage(holder, items[position] as Program)
+            TYPE_DATE -> onBindDate(holder, items[position] as DateHeader)
             else -> throw IllegalArgumentException()
         }
 
@@ -92,8 +105,14 @@ class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
             }
             channelTitle.text = chn.channelName.parseChannelName()
             root.setOnClickListener {
-                headerListener?.onItemClick(chn.channelId)
+                headerListener?.onItemClick(chn)
             }
+        }
+    }
+
+    private fun onBindDate(holder: RecyclerView.ViewHolder, chn: DateHeader) {
+        (holder as DateViewHolder).binding.apply {
+            channelTitle.text = chn.date
         }
     }
 
@@ -128,8 +147,12 @@ class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     inner class ProgramViewHolder(val binding: ProgramItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
+    inner class DateViewHolder(val binding: ChannelHeaderItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
     companion object {
         private const val TYPE_HEADER = 0
         private const val TYPE_MESSAGE = 1
+        private const val TYPE_DATE = 2
     }
 }
