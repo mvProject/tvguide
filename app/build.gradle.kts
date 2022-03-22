@@ -79,6 +79,9 @@ dependencies {
     implementation(Dependencies.pager)
     implementation(Dependencies.coil)
 
+    implementation(Dependencies.appComposeLibraries)
+    implementation(Dependencies.lifecycleCompose)
+
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     // startup
@@ -93,6 +96,8 @@ dependencies {
     implementationRoom()
 
     implementationHilt()
+
+    testImplementation(Dependencies.testComposeLibraries)
 
     testImplementation(Dependencies.testLibraries)
     androidTestImplementation(Dependencies.androidTestLibraries)

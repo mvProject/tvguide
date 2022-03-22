@@ -23,7 +23,6 @@ object NetworkModule {
     @Singleton
     fun provideOkHttpClient(@ApplicationContext context: Context): OkHttpClient {
         return OkHttpClient.Builder()
-            .cache(CoilUtils.createDefaultCache(context))
             .addInterceptor(loggingInterceptor)
             .build()
     }
