@@ -24,13 +24,14 @@
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBarLinear"
         android:layout_width="@dimen/view_size_0"
-        android:layout_height="@dimen/size_2"
+        android:layout_height="wrap_content"
         android:visibility="gone"
         app:indicatorColor="?attr/color_current_progress"
+        app:trackColor="?attr/color_background_progress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/programsToolbar"
-        app:trackColor="?attr/color_default_background"
+        app:trackThickness="@dimen/size_2"
         tools:progress="15"
         tools:visibility="visible" />
 
