@@ -41,9 +41,16 @@ object Versions {
     const val gson = "2.9.0"
     const val gsonConverter = "2.9.0"
 
+    // Image
     const val coil = "1.4.0"
+    const val coilCompose = "2.0.0-rc01"
 
     const val room = "2.4.1"
     // di
     const val daggerHilt = "2.41"
+
+    // Compose
+    const val compose = "1.1.1"
+    const val viewModelCompose = "2.4.1"
+    const val activityCompose = "1.4.0"
 }

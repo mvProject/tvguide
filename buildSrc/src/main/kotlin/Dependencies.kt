@@ -64,6 +64,15 @@ object Dependencies {
 
     private const val coilKt = "io.coil-kt:coil:${Versions.coil}"
 
+    // Compose
+    private const val coilKtCompose = "io.coil-kt:coil-compose:${Versions.coilCompose}"
+    private const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.viewModelCompose}"
+    private const val activityCompose = "androidx.activity:activity-compose:${Versions.activityCompose}"
+    private const val composeMaterial = "androidx.compose.material:material:${Versions.compose}"
+    private const val composeTooling = "androidx.compose.ui:ui-tooling:${Versions.compose}"
+
+    private const val composeJunit = "androidx.compose.ui:ui-test-junit4:${Versions.compose}"
+
     val appLibraries = arrayListOf<String>().apply {
         add(coreKtx)
         add(appcompat)
@@ -73,6 +82,13 @@ object Dependencies {
         add(fragmentKtx)
         add(recyclerview)
     }
+
+    val appComposeLibraries = arrayListOf<String>().apply {
+        add(activityCompose)
+        add(composeMaterial)
+        add(composeTooling)
+    }
+
 
     val logging = arrayListOf<String>().apply {
         add(timber)
@@ -92,6 +108,7 @@ object Dependencies {
 
     val coil= arrayListOf<String>().apply {
         add(coilKt)
+        add(coilKtCompose)
     }
 
     val navigationKtx = arrayListOf<String>().apply {
@@ -102,6 +119,9 @@ object Dependencies {
     val lifecycleKtx = arrayListOf<String>().apply {
         add(lifecycleLiveDataKtx)
         add(lifecycleViewModelKtx)
+    }
+    val lifecycleCompose = arrayListOf<String>().apply {
+        add(viewModelCompose)
     }
 
     val coroutines = arrayListOf<String>().apply {
@@ -123,6 +143,9 @@ object Dependencies {
 
     val testLibraries = arrayListOf<String>().apply {
         add(junit)
+    }
+    val testComposeLibraries = arrayListOf<String>().apply {
+        add(composeJunit)
     }
 }
 
