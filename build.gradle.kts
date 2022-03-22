@@ -8,8 +8,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.0.3")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.30")
+        classpath("com.android.tools.build:gradle:${Versions.gradle}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}")
         classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.daggerHilt}")
         classpath("org.jlleitschuh.gradle:ktlint-gradle:${Versions.ktLint}")
@@ -17,7 +17,7 @@ buildscript {
 }
 
 ktlint {
-    version.set("0.43.2")
+    version.set("0.45.1")
     android.set(true)
     filter {
         exclude("**/build/**")
