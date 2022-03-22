@@ -8,12 +8,10 @@ import com.mvproject.tvprogramguide.helpers.NetworkHelper
 import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.utils.DOWNLOAD_CHANNELS
 import com.mvproject.tvprogramguide.utils.DOWNLOAD_FULL_PROGRAMS
-import com.mvproject.tvprogramguide.utils.createInputDataForPartialUpdate
 import com.mvproject.tvprogramguide.utils.createInputDataForUpdate
 import com.mvproject.tvprogramguide.workers.FullUpdateProgramsWorker
 import com.mvproject.tvprogramguide.workers.UpdateChannelsWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,14 +22,12 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     fun checkAvailableChannelsUpdate() {
-        Timber.d("testing checkAvailableChannelsUpdate ${storeHelper.isNeedAvailableChannelsUpdate}")
         if (storeHelper.isNeedAvailableChannelsUpdate) {
             startChannelsUpdate()
         }
     }
 
     fun checkFullProgramsUpdate() {
-        Timber.d("testing checkAvailableChannelsUpdate ${storeHelper.isNeedFullProgramsUpdate}")
         if (storeHelper.isNeedFullProgramsUpdate) {
             startProgramsFullUpdate()
         }
@@ -49,13 +45,13 @@ class MainViewModel @Inject constructor(
     }
 
     private fun startProgramsFullUpdate() {
-        val channelRequest = OneTimeWorkRequest.Builder(FullUpdateProgramsWorker::class.java)
+        val programRequest = OneTimeWorkRequest.Builder(FullUpdateProgramsWorker::class.java)
             .setInputData(createInputDataForUpdate())
             .build()
         workManager.enqueueUniqueWork(
             DOWNLOAD_FULL_PROGRAMS,
             ExistingWorkPolicy.REPLACE,
-            channelRequest
+            programRequest
         )
     }
 }

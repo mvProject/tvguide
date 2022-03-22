@@ -1,7 +1,7 @@
 object Versions {
     // app level
-    const val gradle = "4.2.2"
-    const val kotlin = "1.5.30"
+    const val gradle = "7.0.3"
+    const val kotlin = "1.6.10"
     const val ktLint = "10.2.1"
     const val depUpdate = "0.40.0"
     // libs
@@ -38,12 +38,12 @@ object Versions {
     // retrofit
     const val retrofit = "2.9.0"
     const val loggingInterceptor = "5.0.0-alpha.2"
-    const val gson = "2.8.9"
+    const val gson = "2.9.0"
     const val gsonConverter = "2.9.0"
 
     const val coil = "1.4.0"
 
     const val room = "2.4.1"
     // di
-    const val daggerHilt = "2.40.5"
+    const val daggerHilt = "2.41"
 }

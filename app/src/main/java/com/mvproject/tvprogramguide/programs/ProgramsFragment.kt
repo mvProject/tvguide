@@ -38,12 +38,19 @@ class ProgramsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         programsViewModel.checkSavedList()
+        programsViewModel.reloadChannels()
 
         with(binding) {
             programsAdapter = ProgramsAdapter()
 
             programsAdapter.setupHeaderListener { item ->
                 Timber.d("selected channel id is $item")
+                routeTo(
+                    destination = ProgramsFragmentDirections.toSingleChannelProgramsFragment(
+                        item.channelId,
+                        item.channelName
+                    )
+                )
             }
             channelList.apply {
                 layoutManager = StickyHeadersLinearLayoutManager<ProgramsAdapter>(requireContext())
@@ -55,43 +62,41 @@ class ProgramsFragment : Fragment() {
 
                 if (name.isNotEmpty()) {
                     programsViewModel.partiallyUpdateWorkInfo.observe(
-                        viewLifecycleOwner,
-                        { listOfWorkInfo: List<WorkInfo>? ->
-                            if (listOfWorkInfo == null || listOfWorkInfo.isEmpty()) {
-                                Timber.d("testing worker partiallyUpdateWorkInfo null")
-                            } else {
-                                val workInfo = listOfWorkInfo[0]
-                                if (workInfo.state == WorkInfo.State.RUNNING) {
-                                    val progress = workInfo.progress
-                                    val current = progress.getInt(CHANNEL_INDEX, COUNT_ZERO)
-                                    val count = progress.getInt(CHANNEL_COUNT, COUNT_ZERO)
-                                    showUpdateProgress(current, count)
-                                }
-                                if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                                    showUpdateComplete()
-                                }
+                        viewLifecycleOwner
+                    ) { listOfWorkInfo: List<WorkInfo>? ->
+                        if (listOfWorkInfo == null || listOfWorkInfo.isEmpty()) {
+                            Timber.d("testing worker partiallyUpdateWorkInfo null")
+                        } else {
+                            val workInfo = listOfWorkInfo[0]
+                            if (workInfo.state == WorkInfo.State.RUNNING) {
+                                val progress = workInfo.progress
+                                val current = progress.getInt(CHANNEL_INDEX, COUNT_ZERO)
+                                val count = progress.getInt(CHANNEL_COUNT, COUNT_ZERO)
+                                showUpdateProgress(current, count)
+                            }
+                            if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+                                showUpdateComplete()
                             }
                         }
-                    )
+                    }
                     programsViewModel.fullUpdateWorkInfo.observe(
-                        viewLifecycleOwner,
-                        { listOfWorkInfo: List<WorkInfo>? ->
-                            if (listOfWorkInfo == null || listOfWorkInfo.isEmpty()) {
-                                Timber.d("testing worker fullUpdateWorkInfo null")
-                            } else {
-                                val workInfo = listOfWorkInfo[0]
-                                if (workInfo.state == WorkInfo.State.RUNNING) {
-                                    val progress = workInfo.progress
-                                    val current = progress.getInt(CHANNEL_INDEX, COUNT_ZERO)
-                                    val count = progress.getInt(CHANNEL_COUNT, COUNT_ZERO)
-                                    showUpdateProgress(current, count)
-                                }
-                                if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                                    showUpdateComplete()
-                                }
+                        viewLifecycleOwner
+                    ) { listOfWorkInfo: List<WorkInfo>? ->
+                        if (listOfWorkInfo == null || listOfWorkInfo.isEmpty()) {
+                            Timber.d("testing worker fullUpdateWorkInfo null")
+                        } else {
+                            val workInfo = listOfWorkInfo[0]
+                            if (workInfo.state == WorkInfo.State.RUNNING) {
+                                val progress = workInfo.progress
+                                val current = progress.getInt(CHANNEL_INDEX, COUNT_ZERO)
+                                val count = progress.getInt(CHANNEL_COUNT, COUNT_ZERO)
+                                showUpdateProgress(current, count)
+                            }
+                            if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+                                showUpdateComplete()
                             }
                         }
-                    )
+                    }
                 }
             }
 
@@ -104,6 +109,7 @@ class ProgramsFragment : Fragment() {
                     alertDialog?.cancel()
                     alertDialog = createSelectDialog(
                         activity = requireActivity(),
+                        initialValue = programsViewModel.selectedList.value,
                         options = programsViewModel.availableLists
                     ) { result ->
                         programsViewModel.saveSelectedList(result)
@@ -117,8 +123,6 @@ class ProgramsFragment : Fragment() {
                 }
             }
         }
-
-        programsViewModel.reloadChannels()
     }
 
     private fun showUpdateProgress(current: Int, count: Int) {
