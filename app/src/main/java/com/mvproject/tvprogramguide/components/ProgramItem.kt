@@ -44,7 +44,7 @@ fun ProgramItem(
                     easing = LinearOutSlowInEasing
                 )
             ),
-        shape = RoundedCornerShape(4.dp),
+        shape = RoundedCornerShape(0.dp),
         onClick = {
             expandedState = !expandedState
         }
