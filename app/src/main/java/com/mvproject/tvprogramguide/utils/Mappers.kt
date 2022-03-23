@@ -12,12 +12,26 @@ import com.mvproject.tvprogramguide.utils.Utils.toMillis
 import timber.log.Timber
 
 object Mappers {
-    fun List<Program>.toSortedSingleChannelPrograms(): List<IChannel> {
-        val sortedPrograms = mutableListOf<IChannel>()
+    //fun List<Program>.toSortedSingleChannelPrograms(): List<IChannel> {
+    //    val sortedPrograms = mutableListOf<IChannel>()
+    //    val programs = this.groupBy { it.dateTimeStart.convertDateToReadableFormat() }
+    //    programs.forEach { (date, list) ->
+    //        sortedPrograms.add(DateHeader(date))
+    //        sortedPrograms.addAll(list)
+    //    }
+    //    return sortedPrograms
+    //}
+
+    fun List<Program>.toSortedSingleChannelProgramsUpd(): List<SingleChannelModel> {
+        val sortedPrograms = mutableListOf<SingleChannelModel>()
         val programs = this.groupBy { it.dateTimeStart.convertDateToReadableFormat() }
         programs.forEach { (date, list) ->
-            sortedPrograms.add(DateHeader(date))
-            sortedPrograms.addAll(list)
+            sortedPrograms.add(
+                SingleChannelModel(
+                    date = date,
+                    programs = list
+                )
+            )
         }
         return sortedPrograms
     }
