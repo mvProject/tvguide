@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.work.WorkInfo
@@ -14,6 +15,7 @@ import com.mvproject.tvprogramguide.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@ExperimentalMaterialApi
 @AndroidEntryPoint
 class ProgramsFragment : Fragment() {
     private var _binding: FragmentProgramsBinding? = null
