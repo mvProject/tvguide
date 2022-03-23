@@ -69,7 +69,11 @@ object Dependencies {
     private const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.viewModelCompose}"
     private const val activityCompose = "androidx.activity:activity-compose:${Versions.activityCompose}"
     private const val composeMaterial = "androidx.compose.material:material:${Versions.compose}"
+    private const val composeUi = "androidx.compose.ui:ui:${Versions.compose}"
     private const val composeTooling = "androidx.compose.ui:ui-tooling:${Versions.compose}"
+    private const val composeFoundation = "androidx.compose.foundation:foundation:${Versions.compose}"
+    private const val composeIcons = "androidx.compose.material:material-icons-core:${Versions.compose}"
+    private const val composeIconsExtended = "androidx.compose.material:material-icons-extended:${Versions.compose}"
 
     private const val composeJunit = "androidx.compose.ui:ui-test-junit4:${Versions.compose}"
 
@@ -86,7 +90,11 @@ object Dependencies {
     val appComposeLibraries = arrayListOf<String>().apply {
         add(activityCompose)
         add(composeMaterial)
+        add(composeUi)
         add(composeTooling)
+        add(composeFoundation)
+        add(composeIcons)
+        add(composeIconsExtended)
     }
 
 

@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.Scale
+import com.mvproject.tvprogramguide.components.DateItem
+import com.mvproject.tvprogramguide.databinding.ChannelDateItemComposeBinding
 import com.mvproject.tvprogramguide.databinding.ChannelHeaderItemBinding
 import com.mvproject.tvprogramguide.databinding.ProgramItemBinding
 import com.mvproject.tvprogramguide.model.data.Channel
@@ -76,7 +78,7 @@ class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
             )
         )
         TYPE_DATE -> DateViewHolder(
-            ChannelHeaderItemBinding.inflate(
+            ChannelDateItemComposeBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -111,8 +113,8 @@ class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     }
 
     private fun onBindDate(holder: RecyclerView.ViewHolder, chn: DateHeader) {
-        (holder as DateViewHolder).binding.apply {
-            channelTitle.text = chn.date
+        (holder as DateViewHolder).binding.root.setContent {
+            DateItem(date = chn.date)
         }
     }
 
@@ -147,7 +149,7 @@ class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     inner class ProgramViewHolder(val binding: ProgramItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    inner class DateViewHolder(val binding: ChannelHeaderItemBinding) :
+    inner class DateViewHolder(val binding: ChannelDateItemComposeBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     companion object {
