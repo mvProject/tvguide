@@ -79,4 +79,15 @@ object Utils {
     fun Context.pxToDp(px: Float): Int {
         return (px.toInt() / resources.displayMetrics.density).toInt()
     }
+
+    fun calculateProgramProgress(startTime: Long, endTime: Long): Float{
+        var progressValue = 0f
+        val currTime = System.currentTimeMillis()
+        if (currTime > startTime) {
+            val endValue = (endTime -startTime).toInt()
+            val spendValue = (currTime - startTime).toDouble()
+            progressValue = (spendValue / endValue).toFloat()
+        }
+        return progressValue
+    }
 }

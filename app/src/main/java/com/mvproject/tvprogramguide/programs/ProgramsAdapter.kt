@@ -20,6 +20,8 @@ import com.mvproject.tvprogramguide.model.data.IChannel
 import com.mvproject.tvprogramguide.model.data.Program
 import com.mvproject.tvprogramguide.sticky.StickyHeaders
 import com.mvproject.tvprogramguide.utils.OnClickListener
+import com.mvproject.tvprogramguide.utils.Utils
+import com.mvproject.tvprogramguide.utils.Utils.calculateProgramProgress
 import com.mvproject.tvprogramguide.utils.Utils.convertDateToReadableFormat
 import com.mvproject.tvprogramguide.utils.Utils.convertTimeToReadableFormat
 import com.mvproject.tvprogramguide.utils.Utils.parseChannelName
@@ -118,21 +120,14 @@ class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     @ExperimentalMaterialApi
     private fun onBindMessage(holder: RecyclerView.ViewHolder, prg: Program) {
         (holder as ProgramViewHolder).binding.root.setContent {
-            val time = System.currentTimeMillis()
-            val progress = if (time > prg.dateTimeStart) {
-                val endValue = (prg.dateTimeEnd - prg.dateTimeStart).toInt()
-                val spendValue = (time - prg.dateTimeStart).toInt()
-                val perc = (spendValue.toDouble() / endValue).toFloat()
-                perc
-            } else {
-                0f
-            }
-
             ProgramItem(
                 prgTime = prg.dateTimeStart.convertTimeToReadableFormat(),
                 prgTitle = prg.title,
                 prgDescription = prg.description,
-                progressValue = progress
+                progressValue = calculateProgramProgress(
+                    prg.dateTimeStart,
+                    prg.dateTimeEnd
+                )
             )
         }
     }
