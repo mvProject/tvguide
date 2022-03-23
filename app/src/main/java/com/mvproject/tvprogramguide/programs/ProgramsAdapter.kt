@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.Scale
+import com.mvproject.tvprogramguide.components.ChannelItem
 import com.mvproject.tvprogramguide.components.DateItem
 import com.mvproject.tvprogramguide.databinding.ChannelDateItemComposeBinding
 import com.mvproject.tvprogramguide.databinding.ChannelHeaderItemBinding
+import com.mvproject.tvprogramguide.databinding.ChannelHeaderItemComposeBinding
 import com.mvproject.tvprogramguide.databinding.ProgramItemBinding
 import com.mvproject.tvprogramguide.model.data.Channel
 import com.mvproject.tvprogramguide.model.data.DateHeader
@@ -64,7 +66,7 @@ class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
         TYPE_HEADER -> ChannelViewHolder(
-            ChannelHeaderItemBinding.inflate(
+            ChannelHeaderItemComposeBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -96,17 +98,11 @@ class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
         }
 
     private fun onBindHeader(holder: RecyclerView.ViewHolder, chn: Channel) {
-        (holder as ChannelViewHolder).binding.apply {
-            channelLogo.apply {
-                layoutParams.height = root.context.pxToDp(200f)
-                layoutParams.width = root.context.pxToDp(200f)
-                load(chn.channelIcon) {
-                    crossfade(true)
-                    scale(Scale.FIT)
-                }
-            }
-            channelTitle.text = chn.channelName.parseChannelName()
-            root.setOnClickListener {
+        (holder as ChannelViewHolder).binding.root.setContent {
+            ChannelItem(
+                channelName = chn.channelName.parseChannelName(),
+                channelLogo = chn.channelIcon
+            ) {
                 headerListener?.onItemClick(chn)
             }
         }
@@ -143,7 +139,7 @@ class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
         }
     }
 
-    inner class ChannelViewHolder(val binding: ChannelHeaderItemBinding) :
+    inner class ChannelViewHolder(val binding: ChannelHeaderItemComposeBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     inner class ProgramViewHolder(val binding: ProgramItemBinding) :
