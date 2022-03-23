@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -14,6 +15,7 @@ import com.mvproject.tvprogramguide.utils.collectFlow
 import com.mvproject.tvprogramguide.utils.routeToBack
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalMaterialApi
 @AndroidEntryPoint
 class SingleChannelProgramsFragment : Fragment() {
     private var _binding: FragmentProgramsSingleBinding? = null

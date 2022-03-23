@@ -3,6 +3,7 @@ package com.mvproject.tvprogramguide.programs
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -11,10 +12,8 @@ import coil.load
 import coil.size.Scale
 import com.mvproject.tvprogramguide.components.ChannelItem
 import com.mvproject.tvprogramguide.components.DateItem
-import com.mvproject.tvprogramguide.databinding.ChannelDateItemComposeBinding
-import com.mvproject.tvprogramguide.databinding.ChannelHeaderItemBinding
-import com.mvproject.tvprogramguide.databinding.ChannelHeaderItemComposeBinding
-import com.mvproject.tvprogramguide.databinding.ProgramItemBinding
+import com.mvproject.tvprogramguide.components.ProgramItem
+import com.mvproject.tvprogramguide.databinding.*
 import com.mvproject.tvprogramguide.model.data.Channel
 import com.mvproject.tvprogramguide.model.data.DateHeader
 import com.mvproject.tvprogramguide.model.data.IChannel
@@ -25,7 +24,9 @@ import com.mvproject.tvprogramguide.utils.Utils.convertDateToReadableFormat
 import com.mvproject.tvprogramguide.utils.Utils.convertTimeToReadableFormat
 import com.mvproject.tvprogramguide.utils.Utils.parseChannelName
 import com.mvproject.tvprogramguide.utils.Utils.pxToDp
+import timber.log.Timber
 
+@ExperimentalMaterialApi
 class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     StickyHeaders {
 
@@ -73,7 +74,7 @@ class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
             )
         )
         TYPE_MESSAGE -> ProgramViewHolder(
-            ProgramItemBinding.inflate(
+            ProgramItemComposeBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -114,35 +115,32 @@ class ProgramsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
         }
     }
 
+    @ExperimentalMaterialApi
     private fun onBindMessage(holder: RecyclerView.ViewHolder, prg: Program) {
-        (holder as ProgramViewHolder).binding.apply {
-            programTime.text = prg.dateTimeStart.convertTimeToReadableFormat()
-            programName.text = prg.title
-
-            if (prg.description.isNotEmpty()) {
-                programDescription.text = prg.description
-                programDescriptionLogo.visibility = View.VISIBLE
-
-                root.setOnClickListener {
-                    programDescription.isVisible = !programDescription.isVisible
-                }
-            }
-
+        (holder as ProgramViewHolder).binding.root.setContent {
             val time = System.currentTimeMillis()
-            if (time > prg.dateTimeStart) {
-                programProgress.visibility = View.VISIBLE
-                programProgress.max = (prg.dateTimeEnd - prg.dateTimeStart).toInt()
-                programProgress.progress = (time - prg.dateTimeStart).toInt()
+            val progress = if (time > prg.dateTimeStart) {
+                val endValue = (prg.dateTimeEnd - prg.dateTimeStart).toInt()
+                val spendValue = (time - prg.dateTimeStart).toInt()
+                val perc = (spendValue.toDouble() / endValue).toFloat()
+                perc
             } else {
-                programProgress.visibility = View.GONE
+                0f
             }
+
+            ProgramItem(
+                prgTime = prg.dateTimeStart.convertTimeToReadableFormat(),
+                prgTitle = prg.title,
+                prgDescription = prg.description,
+                progressValue = progress
+            )
         }
     }
 
     inner class ChannelViewHolder(val binding: ChannelHeaderItemComposeBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    inner class ProgramViewHolder(val binding: ProgramItemBinding) :
+    inner class ProgramViewHolder(val binding: ProgramItemComposeBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     inner class DateViewHolder(val binding: ChannelDateItemComposeBinding) :
