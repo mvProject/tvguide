@@ -65,6 +65,12 @@ android {
     viewBinding {
         android.buildFeatures.viewBinding = true
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.1.1"
+    }
 }
 
 dependencies {
