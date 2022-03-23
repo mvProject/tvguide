@@ -2,9 +2,9 @@ package com.mvproject.tvprogramguide.programs
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mvproject.tvprogramguide.model.data.IChannel
+import com.mvproject.tvprogramguide.model.data.SingleChannelModel
 import com.mvproject.tvprogramguide.repository.ChannelProgramRepository
-import com.mvproject.tvprogramguide.utils.Mappers.toSortedSingleChannelPrograms
+import com.mvproject.tvprogramguide.utils.Mappers.toSortedSingleChannelProgramsUpd
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +17,7 @@ class SingleChannelProgramsViewModel @Inject constructor(
     private val channelProgramRepository: ChannelProgramRepository,
 ) : ViewModel() {
 
-    private var _selectedPrograms = MutableStateFlow<List<IChannel>>(emptyList())
+    private var _selectedPrograms = MutableStateFlow<List<SingleChannelModel>>(emptyList())
     val selectedPrograms = _selectedPrograms.asStateFlow()
 
     fun loadPrograms(id: String) {
@@ -25,7 +25,7 @@ class SingleChannelProgramsViewModel @Inject constructor(
             val programsWithChannels =
                 channelProgramRepository.loadChannelPrograms(id)
 
-            val programs = programsWithChannels.toSortedSingleChannelPrograms()
+            val programs = programsWithChannels.toSortedSingleChannelProgramsUpd()
 
             _selectedPrograms.emit(programs)
         }
