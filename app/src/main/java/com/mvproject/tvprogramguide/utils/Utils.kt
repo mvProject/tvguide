@@ -1,7 +1,9 @@
 package com.mvproject.tvprogramguide.utils
 
 import android.content.Context
+import android.content.ContextWrapper
 import android.text.format.DateUtils
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import java.text.SimpleDateFormat
 import java.util.*
@@ -89,5 +91,11 @@ object Utils {
             progressValue = (spendValue / endValue).toFloat()
         }
         return progressValue
+    }
+
+    fun Context.findActivity(): AppCompatActivity? = when (this) {
+        is AppCompatActivity -> this
+        is ContextWrapper -> baseContext.findActivity()
+        else -> null
     }
 }
