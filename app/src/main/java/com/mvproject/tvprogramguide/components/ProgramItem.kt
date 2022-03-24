@@ -17,7 +17,6 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -27,8 +26,7 @@ fun ProgramItem(
     prgTime: String,
     prgTitle: String,
     prgDescription: String,
-    progressValue: Float = 0f,
-    padding: Dp = 4.dp
+    progressValue: Float = 0f
 ) {
     var expandedState by remember { mutableStateOf(false) }
     val rotationState by animateFloatAsState(
@@ -38,6 +36,8 @@ fun ProgramItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .wrapContentHeight()
+            .defaultMinSize(minHeight = 50.dp)
             .animateContentSize(
                 animationSpec = tween(
                     durationMillis = 300,
@@ -46,13 +46,15 @@ fun ProgramItem(
             ),
         shape = RoundedCornerShape(0.dp),
         onClick = {
-            expandedState = !expandedState
+            if (prgDescription.isNotEmpty()){
+                expandedState = !expandedState
+            }
         }
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(padding)
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.Center
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -65,7 +67,7 @@ fun ProgramItem(
                     text = prgTitle,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    maxLines = 1,
+             //       maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 if (prgDescription.isNotEmpty()) {
@@ -102,7 +104,7 @@ fun ProgramItem(
 
 @ExperimentalMaterialApi
 @Composable
-@Preview
+@Preview(showBackground = true)
 fun ExpandableCardPreview() {
     Column() {
         ProgramItem(
