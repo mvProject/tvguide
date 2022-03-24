@@ -67,7 +67,6 @@ fun ProgramItem(
                     text = prgTitle,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-             //       maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 if (prgDescription.isNotEmpty()) {
@@ -94,7 +93,6 @@ fun ProgramItem(
                     text = prgDescription,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Normal,
-                    //  maxLines = descriptionMaxLines,
                     overflow = TextOverflow.Ellipsis
                 )
             }
