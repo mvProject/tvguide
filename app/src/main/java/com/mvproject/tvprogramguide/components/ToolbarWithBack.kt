@@ -4,20 +4,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.BackHand
-import androidx.compose.material.icons.outlined.Backspace
-import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.mvproject.tvprogramguide.R
+import com.mvproject.tvprogramguide.theme.appColors
+import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
 fun ToolbarWithBack(title: String, onBackClick: () -> Unit) {
@@ -28,24 +25,24 @@ fun ToolbarWithBack(title: String, onBackClick: () -> Unit) {
             .clickable {
                 onBackClick()
             }
-            .background(color = colorResource(id = R.color.midnightblue))
-            .padding(8.dp),
+            .background(color = MaterialTheme.appColors.backgroundPrimary)
+            .padding(MaterialTheme.dimens.size8),
         verticalAlignment = Alignment.CenterVertically
     ) {
 
         Icon(
             Icons.Outlined.ArrowBack,
             contentDescription = null,
-            tint = colorResource(id = R.color.whitesmoke)
+            tint = MaterialTheme.appColors.textPrimary
         )
 
-        Spacer(modifier = Modifier.padding(horizontal = 10.dp))
+        Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
 
         Text(
             text = title,
             modifier = Modifier
                 .weight(1f),
-            color = colorResource(id = R.color.whitesmoke),
+            color = MaterialTheme.appColors.textPrimary,
             textAlign = TextAlign.Center
         )
     }
