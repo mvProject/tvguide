@@ -34,24 +34,31 @@ class MainViewModel @Inject constructor(
     }
 
     private fun startChannelsUpdate() {
-        val channelRequest = OneTimeWorkRequest.Builder(UpdateChannelsWorker::class.java)
-            .setInputData(createInputDataForUpdate())
-            .build()
-        workManager.enqueueUniqueWork(
-            DOWNLOAD_CHANNELS,
-            ExistingWorkPolicy.REPLACE,
-            channelRequest
-        )
+        if (networkHelper.isNetworkConnected()) {
+            val channelRequest = OneTimeWorkRequest.Builder(UpdateChannelsWorker::class.java)
+                .setInputData(createInputDataForUpdate())
+                .build()
+            workManager.enqueueUniqueWork(
+                DOWNLOAD_CHANNELS,
+                ExistingWorkPolicy.REPLACE,
+                channelRequest
+            )
+        }
     }
 
     private fun startProgramsFullUpdate() {
-        val programRequest = OneTimeWorkRequest.Builder(FullUpdateProgramsWorker::class.java)
-            .setInputData(createInputDataForUpdate())
-            .build()
-        workManager.enqueueUniqueWork(
-            DOWNLOAD_FULL_PROGRAMS,
-            ExistingWorkPolicy.REPLACE,
-            programRequest
-        )
+        if (networkHelper.isNetworkConnected()) {
+            val programRequest = OneTimeWorkRequest.Builder(FullUpdateProgramsWorker::class.java)
+                //.setConstraints(
+                //    Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+                //)
+                .setInputData(createInputDataForUpdate())
+                .build()
+            workManager.enqueueUniqueWork(
+                DOWNLOAD_FULL_PROGRAMS,
+                ExistingWorkPolicy.REPLACE,
+                programRequest
+            )
+        }
     }
 }
