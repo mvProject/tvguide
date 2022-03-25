@@ -17,13 +17,14 @@ val lightSteelBlue = Color(0xFFb7c8d5)
 val lightSteelBlueAlpha60 = Color(0x99b7c8d5)
 val midnightBlue = Color(0xFF032d4b)
 
-
 data class AppColors(
     val backgroundPrimary: Color,
     val textPrimary: Color,
     val backgroundSecondary: Color,
     val textSecondary: Color,
     val border: Color,
+    val tintPrimary: Color,
+    val tintSecondary: Color,
 )
 
 val LightColor = AppColors(
@@ -31,15 +32,19 @@ val LightColor = AppColors(
     textPrimary = lightSlateGray,
     backgroundSecondary = darkSlateGray,
     textSecondary = steelBlue,
-    border = lightSteelBlueAlpha60
+    border = lightSteelBlueAlpha60,
+    tintPrimary = steelBlue,
+    tintSecondary = chocolate
 )
 
 val DarkColor = AppColors(
     backgroundPrimary = lightBlack,
     textPrimary = chocolate,
     backgroundSecondary = lightBlackAlpha50,
-    textSecondary = chocolate,
-    border = chocolate
+    textSecondary = steelBlue,
+    border = chocolate,
+    tintPrimary = steelBlue,
+    tintSecondary = chocolate
 )
 internal val LocalColors = staticCompositionLocalOf { LightColor }
 val MaterialTheme.appColors: AppColors
