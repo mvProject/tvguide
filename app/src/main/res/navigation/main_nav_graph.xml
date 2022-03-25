@@ -67,7 +67,7 @@
 
     <fragment
         android:id="@+id/appSettingsFragment"
-        android:name="com.mvproject.tvprogramguide.settings.AppSettingsFragment"
+        android:name="com.mvproject.tvprogramguide.settings.appsettings.AppSettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_app_settings"></fragment>
 </navigation>

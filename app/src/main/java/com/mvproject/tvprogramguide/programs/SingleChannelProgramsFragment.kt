@@ -18,6 +18,7 @@ import androidx.navigation.fragment.navArgs
 import com.mvproject.tvprogramguide.components.SingleChannelData
 import com.mvproject.tvprogramguide.components.ToolbarWithBack
 import com.mvproject.tvprogramguide.databinding.FragmentProgramsSingleComposeBinding
+import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.utils.Utils.parseChannelName
 import com.mvproject.tvprogramguide.utils.routeToBack
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,22 +46,24 @@ class SingleChannelProgramsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.root.setContent {
-            val title = arg.channelName?.parseChannelName() ?: "No Data"
-            arg.channelId?.let { id ->
-                singleChannelProgramsViewModel.loadPrograms(id)
-            }
-
-            val state = singleChannelProgramsViewModel.selectedPrograms.collectAsState()
-
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                ToolbarWithBack(title = title) {
-                    routeToBack()
+            TvGuideTheme() {
+                val title = arg.channelName?.parseChannelName() ?: "No Data"
+                arg.channelId?.let { id ->
+                    singleChannelProgramsViewModel.loadPrograms(id)
                 }
 
-                SingleChannelData(singleChannelPrograms = state.value)
+                val state = singleChannelProgramsViewModel.selectedPrograms.collectAsState()
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    ToolbarWithBack(title = title) {
+                        routeToBack()
+                    }
+
+                    SingleChannelData(singleChannelPrograms = state.value)
+                }
             }
         }
     }

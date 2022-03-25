@@ -77,6 +77,9 @@ object Dependencies {
 
     private const val composeJunit = "androidx.compose.ui:ui-test-junit4:${Versions.compose}"
 
+    private const val accompanistPager = "com.google.accompanist:accompanist-pager:${Versions.accompanistPager}"
+    private const val accompanistPagerIndicators = "com.google.accompanist:accompanist-pager-indicators:${Versions.accompanistPager}"
+
     val appLibraries = arrayListOf<String>().apply {
         add(coreKtx)
         add(appcompat)
@@ -117,6 +120,11 @@ object Dependencies {
     val coil= arrayListOf<String>().apply {
         add(coilKt)
         add(coilKtCompose)
+    }
+
+    val pagerCompose= arrayListOf<String>().apply {
+        add(accompanistPager)
+        add(accompanistPagerIndicators)
     }
 
     val navigationKtx = arrayListOf<String>().apply {

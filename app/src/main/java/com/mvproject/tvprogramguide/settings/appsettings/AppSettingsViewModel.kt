@@ -1,9 +1,11 @@
-package com.mvproject.tvprogramguide.settings
+package com.mvproject.tvprogramguide.settings.appsettings
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mvproject.tvprogramguide.helpers.StoreHelper
+import com.mvproject.tvprogramguide.settings.AppLang
+import com.mvproject.tvprogramguide.settings.AppTheme
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -15,7 +17,7 @@ class AppSettingsViewModel @Inject constructor(
     private val storeHelper: StoreHelper
 ) : ViewModel() {
 
-    private val _uiEvent = Channel<AppSettingState>()
+    private val _uiEvent = Channel<SettingUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
     val selectedThemeMode
@@ -56,29 +58,29 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(event: AppSettingEvent) {
+    fun onEvent(event: SettingAction) {
         when (event) {
-            is AppSettingEvent.OnChannelUpdatePeriodChange -> {
+            is SettingAction.ChannelUpdatePeriodChange -> {
                 storeHelper.setChannelsUpdatePeriod(event.period)
             }
-            is AppSettingEvent.OnProgramUpdatePeriodChange -> {
+            is SettingAction.ProgramUpdatePeriodChange -> {
                 storeHelper.setProgramsUpdatePeriod(event.period)
             }
-            is AppSettingEvent.OnProgramVisibleCountChange -> {
+            is SettingAction.ProgramVisibleCountChange -> {
                 storeHelper.setProgramByChannelDefaultCount(event.count)
             }
-            is AppSettingEvent.OnLanguageChange -> {
+            is SettingAction.LanguageChange -> {
                 setSelectedLanguage(event.selectedLanguage)
-                sendEvent(AppSettingState.UpdateUI)
+                sendEvent(SettingUiEvent.UpdateUI)
             }
-            is AppSettingEvent.OnThemeChange -> {
+            is SettingAction.ThemeChange -> {
                 setSelectedTheme(event.selectedTheme)
-                sendEvent(AppSettingState.UpdateUI)
+                sendEvent(SettingUiEvent.UpdateUI)
             }
         }
     }
 
-    private fun sendEvent(event: AppSettingState) {
+    private fun sendEvent(event: SettingUiEvent) {
         viewModelScope.launch {
             _uiEvent.send(event)
         }

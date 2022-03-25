@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.settings
+package com.mvproject.tvprogramguide.settings.appsettings
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +14,7 @@ import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.components.SettingsContent
 import com.mvproject.tvprogramguide.components.ToolbarWithBack
 import com.mvproject.tvprogramguide.databinding.FragmentAppSettingsComposeBinding
+import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.utils.routeToBack
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,16 +36,18 @@ class AppSettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.root.setContent {
+            TvGuideTheme() {
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                ToolbarWithBack(title = stringResource(id = R.string.settings_title)) {
-                    routeToBack()
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    ToolbarWithBack(title = stringResource(id = R.string.settings_title)) {
+                        routeToBack()
+                    }
+
+                    SettingsContent()
                 }
-
-                SettingsContent()
             }
         }
     }

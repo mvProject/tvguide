@@ -53,4 +53,6 @@ object Versions {
     const val compose = "1.1.1"
     const val viewModelCompose = "2.4.1"
     const val activityCompose = "1.4.0"
+
+    const val accompanistPager = "0.23.1"
 }

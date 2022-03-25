@@ -88,6 +88,8 @@ dependencies {
     implementation(Dependencies.appComposeLibraries)
     implementation(Dependencies.lifecycleCompose)
 
+    implementation(Dependencies.pagerCompose)
+
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     // startup
