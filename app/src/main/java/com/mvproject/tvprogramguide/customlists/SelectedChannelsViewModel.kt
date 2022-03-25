@@ -31,9 +31,13 @@ class SelectedChannelsViewModel @Inject constructor(
         }
     }
 
-    fun deleteList(item: Channel) {
-        viewModelScope.launch(Dispatchers.IO) {
-            selectedChannelRepository.deleteChannel(item.channelId)
+    fun applyAction(action: SelectedChannelsAction){
+        when(action){
+            is SelectedChannelsAction.ChannelDelete ->{
+                viewModelScope.launch(Dispatchers.IO) {
+                    selectedChannelRepository.deleteChannel(action.channel.channelId)
+                }
+            }
         }
     }
 }
