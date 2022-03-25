@@ -9,7 +9,6 @@ import androidx.navigation.fragment.NavHostFragment
 import com.mvproject.tvprogramguide.databinding.ActivityMainBinding
 import com.mvproject.tvprogramguide.helpers.LocaleHelper
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -39,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         mainViewModel.checkAvailableChannelsUpdate()
         mainViewModel.checkFullProgramsUpdate()
-        Timber.d("testing MainActivity onResume")
     }
 
     override fun attachBaseContext(base: Context) {
