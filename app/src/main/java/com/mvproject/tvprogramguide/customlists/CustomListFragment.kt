@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -15,6 +17,8 @@ import com.mvproject.tvprogramguide.customlists.OrderCategoryAdapter.Companion.S
 import com.mvproject.tvprogramguide.databinding.FragmentCustomListBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @AndroidEntryPoint
 class CustomListFragment : Fragment() {
     private var _binding: FragmentCustomListBinding? = null
