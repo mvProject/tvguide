@@ -1,6 +1,9 @@
 package com.mvproject.tvprogramguide.theme
 
+import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -17,6 +20,20 @@ val lightSteelBlue = Color(0xFFb7c8d5)
 val lightSteelBlueAlpha60 = Color(0x99b7c8d5)
 val midnightBlue = Color(0xFF032d4b)
 
+private val DarkColorPalette = darkColors(
+    primary = lightBlack,
+    background = lightBlackAlpha50,
+    onPrimary = chocolate,
+    onBackground = steelBlue
+)
+
+private val LightColorPalette = lightColors(
+    primary = midnightBlue,
+    background = darkSlateGray,
+    onPrimary = lightSlateGray,
+    onBackground = steelBlue
+)
+
 data class AppColors(
     val backgroundPrimary: Color,
     val textPrimary: Color,
@@ -25,7 +42,22 @@ data class AppColors(
     val border: Color,
     val tintPrimary: Color,
     val tintSecondary: Color,
-)
+    val material: Colors,
+){
+    val primary: Color get() = material.primary
+    val primaryVariant: Color get() = material.primaryVariant
+    val secondary: Color get() = material.secondary
+    val secondaryVariant: Color get() = material.secondaryVariant
+    val background: Color get() = material.background
+    val surface: Color get() = material.surface
+    val error: Color get() = material.error
+    val onPrimary: Color get() = material.onPrimary
+    val onSecondary: Color get() = material.onSecondary
+    val onBackground: Color get() = material.onBackground
+    val onSurface: Color get() = material.onSurface
+    val onError: Color get() = material.onError
+    val isLight: Boolean get() = material.isLight
+}
 
 val LightColor = AppColors(
     backgroundPrimary = midnightBlue,
@@ -34,7 +66,8 @@ val LightColor = AppColors(
     textSecondary = steelBlue,
     border = lightSteelBlueAlpha60,
     tintPrimary = steelBlue,
-    tintSecondary = chocolate
+    tintSecondary = chocolate,
+    material = LightColorPalette
 )
 
 val DarkColor = AppColors(
@@ -44,7 +77,8 @@ val DarkColor = AppColors(
     textSecondary = steelBlue,
     border = chocolate,
     tintPrimary = steelBlue,
-    tintSecondary = chocolate
+    tintSecondary = chocolate,
+    material = DarkColorPalette
 )
 internal val LocalColors = staticCompositionLocalOf { LightColor }
 val MaterialTheme.appColors: AppColors
