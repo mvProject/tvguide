@@ -12,6 +12,7 @@ import com.mvproject.tvprogramguide.utils.createInputDataForUpdate
 import com.mvproject.tvprogramguide.workers.FullUpdateProgramsWorker
 import com.mvproject.tvprogramguide.workers.UpdateChannelsWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,6 +44,8 @@ class MainViewModel @Inject constructor(
                 ExistingWorkPolicy.REPLACE,
                 channelRequest
             )
+        } else {
+            Timber.d("testing no connection")
         }
     }
 
@@ -59,6 +62,8 @@ class MainViewModel @Inject constructor(
                 ExistingWorkPolicy.REPLACE,
                 programRequest
             )
+        } else {
+            Timber.d("testing no connection")
         }
     }
 }
