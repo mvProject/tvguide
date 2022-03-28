@@ -32,7 +32,12 @@ fun SearchView(
     var text by remember {
         mutableStateOf("")
     }
-    Box(modifier = modifier) {
+    Surface(
+        modifier = modifier,
+        color = MaterialTheme.colors.primary,
+        shape = CircleShape,
+        elevation = MaterialTheme.dimens.size12
+    ) {
         TextField(
             value = text,
             onValueChange = { value ->
@@ -41,19 +46,18 @@ fun SearchView(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .shadow(4.dp, CircleShape)
-                .background(MaterialTheme.appColors.backgroundPrimary, CircleShape),
+                .background(MaterialTheme.colors.primary, CircleShape),
             textStyle = TextStyle(
-                color = MaterialTheme.appColors.textPrimary,
-                fontSize = 18.sp
+                color = MaterialTheme.colors.onPrimary,
+                fontSize = MaterialTheme.dimens.font18
             ),
             leadingIcon = {
                 Icon(
                     Icons.Default.Search,
                     contentDescription = "",
                     modifier = Modifier
-                        .padding(15.dp)
-                        .size(24.dp)
+                        .padding(MaterialTheme.dimens.size16)
+                        .size(MaterialTheme.dimens.size24)
                 )
             },
             trailingIcon = {
@@ -68,8 +72,8 @@ fun SearchView(
                             Icons.Default.Close,
                             contentDescription = "",
                             modifier = Modifier
-                                .padding(15.dp)
-                                .size(24.dp)
+                                .padding(MaterialTheme.dimens.size16)
+                                .size(MaterialTheme.dimens.size24)
                         )
                     }
                 }
@@ -80,7 +84,7 @@ fun SearchView(
                 textColor = MaterialTheme.appColors.textPrimary,
                 cursorColor = MaterialTheme.appColors.textPrimary,
                 leadingIconColor = MaterialTheme.appColors.tintPrimary,
-                trailingIconColor = MaterialTheme.appColors.tintSecondary,
+                trailingIconColor = Color.Red,
                 backgroundColor = MaterialTheme.appColors.backgroundPrimary,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
