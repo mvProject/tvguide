@@ -35,7 +35,7 @@ fun SelectedChannelsListItem(channels: List<Channel>, onItemClick: (Channel) -> 
     }
 }
 
-val test = listOf(
+private val test = listOf(
     Channel(
         channelId = "channelId1",
         channelName = "channelName1",
