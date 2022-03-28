@@ -6,10 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.runtime.collectAsState
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import com.mvproject.tvprogramguide.components.SelectedChannelsListItem
+import com.mvproject.tvprogramguide.components.SelectedChannelsScreen
 import com.mvproject.tvprogramguide.databinding.FragmentSelectedChannelsComposeBinding
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,8 +18,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class SelectedChannelsFragment : Fragment() {
     private var _binding: FragmentSelectedChannelsComposeBinding? = null
     private val binding get() = _binding!!
-
-    private val selectedChannelsViewModel: SelectedChannelsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,11 +33,7 @@ class SelectedChannelsFragment : Fragment() {
 
         binding.root.setContent {
             TvGuideTheme {
-                val state = selectedChannelsViewModel.selectedChannels.collectAsState()
-
-                SelectedChannelsListItem(state.value) { chn ->
-                    selectedChannelsViewModel.applyAction(SelectedChannelsAction.ChannelDelete(chn))
-                }
+                SelectedChannelsScreen()
             }
         }
     }
