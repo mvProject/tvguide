@@ -69,11 +69,13 @@ object Utils {
         ).format(this)
     }
 
+    // todo find proper way for summer/winter time correction
     fun Long.correctTimeZone(): Long {
-        val offset = (TimeZone.getDefault()?.rawOffset?.let {
-            DEFAULT_TIME_ZONE_OFFSET - it
-        } ?: 0).toLong()
-        return this - offset
+        //val offset = (TimeZone.getDefault()?.rawOffset?.let {
+        //    DEFAULT_TIME_ZONE_OFFSET - it
+        //} ?: 0).toLong()
+        //return this - offset
+        return this
     }
 
     val actualDay = System.currentTimeMillis() - DateUtils.DAY_IN_MILLIS
