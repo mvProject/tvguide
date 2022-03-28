@@ -2,9 +2,9 @@ package com.mvproject.tvprogramguide.customlists
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mvproject.tvprogramguide.database.entity.SelectedChannelEntity
 import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.model.data.Channel
-import com.mvproject.tvprogramguide.database.entity.SelectedChannelEntity
 import com.mvproject.tvprogramguide.repository.AllChannelRepository
 import com.mvproject.tvprogramguide.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.utils.COUNT_ONE
@@ -34,37 +34,45 @@ class AllChannelViewModel @Inject constructor(
 
     private var queryText = NO_VALUE_STRING
 
+    private var allChannelsFixed = emptyList<Channel>()
+
     init {
         viewModelScope.launch {
             selectedChannelRepository.loadSelectedChannelsFlow(listName).collect {
                 _selectedChannels.emit(it)
+                allChannelsFixed = allChannelRepository.loadChannels()
+                reloadAllChannels()
             }
         }
     }
 
-    fun reloadAllChannels() = viewModelScope.launch {
+    private fun reloadAllChannels() = viewModelScope.launch {
         updateChannelsData()
     }
 
-    fun applyChannelAction(item: Channel) {
-        viewModelScope.launch(Dispatchers.IO) {
-            if (item.isSelected) {
-                selectedChannelRepository.deleteChannel(item.channelId)
-            } else {
-                val selected = SelectedChannelEntity(
-                    item.channelId,
-                    item.channelName,
-                    item.channelIcon,
-                    listName
-                )
-                selectedChannelRepository.addChannel(selected)
+    fun processAction(action: AvailableChannelsAction) {
+        when (action) {
+            is AvailableChannelsAction.ChannelAdd -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    val selected = SelectedChannelEntity(
+                        action.channel.channelId,
+                        action.channel.channelName,
+                        action.channel.channelIcon,
+                        listName
+                    )
+                    selectedChannelRepository.addChannel(selected)
+                }
+            }
+            is AvailableChannelsAction.ChannelDelete -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    selectedChannelRepository.deleteChannel(action.channel.channelId)
+                }
+            }
+            is AvailableChannelsAction.ChannelFilter -> {
+                queryText = action.query
+                reloadAllChannels()
             }
         }
-    }
-
-    fun filterByQuery(query: String) {
-        queryText = query
-        reloadAllChannels()
     }
 
     private fun performQuery(data: List<Channel>): List<Channel> {
@@ -76,8 +84,8 @@ class AllChannelViewModel @Inject constructor(
 
     private suspend fun updateChannelsData() {
         val alreadySelected = selectedChannels.value.map { it.channelName }
-        val all = allChannelRepository.loadChannels()
+        val filtered = allChannelsFixed
             .map { it.asAlreadySelected(it.channelName in alreadySelected) }
-        _allChannels.emit(performQuery(all))
+        _allChannels.emit(performQuery(filtered))
     }
 }
