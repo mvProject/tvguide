@@ -23,6 +23,7 @@ fun TvGuideTheme(
         LocalTypography provides AppTypography(),
     ) {
         MaterialTheme(
+            colors = appColors.material,
             typography = Typography,
             shapes = Shapes,
             content = content

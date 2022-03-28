@@ -11,6 +11,7 @@ data class Dimens(
     val sizeZero: Dp = 0.dp,
     val size2: Dp = 2.dp,
     val size4: Dp = 4.dp,
+    val size5: Dp = 5.dp,
     val size6: Dp = 6.dp,
     val size8: Dp = 8.dp,
     val size12: Dp = 12.dp,
