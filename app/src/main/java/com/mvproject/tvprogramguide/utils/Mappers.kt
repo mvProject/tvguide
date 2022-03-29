@@ -5,11 +5,9 @@ import com.mvproject.tvprogramguide.database.entity.ProgramEntity
 import com.mvproject.tvprogramguide.model.data.*
 import com.mvproject.tvprogramguide.netwotk.json.JsonChannelModel
 import com.mvproject.tvprogramguide.netwotk.json.JsonProgram
-import com.mvproject.tvprogramguide.utils.Mappers.toSortedSelectedChannelsPrograms
 import com.mvproject.tvprogramguide.utils.Utils.convertDateToReadableFormat
 import com.mvproject.tvprogramguide.utils.Utils.correctTimeZone
 import com.mvproject.tvprogramguide.utils.Utils.toMillis
-import timber.log.Timber
 
 object Mappers {
     //fun List<Program>.toSortedSingleChannelPrograms(): List<IChannel> {
@@ -51,6 +49,30 @@ object Mappers {
                         if (itemsCount > COUNT_ZERO)
                             prg.take(itemsCount)
                         else prg
+                    )
+                }
+            }
+        }
+        return sortedPrograms
+    }
+
+    fun List<Program>.toSortedSelectedChannelsProgramsUpd(
+        alreadySelected: List<Channel>,
+        itemsCount: Int = COUNT_ZERO
+    ): List<SelectedChannelModel> {
+        val sortedPrograms = mutableListOf<SelectedChannelModel>()
+        val programs = this.groupBy { it.channel }
+
+        alreadySelected.forEach { chn ->
+            programs[chn.channelId]?.let { prg ->
+                if (prg.count() > COUNT_ZERO) {
+                    sortedPrograms.add(
+                        SelectedChannelModel(
+                            channel = chn,
+                            programs = if (itemsCount > COUNT_ZERO)
+                                prg.take(itemsCount)
+                            else prg
+                        )
                     )
                 }
             }
