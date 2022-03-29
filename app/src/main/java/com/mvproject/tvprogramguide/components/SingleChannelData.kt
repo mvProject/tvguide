@@ -31,7 +31,10 @@ fun SingleChannelData(singleChannelPrograms: List<SingleChannelModel>) {
                     prgTime = program.dateTimeStart.convertTimeToReadableFormat(),
                     prgTitle = program.title,
                     prgDescription = program.description,
-                    progressValue = calculateProgramProgress(program.dateTimeStart,program.dateTimeEnd)
+                    progressValue = calculateProgramProgress(
+                        program.dateTimeStart,
+                        program.dateTimeEnd
+                    )
                 )
             }
         }
