@@ -19,7 +19,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.customlists.OrderCategoryAdapter.Companion.SELECTED_CHANNELS
+import com.mvproject.tvprogramguide.customlists.CustomListFragment.Companion.SELECTED_CHANNELS
 import com.mvproject.tvprogramguide.theme.appColors
 import com.mvproject.tvprogramguide.theme.dimens
 import kotlinx.coroutines.launch
