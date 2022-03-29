@@ -5,20 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.work.WorkInfo
-import com.mvproject.tvprogramguide.databinding.FragmentProgramsBinding
-import com.mvproject.tvprogramguide.sticky.StickyHeadersLinearLayoutManager
-import com.mvproject.tvprogramguide.utils.*
+import com.mvproject.tvprogramguide.components.ChannelScreen
+import com.mvproject.tvprogramguide.databinding.FragmentProgramsComposeBinding
+import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @AndroidEntryPoint
 class ProgramsFragment : Fragment() {
-    private var _binding: FragmentProgramsBinding? = null
+    private var _binding: FragmentProgramsComposeBinding? = null
     private val binding get() = _binding!!
 
     private val programsViewModel: ProgramsViewModel by viewModels()
@@ -32,15 +32,26 @@ class ProgramsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentProgramsBinding.inflate(inflater, container, false)
+        _binding = FragmentProgramsComposeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.root.setContent {
+            TvGuideTheme {
+                ChannelScreen()
+            }
+        }
+        // todo restore workmanager update observing
+
+        // todo selecting dialog after navigation
+        /*
+
         programsViewModel.checkSavedList()
         programsViewModel.reloadChannels()
+
 
         with(binding) {
             programsAdapter = ProgramsAdapter()
@@ -61,6 +72,7 @@ class ProgramsFragment : Fragment() {
 
             collectFlow(programsViewModel.selectedList) { name ->
                 programsToolbar.toolbarTitle.text = name
+
 
                 if (name.isNotEmpty()) {
                     programsViewModel.partiallyUpdateWorkInfo.observe(
@@ -125,22 +137,24 @@ class ProgramsFragment : Fragment() {
                 }
             }
         }
+
+         */
     }
 
-    private fun showUpdateProgress(current: Int, count: Int) {
-        Timber.d("testing showUpdateProgress")
-        with(binding) {
-            progressBarLinear.progress = current + 1
-            progressBarLinear.max = count
-            progressBarLinear.visibility = View.VISIBLE
-        }
-    }
+    //private fun showUpdateProgress(current: Int, count: Int) {
+    //    Timber.d("testing showUpdateProgress")
+    //    with(binding) {
+    //        progressBarLinear.progress = current + 1
+    //        progressBarLinear.max = count
+    //        progressBarLinear.visibility = View.VISIBLE
+    //    }
+    //}
 
-    private fun showUpdateComplete() {
-        Timber.d("testing showUpdateComplete")
-        binding.progressBarLinear.visibility = View.GONE
-        programsViewModel.reloadChannels()
-    }
+    // private fun showUpdateComplete() {
+    //     Timber.d("testing showUpdateComplete")
+    //     binding.progressBarLinear.visibility = View.GONE
+    //     programsViewModel.reloadChannels()
+    // }
 
     override fun onResume() {
         super.onResume()
