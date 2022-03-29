@@ -34,6 +34,10 @@ class MainActivity : AppCompatActivity() {
         //}
     }
 
+    //todo refactor all screens theme
+
+    // todo restore navigation
+
     override fun onResume() {
         super.onResume()
         mainViewModel.checkAvailableChannelsUpdate()

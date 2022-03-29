@@ -18,7 +18,7 @@ import com.mvproject.tvprogramguide.utils.Utils.parseChannelName
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun SelectedChannelsListItem(channels: List<Channel>, onItemClick: (Channel) -> Unit) {
+fun SelectedChannelsList(channels: List<Channel>, onItemClick: (Channel) -> Unit) {
     LazyColumn(
         modifier = Modifier
             .fillMaxHeight()
@@ -75,7 +75,7 @@ private val test = listOf(
 @ExperimentalFoundationApi
 fun SelectedChannelsListItemViewDark() {
     TvGuideTheme(true) {
-        SelectedChannelsListItem(
+        SelectedChannelsList(
             channels = test
         ) {
 
@@ -89,7 +89,7 @@ fun SelectedChannelsListItemViewDark() {
 @ExperimentalFoundationApi
 fun SelectedChannelsListItemView() {
     TvGuideTheme() {
-        SelectedChannelsListItem(
+        SelectedChannelsList(
             channels = test
         ) {
 

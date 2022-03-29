@@ -46,7 +46,7 @@ fun ProgramItem(
             ),
         shape = RoundedCornerShape(0.dp),
         onClick = {
-            if (prgDescription.isNotEmpty()){
+            if (prgDescription.isNotEmpty()) {
                 expandedState = !expandedState
             }
         }
@@ -86,14 +86,19 @@ fun ProgramItem(
                 }
             }
             if (progressValue > 0) {
-                LinearProgressIndicator(progress = progressValue, modifier = Modifier.fillMaxWidth())
+                LinearProgressIndicator(
+                    progress = progressValue,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
             if (expandedState) {
                 Text(
                     text = prgDescription,
+                    modifier = Modifier.padding(horizontal = 8.dp),
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Normal,
                     overflow = TextOverflow.Ellipsis
+
                 )
             }
         }

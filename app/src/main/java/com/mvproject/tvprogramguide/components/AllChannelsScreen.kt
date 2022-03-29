@@ -34,15 +34,11 @@ fun AllChannelsScreen() {
 
             if (chn.isSelected) {
                 allChannelViewModel.processAction(
-                    AvailableChannelsAction.ChannelDelete(
-                        chn
-                    )
+                    AvailableChannelsAction.ChannelDelete(chn)
                 )
             } else {
                 allChannelViewModel.processAction(
-                    AvailableChannelsAction.ChannelAdd(
-                        chn
-                    )
+                    AvailableChannelsAction.ChannelAdd(chn)
                 )
             }
         }
