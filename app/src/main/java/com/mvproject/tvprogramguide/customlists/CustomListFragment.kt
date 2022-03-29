@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.fragment.navArgs
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.mvproject.tvprogramguide.components.TabMainScreen
@@ -23,8 +23,6 @@ class CustomListFragment : Fragment() {
     private var _binding: FragmentCustomListComposeBinding? = null
     private val binding get() = _binding!!
 
-    private val customListViewModel: CustomListViewModel by viewModels()
-
     private val params: CustomListFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -39,9 +37,11 @@ class CustomListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        customListViewModel.setSelectedList(params.listFoEdit)
-
         binding.root.setContent {
+            val customListViewModel: CustomListViewModel = viewModel()
+
+            customListViewModel.setSelectedList(params.listFoEdit)
+
             TvGuideTheme {
                 TabMainScreen()
             }
@@ -49,8 +49,11 @@ class CustomListFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        customListViewModel.clearSelectedList()
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val SELECTED_CHANNELS = 1
     }
 }
