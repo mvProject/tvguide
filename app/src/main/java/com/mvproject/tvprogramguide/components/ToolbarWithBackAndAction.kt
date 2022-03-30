@@ -7,6 +7,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,9 +19,10 @@ import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
-fun ToolbarWithBack(
+fun ToolbarWithBackAndAction(
     title: String,
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
+    onActionClick: () -> Unit = {}
 ) {
     Row(
         modifier = Modifier
@@ -51,21 +53,32 @@ fun ToolbarWithBack(
             fontSize = MaterialTheme.dimens.font14,
             style = MaterialTheme.appTypography.textMedium
         )
+
+        Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
+
+        Icon(
+            Icons.Outlined.Add,
+            contentDescription = null,
+            tint = MaterialTheme.colors.onPrimary,
+            modifier = Modifier.clickable {
+                onActionClick()
+            }
+        )
     }
 }
 
 @Preview
 @Composable
-fun ToolbarWithBackView() {
-    TvGuideTheme {
-        ToolbarWithBack("TetstTitle")
+fun ToolbarWithBackAndActionView() {
+    TvGuideTheme() {
+        ToolbarWithBackAndAction("TetstTitle")
     }
 }
 
 @Preview
 @Composable
-fun ToolbarWithBackDarkView() {
+fun ToolbarWithBackAndActionDarkView() {
     TvGuideTheme(true) {
-        ToolbarWithBack("TetstTitle")
+        ToolbarWithBackAndAction("TetstTitle")
     }
 }
