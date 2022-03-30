@@ -5,6 +5,12 @@ import android.content.SharedPreferences
 import android.text.format.DateUtils
 import androidx.preference.PreferenceManager
 import com.mvproject.tvprogramguide.utils.*
+import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_CHANNELS_UPDATE_PERIOD
+import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_PROGRAMS_UPDATE_PERIOD
+import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_PROGRAMS_VISIBLE_COUNT
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_INT
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_LONG
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
