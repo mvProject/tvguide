@@ -12,7 +12,7 @@ import com.google.android.material.radiobutton.MaterialRadioButton
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.databinding.DialogAddBinding
 import com.mvproject.tvprogramguide.databinding.DialogSelectListBinding
-import timber.log.Timber
+import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
 
 private const val DEFAULT_TOP_MARGIN = 24
 private const val LOAD_DEFAULT_ZERO = 0

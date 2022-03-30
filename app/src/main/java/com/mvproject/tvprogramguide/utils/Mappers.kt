@@ -5,22 +5,14 @@ import com.mvproject.tvprogramguide.database.entity.ProgramEntity
 import com.mvproject.tvprogramguide.model.data.*
 import com.mvproject.tvprogramguide.netwotk.json.JsonChannelModel
 import com.mvproject.tvprogramguide.netwotk.json.JsonProgram
+import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
+import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO_LONG
 import com.mvproject.tvprogramguide.utils.Utils.convertDateToReadableFormat
 import com.mvproject.tvprogramguide.utils.Utils.correctTimeZone
 import com.mvproject.tvprogramguide.utils.Utils.toMillis
 
 object Mappers {
-    //fun List<Program>.toSortedSingleChannelPrograms(): List<IChannel> {
-    //    val sortedPrograms = mutableListOf<IChannel>()
-    //    val programs = this.groupBy { it.dateTimeStart.convertDateToReadableFormat() }
-    //    programs.forEach { (date, list) ->
-    //        sortedPrograms.add(DateHeader(date))
-    //        sortedPrograms.addAll(list)
-    //    }
-    //    return sortedPrograms
-    //}
-
-    fun List<Program>.toSortedSingleChannelProgramsUpd(): List<SingleChannelModel> {
+    fun List<Program>.toSortedSingleChannelPrograms(): List<SingleChannelModel> {
         val sortedPrograms = mutableListOf<SingleChannelModel>()
         val programs = this.groupBy { it.dateTimeStart.convertDateToReadableFormat() }
         programs.forEach { (date, list) ->
@@ -35,28 +27,6 @@ object Mappers {
     }
 
     fun List<Program>.toSortedSelectedChannelsPrograms(
-        alreadySelected: List<Channel>,
-        itemsCount: Int = COUNT_ZERO
-    ): List<IChannel> {
-        val sortedPrograms = mutableListOf<IChannel>()
-        val programs = this.groupBy { it.channel }
-
-        alreadySelected.forEach { chn ->
-            programs[chn.channelId]?.let { prg ->
-                if (prg.count() > COUNT_ZERO) {
-                    sortedPrograms.add(chn)
-                    sortedPrograms.addAll(
-                        if (itemsCount > COUNT_ZERO)
-                            prg.take(itemsCount)
-                        else prg
-                    )
-                }
-            }
-        }
-        return sortedPrograms
-    }
-
-    fun List<Program>.toSortedSelectedChannelsProgramsUpd(
         alreadySelected: List<Channel>,
         itemsCount: Int = COUNT_ZERO
     ): List<SelectedChannelModel> {

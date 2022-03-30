@@ -10,7 +10,6 @@ import androidx.work.WorkManager
 import com.mvproject.tvprogramguide.helpers.NetworkHelper
 import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.database.entity.CustomListEntity
-import com.mvproject.tvprogramguide.model.data.IChannel
 import com.mvproject.tvprogramguide.model.data.SelectedChannelModel
 import com.mvproject.tvprogramguide.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.repository.CustomListRepository
@@ -18,7 +17,6 @@ import com.mvproject.tvprogramguide.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.utils.DOWNLOAD_FULL_PROGRAMS
 import com.mvproject.tvprogramguide.utils.DOWNLOAD_PROGRAMS
 import com.mvproject.tvprogramguide.utils.Mappers.toSortedSelectedChannelsPrograms
-import com.mvproject.tvprogramguide.utils.Mappers.toSortedSelectedChannelsProgramsUpd
 import com.mvproject.tvprogramguide.utils.createInputDataForPartialUpdate
 import com.mvproject.tvprogramguide.workers.PartiallyUpdateProgramsWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -99,7 +97,7 @@ class ProgramsViewModel @Inject constructor(
                 channelProgramRepository.loadPrograms(selectedChannelIds)
 
             val programs = programsWithChannels
-                .toSortedSelectedChannelsProgramsUpd(selectedChannels, visibleCount)
+                .toSortedSelectedChannelsPrograms(selectedChannels, visibleCount)
             _selectedPrograms.emit(programs)
 
             val obtainedChannelsIds = programsWithChannels.groupBy { it.channel }.keys

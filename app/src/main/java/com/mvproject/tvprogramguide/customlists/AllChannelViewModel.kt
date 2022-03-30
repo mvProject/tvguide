@@ -7,9 +7,9 @@ import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.model.data.Channel
 import com.mvproject.tvprogramguide.repository.AllChannelRepository
 import com.mvproject.tvprogramguide.repository.SelectedChannelRepository
-import com.mvproject.tvprogramguide.utils.COUNT_ONE
+import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.utils.Mappers.asAlreadySelected
-import com.mvproject.tvprogramguide.utils.NO_VALUE_STRING
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

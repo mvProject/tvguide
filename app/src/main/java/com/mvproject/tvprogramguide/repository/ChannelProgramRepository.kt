@@ -6,10 +6,9 @@ import com.mvproject.tvprogramguide.database.dao.ProgramDao
 import com.mvproject.tvprogramguide.database.entity.ProgramEntity
 import com.mvproject.tvprogramguide.model.data.Program
 import com.mvproject.tvprogramguide.netwotk.EpgService
-import com.mvproject.tvprogramguide.utils.COUNT_ZERO
+import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.utils.Mappers.asProgramEntities
 import com.mvproject.tvprogramguide.utils.Mappers.asProgramFromEntities
-import timber.log.Timber
 import javax.inject.Inject
 
 class ChannelProgramRepository @Inject constructor(
