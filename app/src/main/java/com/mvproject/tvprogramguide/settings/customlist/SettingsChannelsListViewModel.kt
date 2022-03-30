@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.settings
+package com.mvproject.tvprogramguide.settings.customlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -18,7 +18,10 @@ import com.mvproject.tvprogramguide.utils.Utils.parseChannelName
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun AllChannelsListItem(channels: List<Channel>, onItemClick: (Channel) -> Unit) {
+fun AllChannelsListItem(
+    channels: List<Channel>,
+    onItemClick: (Channel) -> Unit
+) {
 
     LazyColumn(
         modifier = Modifier

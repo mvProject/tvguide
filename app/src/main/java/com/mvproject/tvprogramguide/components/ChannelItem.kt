@@ -19,7 +19,11 @@ import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
-fun ChannelItem(channelName: String, channelLogo: String, onClickAction: () -> Unit) {
+fun ChannelItem(
+    channelName: String,
+    channelLogo: String,
+    onClickAction: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
