@@ -1,30 +1,36 @@
-package com.mvproject.tvprogramguide.components
+package com.mvproject.tvprogramguide.settings.appsettings
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.mvproject.tvprogramguide.MainActivity
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.settings.appsettings.AppSettingsViewModel
-import com.mvproject.tvprogramguide.settings.appsettings.SettingAction
-import com.mvproject.tvprogramguide.settings.appsettings.SettingUiEvent
+import com.mvproject.tvprogramguide.components.PickerItem
+import com.mvproject.tvprogramguide.components.RadioGroup
 import com.mvproject.tvprogramguide.theme.appColors
 import com.mvproject.tvprogramguide.theme.dimens
 import com.mvproject.tvprogramguide.utils.Utils.findActivity
 
+@ExperimentalPagerApi
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @Composable
-fun SettingsContent(
-    settingsViewModel: AppSettingsViewModel = viewModel()
-) {
+fun SettingsContent() {
+
+    val settingsViewModel: AppSettingsViewModel = hiltViewModel()
+
     val selectedTheme = settingsViewModel.selectedThemeMode
     val selectedLanguage = settingsViewModel.selectedLanguage
 
