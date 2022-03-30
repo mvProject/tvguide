@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.mvproject.tvprogramguide.customlists.SelectedChannelsAction
 import com.mvproject.tvprogramguide.customlists.SelectedChannelsViewModel
 
@@ -13,7 +13,7 @@ import com.mvproject.tvprogramguide.customlists.SelectedChannelsViewModel
 @ExperimentalFoundationApi
 @Composable
 fun SelectedChannelsScreen() {
-    val selectedChannelsViewModel: SelectedChannelsViewModel = viewModel()
+    val selectedChannelsViewModel: SelectedChannelsViewModel = hiltViewModel()
     Column {
         val state = selectedChannelsViewModel.selectedChannels.collectAsState()
 

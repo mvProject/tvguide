@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SingleChannelProgramsViewModel @Inject constructor(
-    private val channelProgramRepository: ChannelProgramRepository,
+    private val channelProgramRepository: ChannelProgramRepository
 ) : ViewModel() {
 
     private var _selectedPrograms = MutableStateFlow<List<SingleChannelModel>>(emptyList())

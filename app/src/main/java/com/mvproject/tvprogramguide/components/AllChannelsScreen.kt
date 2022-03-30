@@ -9,7 +9,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.mvproject.tvprogramguide.customlists.AllChannelViewModel
 import com.mvproject.tvprogramguide.customlists.AvailableChannelsAction
 import com.mvproject.tvprogramguide.theme.dimens
@@ -18,7 +18,7 @@ import com.mvproject.tvprogramguide.theme.dimens
 @ExperimentalFoundationApi
 @Composable
 fun AllChannelsScreen() {
-    val allChannelViewModel: AllChannelViewModel = viewModel()
+    val allChannelViewModel: AllChannelViewModel = hiltViewModel()
     Column {
         val state = allChannelViewModel.allChannels.collectAsState()
 

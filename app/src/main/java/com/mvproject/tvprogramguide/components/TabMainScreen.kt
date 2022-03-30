@@ -6,20 +6,19 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.customlists.CustomListFragment.Companion.SELECTED_CHANNELS
+import com.mvproject.tvprogramguide.customlists.CustomListViewModel
 import com.mvproject.tvprogramguide.theme.appColors
 import com.mvproject.tvprogramguide.theme.dimens
 import kotlinx.coroutines.launch
@@ -28,7 +27,14 @@ import kotlinx.coroutines.launch
 @ExperimentalFoundationApi
 @ExperimentalPagerApi
 @Composable
-fun TabMainScreen() {
+fun TabMainScreen(userListName: String) {
+    val customListViewModel: CustomListViewModel = hiltViewModel()
+
+    SideEffect {
+        customListViewModel.setSelectedList(userListName)
+    }
+
+
     val tabItems = listOf(
         stringResource(id = R.string.all_channels_title),
         stringResource(id = R.string.selected_channels_title)
