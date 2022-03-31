@@ -6,4 +6,5 @@ object Config {
     const val versionName = "0.0.1"
 
     const val androidTestInstrumentation = "androidx.test.runner.AndroidJUnitRunner"
+    const val applicationId = "com.mvproject.tvprogramguide"
 }
