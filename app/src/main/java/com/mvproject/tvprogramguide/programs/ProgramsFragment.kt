@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import com.mvproject.tvprogramguide.components.ChannelScreen
+import com.mvproject.tvprogramguide.ui.selectedchannels.ChannelScreen
 import com.mvproject.tvprogramguide.databinding.FragmentProgramsComposeBinding
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,11 +19,11 @@ class ProgramsFragment : Fragment() {
     private var _binding: FragmentProgramsComposeBinding? = null
     private val binding get() = _binding!!
 
-    private val programsViewModel: ProgramsViewModel by viewModels()
+  //  private val programsViewModel: ProgramsViewModel by viewModels()
 
-    private lateinit var programsAdapter: ProgramsAdapter
+  //  private lateinit var programsAdapter: ProgramsAdapter
 
-    private var alertDialog: AlertDialog? = null
+  //  private var alertDialog: AlertDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,7 +39,14 @@ class ProgramsFragment : Fragment() {
 
         binding.root.setContent {
             TvGuideTheme {
-                ChannelScreen()
+                ChannelScreen(
+                    onSettingsClick = {
+
+                    },
+                    onChannelClick = {
+
+                    }
+                )
             }
         }
         // todo restore workmanager update observing
@@ -158,7 +163,7 @@ class ProgramsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        programsViewModel.checkForUpdates()
+      //  programsViewModel.checkForUpdates()
     }
 
     override fun onDestroyView() {

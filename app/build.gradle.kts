@@ -3,14 +3,13 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
-    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
     compileSdk = Config.compileSdk
 
     defaultConfig {
-        applicationId = "com.mvproject.tvprogramguide"
+        applicationId = Config.applicationId
         minSdk = Config.minSdk
         targetSdk = Config.targetSdk
         versionCode = Config.versionCode
@@ -76,30 +75,28 @@ android {
 dependencies {
 
     implementation(Dependencies.appLibraries)
+
     implementation(Dependencies.preference)
+
     implementation(Dependencies.network)
+
     implementation(Dependencies.logging)
-    implementation(Dependencies.lifecycleKtx)
-    implementation(Dependencies.navigationKtx)
+
     implementation(Dependencies.coroutines)
-    implementation(Dependencies.pager)
+
     implementation(Dependencies.coil)
 
     implementation(Dependencies.appComposeLibraries)
+
     implementation(Dependencies.lifecycleCompose)
 
     implementation(Dependencies.pagerCompose)
 
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation(Dependencies.navigationCompose)
 
-    // startup
-    implementation("androidx.startup:startup-runtime:1.1.0")
+    implementation(Dependencies.startupRuntime)
 
-    // WorkManager
-    implementation ("androidx.work:work-runtime-ktx:2.7.1")
-
-    implementation("androidx.hilt:hilt-work:1.0.0")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
+    implementation(Dependencies.workManager)
 
     implementationRoom()
 

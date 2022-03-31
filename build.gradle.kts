@@ -10,7 +10,6 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:${Versions.gradle}")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}")
         classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.daggerHilt}")
         classpath("org.jlleitschuh.gradle:ktlint-gradle:${Versions.ktLint}")
     }

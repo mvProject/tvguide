@@ -7,19 +7,12 @@ object Versions {
     // libs
     const val coreKtx = "1.7.0"
     const val appcompat = "1.4.1"
-    const val constraintLayout = "2.1.3"
+
     const val preferenceKtx = "1.1.1"
     const val material = "1.4.0"
-    const val activityKtx = "1.4.0"
+
     const val timber = "5.0.1"
     const val annotation = "1.2.0"
-    const val fragmentKtx = "1.4.0"
-
-    // navigation
-    const val navigation = "2.3.5"
-
-    // lifecycle
-    const val lifecycle = "2.4.0"
 
     // coroutines
     const val coroutinesCoreKtx = "1.6.0"
@@ -30,10 +23,7 @@ object Versions {
     const val extJunit = "1.1.3"
     const val espresso = "3.4.0"
 
-    // RecyclerView
-    const val recyclerView = "1.2.1"
-    // ViewPager2
-    const val viewPager2 = "1.0.0"
+    const val startUp = "1.1.1"
 
     // retrofit
     const val retrofit = "2.9.0"
@@ -45,14 +35,26 @@ object Versions {
     const val coil = "1.4.0"
     const val coilCompose = "2.0.0-rc01"
 
+    // Database
     const val room = "2.4.1"
+
     // di
     const val daggerHilt = "2.41"
+    const val androidHilt = "1.0.0"
 
     // Compose
     const val compose = "1.1.1"
     const val viewModelCompose = "2.4.1"
     const val activityCompose = "1.4.0"
 
+    // ViewPager
     const val accompanistPager = "0.23.1"
+
+    // navigationCompose
+    const val navigationComposeHilt = "1.0.0"
+    const val navigationCompose = "2.4.1"
+
+    // WorkManager
+    const val workRuntime = "2.7.1"
+    const val workHilt = "1.0.0"
 }
