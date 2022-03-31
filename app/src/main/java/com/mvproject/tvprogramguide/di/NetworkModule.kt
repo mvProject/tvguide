@@ -1,13 +1,10 @@
 package com.mvproject.tvprogramguide.di
 
-import android.content.Context
-import coil.util.CoilUtils
-import com.mvproject.tvprogramguide.netwotk.BASE_URL
-import com.mvproject.tvprogramguide.netwotk.EpgService
+import com.mvproject.tvprogramguide.domain.BASE_URL
+import com.mvproject.tvprogramguide.domain.EpgService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

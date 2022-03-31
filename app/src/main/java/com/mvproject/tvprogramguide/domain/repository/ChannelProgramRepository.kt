@@ -2,13 +2,13 @@ package com.mvproject.tvprogramguide.domain.repository
 
 import android.text.format.DateUtils
 import androidx.room.Transaction
-import com.mvproject.tvprogramguide.database.dao.ProgramDao
-import com.mvproject.tvprogramguide.database.entity.ProgramEntity
-import com.mvproject.tvprogramguide.model.data.Program
-import com.mvproject.tvprogramguide.netwotk.EpgService
+import com.mvproject.tvprogramguide.domain.database.dao.ProgramDao
+import com.mvproject.tvprogramguide.data.entity.ProgramEntity
+import com.mvproject.tvprogramguide.data.model.Program
+import com.mvproject.tvprogramguide.domain.EpgService
+import com.mvproject.tvprogramguide.domain.utils.Mappers.asProgramEntities
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
-import com.mvproject.tvprogramguide.utils.Mappers.asProgramEntities
-import com.mvproject.tvprogramguide.utils.Mappers.asProgramFromEntities
+import com.mvproject.tvprogramguide.domain.utils.Mappers.asProgramFromEntities
 import javax.inject.Inject
 
 class ChannelProgramRepository @Inject constructor(

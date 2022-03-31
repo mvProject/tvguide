@@ -12,4 +12,6 @@ object AppConstants{
     const val DEFAULT_PROGRAMS_UPDATE_PERIOD = 2
     const val DEFAULT_CHANNELS_UPDATE_PERIOD = 7
     const val DEFAULT_PROGRAMS_VISIBLE_COUNT = 3
+
+    const val SELECTED_CHANNELS_PAGE = 1
 }

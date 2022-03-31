@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mvproject.tvprogramguide.helpers.StoreHelper
-import com.mvproject.tvprogramguide.settings.AppLang
-import com.mvproject.tvprogramguide.settings.AppTheme
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow

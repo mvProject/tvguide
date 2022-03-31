@@ -3,7 +3,7 @@ package com.mvproject.tvprogramguide.ui.usercustomlist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mvproject.tvprogramguide.helpers.StoreHelper
-import com.mvproject.tvprogramguide.database.entity.CustomListEntity
+import com.mvproject.tvprogramguide.data.entity.CustomListEntity
 import com.mvproject.tvprogramguide.domain.repository.CustomListRepository
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING

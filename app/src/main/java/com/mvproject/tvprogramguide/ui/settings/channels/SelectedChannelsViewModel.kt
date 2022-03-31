@@ -3,7 +3,7 @@ package com.mvproject.tvprogramguide.ui.settings.channels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mvproject.tvprogramguide.helpers.StoreHelper
-import com.mvproject.tvprogramguide.model.data.Channel
+import com.mvproject.tvprogramguide.data.model.Channel
 import com.mvproject.tvprogramguide.domain.repository.SelectedChannelRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

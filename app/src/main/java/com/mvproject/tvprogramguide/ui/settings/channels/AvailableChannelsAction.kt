@@ -1,6 +1,6 @@
 package com.mvproject.tvprogramguide.ui.settings.channels
 
-import com.mvproject.tvprogramguide.model.data.Channel
+import com.mvproject.tvprogramguide.data.model.Channel
 
 sealed class AvailableChannelsAction {
     data class ChannelAdd(val channel: Channel) : AvailableChannelsAction()
