@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="red">#D32F2F</color>
-    <color name="chocolate">#EB4F27</color>
-    <color name="radiobutton_gray">#757575</color>
-    <color name="medium_sea_green">#4EAC55</color>
-    <color name="light_black">#1C1D1D</color>
-    <color name="light_black_alpha60">#991C1D1D</color>
-    <color name="whitesmoke">#eff4f6</color>
-    <color name="lightslategray">#748794</color>
-    <color name="lightsteelblue">#b7c8d5</color>
-    <color name="lightsteelblue_alpha50">#80B7C8D5</color>
     <color name="midnightblue">#032d4b</color>
-    <color name="midnightblue_alpha80">#CC032D4B</color>
-    <color name="midnightblue_alpha60">#99032D4B</color>
-    <color name="midnightblue_alpha40">#66032D4B</color>
-    <color name="midnightblue_alpha20">#33032D4B</color>
+    <color name="light_black">#1C1D1D</color>
 </resources>
