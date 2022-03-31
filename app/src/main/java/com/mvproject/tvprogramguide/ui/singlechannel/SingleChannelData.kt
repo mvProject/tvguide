@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.mvproject.tvprogramguide.components.DateItem
 import com.mvproject.tvprogramguide.components.ProgramItem
-import com.mvproject.tvprogramguide.model.data.SingleChannelModel
+import com.mvproject.tvprogramguide.data.model.SingleChannelModel
 import com.mvproject.tvprogramguide.utils.Utils.calculateProgramProgress
 import com.mvproject.tvprogramguide.utils.Utils.convertTimeToReadableFormat
 

@@ -2,12 +2,12 @@ package com.mvproject.tvprogramguide.di
 
 import android.app.Application
 import androidx.room.Room
-import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.database.AppDatabase
-import com.mvproject.tvprogramguide.database.dao.AllChannelDao
-import com.mvproject.tvprogramguide.database.dao.CustomListDao
-import com.mvproject.tvprogramguide.database.dao.ProgramDao
-import com.mvproject.tvprogramguide.database.dao.SelectedChannelDao
+import com.mvproject.tvprogramguide.domain.database.AppDatabase
+import com.mvproject.tvprogramguide.domain.database.dao.AllChannelDao
+import com.mvproject.tvprogramguide.domain.database.dao.CustomListDao
+import com.mvproject.tvprogramguide.domain.database.dao.ProgramDao
+import com.mvproject.tvprogramguide.domain.database.dao.SelectedChannelDao
+import com.mvproject.tvprogramguide.utils.DbConstants.DATABASE
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,7 +25,7 @@ object DatabaseModule {
             .databaseBuilder(
                 application,
                 AppDatabase::class.java,
-                application.getString(R.string.database)
+                DATABASE
             )
             .fallbackToDestructiveMigration()
             .build()

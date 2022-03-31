@@ -17,9 +17,9 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.customlists.CustomListFragment.Companion.SELECTED_CHANNELS
 import com.mvproject.tvprogramguide.theme.appColors
 import com.mvproject.tvprogramguide.theme.dimens
+import com.mvproject.tvprogramguide.utils.AppConstants.SELECTED_CHANNELS_PAGE
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
@@ -125,7 +125,7 @@ fun TabMainScreen(userListName: String) {
                 .background(MaterialTheme.colors.primary)
         ) { page ->
             when (page) {
-                SELECTED_CHANNELS -> {
+                SELECTED_CHANNELS_PAGE -> {
                     SelectedChannelsScreen()
                 }
                 else -> {

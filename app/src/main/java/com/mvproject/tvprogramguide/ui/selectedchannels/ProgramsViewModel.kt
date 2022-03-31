@@ -9,14 +9,14 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.mvproject.tvprogramguide.helpers.NetworkHelper
 import com.mvproject.tvprogramguide.helpers.StoreHelper
-import com.mvproject.tvprogramguide.database.entity.CustomListEntity
-import com.mvproject.tvprogramguide.model.data.SelectedChannelModel
+import com.mvproject.tvprogramguide.data.entity.CustomListEntity
+import com.mvproject.tvprogramguide.data.model.SelectedChannelModel
 import com.mvproject.tvprogramguide.domain.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.domain.repository.CustomListRepository
 import com.mvproject.tvprogramguide.domain.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.utils.DOWNLOAD_FULL_PROGRAMS
 import com.mvproject.tvprogramguide.utils.DOWNLOAD_PROGRAMS
-import com.mvproject.tvprogramguide.utils.Mappers.toSortedSelectedChannelsPrograms
+import com.mvproject.tvprogramguide.domain.utils.Mappers.toSortedSelectedChannelsPrograms
 import com.mvproject.tvprogramguide.utils.createInputDataForPartialUpdate
 import com.mvproject.tvprogramguide.domain.workers.PartiallyUpdateProgramsWorker
 import dagger.hilt.android.lifecycle.HiltViewModel

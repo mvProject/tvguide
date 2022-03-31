@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.mvproject.tvprogramguide.components.ChannelItem
 import com.mvproject.tvprogramguide.components.ProgramItem
-import com.mvproject.tvprogramguide.model.data.Channel
-import com.mvproject.tvprogramguide.model.data.SelectedChannelModel
+import com.mvproject.tvprogramguide.data.model.Channel
+import com.mvproject.tvprogramguide.data.model.SelectedChannelModel
 import com.mvproject.tvprogramguide.utils.Utils.calculateProgramProgress
 import com.mvproject.tvprogramguide.utils.Utils.convertTimeToReadableFormat
 import com.mvproject.tvprogramguide.utils.Utils.parseChannelName

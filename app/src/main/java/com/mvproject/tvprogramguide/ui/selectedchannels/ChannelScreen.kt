@@ -9,7 +9,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mvproject.tvprogramguide.components.ToolbarWithOptions
-import com.mvproject.tvprogramguide.model.data.Channel
+import com.mvproject.tvprogramguide.data.model.Channel
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi

@@ -8,8 +8,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.mvproject.tvprogramguide.ui.usercustomlist.UserCustomListItem
-import com.mvproject.tvprogramguide.database.entity.CustomListEntity
+import com.mvproject.tvprogramguide.data.entity.CustomListEntity
 
 @ExperimentalMaterialApi
 @Composable
