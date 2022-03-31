@@ -10,8 +10,6 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.radiobutton.MaterialRadioButton
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.databinding.DialogAddBinding
-import com.mvproject.tvprogramguide.databinding.DialogSelectListBinding
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
 
 private const val DEFAULT_TOP_MARGIN = 24
@@ -24,6 +22,7 @@ private const val LOAD_DEFAULT_ZERO = 0
  * @param title string title for dialog display
  * @param confirmClick callback for button close
  */
+/*
 fun createAddDialog(
     activity: Activity,
     title: String,
@@ -45,7 +44,9 @@ fun createAddDialog(
         setCancelable(true)
     }
 }
+*/
 
+/*
 fun createSelectDialog(
     activity: Activity,
     initialValue : String,
@@ -97,3 +98,6 @@ fun createSelectDialog(
         setCancelable(true)
     }
 }
+
+
+ */

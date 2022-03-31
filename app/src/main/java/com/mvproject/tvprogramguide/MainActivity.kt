@@ -1,55 +1,41 @@
 package com.mvproject.tvprogramguide
 
-import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
-import com.mvproject.tvprogramguide.databinding.ActivityMainBinding
-import com.mvproject.tvprogramguide.helpers.LocaleHelper
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
+import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalPagerApi
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-
-    private val navHostFragment by lazy {
-        supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-    }
-    private val navController get() = navHostFragment.navController
-
-    private val mainViewModel: MainViewModel by viewModels()
-
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        //navController.addOnDestinationChangedListener { controller, destination, arguments ->
-        //    controller.backStack.forEach {
-        //        Timber.d(
-        //            "currentStack ${it.destination.label}"
-        //        )
-        //    }
-        //}
+        setContent {
+            MainScreen()
+        }
     }
 
     //todo refactor all screens theme
 
     // todo restore navigation
 
-    override fun onResume() {
-        super.onResume()
-        mainViewModel.checkAvailableChannelsUpdate()
-        mainViewModel.checkFullProgramsUpdate()
-    }
+    // override fun onResume() {
+    //     super.onResume()
+    //     mainViewModel.checkAvailableChannelsUpdate()
+    //     mainViewModel.checkFullProgramsUpdate()
+    // }
 
-    override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(LocaleHelper.wrapContext(base))
-    }
+    // override fun attachBaseContext(base: Context) {
+    //     super.attachBaseContext(LocaleHelper.wrapContext(base))
+    // }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        LocaleHelper.overrideLocale(this)
-    }
+    //   override fun onConfigurationChanged(newConfig: Configuration) {
+    //       super.onConfigurationChanged(newConfig)
+    //       LocaleHelper.overrideLocale(this)
+    //   }
 }

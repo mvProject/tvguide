@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide
+package com.mvproject.tvprogramguide.navigation
 
 import com.mvproject.tvprogramguide.utils.NavConstants.ARGUMENT_CHANNEL_ID
 import com.mvproject.tvprogramguide.utils.NavConstants.ARGUMENT_CHANNEL_NAME

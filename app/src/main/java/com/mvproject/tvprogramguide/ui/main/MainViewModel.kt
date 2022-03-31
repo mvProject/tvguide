@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide
+package com.mvproject.tvprogramguide.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.work.ExistingWorkPolicy
@@ -9,8 +9,8 @@ import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.utils.DOWNLOAD_CHANNELS
 import com.mvproject.tvprogramguide.utils.DOWNLOAD_FULL_PROGRAMS
 import com.mvproject.tvprogramguide.utils.createInputDataForUpdate
-import com.mvproject.tvprogramguide.workers.FullUpdateProgramsWorker
-import com.mvproject.tvprogramguide.workers.UpdateChannelsWorker
+import com.mvproject.tvprogramguide.domain.workers.FullUpdateProgramsWorker
+import com.mvproject.tvprogramguide.domain.workers.UpdateChannelsWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import javax.inject.Inject
