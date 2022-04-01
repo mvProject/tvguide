@@ -46,6 +46,8 @@ object Dependencies {
     // Compose
     private const val viewModelCompose =
         "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.viewModelCompose}"
+    private const val livedataCompose =
+        "androidx.compose.runtime:runtime-livedata:${Versions.compose}"
     private const val activityCompose =
         "androidx.activity:activity-compose:${Versions.activityCompose}"
     private const val composeMaterial = "androidx.compose.material:material:${Versions.compose}"
@@ -101,7 +103,6 @@ object Dependencies {
         add(composeIconsExtended)
     }
 
-
     val logging = arrayListOf<String>().apply {
         add(timber)
     }
@@ -140,6 +141,7 @@ object Dependencies {
 
     val lifecycleCompose = arrayListOf<String>().apply {
         add(viewModelCompose)
+        add(livedataCompose)
     }
 
     val coroutines = arrayListOf<String>().apply {
