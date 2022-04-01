@@ -1,10 +1,11 @@
-package com.mvproject.tvprogramguide.ui.usercustomlist
+package com.mvproject.tvprogramguide.ui.usercustomlist.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.data.entity.CustomListEntity
 import com.mvproject.tvprogramguide.domain.repository.CustomListRepository
+import com.mvproject.tvprogramguide.ui.usercustomlist.action.UserListAction
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,16 +41,20 @@ class UserCustomListViewModel @Inject constructor(
         }
     }
 
-    fun addCustomList(name: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            customListRepository.addCustomList(name)
-        }
-
-    }
-
-    fun deleteList(item: CustomListEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
-            customListRepository.deleteList(item)
+    fun processAction(action: UserListAction){
+        when(action){
+            is UserListAction.AddList ->{
+                viewModelScope.launch(Dispatchers.IO) {
+                    customListRepository.addCustomList(action.listName)
+                }
+            }
+            is UserListAction.DeleteList ->{
+                viewModelScope.launch(Dispatchers.IO) {
+                    viewModelScope.launch(Dispatchers.IO) {
+                        customListRepository.deleteList(action.list)
+                    }
+                }
+            }
         }
     }
 }
