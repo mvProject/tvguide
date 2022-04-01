@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.settings
+package com.mvproject.tvprogramguide.ui.settings
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.components.ToolbarWithBack
+import com.mvproject.tvprogramguide.components.toolbars.ToolbarWithBack
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens

@@ -56,23 +56,23 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(event: SettingAction) {
-        when (event) {
+    fun processAction(action: SettingAction) {
+        when (action) {
             is SettingAction.ChannelUpdatePeriodChange -> {
-                storeHelper.setChannelsUpdatePeriod(event.period)
+                storeHelper.setChannelsUpdatePeriod(action.period)
             }
             is SettingAction.ProgramUpdatePeriodChange -> {
-                storeHelper.setProgramsUpdatePeriod(event.period)
+                storeHelper.setProgramsUpdatePeriod(action.period)
             }
             is SettingAction.ProgramVisibleCountChange -> {
-                storeHelper.setProgramByChannelDefaultCount(event.count)
+                storeHelper.setProgramByChannelDefaultCount(action.count)
             }
             is SettingAction.LanguageChange -> {
-                setSelectedLanguage(event.selectedLanguage)
+                setSelectedLanguage(action.selectedLanguage)
                 sendEvent(SettingUiEvent.UpdateUI)
             }
             is SettingAction.ThemeChange -> {
-                setSelectedTheme(event.selectedTheme)
+                setSelectedTheme(action.selectedTheme)
                 sendEvent(SettingUiEvent.UpdateUI)
             }
         }
