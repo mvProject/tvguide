@@ -7,9 +7,9 @@ import androidx.work.WorkerParameters
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.domain.repository.AllChannelRepository
-import com.mvproject.tvprogramguide.utils.NOTIFICATION_CONDITION
-import com.mvproject.tvprogramguide.utils.hideStatusNotification
-import com.mvproject.tvprogramguide.utils.makeStatusNotification
+import com.mvproject.tvprogramguide.domain.utils.NOTIFICATION_CONDITION
+import com.mvproject.tvprogramguide.domain.utils.hideStatusNotification
+import com.mvproject.tvprogramguide.domain.utils.makeStatusNotification
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 

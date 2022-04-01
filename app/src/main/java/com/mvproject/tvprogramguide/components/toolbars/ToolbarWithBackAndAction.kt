@@ -13,15 +13,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
 fun ToolbarWithBackAndAction(
-    title: String,
+    modifier: Modifier = Modifier,
+    title: String = stringResource(id = R.string.default_toolbar_title),
     toolbarBackgroundColor: Color = MaterialTheme.colors.primary,
     titleColor: Color = MaterialTheme.colors.onPrimary,
     backTintColor: Color = MaterialTheme.colors.onPrimary,
@@ -30,7 +33,7 @@ fun ToolbarWithBackAndAction(
     onActionClick: () -> Unit = {}
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentSize()
             .background(color = toolbarBackgroundColor)
@@ -76,7 +79,7 @@ fun ToolbarWithBackAndAction(
 @Composable
 fun ToolbarWithBackAndActionView() {
     TvGuideTheme() {
-        ToolbarWithBackAndAction("TetstTitle")
+        ToolbarWithBackAndAction(title = "TetstTitle")
     }
 }
 
@@ -84,6 +87,6 @@ fun ToolbarWithBackAndActionView() {
 @Composable
 fun ToolbarWithBackAndActionDarkView() {
     TvGuideTheme(true) {
-        ToolbarWithBackAndAction("TetstTitle")
+        ToolbarWithBackAndAction(title = "TetstTitle")
     }
 }

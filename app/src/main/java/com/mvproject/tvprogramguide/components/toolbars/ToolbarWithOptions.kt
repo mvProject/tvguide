@@ -12,15 +12,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
 fun ToolbarWithOptions(
-    title: String,
+    modifier: Modifier = Modifier,
+    title: String = stringResource(id = R.string.default_toolbar_title),
     toolbarBackgroundColor: Color = MaterialTheme.colors.primary,
     titleColor: Color = MaterialTheme.colors.onPrimary,
     actionTintColor: Color = MaterialTheme.colors.onPrimary,
@@ -28,7 +31,7 @@ fun ToolbarWithOptions(
     onSettingsClick: () -> Unit = {}
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentSize()
             .background(color = toolbarBackgroundColor)
@@ -66,7 +69,7 @@ fun ToolbarWithOptions(
 @Composable
 fun ToolbarWithOptionsView() {
     TvGuideTheme() {
-        ToolbarWithOptions("TetstTitle")
+        ToolbarWithOptions(title = "TetstTitle")
     }
 }
 
@@ -74,6 +77,6 @@ fun ToolbarWithOptionsView() {
 @Composable
 fun ToolbarWithOptionsDarkView() {
     TvGuideTheme(true) {
-        ToolbarWithOptions("TetstTitle")
+        ToolbarWithOptions(title = "TetstTitle")
     }
 }

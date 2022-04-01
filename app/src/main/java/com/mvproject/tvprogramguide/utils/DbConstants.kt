@@ -10,4 +10,7 @@ object DbConstants {
 
     const val PROGRAM_KEY_DATE_TIME = "dateTimeStart"
     const val PROGRAM_KEY_TITLE = "title"
+
+    const val SELECTED_CHANNEL_KEY_CHANNEL_ID = "channel_id"
+    const val SELECTED_CHANNEL_KEY_PARENT_LIST = "parentList"
 }

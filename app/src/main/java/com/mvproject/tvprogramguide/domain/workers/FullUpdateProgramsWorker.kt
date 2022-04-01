@@ -9,7 +9,7 @@ import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.domain.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.domain.repository.SelectedChannelRepository
-import com.mvproject.tvprogramguide.utils.*
+import com.mvproject.tvprogramguide.domain.utils.*
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject

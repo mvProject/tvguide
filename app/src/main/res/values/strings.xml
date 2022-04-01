@@ -12,4 +12,7 @@
     <string name="settings_theme_light">Light</string>
     <string name="settings_theme_dark">Dark</string>
     <string name="settings_theme_system">System Select</string>
+
+    <string name="no_items_found">No Items Found</string>
+    <string name="default_toolbar_title">default_toolbar_title</string>
 </resources>
