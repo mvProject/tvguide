@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.utils
+package com.mvproject.tvprogramguide.domain.utils
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

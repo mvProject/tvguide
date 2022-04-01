@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.text.format.DateUtils
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
+import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -84,11 +84,11 @@ object Utils {
         return (px.toInt() / resources.displayMetrics.density).toInt()
     }
 
-    fun calculateProgramProgress(startTime: Long, endTime: Long): Float{
+    fun calculateProgramProgress(startTime: Long, endTime: Long): Float {
         var progressValue = 0f
         val currTime = System.currentTimeMillis()
         if (currTime > startTime) {
-            val endValue = (endTime -startTime).toInt()
+            val endValue = (endTime - startTime).toInt()
             val spendValue = (currTime - startTime).toDouble()
             progressValue = (spendValue / endValue).toFloat()
         }
@@ -99,5 +99,10 @@ object Utils {
         is AppCompatActivity -> this
         is ContextWrapper -> baseContext.findActivity()
         else -> null
+    }
+
+    fun List<String>.obtainIndexOrZero(target: String): Int {
+        val index = this.indexOf(target)
+        return if (index > COUNT_ZERO) index else COUNT_ZERO
     }
 }
