@@ -1,13 +1,14 @@
-package com.mvproject.tvprogramguide
+package com.mvproject.tvprogramguide.ui.main
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.mvproject.tvprogramguide.NavigationHost
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
-import com.mvproject.tvprogramguide.ui.main.MainViewModel
 
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
@@ -21,7 +22,7 @@ fun MainScreen() {
 
     val navController = rememberNavController()
 
-    TvGuideTheme {
+    TvGuideTheme(isSystemInDarkTheme()) {
         NavigationHost(navController = navController)
     }
 }

@@ -18,7 +18,6 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.mvproject.tvprogramguide.MainActivity
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.components.PickerItem
-import com.mvproject.tvprogramguide.components.RadioGroup
 import com.mvproject.tvprogramguide.theme.appColors
 import com.mvproject.tvprogramguide.theme.dimens
 import com.mvproject.tvprogramguide.utils.Utils.findActivity
@@ -65,7 +64,7 @@ fun SettingsContent() {
                     max = 7,
                     initialValue = settingsViewModel.updateChannelsPeriod
                 ) {
-                    settingsViewModel.onEvent(SettingAction.ChannelUpdatePeriodChange(it))
+                    settingsViewModel.processAction(SettingAction.ChannelUpdatePeriodChange(it))
                 }
 
                 PickerItem(
@@ -74,7 +73,7 @@ fun SettingsContent() {
                     max = 7,
                     initialValue = settingsViewModel.updateProgramsPeriod
                 ) {
-                    settingsViewModel.onEvent(SettingAction.ProgramUpdatePeriodChange(it))
+                    settingsViewModel.processAction(SettingAction.ProgramUpdatePeriodChange(it))
                 }
 
                 PickerItem(
@@ -83,30 +82,30 @@ fun SettingsContent() {
                     max = 6,
                     initialValue = settingsViewModel.programsViewCount
                 ) {
-                    settingsViewModel.onEvent(SettingAction.ProgramVisibleCountChange(it))
+                    settingsViewModel.processAction(SettingAction.ProgramVisibleCountChange(it))
                 }
             }
         }
 
-        RadioGroup(
-            radioOptions = settingsViewModel.languageOptionsNames,
-            title = stringResource(id = R.string.settings_language_title),
-            cardBackgroundColor = MaterialTheme.appColors.backgroundPrimary,
-            defaultSelection = settingsViewModel.getLanguageDefaultSelectedIndex(selectedLanguage)
-        ) { selectedLanguage ->
-            settingsViewModel.onEvent(SettingAction.LanguageChange(selectedLanguage))
-        }
+       // RadioGroup(
+       //     radioOptions = settingsViewModel.languageOptionsNames,
+       //     title = stringResource(id = R.string.settings_language_title),
+       //     cardBackgroundColor = MaterialTheme.appColors.backgroundPrimary,
+       //     defaultSelection = settingsViewModel.getLanguageDefaultSelectedIndex(selectedLanguage)
+       // ) { selectedLanguage ->
+       //     settingsViewModel.processAction(SettingAction.LanguageChange(selectedLanguage))
+       // }
 
-        RadioGroup(
-            radioOptions = themeOptionsStrings,
-            title = stringResource(id = R.string.settings_theme_title),
-            cardBackgroundColor = MaterialTheme.appColors.backgroundPrimary,
-            defaultSelection = settingsViewModel.getThemeDefaultSelectedIndex(selectedTheme)
-        ) { selectedTheme ->
-            val selected = themeOptionsStrings
-                .indexOfFirst { it == selectedTheme }
-            settingsViewModel.onEvent(SettingAction.ThemeChange(selected))
-        }
+       //RadioGroup(
+       //    radioOptions = themeOptionsStrings,
+       //    title = stringResource(id = R.string.settings_theme_title),
+       //    cardBackgroundColor = MaterialTheme.appColors.backgroundPrimary,
+       //    defaultSelection = settingsViewModel.getThemeDefaultSelectedIndex(selectedTheme)
+       //) { selectedTheme ->
+       //    val selected = themeOptionsStrings
+       //        .indexOfFirst { it == selectedTheme }
+       //    settingsViewModel.processAction(SettingAction.ThemeChange(selected))
+       //}
     }
 }
 

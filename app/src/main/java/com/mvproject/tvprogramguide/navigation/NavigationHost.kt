@@ -11,7 +11,7 @@ import com.mvproject.tvprogramguide.navigation.AppRoutes
 import com.mvproject.tvprogramguide.ui.selectedchannels.ChannelScreen
 import com.mvproject.tvprogramguide.ui.settings.channels.TabMainScreen
 import com.mvproject.tvprogramguide.ui.singlechannel.SingleChannelScreen
-import com.mvproject.tvprogramguide.settings.SettingsOptions
+import com.mvproject.tvprogramguide.ui.settings.SettingsOptions
 import com.mvproject.tvprogramguide.ui.settings.app.SettingsScreen
 import com.mvproject.tvprogramguide.ui.usercustomlist.UserCustomListScreen
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING

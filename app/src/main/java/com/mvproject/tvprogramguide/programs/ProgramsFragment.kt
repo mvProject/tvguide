@@ -51,7 +51,6 @@ class ProgramsFragment : Fragment() {
         }
         // todo restore workmanager update observing
 
-        // todo selecting dialog after navigation
         /*
 
         programsViewModel.checkSavedList()

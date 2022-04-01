@@ -9,8 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.components.ToolbarWithBack
-import com.mvproject.tvprogramguide.ui.settings.app.SettingsContent
+import com.mvproject.tvprogramguide.components.toolbars.ToolbarWithBack
 
 @ExperimentalPagerApi
 @ExperimentalMaterialApi

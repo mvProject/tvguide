@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.mvproject.tvprogramguide.ui.main.MainScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalPagerApi
