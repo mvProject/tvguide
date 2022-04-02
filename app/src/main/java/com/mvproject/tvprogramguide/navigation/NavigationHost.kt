@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide
+package com.mvproject.tvprogramguide.navigation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
@@ -7,9 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.mvproject.tvprogramguide.navigation.AppRoutes
 import com.mvproject.tvprogramguide.ui.selectedchannels.view.ChannelScreen
-import com.mvproject.tvprogramguide.ui.settings.channels.TabMainScreen
+import com.mvproject.tvprogramguide.ui.settings.channels.view.TabMainScreen
 import com.mvproject.tvprogramguide.ui.singlechannel.view.SingleChannelScreen
 import com.mvproject.tvprogramguide.ui.settings.SettingsOptions
 import com.mvproject.tvprogramguide.ui.settings.app.SettingsScreen
