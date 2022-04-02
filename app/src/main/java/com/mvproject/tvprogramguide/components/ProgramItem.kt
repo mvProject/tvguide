@@ -14,11 +14,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.mvproject.tvprogramguide.theme.TvGuideTheme
+import com.mvproject.tvprogramguide.theme.appTypography
+import com.mvproject.tvprogramguide.theme.dimens
+import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 
 @ExperimentalMaterialApi
 @Composable
@@ -37,19 +38,20 @@ fun ProgramItem(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .defaultMinSize(minHeight = 50.dp)
+            .defaultMinSize(minHeight = MaterialTheme.dimens.size50)
             .animateContentSize(
                 animationSpec = tween(
                     durationMillis = 300,
                     easing = LinearOutSlowInEasing
                 )
             ),
-        shape = RoundedCornerShape(0.dp),
+        shape = RoundedCornerShape(MaterialTheme.dimens.sizeZero),
         onClick = {
             if (prgDescription.isNotEmpty()) {
                 expandedState = !expandedState
             }
-        }
+        },
+        elevation = MaterialTheme.dimens.size2
     ) {
         Column(
             modifier = Modifier
@@ -60,13 +62,15 @@ fun ProgramItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 TimeItem(time = prgTime)
-                Spacer(modifier = Modifier.padding(horizontal = 8.dp))
+
+                Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
+
                 Text(
                     modifier = Modifier
                         .weight(6f),
                     text = prgTitle,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
+                    fontSize = MaterialTheme.dimens.font14,
+                    style = MaterialTheme.appTypography.textMedium,
                     overflow = TextOverflow.Ellipsis
                 )
                 if (prgDescription.isNotEmpty()) {
@@ -77,7 +81,8 @@ fun ProgramItem(
                             .rotate(rotationState),
                         onClick = {
                             expandedState = !expandedState
-                        }) {
+                        }
+                    ) {
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
                             contentDescription = "Drop-Down Arrow"
@@ -85,21 +90,31 @@ fun ProgramItem(
                     }
                 }
             }
-            if (progressValue > 0) {
+            if (progressValue > COUNT_ZERO) {
                 LinearProgressIndicator(
                     progress = progressValue,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colors.onPrimary,
+                    backgroundColor = MaterialTheme.colors.surface
                 )
+
+                Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
             }
             if (expandedState) {
+                Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
+
                 Text(
                     text = prgDescription,
-                    modifier = Modifier.padding(horizontal = 8.dp),
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Normal,
+                    modifier = Modifier
+                        .padding(horizontal = MaterialTheme.dimens.size10)
+                        .alpha(0.7f),
+                    fontSize = MaterialTheme.dimens.font12,
+                    style = MaterialTheme.appTypography.textNormal,
                     overflow = TextOverflow.Ellipsis
 
                 )
+
+                Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
             }
         }
     }
@@ -109,20 +124,46 @@ fun ProgramItem(
 @Composable
 @Preview(showBackground = true)
 fun ExpandableCardPreview() {
-    Column() {
-        ProgramItem(
-            prgTime = "11:35",
-            prgTitle = "My Title",
-            prgDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                    "sed do eiusmod tempor incididunt ut labore et dolore magna " +
-                    "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
-                    "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-            progressValue = 0.1f
-        )
-        ProgramItem(
-            prgTime = "10:01",
-            prgTitle = "My Title",
-            prgDescription = ""
-        )
+    TvGuideTheme() {
+        Column() {
+            ProgramItem(
+                prgTime = "11:35",
+                prgTitle = "My Title",
+                prgDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                        "sed do eiusmod tempor incididunt ut labore et dolore magna " +
+                        "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
+                        "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                progressValue = 0.1f
+            )
+            ProgramItem(
+                prgTime = "10:01",
+                prgTitle = "My Title",
+                prgDescription = ""
+            )
+        }
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+@Preview(showBackground = true)
+fun ExpandableCardPreviewDark() {
+    TvGuideTheme(true) {
+        Column() {
+            ProgramItem(
+                prgTime = "11:35",
+                prgTitle = "My Title",
+                prgDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                        "sed do eiusmod tempor incididunt ut labore et dolore magna " +
+                        "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
+                        "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                progressValue = 0.1f
+            )
+            ProgramItem(
+                prgTime = "10:01",
+                prgTitle = "My Title",
+                prgDescription = ""
+            )
+        }
     }
 }
