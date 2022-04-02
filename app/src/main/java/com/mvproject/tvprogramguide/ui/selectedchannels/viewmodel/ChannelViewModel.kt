@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.selectedchannels
+package com.mvproject.tvprogramguide.ui.selectedchannels.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -14,11 +14,12 @@ import com.mvproject.tvprogramguide.data.model.SelectedChannelModel
 import com.mvproject.tvprogramguide.domain.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.domain.repository.CustomListRepository
 import com.mvproject.tvprogramguide.domain.repository.SelectedChannelRepository
-import com.mvproject.tvprogramguide.utils.DOWNLOAD_FULL_PROGRAMS
-import com.mvproject.tvprogramguide.utils.DOWNLOAD_PROGRAMS
+import com.mvproject.tvprogramguide.domain.utils.*
 import com.mvproject.tvprogramguide.domain.utils.Mappers.toSortedSelectedChannelsPrograms
-import com.mvproject.tvprogramguide.utils.createInputDataForPartialUpdate
+import com.mvproject.tvprogramguide.domain.workers.FullUpdateProgramsWorker
 import com.mvproject.tvprogramguide.domain.workers.PartiallyUpdateProgramsWorker
+import com.mvproject.tvprogramguide.domain.workers.UpdateChannelsWorker
+import com.mvproject.tvprogramguide.utils.Utils.obtainIndexOrZero
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +29,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class ProgramsViewModel @Inject constructor(
+class ChannelViewModel @Inject constructor(
     private val storeHelper: StoreHelper,
     private val selectedChannelRepository: SelectedChannelRepository,
     private val channelProgramRepository: ChannelProgramRepository,
@@ -74,11 +75,6 @@ class ProgramsViewModel @Inject constructor(
 
     fun reloadChannels() {
         updatePrograms()
-       // if (networkHelper.isNetworkConnected()){
-       //     Timber.d("testing network connected")
-       // } else {
-       //     Timber.d("testing network not connected")
-       // }
     }
 
     fun saveSelectedList(listName: String) {
@@ -86,6 +82,9 @@ class ProgramsViewModel @Inject constructor(
         checkSavedList()
         updatePrograms()
     }
+
+    val obtainListIndex
+        get() = availableLists.obtainIndexOrZero(savedList)
 
     private fun updatePrograms() = viewModelScope.launch(Dispatchers.IO) {
         if (savedList.isNotEmpty()) {
@@ -124,5 +123,50 @@ class ProgramsViewModel @Inject constructor(
             ExistingWorkPolicy.REPLACE,
             channelRequest
         )
+    }
+
+    fun checkAvailableChannelsUpdate() {
+        if (storeHelper.isNeedAvailableChannelsUpdate) {
+            startChannelsUpdate()
+        }
+    }
+
+    fun checkFullProgramsUpdate() {
+        if (storeHelper.isNeedFullProgramsUpdate) {
+            startProgramsFullUpdate()
+        }
+    }
+
+    private fun startChannelsUpdate() {
+        if (networkHelper.isNetworkConnected()) {
+            val channelRequest = OneTimeWorkRequest.Builder(UpdateChannelsWorker::class.java)
+                .setInputData(createInputDataForUpdate())
+                .build()
+            workManager.enqueueUniqueWork(
+                DOWNLOAD_CHANNELS,
+                ExistingWorkPolicy.REPLACE,
+                channelRequest
+            )
+        } else {
+            Timber.d("testing no connection")
+        }
+    }
+
+    private fun startProgramsFullUpdate() {
+        val programRequest = OneTimeWorkRequest.Builder(FullUpdateProgramsWorker::class.java)
+            //.setConstraints(
+            //    Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+            //)
+            .setInputData(createInputDataForUpdate())
+            .build()
+        if (networkHelper.isNetworkConnected()) {
+            workManager.enqueueUniqueWork(
+                DOWNLOAD_FULL_PROGRAMS,
+                ExistingWorkPolicy.REPLACE,
+                programRequest
+            )
+        } else {
+            Timber.d("testing no connection")
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.components
+package com.mvproject.tvprogramguide.ui.selectedchannels.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,7 +14,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.rememberAsyncImagePainter
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
-import com.mvproject.tvprogramguide.theme.appColors
 import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
 
@@ -28,11 +27,11 @@ fun ChannelItem(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentSize()
-            .background(color = MaterialTheme.appColors.backgroundPrimary)
-            .padding(MaterialTheme.dimens.size8)
             .clickable {
                 onClickAction()
             }
+            .background(color = MaterialTheme.colors.primary)
+            .padding(MaterialTheme.dimens.size8)
     ) {
         Image(
             painter = rememberAsyncImagePainter(model = channelLogo),
@@ -40,7 +39,6 @@ fun ChannelItem(
             modifier = Modifier
                 .size(MaterialTheme.dimens.size38)
                 .clip(RoundedCornerShape(MaterialTheme.dimens.size4))
-
         )
 
         Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
@@ -52,7 +50,7 @@ fun ChannelItem(
             modifier = Modifier
                 .weight(1f)
                 .align(Alignment.CenterVertically),
-            color = MaterialTheme.appColors.textPrimary
+            color = MaterialTheme.colors.onPrimary
         )
     }
 }
