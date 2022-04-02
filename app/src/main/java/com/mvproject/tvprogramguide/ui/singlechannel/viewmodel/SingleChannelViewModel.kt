@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.singlechannel
+package com.mvproject.tvprogramguide.ui.singlechannel.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SingleChannelProgramsViewModel @Inject constructor(
+class SingleChannelViewModel @Inject constructor(
     private val channelProgramRepository: ChannelProgramRepository
 ) : ViewModel() {
 
@@ -24,9 +24,7 @@ class SingleChannelProgramsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val programsWithChannels =
                 channelProgramRepository.loadChannelPrograms(id)
-
             val programs = programsWithChannels.toSortedSingleChannelPrograms()
-
             _selectedPrograms.emit(programs)
         }
     }
