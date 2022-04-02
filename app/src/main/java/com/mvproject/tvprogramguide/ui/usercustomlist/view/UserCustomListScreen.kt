@@ -16,6 +16,7 @@ import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.components.NoItemsScreen
 import com.mvproject.tvprogramguide.components.dialogs.ShowDialog
 import com.mvproject.tvprogramguide.components.toolbars.ToolbarWithBackAndAction
+import com.mvproject.tvprogramguide.data.entity.CustomListEntity
 import com.mvproject.tvprogramguide.ui.usercustomlist.action.UserListAction
 import com.mvproject.tvprogramguide.ui.usercustomlist.components.UserCustomList
 import com.mvproject.tvprogramguide.ui.usercustomlist.viewmodel.UserCustomListViewModel
@@ -23,20 +24,33 @@ import com.mvproject.tvprogramguide.ui.usercustomlist.viewmodel.UserCustomListVi
 @ExperimentalMaterialApi
 @Composable
 fun UserCustomListScreen(
-    modifier: Modifier = Modifier,
-    backgroundColor: Color = MaterialTheme.colors.primary,
     onItemClick: (String) -> Unit,
     onBackClick: () -> Unit
 ) {
     val userCustomListViewModel: UserCustomListViewModel = hiltViewModel()
+    val lists = userCustomListViewModel.customs.collectAsState().value
 
+    UserCustomListContent(
+        customsLists = lists,
+        onAction = userCustomListViewModel::processAction,
+        onItemClick = onItemClick,
+        onBackClick = onBackClick
+    )
+}
+
+@ExperimentalMaterialApi
+@Composable
+private fun UserCustomListContent(
+    customsLists: List<CustomListEntity>,
+    onAction: (action: UserListAction) -> Unit,
+    onItemClick: (item: String) -> Unit,
+    onBackClick: () -> Unit
+) {
     val isDialogOpen = remember { mutableStateOf(false) }
 
-    val movies = userCustomListViewModel.customs.collectAsState().value
-
     Column(
-        modifier = modifier
-            .background(color = backgroundColor)
+        modifier = Modifier
+            .background(color = MaterialTheme.colors.primary)
     ) {
         ToolbarWithBackAndAction(
             title = stringResource(id = R.string.custom_channels_list_title),
@@ -47,21 +61,21 @@ fun UserCustomListScreen(
         )
 
         ShowDialog(isDialogOpen) { name ->
-            userCustomListViewModel.processAction(UserListAction.AddList(name))
+            onAction(UserListAction.AddList(name))
         }
 
         when {
-            movies.isEmpty() -> {
+            customsLists.isEmpty() -> {
                 NoItemsScreen()
             }
             else -> {
                 UserCustomList(
-                    list = movies,
+                    list = customsLists,
                     onItemClick = { item ->
                         onItemClick(item.name)
                     },
                     onDeleteClick = { item ->
-                        userCustomListViewModel.processAction(UserListAction.DeleteList(item))
+                        onAction(UserListAction.DeleteList(item))
                     }
                 )
             }
