@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.components
+package com.mvproject.tvprogramguide.components.pickers
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
