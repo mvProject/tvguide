@@ -1,10 +1,11 @@
-package com.mvproject.tvprogramguide.ui.settings.channels
+package com.mvproject.tvprogramguide.ui.settings.channels.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.data.model.Channel
 import com.mvproject.tvprogramguide.domain.repository.SelectedChannelRepository
+import com.mvproject.tvprogramguide.ui.settings.channels.actions.SelectedChannelsAction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,7 +32,7 @@ class SelectedChannelsViewModel @Inject constructor(
         }
     }
 
-    fun applyAction(action: SelectedChannelsAction){
+    fun processAction(action: SelectedChannelsAction){
         when(action){
             is SelectedChannelsAction.ChannelDelete ->{
                 viewModelScope.launch(Dispatchers.IO) {

@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.components
+package com.mvproject.tvprogramguide.ui.settings.channels.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
