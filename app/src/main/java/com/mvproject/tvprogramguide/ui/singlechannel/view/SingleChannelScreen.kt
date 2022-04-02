@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.singlechannel
+package com.mvproject.tvprogramguide.ui.singlechannel.view
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
@@ -9,6 +9,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mvproject.tvprogramguide.components.toolbars.ToolbarWithBack
+import com.mvproject.tvprogramguide.ui.singlechannel.components.SingleChannelList
+import com.mvproject.tvprogramguide.ui.singlechannel.viewmodel.SingleChannelViewModel
 import com.mvproject.tvprogramguide.utils.Utils.parseChannelName
 
 @ExperimentalFoundationApi
@@ -19,7 +21,7 @@ fun SingleChannelScreen(
     channelName: String,
     onBackClick: () -> Unit
 ) {
-    val singleChannelProgramsViewModel: SingleChannelProgramsViewModel = hiltViewModel()
+    val singleChannelProgramsViewModel: SingleChannelViewModel = hiltViewModel()
 
     singleChannelProgramsViewModel.loadPrograms(channelId)
 
@@ -34,6 +36,6 @@ fun SingleChannelScreen(
             onBackClick = onBackClick
         )
 
-        SingleChannelData(singleChannelPrograms = state.value)
+        SingleChannelList(singleChannelPrograms = state.value)
     }
 }

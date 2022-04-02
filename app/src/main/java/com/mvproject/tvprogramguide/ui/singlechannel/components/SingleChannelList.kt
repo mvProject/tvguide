@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.singlechannel
+package com.mvproject.tvprogramguide.ui.singlechannel.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -6,10 +6,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import com.mvproject.tvprogramguide.components.DateItem
 import com.mvproject.tvprogramguide.components.ProgramItem
 import com.mvproject.tvprogramguide.data.model.SingleChannelModel
 import com.mvproject.tvprogramguide.utils.Utils.calculateProgramProgress
@@ -18,11 +17,11 @@ import com.mvproject.tvprogramguide.utils.Utils.convertTimeToReadableFormat
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun SingleChannelData(singleChannelPrograms: List<SingleChannelModel>) {
+fun SingleChannelList(singleChannelPrograms: List<SingleChannelModel>) {
     LazyColumn(
         modifier = Modifier
             .fillMaxHeight()
-            .background(Color.White)
+            .background(MaterialTheme.colors.secondary)
     ) {
         singleChannelPrograms.forEach {
             stickyHeader {
