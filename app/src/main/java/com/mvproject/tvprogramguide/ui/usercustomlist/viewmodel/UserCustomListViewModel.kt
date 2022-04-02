@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.data.entity.CustomListEntity
+import com.mvproject.tvprogramguide.data.model.CustomList
 import com.mvproject.tvprogramguide.domain.repository.CustomListRepository
 import com.mvproject.tvprogramguide.ui.usercustomlist.action.UserListAction
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
@@ -20,7 +21,7 @@ class UserCustomListViewModel @Inject constructor(
     private val storeHelper: StoreHelper
 ) : ViewModel() {
 
-    private var _customs = MutableStateFlow<List<CustomListEntity>>(emptyList())
+    private var _customs = MutableStateFlow<List<CustomList>>(emptyList())
     val customs = _customs.asStateFlow()
 
     init {
@@ -32,11 +33,11 @@ class UserCustomListViewModel @Inject constructor(
         }
     }
 
-    private fun initDefaultList(lists: List<CustomListEntity>) {
+    private fun initDefaultList(lists: List<CustomList>) {
         val current = storeHelper.defaultChannelList
         val listCount = lists.count()
         if (current == NO_VALUE_STRING && listCount == COUNT_ONE) {
-            val listName = lists.first().name
+            val listName = lists.first().listName
             storeHelper.setDefaultChannelList(listName)
         }
     }

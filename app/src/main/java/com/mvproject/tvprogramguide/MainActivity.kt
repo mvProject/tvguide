@@ -8,6 +8,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.mvproject.tvprogramguide.navigation.NavigationHost
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import dagger.hilt.android.AndroidEntryPoint
 

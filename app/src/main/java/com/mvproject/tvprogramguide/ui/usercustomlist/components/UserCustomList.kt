@@ -9,17 +9,17 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.mvproject.tvprogramguide.data.entity.CustomListEntity
+import com.mvproject.tvprogramguide.data.model.CustomList
 import com.mvproject.tvprogramguide.theme.appColors
 
 @ExperimentalMaterialApi
 @Composable
 fun UserCustomList(
     modifier: Modifier = Modifier,
-    list: List<CustomListEntity>,
+    list: List<CustomList>,
     backgroundColor: Color = MaterialTheme.colors.primary,
-    onItemClick: (CustomListEntity) -> Unit,
-    onDeleteClick: (CustomListEntity) -> Unit
+    onItemClick: (CustomList) -> Unit,
+    onDeleteClick: (CustomList) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -28,7 +28,7 @@ fun UserCustomList(
     ) {
         items(list) { item ->
             UserCustomListItem(
-                listName = item.name,
+                listName = item.listName,
                 tintColor = MaterialTheme.appColors.tintSecondary,
                 onItemAction = { onItemClick(item) },
                 onDeleteAction = { onDeleteClick(item) }

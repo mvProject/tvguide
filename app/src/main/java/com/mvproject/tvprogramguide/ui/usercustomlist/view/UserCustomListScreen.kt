@@ -9,14 +9,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.components.NoItemsScreen
 import com.mvproject.tvprogramguide.components.dialogs.ShowDialog
 import com.mvproject.tvprogramguide.components.toolbars.ToolbarWithBackAndAction
-import com.mvproject.tvprogramguide.data.entity.CustomListEntity
+import com.mvproject.tvprogramguide.data.model.CustomList
 import com.mvproject.tvprogramguide.ui.usercustomlist.action.UserListAction
 import com.mvproject.tvprogramguide.ui.usercustomlist.components.UserCustomList
 import com.mvproject.tvprogramguide.ui.usercustomlist.viewmodel.UserCustomListViewModel
@@ -41,7 +40,7 @@ fun UserCustomListScreen(
 @ExperimentalMaterialApi
 @Composable
 private fun UserCustomListContent(
-    customsLists: List<CustomListEntity>,
+    customsLists: List<CustomList>,
     onAction: (action: UserListAction) -> Unit,
     onItemClick: (item: String) -> Unit,
     onBackClick: () -> Unit
@@ -72,7 +71,7 @@ private fun UserCustomListContent(
                 UserCustomList(
                     list = customsLists,
                     onItemClick = { item ->
-                        onItemClick(item.name)
+                        onItemClick(item.listName)
                     },
                     onDeleteClick = { item ->
                         onAction(UserListAction.DeleteList(item))
