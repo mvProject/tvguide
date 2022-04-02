@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.settings.channels
+package com.mvproject.tvprogramguide.ui.settings.channels.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +10,7 @@ import com.mvproject.tvprogramguide.domain.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.domain.utils.Mappers.asAlreadySelected
+import com.mvproject.tvprogramguide.ui.settings.channels.actions.AvailableChannelsAction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

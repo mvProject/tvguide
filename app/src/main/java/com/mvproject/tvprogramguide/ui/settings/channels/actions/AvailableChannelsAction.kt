@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.settings.channels
+package com.mvproject.tvprogramguide.ui.settings.channels.actions
 
 import com.mvproject.tvprogramguide.data.model.Channel
 

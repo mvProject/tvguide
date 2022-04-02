@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.settings.channels
+package com.mvproject.tvprogramguide.ui.settings.channels.view
 
 import androidx.compose.animation.Animatable
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -17,8 +17,8 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.theme.appColors
 import com.mvproject.tvprogramguide.theme.dimens
+import com.mvproject.tvprogramguide.ui.settings.channels.viewmodel.CustomListViewModel
 import com.mvproject.tvprogramguide.utils.AppConstants.SELECTED_CHANNELS_PAGE
 import kotlinx.coroutines.launch
 
@@ -32,7 +32,6 @@ fun TabMainScreen(userListName: String) {
     SideEffect {
         customListViewModel.setSelectedList(userListName)
     }
-
 
     val tabItems = listOf(
         stringResource(id = R.string.all_channels_title),
@@ -73,9 +72,9 @@ fun TabMainScreen(userListName: String) {
                 )
             }
         ) {
-            val startColor = MaterialTheme.appColors.backgroundPrimary
-            val activeColor = MaterialTheme.appColors.backgroundPrimary
-            val inActiveColor = MaterialTheme.appColors.backgroundSecondary
+            val startColor = MaterialTheme.colors.onPrimary
+            val activeColor = MaterialTheme.colors.onPrimary
+            val inActiveColor = MaterialTheme.colors.primary
 
             tabItems.forEachIndexed { index, title ->
                 val color = remember { Animatable(startColor) }
@@ -98,12 +97,12 @@ fun TabMainScreen(userListName: String) {
                             text = title,
                             style = if (pagerState.currentPage == index) {
                                 TextStyle(
-                                    color = MaterialTheme.colors.onPrimary,
+                                    color = MaterialTheme.colors.primary,
                                     fontSize = MaterialTheme.dimens.font18
                                 )
                             } else {
                                 TextStyle(
-                                    color = MaterialTheme.colors.onSecondary,
+                                    color = MaterialTheme.colors.onPrimary,
                                     fontSize = MaterialTheme.dimens.font16
                                 )
                             }

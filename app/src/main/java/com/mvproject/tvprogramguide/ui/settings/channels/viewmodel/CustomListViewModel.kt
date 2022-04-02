@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.settings.channels
+package com.mvproject.tvprogramguide.ui.settings.channels.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.mvproject.tvprogramguide.helpers.StoreHelper
