@@ -8,12 +8,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.mvproject.tvprogramguide.navigation.AppRoutes
-import com.mvproject.tvprogramguide.ui.selectedchannels.ChannelScreen
+import com.mvproject.tvprogramguide.ui.selectedchannels.view.ChannelScreen
 import com.mvproject.tvprogramguide.ui.settings.channels.TabMainScreen
-import com.mvproject.tvprogramguide.ui.singlechannel.SingleChannelScreen
+import com.mvproject.tvprogramguide.ui.singlechannel.view.SingleChannelScreen
 import com.mvproject.tvprogramguide.ui.settings.SettingsOptions
 import com.mvproject.tvprogramguide.ui.settings.app.SettingsScreen
-import com.mvproject.tvprogramguide.ui.usercustomlist.UserCustomListScreen
+import com.mvproject.tvprogramguide.ui.usercustomlist.view.UserCustomListScreen
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.utils.NavConstants.ARGUMENT_CHANNEL_ID
 import com.mvproject.tvprogramguide.utils.NavConstants.ARGUMENT_CHANNEL_NAME
