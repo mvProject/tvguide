@@ -14,6 +14,7 @@ data class Dimens(
     val size5: Dp = 5.dp,
     val size6: Dp = 6.dp,
     val size8: Dp = 8.dp,
+    val size10: Dp = 10.dp,
     val size12: Dp = 12.dp,
     val size14: Dp = 14.dp,
     val size16: Dp = 16.dp,
@@ -27,6 +28,8 @@ data class Dimens(
     val size32: Dp = 32.dp,
     val size34: Dp = 34.dp,
     val size38: Dp = 38.dp,
+    val size50: Dp = 50.dp,
+    val size96: Dp = 96.dp,
 
     val font12: TextUnit = 12.sp,
     val font14: TextUnit = 14.sp,
