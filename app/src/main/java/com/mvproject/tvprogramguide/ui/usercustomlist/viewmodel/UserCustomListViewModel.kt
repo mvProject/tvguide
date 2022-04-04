@@ -13,6 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,6 +26,7 @@ class UserCustomListViewModel @Inject constructor(
     val customs = _customs.asStateFlow()
 
     init {
+        Timber.i("testing UserCustomListViewModel init")
         viewModelScope.launch {
             customListRepository.loadChannelsLists().collect { lists ->
                 initDefaultList(lists)
@@ -57,5 +59,10 @@ class UserCustomListViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Timber.i("testing UserCustomListViewModel onCleared")
     }
 }

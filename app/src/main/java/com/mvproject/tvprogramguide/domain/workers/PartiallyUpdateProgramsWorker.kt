@@ -44,7 +44,7 @@ class PartiallyUpdateProgramsWorker @AssistedInject constructor(
                     )
                 }
             } else {
-                Timber.d("testing PartiallyUpdateProgramsWorker update count zero")
+                Timber.e("testing PartiallyUpdateProgramsWorker update count zero")
             }
         }
 

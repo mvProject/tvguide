@@ -21,6 +21,7 @@ import com.mvproject.tvprogramguide.theme.dimens
 import com.mvproject.tvprogramguide.ui.settings.channels.viewmodel.CustomListViewModel
 import com.mvproject.tvprogramguide.utils.AppConstants.SELECTED_CHANNELS_PAGE
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
@@ -30,6 +31,7 @@ fun TabMainScreen(userListName: String) {
     val customListViewModel: CustomListViewModel = hiltViewModel()
 
     SideEffect {
+        Timber.i("testing TabMainScreen SideEffect")
         customListViewModel.setSelectedList(userListName)
     }
 

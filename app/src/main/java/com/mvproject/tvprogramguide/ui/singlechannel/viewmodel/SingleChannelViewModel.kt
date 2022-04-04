@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,6 +21,10 @@ class SingleChannelViewModel @Inject constructor(
     private var _selectedPrograms = MutableStateFlow<List<SingleChannelModel>>(emptyList())
     val selectedPrograms = _selectedPrograms.asStateFlow()
 
+    init {
+        Timber.i("testing SingleChannelViewModel init")
+    }
+
     fun loadPrograms(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val programsWithChannels =
@@ -27,5 +32,10 @@ class SingleChannelViewModel @Inject constructor(
             val programs = programsWithChannels.toSortedSingleChannelPrograms()
             _selectedPrograms.emit(programs)
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Timber.i("testing SingleChannelViewModel onCleared")
     }
 }

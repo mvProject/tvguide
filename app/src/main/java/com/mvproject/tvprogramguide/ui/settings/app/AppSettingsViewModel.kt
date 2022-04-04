@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -56,6 +57,10 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
+    init {
+        Timber.i("testing AppSettingsViewModel init")
+    }
+
     fun processAction(action: SettingAction) {
         when (action) {
             is SettingAction.ChannelUpdatePeriodChange -> {
@@ -82,5 +87,10 @@ class AppSettingsViewModel @Inject constructor(
         viewModelScope.launch {
             _uiEvent.send(event)
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Timber.i("testing AppSettingsViewModel onCleared")
     }
 }
