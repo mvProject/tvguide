@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.mvproject.tvprogramguide.components.radio.RadioGroupScrollable
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 
 @Composable
 fun ShowSelectDialog(
@@ -21,13 +22,13 @@ fun ShowSelectDialog(
     isDialogOpen: MutableState<Boolean>,
     onSelected: (String) -> Unit
 ) {
-    val name = remember { mutableStateOf("") }
+    val def = if (radioOptions.isEmpty()) NO_VALUE_STRING else radioOptions[defaultSelection]
+    val name = remember { mutableStateOf(def) }
 
     if (isDialogOpen.value) {
         Dialog(
             onDismissRequest = { isDialogOpen.value = false }
         ) {
-
             Surface(
                 modifier = Modifier
                     .fillMaxWidth()

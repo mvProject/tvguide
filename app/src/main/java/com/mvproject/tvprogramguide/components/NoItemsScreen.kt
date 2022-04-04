@@ -1,5 +1,6 @@
 package com.mvproject.tvprogramguide.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -13,6 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 
 @Composable
 fun NoItemsScreen(
@@ -20,7 +22,10 @@ fun NoItemsScreen(
     title: String = stringResource(id = R.string.no_items_found),
     backgroundColor: Color = MaterialTheme.colors.primary,
     titleColor: Color = MaterialTheme.colors.onPrimary,
-    tintColor: Color = MaterialTheme.colors.onPrimary
+    tintColor: Color = MaterialTheme.colors.onPrimary,
+    navigateTitle: String = NO_VALUE_STRING,
+    onNavigateClick:()-> Unit = {}
+
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -51,6 +56,21 @@ fun NoItemsScreen(
                     color = titleColor,
                     textAlign = TextAlign.Center
                 )
+
+                if (navigateTitle.isNotEmpty()){
+                    Text(
+                        modifier = Modifier
+                            .padding(
+                                top = MaterialTheme.dimens.size16,
+                                bottom = MaterialTheme.dimens.size24
+                            )
+                            .clickable { onNavigateClick() },
+                        text = navigateTitle,
+                        style = MaterialTheme.appTypography.textExtraBold,
+                        color = titleColor,
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         }
     }
