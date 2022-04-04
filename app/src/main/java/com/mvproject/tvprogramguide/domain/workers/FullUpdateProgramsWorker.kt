@@ -48,7 +48,7 @@ class FullUpdateProgramsWorker @AssistedInject constructor(
             }
             storeHelper.setProgramsUpdateLastTime(System.currentTimeMillis())
         } else {
-            Timber.d("testing FullUpdateProgramsWorker update count zero")
+            Timber.e("testing FullUpdateProgramsWorker update count zero")
         }
 
         if (isNotificationOn) {

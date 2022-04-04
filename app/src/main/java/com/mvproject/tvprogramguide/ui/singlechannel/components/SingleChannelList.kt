@@ -8,16 +8,22 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import com.mvproject.tvprogramguide.components.ProgramItem
 import com.mvproject.tvprogramguide.data.model.SingleChannelModel
 import com.mvproject.tvprogramguide.utils.Utils.calculateProgramProgress
 import com.mvproject.tvprogramguide.utils.Utils.convertTimeToReadableFormat
+import timber.log.Timber
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 fun SingleChannelList(singleChannelPrograms: List<SingleChannelModel>) {
+    SideEffect {
+        Timber.i("testing SingleChannelList SideEffect")
+    }
+
     LazyColumn(
         modifier = Modifier
             .fillMaxHeight()

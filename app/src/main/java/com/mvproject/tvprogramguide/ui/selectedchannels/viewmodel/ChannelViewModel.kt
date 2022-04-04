@@ -10,6 +10,7 @@ import androidx.work.WorkManager
 import com.mvproject.tvprogramguide.helpers.NetworkHelper
 import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.data.entity.CustomListEntity
+import com.mvproject.tvprogramguide.data.model.CustomList
 import com.mvproject.tvprogramguide.data.model.SelectedChannelModel
 import com.mvproject.tvprogramguide.domain.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.domain.repository.CustomListRepository
@@ -38,11 +39,11 @@ class ChannelViewModel @Inject constructor(
     private val networkHelper: NetworkHelper
 ) : ViewModel() {
 
-    val partiallyUpdateWorkInfo: LiveData<List<WorkInfo>> =
-        workManager.getWorkInfosForUniqueWorkLiveData(DOWNLOAD_PROGRAMS)
+  // val partiallyUpdateWorkInfo: LiveData<List<WorkInfo>> =
+  //     workManager.getWorkInfosForUniqueWorkLiveData(DOWNLOAD_PROGRAMS)
 
-    val fullUpdateWorkInfo: LiveData<List<WorkInfo>> =
-        workManager.getWorkInfosForUniqueWorkLiveData(DOWNLOAD_FULL_PROGRAMS)
+  // val fullUpdateWorkInfo: LiveData<List<WorkInfo>> =
+  //     workManager.getWorkInfosForUniqueWorkLiveData(DOWNLOAD_FULL_PROGRAMS)
 
     private var _selectedList = MutableStateFlow(storeHelper.defaultChannelList)
     val selectedList = _selectedList.asStateFlow()
@@ -50,13 +51,14 @@ class ChannelViewModel @Inject constructor(
     private var _selectedPrograms = MutableStateFlow<List<SelectedChannelModel>>(emptyList())
     val selectedPrograms = _selectedPrograms.asStateFlow()
 
-    private var _availableLists: List<CustomListEntity> = emptyList()
+    private var _availableLists: List<CustomList> = emptyList()
 
     private var savedList = storeHelper.defaultChannelList
 
     private var visibleCount = storeHelper.programByChannelDefaultCount
 
     init {
+        Timber.i("testing ChannelViewModel init")
         viewModelScope.launch(Dispatchers.IO) {
             customListRepository.loadChannelsLists().collect {
                 _availableLists = it
@@ -71,9 +73,10 @@ class ChannelViewModel @Inject constructor(
         }
     }
 
-    val availableLists get() = _availableLists.map { it.name }
+    val availableLists get() = _availableLists.map { it.listName }
 
     fun reloadChannels() {
+        visibleCount = storeHelper.programByChannelDefaultCount
         updatePrograms()
     }
 
@@ -106,12 +109,8 @@ class ChannelViewModel @Inject constructor(
                 startPartiallyUpdate(missingIds.toTypedArray())
             }
         } else {
-            Timber.d("testing no current saved list")
+            Timber.e("testing no current saved list")
         }
-    }
-
-    fun checkForUpdates() {
-        visibleCount = storeHelper.programByChannelDefaultCount
     }
 
     private fun startPartiallyUpdate(ids: Array<String> = emptyArray()) {
@@ -148,7 +147,7 @@ class ChannelViewModel @Inject constructor(
                 channelRequest
             )
         } else {
-            Timber.d("testing no connection")
+            Timber.e("testing no connection")
         }
     }
 
@@ -166,7 +165,12 @@ class ChannelViewModel @Inject constructor(
                 programRequest
             )
         } else {
-            Timber.d("testing no connection")
+            Timber.e("testing no connection")
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Timber.i("testing ChannelViewModel onCleared")
     }
 }

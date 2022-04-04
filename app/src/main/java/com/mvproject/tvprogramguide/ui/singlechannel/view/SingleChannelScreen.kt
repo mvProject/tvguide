@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -12,6 +13,7 @@ import com.mvproject.tvprogramguide.components.toolbars.ToolbarWithBack
 import com.mvproject.tvprogramguide.ui.singlechannel.components.SingleChannelList
 import com.mvproject.tvprogramguide.ui.singlechannel.viewmodel.SingleChannelViewModel
 import com.mvproject.tvprogramguide.utils.Utils.parseChannelName
+import timber.log.Timber
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -22,6 +24,10 @@ fun SingleChannelScreen(
     onBackClick: () -> Unit
 ) {
     val singleChannelProgramsViewModel: SingleChannelViewModel = hiltViewModel()
+
+    SideEffect {
+        Timber.i("testing SingleChannelScreen SideEffect")
+    }
 
     singleChannelProgramsViewModel.loadPrograms(channelId)
 

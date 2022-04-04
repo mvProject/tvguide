@@ -1,6 +1,7 @@
 package com.mvproject.tvprogramguide.domain.utils
 
 import com.mvproject.tvprogramguide.data.entity.ChannelEntity
+import com.mvproject.tvprogramguide.data.entity.CustomListEntity
 import com.mvproject.tvprogramguide.data.entity.ProgramEntity
 import com.mvproject.tvprogramguide.data.json.JsonChannelModel
 import com.mvproject.tvprogramguide.data.json.JsonProgram
@@ -157,6 +158,10 @@ object Mappers {
 
     fun List<ChannelEntity>.asChannelsFromEntities() = this.map { item ->
         item.asChannelFromEntity()
+    }
+
+    fun List<CustomListEntity>.asCustomLists() = this.map { item ->
+        item.toCustomList()
     }
 
     fun List<JsonChannelModel>.filterNoEpg() =

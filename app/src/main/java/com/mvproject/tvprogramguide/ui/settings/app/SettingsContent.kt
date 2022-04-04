@@ -10,6 +10,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -21,6 +22,7 @@ import com.mvproject.tvprogramguide.ui.settings.channels.PickerItem
 import com.mvproject.tvprogramguide.theme.appColors
 import com.mvproject.tvprogramguide.theme.dimens
 import com.mvproject.tvprogramguide.utils.Utils.findActivity
+import timber.log.Timber
 
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
@@ -29,6 +31,10 @@ import com.mvproject.tvprogramguide.utils.Utils.findActivity
 fun SettingsContent() {
 
     val settingsViewModel: AppSettingsViewModel = hiltViewModel()
+
+    SideEffect {
+        Timber.i("testing SettingsContent SideEffect")
+    }
 
     val selectedTheme = settingsViewModel.selectedThemeMode
     val selectedLanguage = settingsViewModel.selectedLanguage

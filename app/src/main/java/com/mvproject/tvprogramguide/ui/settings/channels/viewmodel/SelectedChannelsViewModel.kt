@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,6 +26,7 @@ class SelectedChannelsViewModel @Inject constructor(
     private val listName = storeHelper.currentChannelList
 
     init {
+        Timber.i("testing SelectedChannelsViewModel init")
         viewModelScope.launch {
             selectedChannelRepository.loadSelectedChannelsFlow(listName).collect {
                 _selectedChannels.emit(it)
@@ -40,5 +42,10 @@ class SelectedChannelsViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Timber.i("testing SelectedChannelsViewModel onCleared")
     }
 }

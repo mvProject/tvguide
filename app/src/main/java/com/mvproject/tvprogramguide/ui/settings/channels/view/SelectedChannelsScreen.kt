@@ -4,12 +4,14 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mvproject.tvprogramguide.data.model.Channel
 import com.mvproject.tvprogramguide.ui.settings.channels.actions.SelectedChannelsAction
 import com.mvproject.tvprogramguide.ui.settings.channels.components.SelectedChannelsList
 import com.mvproject.tvprogramguide.ui.settings.channels.viewmodel.SelectedChannelsViewModel
+import timber.log.Timber
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
@@ -17,8 +19,10 @@ import com.mvproject.tvprogramguide.ui.settings.channels.viewmodel.SelectedChann
 fun SelectedChannelsScreen(
     selectedChannelsViewModel: SelectedChannelsViewModel = hiltViewModel()
 ) {
+    SideEffect {
+        Timber.i("testing SelectedChannelsScreen SideEffect")
+    }
     val channels = selectedChannelsViewModel.selectedChannels.collectAsState().value
-
     SelectedChannelsContent(
         channels = channels,
         onAction = selectedChannelsViewModel::processAction
@@ -32,6 +36,9 @@ private fun SelectedChannelsContent(
     channels: List<Channel>,
     onAction: (action: SelectedChannelsAction) -> Unit
 ) {
+    SideEffect {
+        Timber.i("testing SelectedChannelsContent SideEffect")
+    }
     Column {
         SelectedChannelsList(channels) { chn ->
             onAction(SelectedChannelsAction.ChannelDelete(chn))
