@@ -8,10 +8,16 @@ object AppConstants{
     const val COUNT_ONE = 1
     const val COUNT_ZERO = 0
     const val COUNT_ZERO_LONG = 0L
+    const val COUNT_ZERO_FLOAT = 0f
 
     const val DEFAULT_PROGRAMS_UPDATE_PERIOD = 2
     const val DEFAULT_CHANNELS_UPDATE_PERIOD = 7
     const val DEFAULT_PROGRAMS_VISIBLE_COUNT = 3
 
     const val SELECTED_CHANNELS_PAGE = 1
+
+    const val ANIM_DURATION_300 = 300
+    const val ANIM_DURATION_800 = 800
+
+    const val OPACITY_60 = 0.6f
 }

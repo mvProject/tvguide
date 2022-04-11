@@ -19,7 +19,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
-import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
+import com.mvproject.tvprogramguide.utils.AppConstants.OPACITY_60
+import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_300
+import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO_FLOAT
 
 @ExperimentalMaterialApi
 @Composable
@@ -27,7 +29,7 @@ fun ProgramItem(
     prgTime: String,
     prgTitle: String,
     prgDescription: String,
-    progressValue: Float = 0f
+    progressValue: Float = COUNT_ZERO_FLOAT
 ) {
     var expandedState by remember { mutableStateOf(false) }
     val rotationState by animateFloatAsState(
@@ -38,10 +40,10 @@ fun ProgramItem(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .defaultMinSize(minHeight = MaterialTheme.dimens.size50)
+            .defaultMinSize(minHeight = MaterialTheme.dimens.size48)
             .animateContentSize(
                 animationSpec = tween(
-                    durationMillis = 300,
+                    durationMillis = ANIM_DURATION_300,
                     easing = LinearOutSlowInEasing
                 )
             ),
@@ -63,11 +65,11 @@ fun ProgramItem(
             ) {
                 TimeItem(time = prgTime)
 
-                Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
+                Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size4))
 
                 Text(
                     modifier = Modifier
-                        .weight(6f),
+                        .weight(MaterialTheme.dimens.weight6),
                     text = prgTitle,
                     fontSize = MaterialTheme.dimens.font14,
                     style = MaterialTheme.appTypography.textMedium,
@@ -76,7 +78,7 @@ fun ProgramItem(
                 if (prgDescription.isNotEmpty()) {
                     IconButton(
                         modifier = Modifier
-                            .weight(1f)
+                            .weight(MaterialTheme.dimens.weight1)
                             .alpha(ContentAlpha.medium)
                             .rotate(rotationState),
                         onClick = {
@@ -90,31 +92,31 @@ fun ProgramItem(
                     }
                 }
             }
-            if (progressValue > COUNT_ZERO) {
+
+            if (progressValue > COUNT_ZERO_FLOAT) {
                 LinearProgressIndicator(
                     progress = progressValue,
                     modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colors.onPrimary,
                     backgroundColor = MaterialTheme.colors.surface
                 )
-
-                Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
             }
-            if (expandedState) {
-                Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
 
+            if (expandedState) {
                 Text(
                     text = prgDescription,
                     modifier = Modifier
-                        .padding(horizontal = MaterialTheme.dimens.size10)
-                        .alpha(0.7f),
+                        .fillMaxWidth()
+                        .padding(MaterialTheme.dimens.size2)
+                        .alpha(OPACITY_60)
+                        .padding(
+                            horizontal = MaterialTheme.dimens.size10,
+                            vertical = MaterialTheme.dimens.size4
+                        ),
                     fontSize = MaterialTheme.dimens.font12,
                     style = MaterialTheme.appTypography.textNormal,
                     overflow = TextOverflow.Ellipsis
-
                 )
-
-                Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
             }
         }
     }
