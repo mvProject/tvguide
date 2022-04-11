@@ -17,7 +17,7 @@ object AppConstants {
     const val SELECTED_CHANNELS_PAGE = 1
 
     const val ANIM_DURATION_300 = 300
-    const val ANIM_DURATION_800 = 800
+    const val ANIM_DURATION_SCREEN_TRANSITION = 100
 
     const val OPACITY_60 = 0.6f
 }
