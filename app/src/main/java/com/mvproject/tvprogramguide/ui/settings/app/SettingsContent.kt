@@ -1,5 +1,6 @@
 package com.mvproject.tvprogramguide.ui.settings.app
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,6 +28,7 @@ import timber.log.Timber
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
+@ExperimentalAnimationApi
 @Composable
 fun SettingsContent() {
 

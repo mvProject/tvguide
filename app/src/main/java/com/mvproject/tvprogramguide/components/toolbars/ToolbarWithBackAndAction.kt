@@ -55,7 +55,7 @@ fun ToolbarWithBackAndAction(
         Text(
             text = title,
             modifier = Modifier
-                .weight(1f),
+                .weight(MaterialTheme.dimens.weight1),
             color = titleColor,
             textAlign = TextAlign.Center,
             fontSize = MaterialTheme.dimens.font14,

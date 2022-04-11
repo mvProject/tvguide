@@ -84,7 +84,7 @@ fun createInputDataForPartialUpdate(isNotificationOn: Boolean = false, ids: Arra
     }.build()
 }
 
-fun createInputDataForUpdate(isNotificationOn: Boolean = false): Data {
+fun createInputDataForUpdate(isNotificationOn: Boolean = true): Data {
     return Data.Builder().apply {
         putBoolean(NOTIFICATION_CONDITION, isNotificationOn)
     }.build()

@@ -34,22 +34,22 @@ fun ToolbarWithOptions(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentSize()
+            .clickable {
+                onSelectClick()
+            }
             .background(color = toolbarBackgroundColor)
-            .padding(MaterialTheme.dimens.size8),
+            .padding(MaterialTheme.dimens.size4),
         verticalAlignment = Alignment.CenterVertically
     ) {
 
         Text(
             text = title,
             modifier = Modifier
-                .weight(1f)
-                .clickable {
-                    onSelectClick()
-                },
+                .weight(MaterialTheme.dimens.weight1),
             color = titleColor,
             textAlign = TextAlign.Center,
             fontSize = MaterialTheme.dimens.font14,
-            style = MaterialTheme.appTypography.textMedium
+            style = MaterialTheme.appTypography.textSemiBold
         )
 
         Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
