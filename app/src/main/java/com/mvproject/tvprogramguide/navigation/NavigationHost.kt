@@ -1,34 +1,48 @@
 package com.mvproject.tvprogramguide.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.mvproject.tvprogramguide.ui.selectedchannels.view.ChannelScreen
-import com.mvproject.tvprogramguide.ui.settings.channels.view.TabMainScreen
-import com.mvproject.tvprogramguide.ui.singlechannel.view.SingleChannelScreen
 import com.mvproject.tvprogramguide.ui.settings.SettingsOptions
 import com.mvproject.tvprogramguide.ui.settings.app.SettingsScreen
+import com.mvproject.tvprogramguide.ui.settings.channels.view.TabMainScreen
+import com.mvproject.tvprogramguide.ui.singlechannel.view.SingleChannelScreen
 import com.mvproject.tvprogramguide.ui.usercustomlist.view.UserCustomListScreen
+import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_800
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.utils.NavConstants.ARGUMENT_CHANNEL_ID
 import com.mvproject.tvprogramguide.utils.NavConstants.ARGUMENT_CHANNEL_NAME
 import com.mvproject.tvprogramguide.utils.NavConstants.ARGUMENT_USER_LIST_NAME
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
+@ExperimentalCoroutinesApi
+@ExperimentalAnimationApi
 @Composable
 fun NavigationHost(navController: NavHostController) {
 
-    NavHost(
+    AnimatedNavHost(
         navController = navController,
         startDestination = AppRoutes.Channels.route,
     ) {
-        composable(AppRoutes.Channels.route) {
+        composable(
+            AppRoutes.Channels.route,
+            enterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_800)) },
+            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_800)) },
+            popEnterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_800)) },
+            popExitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_800)) }
+        ) {
             ChannelScreen(
                 onSettingsClick = {
                     navController.navigate(AppRoutes.OptionSettings.route)
@@ -44,7 +58,13 @@ fun NavigationHost(navController: NavHostController) {
             )
         }
 
-        composable(AppRoutes.SelectedChannel.route) { backStackEntry ->
+        composable(
+            AppRoutes.SelectedChannel.route,
+            enterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_800)) },
+            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_800)) },
+            popEnterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_800)) },
+            popExitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_800)) }
+        ) { backStackEntry ->
             val channelId =
                 backStackEntry.arguments?.getString(ARGUMENT_CHANNEL_ID) ?: NO_VALUE_STRING
             val channelName =
@@ -58,7 +78,13 @@ fun NavigationHost(navController: NavHostController) {
             )
         }
 
-        composable(AppRoutes.OptionSettings.route) {
+        composable(
+            AppRoutes.OptionSettings.route,
+            enterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_800)) },
+            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_800)) },
+            popEnterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_800)) },
+            popExitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_800)) }
+        ) {
             SettingsOptions(
                 onBackClick = {
                     navController.popBackStack()
@@ -72,13 +98,25 @@ fun NavigationHost(navController: NavHostController) {
             )
         }
 
-        composable(AppRoutes.AppSettings.route) {
+        composable(
+            AppRoutes.AppSettings.route,
+            enterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_800)) },
+            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_800)) },
+            popEnterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_800)) },
+            popExitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_800)) }
+        ) {
             SettingsScreen {
                 navController.popBackStack()
             }
         }
 
-        composable(AppRoutes.UserCustomList.route) {
+        composable(
+            AppRoutes.UserCustomList.route,
+            enterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_800)) },
+            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_800)) },
+            popEnterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_800)) },
+            popExitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_800)) }
+        ) {
             UserCustomListScreen(
                 onItemClick = { id ->
                     navController.navigate(
@@ -91,7 +129,13 @@ fun NavigationHost(navController: NavHostController) {
             )
         }
 
-        composable(AppRoutes.ChannelSettings.route) { backStackEntry ->
+        composable(
+            AppRoutes.ChannelSettings.route,
+            enterTransition = { fadeIn(animationSpec = tween(800)) },
+            exitTransition = { fadeOut(animationSpec = tween(800)) },
+            popEnterTransition = { fadeIn(animationSpec = tween(800)) },
+            popExitTransition = { fadeOut(animationSpec = tween(800)) }
+        ) { backStackEntry ->
             val userListName =
                 backStackEntry.arguments?.getString(ARGUMENT_USER_LIST_NAME) ?: NO_VALUE_STRING
             TabMainScreen(userListName = userListName)
