@@ -8,7 +8,6 @@ import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 private const val DATE_FORMAT = "dd-MM-yyyy HH:mm"
 
 private const val TARGET_DATE_FORMAT = "dd MM yyyy"
@@ -71,10 +70,10 @@ object Utils {
 
     // todo find proper way for summer/winter time correction
     fun Long.correctTimeZone(): Long {
-        //val offset = (TimeZone.getDefault()?.rawOffset?.let {
+        // val offset = (TimeZone.getDefault()?.rawOffset?.let {
         //    DEFAULT_TIME_ZONE_OFFSET - it
-        //} ?: 0).toLong()
-        //return this - offset
+        // } ?: 0).toLong()
+        // return this - offset
         return this
     }
 

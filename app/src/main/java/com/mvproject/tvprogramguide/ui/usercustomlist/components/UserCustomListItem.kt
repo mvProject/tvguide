@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
-import com.mvproject.tvprogramguide.theme.appColors
 import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
 
@@ -24,8 +23,8 @@ import com.mvproject.tvprogramguide.theme.dimens
 fun UserCustomListItem(
     modifier: Modifier = Modifier,
     listName: String,
-    txtColor: Color  = MaterialTheme.colors.onPrimary,
-    tintColor: Color  = MaterialTheme.colors.onPrimary,
+    txtColor: Color = MaterialTheme.colors.onPrimary,
+    tintColor: Color = MaterialTheme.colors.onPrimary,
     backgroundColor: Color = MaterialTheme.colors.primary,
     onItemAction: () -> Unit = {},
     onDeleteAction: () -> Unit = {}

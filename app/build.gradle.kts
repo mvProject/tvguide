@@ -16,7 +16,7 @@ android {
         versionName = Config.versionName
         testInstrumentationRunner = Config.androidTestInstrumentation
 
-        resourceConfigurations.addAll(listOf("en","ru","uk"))
+        resourceConfigurations.addAll(listOf("en", "ru", "uk"))
     }
 
     signingConfigs {
@@ -29,7 +29,7 @@ android {
     }
 
     buildTypes {
-        debug{
+        debug {
             isDebuggable = true
             setProperty(
                 "archivesBaseName",

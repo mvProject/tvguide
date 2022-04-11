@@ -19,9 +19,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.mvproject.tvprogramguide.MainActivity
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.ui.settings.channels.PickerItem
 import com.mvproject.tvprogramguide.theme.appColors
 import com.mvproject.tvprogramguide.theme.dimens
+import com.mvproject.tvprogramguide.ui.settings.channels.PickerItem
 import com.mvproject.tvprogramguide.utils.Utils.findActivity
 import timber.log.Timber
 
@@ -95,25 +95,24 @@ fun SettingsContent() {
             }
         }
 
-       // RadioGroup(
-       //     radioOptions = settingsViewModel.languageOptionsNames,
-       //     title = stringResource(id = R.string.settings_language_title),
-       //     cardBackgroundColor = MaterialTheme.appColors.backgroundPrimary,
-       //     defaultSelection = settingsViewModel.getLanguageDefaultSelectedIndex(selectedLanguage)
-       // ) { selectedLanguage ->
-       //     settingsViewModel.processAction(SettingAction.LanguageChange(selectedLanguage))
-       // }
+        // RadioGroup(
+        //     radioOptions = settingsViewModel.languageOptionsNames,
+        //     title = stringResource(id = R.string.settings_language_title),
+        //     cardBackgroundColor = MaterialTheme.appColors.backgroundPrimary,
+        //     defaultSelection = settingsViewModel.getLanguageDefaultSelectedIndex(selectedLanguage)
+        // ) { selectedLanguage ->
+        //     settingsViewModel.processAction(SettingAction.LanguageChange(selectedLanguage))
+        // }
 
-       //RadioGroup(
-       //    radioOptions = themeOptionsStrings,
-       //    title = stringResource(id = R.string.settings_theme_title),
-       //    cardBackgroundColor = MaterialTheme.appColors.backgroundPrimary,
-       //    defaultSelection = settingsViewModel.getThemeDefaultSelectedIndex(selectedTheme)
-       //) { selectedTheme ->
-       //    val selected = themeOptionsStrings
-       //        .indexOfFirst { it == selectedTheme }
-       //    settingsViewModel.processAction(SettingAction.ThemeChange(selected))
-       //}
+        // RadioGroup(
+        //    radioOptions = themeOptionsStrings,
+        //    title = stringResource(id = R.string.settings_theme_title),
+        //    cardBackgroundColor = MaterialTheme.appColors.backgroundPrimary,
+        //    defaultSelection = settingsViewModel.getThemeDefaultSelectedIndex(selectedTheme)
+        // ) { selectedTheme ->
+        //    val selected = themeOptionsStrings
+        //        .indexOfFirst { it == selectedTheme }
+        //    settingsViewModel.processAction(SettingAction.ThemeChange(selected))
+        // }
     }
 }
-

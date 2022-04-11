@@ -75,7 +75,7 @@ object Dependencies {
     private const val accompanistPagerIndicators =
         "com.google.accompanist:accompanist-pager-indicators:${Versions.accompanistPager}"
 
-    //Navigation
+    // Navigation
     private const val navComposeHilt =
         "androidx.hilt:hilt-navigation-compose:${Versions.navigationComposeHilt}"
     private const val navCompose =

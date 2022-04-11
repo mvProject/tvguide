@@ -5,11 +5,11 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.domain.repository.AllChannelRepository
 import com.mvproject.tvprogramguide.domain.utils.NOTIFICATION_CONDITION
 import com.mvproject.tvprogramguide.domain.utils.hideStatusNotification
 import com.mvproject.tvprogramguide.domain.utils.makeStatusNotification
+import com.mvproject.tvprogramguide.helpers.StoreHelper
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -40,5 +40,4 @@ class UpdateChannelsWorker @AssistedInject constructor(
 
         return Result.success()
     }
-
 }

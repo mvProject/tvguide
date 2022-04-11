@@ -1,17 +1,5 @@
 package com.mvproject.tvprogramguide.utils
 
-import android.app.Activity
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.radiobutton.MaterialRadioButton
-import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
-
 private const val DEFAULT_TOP_MARGIN = 24
 private const val LOAD_DEFAULT_ZERO = 0
 

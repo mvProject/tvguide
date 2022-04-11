@@ -6,7 +6,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
@@ -17,7 +16,10 @@ fun TimeItem(time: String) {
         modifier = Modifier
             .width(MaterialTheme.dimens.size44)
             .wrapContentHeight()
-            .padding(horizontal = MaterialTheme.dimens.size4, vertical = MaterialTheme.dimens.size2),
+            .padding(
+                horizontal = MaterialTheme.dimens.size4,
+                vertical = MaterialTheme.dimens.size2
+            ),
         horizontalArrangement = Arrangement.Center
     ) {
         Text(

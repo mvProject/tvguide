@@ -9,7 +9,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.mvproject.tvprogramguide.ui.settings.channels.components.ChannelSelectableItem
 import com.mvproject.tvprogramguide.data.model.Channel
 import com.mvproject.tvprogramguide.utils.Utils.parseChannelName
 

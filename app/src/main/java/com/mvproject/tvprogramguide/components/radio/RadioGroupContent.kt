@@ -63,7 +63,7 @@ fun RadioGroupContent(
                 ClickableText(
                     text = annotatedString,
                     onClick = {
-                        //selectedOption.value = item
+                        // selectedOption.value = item
                         onOptionSelected(item)
                         onItemClick(item)
                     }

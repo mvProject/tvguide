@@ -1,12 +1,12 @@
 package com.mvproject.tvprogramguide.domain.repository
 
-import com.mvproject.tvprogramguide.domain.database.dao.CustomListDao
 import com.mvproject.tvprogramguide.data.entity.CustomListEntity
 import com.mvproject.tvprogramguide.data.model.CustomList
+import com.mvproject.tvprogramguide.domain.database.dao.CustomListDao
 import com.mvproject.tvprogramguide.domain.utils.Mappers.asCustomLists
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import kotlin.random.Random
+import kotlinx.coroutines.flow.map
 
 class CustomListRepository @Inject constructor(
     private val customListDao: CustomListDao

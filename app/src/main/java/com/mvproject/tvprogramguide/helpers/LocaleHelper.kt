@@ -8,9 +8,11 @@ object LocaleHelper {
 
     fun wrapContext(context: Context): Context {
 
-        val savedLocale = Locale(StoreHelper(context).selectedLang) // load the user language from SharedPreferences
+        // load the user language from SharedPreferences
+        val savedLocale = Locale(StoreHelper(context).selectedLang)
 
-        // as part of creating a new context that contains the new locale we also need to override the default locale.
+        // as part of creating a new context that contains the new locale
+        // we also need to override the default locale.
         Locale.setDefault(savedLocale)
 
         // create new configuration with the saved locale
@@ -22,9 +24,11 @@ object LocaleHelper {
 
     fun overrideLocale(context: Context) {
 
-        val savedLocale = Locale(StoreHelper(context).selectedLang) // load the user language from SharedPreferences
+        // load the user language from SharedPreferences
+        val savedLocale = Locale(StoreHelper(context).selectedLang)
 
-        // as part of creating a new context that contains the new locale we also need to override the default locale.
+        // as part of creating a new context that contains the new locale
+        // we also need to override the default locale.
         Locale.setDefault(savedLocale)
 
         // create new configuration with the saved locale

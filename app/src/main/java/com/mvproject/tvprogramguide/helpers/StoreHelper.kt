@@ -71,12 +71,12 @@ class StoreHelper @Inject constructor(@ApplicationContext private val context: C
 
     val isNeedFullProgramsUpdate
         get() = defaultChannelList.isNotEmpty() &&
-                System.currentTimeMillis() - programsUpdateLastTime >
-                DateUtils.DAY_IN_MILLIS * programsUpdatePeriod
+            System.currentTimeMillis() - programsUpdateLastTime >
+            DateUtils.DAY_IN_MILLIS * programsUpdatePeriod
 
     val isNeedAvailableChannelsUpdate
         get() = System.currentTimeMillis() - channelsUpdateLastTime >
-                DateUtils.DAY_IN_MILLIS * channelsUpdatePeriod
+            DateUtils.DAY_IN_MILLIS * channelsUpdatePeriod
 
     fun setProgramByChannelDefaultCount(count: Int?) {
         count?.let { value ->
