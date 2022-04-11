@@ -80,6 +80,8 @@ object Dependencies {
         "androidx.hilt:hilt-navigation-compose:${Versions.navigationComposeHilt}"
     private const val navCompose =
         "androidx.navigation:navigation-compose:${Versions.navigationCompose}"
+    private const val accompanistNavigationAnimated =
+        "com.google.accompanist:accompanist-navigation-animation:${Versions.accompanistNavigationAnimated}"
 
     // WorkManager
     private const val workRuntimeKtx =
@@ -131,6 +133,7 @@ object Dependencies {
 
     val navigationCompose = arrayListOf<String>().apply {
         add(navCompose)
+        add(accompanistNavigationAnimated)
         add(navComposeHilt)
     }
 

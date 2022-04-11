@@ -3,20 +3,20 @@ object Versions {
     const val gradle = "7.0.3"
     const val kotlin = "1.6.10"
     const val ktLint = "10.2.1"
-    const val depUpdate = "0.40.0"
+    const val depUpdate = "0.42.0"
     // libs
     const val coreKtx = "1.7.0"
     const val appcompat = "1.4.1"
 
-    const val preferenceKtx = "1.1.1"
+    const val preferenceKtx = "1.2.0"
     const val material = "1.4.0"
 
     const val timber = "5.0.1"
     const val annotation = "1.2.0"
 
     // coroutines
-    const val coroutinesCoreKtx = "1.6.0"
-    const val coroutinesAndroid = "1.6.0"
+    const val coroutinesCoreKtx = "1.6.1"
+    const val coroutinesAndroid = "1.6.1"
 
     // test
     const val junit = "4.13.2"
@@ -53,6 +53,7 @@ object Versions {
     // navigationCompose
     const val navigationComposeHilt = "1.0.0"
     const val navigationCompose = "2.4.1"
+    const val accompanistNavigationAnimated = "0.24.5-alpha"
 
     // WorkManager
     const val workRuntime = "2.7.1"
