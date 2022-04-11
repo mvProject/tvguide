@@ -146,7 +146,7 @@ fun SearchBar(
                         IconButton(
                             onClick = {
                                 text = ""
-                                onSearch(text)// Remove text from TextField when you press the 'X' icon
+                                onSearch(text)
                             }
                         ) {
                             Icon(

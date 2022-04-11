@@ -51,7 +51,6 @@ fun PickerItem(
 
 @Composable
 @Preview(showBackground = true)
-fun PickerItemPreview(){
+fun PickerItemPreview() {
     PickerItem("Available channels update period", 10, onValueSelected = {})
 }
-

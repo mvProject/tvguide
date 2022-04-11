@@ -61,14 +61,12 @@ fun ShowDialog(
                         modifier = Modifier.fillMaxWidth(0.8f)
                     )
 
-
                     Spacer(modifier = Modifier.padding(10.dp))
 
                     Button(
                         onClick = {
                             onSelected(name.value)
                             isDialogOpen.value = false
-
                         },
                         modifier = Modifier
                             .fillMaxWidth(0.5f)
@@ -90,5 +88,3 @@ fun ShowDialog(
         }
     }
 }
-
-

@@ -2,13 +2,13 @@ package com.mvproject.tvprogramguide.domain.repository
 
 import android.text.format.DateUtils
 import androidx.room.Transaction
-import com.mvproject.tvprogramguide.domain.database.dao.ProgramDao
 import com.mvproject.tvprogramguide.data.entity.ProgramEntity
 import com.mvproject.tvprogramguide.data.model.Program
 import com.mvproject.tvprogramguide.domain.EpgService
+import com.mvproject.tvprogramguide.domain.database.dao.ProgramDao
 import com.mvproject.tvprogramguide.domain.utils.Mappers.asProgramEntities
-import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.domain.utils.Mappers.asProgramFromEntities
+import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import javax.inject.Inject
 
 class ChannelProgramRepository @Inject constructor(
@@ -37,7 +37,6 @@ class ChannelProgramRepository @Inject constructor(
         try {
             val ch = epgService.getChannelProgram(id).ch_programme
             entities = ch.asProgramEntities(id)
-
         } catch (ex: Exception) {
             val noData = mutableListOf<ProgramEntity>()
             var multip = 0

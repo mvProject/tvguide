@@ -70,7 +70,6 @@ object Mappers {
             )
         }
 
-
     fun List<JsonProgram>.asProgramEntities(
         channelId: String
     ): List<ProgramEntity> {
@@ -82,7 +81,6 @@ object Mappers {
             item.asProgramEntity(channelId, endingTime)
         }
     }
-
 
     private fun List<JsonProgram>.calculateEndings(): List<Long> = with(this) {
         val endings = mutableListOf<Long>()
@@ -126,7 +124,6 @@ object Mappers {
             item.asProgramFromEntity()
         }
 
-
     private fun JsonChannelModel.asChannelEntity() = with(this) {
         ChannelEntity(
             channel_name = chan_names,
@@ -167,7 +164,6 @@ object Mappers {
     fun List<JsonChannelModel>.filterNoEpg() =
         this.filterNot {
             it.chan_names.contains("No Epg", true) ||
-                    it.chan_names.contains("Заглушка", true)
+                it.chan_names.contains("Заглушка", true)
         }
-
 }

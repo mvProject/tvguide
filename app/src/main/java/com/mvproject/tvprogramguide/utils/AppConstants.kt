@@ -1,6 +1,6 @@
 package com.mvproject.tvprogramguide.utils
 
-object AppConstants{
+object AppConstants {
     const val NO_VALUE_LONG = -1L
     const val NO_VALUE_INT = -1
     const val NO_VALUE_STRING = ""

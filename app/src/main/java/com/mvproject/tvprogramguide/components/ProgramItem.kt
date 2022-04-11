@@ -19,9 +19,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
-import com.mvproject.tvprogramguide.utils.AppConstants.OPACITY_60
 import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_300
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO_FLOAT
+import com.mvproject.tvprogramguide.utils.AppConstants.OPACITY_60
 
 @ExperimentalMaterialApi
 @Composable
@@ -132,9 +132,9 @@ fun ExpandableCardPreview() {
                 prgTime = "11:35",
                 prgTitle = "My Title",
                 prgDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                        "sed do eiusmod tempor incididunt ut labore et dolore magna " +
-                        "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
-                        "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    "sed do eiusmod tempor incididunt ut labore et dolore magna " +
+                    "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
+                    "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
                 progressValue = 0.1f
             )
             ProgramItem(
@@ -156,9 +156,9 @@ fun ExpandableCardPreviewDark() {
                 prgTime = "11:35",
                 prgTitle = "My Title",
                 prgDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                        "sed do eiusmod tempor incididunt ut labore et dolore magna " +
-                        "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
-                        "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    "sed do eiusmod tempor incididunt ut labore et dolore magna " +
+                    "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
+                    "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
                 progressValue = 0.1f
             )
             ProgramItem(

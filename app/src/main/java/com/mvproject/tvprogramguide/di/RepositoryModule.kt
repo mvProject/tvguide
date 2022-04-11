@@ -18,5 +18,4 @@ object RepositoryModule {
     fun provideWorkManager(
         @ApplicationContext context: Context
     ) = WorkManager.getInstance(context)
-
 }

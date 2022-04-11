@@ -10,7 +10,6 @@ import androidx.work.Data
 import com.mvproject.tvprogramguide.R
 import timber.log.Timber
 
-
 @JvmField
 val VERBOSE_NOTIFICATION_CHANNEL_NAME: CharSequence = "Update Notifications "
 
@@ -74,10 +73,9 @@ fun sleep() {
     } catch (e: InterruptedException) {
         Timber.e(e)
     }
-
 }
 
-fun createInputDataForPartialUpdate(isNotificationOn: Boolean = false, ids: Array<String>, ): Data {
+fun createInputDataForPartialUpdate(isNotificationOn: Boolean = false, ids: Array<String>,): Data {
     return Data.Builder().apply {
         putStringArray(CHANNEL_MISSING_COUNT, ids)
         putBoolean(NOTIFICATION_CONDITION, isNotificationOn)

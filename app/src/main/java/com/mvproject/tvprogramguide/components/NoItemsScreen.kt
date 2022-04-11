@@ -24,7 +24,7 @@ fun NoItemsScreen(
     titleColor: Color = MaterialTheme.colors.onPrimary,
     tintColor: Color = MaterialTheme.colors.onPrimary,
     navigateTitle: String = NO_VALUE_STRING,
-    onNavigateClick:()-> Unit = {}
+    onNavigateClick: () -> Unit = {}
 
 ) {
     Surface(
@@ -57,7 +57,7 @@ fun NoItemsScreen(
                     textAlign = TextAlign.Center
                 )
 
-                if (navigateTitle.isNotEmpty()){
+                if (navigateTitle.isNotEmpty()) {
                     Text(
                         modifier = Modifier
                             .padding(

@@ -63,7 +63,6 @@ fun TabMainScreen(userListName: String) {
                         .height(MaterialTheme.dimens.sizeZero),
                     color = MaterialTheme.colors.primary
                 )
-
             },
             divider = {
                 TabRowDefaults.Divider(

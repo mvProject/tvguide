@@ -54,5 +54,4 @@ class PartiallyUpdateProgramsWorker @AssistedInject constructor(
 
         return Result.success()
     }
-
 }

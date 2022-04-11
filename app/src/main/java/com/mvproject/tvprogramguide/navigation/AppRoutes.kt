@@ -27,4 +27,3 @@ sealed class AppRoutes(val route: String) {
     object AppSettings : AppRoutes(ROUTE_APP_SETTINGS)
     object UserCustomList : AppRoutes(ROUTE_USER_CUSTOM_LIST)
 }
-

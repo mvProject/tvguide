@@ -5,7 +5,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 
-
 @Composable
 fun TvGuideTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),

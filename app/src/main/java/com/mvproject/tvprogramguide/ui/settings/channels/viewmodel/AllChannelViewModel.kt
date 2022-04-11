@@ -3,21 +3,21 @@ package com.mvproject.tvprogramguide.ui.settings.channels.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mvproject.tvprogramguide.data.entity.SelectedChannelEntity
-import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.data.model.Channel
 import com.mvproject.tvprogramguide.domain.repository.AllChannelRepository
 import com.mvproject.tvprogramguide.domain.repository.SelectedChannelRepository
+import com.mvproject.tvprogramguide.domain.utils.Mappers.asAlreadySelected
+import com.mvproject.tvprogramguide.helpers.StoreHelper
+import com.mvproject.tvprogramguide.ui.settings.channels.actions.AvailableChannelsAction
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
-import com.mvproject.tvprogramguide.domain.utils.Mappers.asAlreadySelected
-import com.mvproject.tvprogramguide.ui.settings.channels.actions.AvailableChannelsAction
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class AllChannelViewModel @Inject constructor(

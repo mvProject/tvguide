@@ -66,7 +66,10 @@ fun ChannelSelectableItem(
 
         Icon(
             imageVector = if (isSelected) Icons.Outlined.Delete else Icons.Outlined.Add,
-            tint = if (isSelected) MaterialTheme.appColors.tintSecondary else MaterialTheme.appColors.tintPrimary,
+            tint = if (isSelected)
+                MaterialTheme.appColors.tintSecondary
+            else
+                MaterialTheme.appColors.tintPrimary,
             contentDescription = null,
             modifier = Modifier.align(Alignment.CenterVertically)
         )

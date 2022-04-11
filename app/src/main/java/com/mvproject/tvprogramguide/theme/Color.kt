@@ -43,7 +43,7 @@ data class AppColors(
     val tintPrimary: Color,
     val tintSecondary: Color,
     val material: Colors,
-){
+) {
     val primary: Color get() = material.primary
     val primaryVariant: Color get() = material.primaryVariant
     val secondary: Color get() = material.secondary
@@ -85,4 +85,3 @@ val MaterialTheme.appColors: AppColors
     @Composable
     @ReadOnlyComposable
     get() = LocalColors.current
-
