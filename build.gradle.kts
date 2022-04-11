@@ -16,7 +16,7 @@ buildscript {
 }
 
 ktlint {
-    version.set("0.45.1")
+    version.set("0.45.2")
     android.set(true)
     filter {
         exclude("**/build/**")
