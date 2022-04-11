@@ -1,9 +1,6 @@
 package com.mvproject.tvprogramguide.components
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -18,14 +15,15 @@ import com.mvproject.tvprogramguide.theme.dimens
 fun TimeItem(time: String) {
     Row(
         modifier = Modifier
-            .wrapContentWidth()
+            .width(MaterialTheme.dimens.size44)
             .wrapContentHeight()
-            .padding(MaterialTheme.dimens.size4)
+            .padding(horizontal = MaterialTheme.dimens.size4, vertical = MaterialTheme.dimens.size2),
+        horizontalArrangement = Arrangement.Center
     ) {
         Text(
             text = time,
             fontSize = MaterialTheme.dimens.font12,
-            style = MaterialTheme.appTypography.textMedium
+            style = MaterialTheme.appTypography.textSemiBold
         )
     }
 }
