@@ -38,28 +38,24 @@ fun NavigationHost(navController: NavHostController) {
         composable(
             AppRoutes.Channels.route,
             enterTransition = { scaleIn(animationSpec = tween(ANIM_DURATION_600)) },
-            exitTransition = { scaleOut(animationSpec = tween(ANIM_DURATION_200)) +
-                    fadeOut(animationSpec = tween(ANIM_DURATION_200)) } ,
+            exitTransition = {
+                scaleOut(animationSpec = tween(ANIM_DURATION_200)) +
+                        fadeOut(animationSpec = tween(ANIM_DURATION_200))
+            },
         ) {
             ChannelScreen(
-                onSettingsClick = {
-                    navController.navigate(AppRoutes.OptionSettings.route)
-                },
-                onChannelClick = { channel ->
-                    navController.navigate(
-                        AppRoutes.SelectedChannel.applyArgs(
-                            channelId = channel.channelId,
-                            channelName = channel.channelName
-                        )
-                    )
+                onNavigate = { route ->
+                    navController.navigate(route)
                 }
             )
         }
         composable(
             AppRoutes.SelectedChannel.route,
             enterTransition = { scaleIn(animationSpec = tween(ANIM_DURATION_600)) },
-            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_200)) +
-                    fadeOut(animationSpec = tween(ANIM_DURATION_200)) }
+            exitTransition = {
+                fadeOut(animationSpec = tween(ANIM_DURATION_200)) +
+                        fadeOut(animationSpec = tween(ANIM_DURATION_200))
+            }
         ) { backStackEntry ->
             val channelId =
                 backStackEntry.arguments?.getString(ARGUMENT_CHANNEL_ID) ?: NO_VALUE_STRING
