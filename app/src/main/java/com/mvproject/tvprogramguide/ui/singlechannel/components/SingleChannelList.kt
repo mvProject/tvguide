@@ -27,7 +27,7 @@ fun SingleChannelList(singleChannelPrograms: List<SingleChannelModel>) {
     LazyColumn(
         modifier = Modifier
             .fillMaxHeight()
-            .background(MaterialTheme.colors.secondary)
+            .background(MaterialTheme.colors.primary)
     ) {
         singleChannelPrograms.forEach {
             stickyHeader {
