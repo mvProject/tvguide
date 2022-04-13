@@ -70,7 +70,9 @@ private fun UserCustomListContent(
 
         when {
             customsLists.isEmpty() -> {
-                NoItemsScreen()
+                NoItemsScreen(
+                    title = stringResource(id = R.string.user_lists_empty)
+                )
             }
             else -> {
                 UserCustomList(

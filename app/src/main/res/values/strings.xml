@@ -15,4 +15,8 @@
 
     <string name="no_items_found">No Items Found</string>
     <string name="default_toolbar_title">default_toolbar_title</string>
+
+    <string name="user_lists_empty">No users lists</string>
+    <string name="tap_to_create_list">tap here to create list</string>
+    <string name="user_filled_list_empty">No List with selected channels found</string>
 </resources>

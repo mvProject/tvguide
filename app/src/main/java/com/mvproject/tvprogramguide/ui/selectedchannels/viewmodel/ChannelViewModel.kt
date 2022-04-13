@@ -7,28 +7,31 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import com.mvproject.tvprogramguide.helpers.NetworkHelper
-import com.mvproject.tvprogramguide.helpers.StoreHelper
-import com.mvproject.tvprogramguide.data.entity.CustomListEntity
 import com.mvproject.tvprogramguide.data.model.CustomList
-import com.mvproject.tvprogramguide.data.model.SelectedChannelModel
 import com.mvproject.tvprogramguide.domain.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.domain.repository.CustomListRepository
 import com.mvproject.tvprogramguide.domain.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.domain.utils.*
-import com.mvproject.tvprogramguide.domain.utils.Mappers.toSortedSelectedChannelsPrograms
 import com.mvproject.tvprogramguide.domain.workers.FullUpdateProgramsWorker
 import com.mvproject.tvprogramguide.domain.workers.PartiallyUpdateProgramsWorker
 import com.mvproject.tvprogramguide.domain.workers.UpdateChannelsWorker
+import com.mvproject.tvprogramguide.helpers.NetworkHelper
+import com.mvproject.tvprogramguide.helpers.StoreHelper
+import com.mvproject.tvprogramguide.ui.selectedchannels.ChannelsViewState
+import com.mvproject.tvprogramguide.ui.selectedchannels.SortedProgramsUseCase
 import com.mvproject.tvprogramguide.utils.Utils.obtainIndexOrZero
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @HiltViewModel
 class ChannelViewModel @Inject constructor(
     private val storeHelper: StoreHelper,
@@ -36,26 +39,22 @@ class ChannelViewModel @Inject constructor(
     private val channelProgramRepository: ChannelProgramRepository,
     private val customListRepository: CustomListRepository,
     private val workManager: WorkManager,
-    private val networkHelper: NetworkHelper
+    private val networkHelper: NetworkHelper,
+    private val sortedProgramsUseCase: SortedProgramsUseCase
 ) : ViewModel() {
 
-  // val partiallyUpdateWorkInfo: LiveData<List<WorkInfo>> =
-  //     workManager.getWorkInfosForUniqueWorkLiveData(DOWNLOAD_PROGRAMS)
+   // val partiallyUpdateWorkInfo: LiveData<List<WorkInfo>> =
+   //     workManager.getWorkInfosForUniqueWorkLiveData(DOWNLOAD_PROGRAMS)
 
-  // val fullUpdateWorkInfo: LiveData<List<WorkInfo>> =
-  //     workManager.getWorkInfosForUniqueWorkLiveData(DOWNLOAD_FULL_PROGRAMS)
+    val fullUpdateWorkInfo: LiveData<List<WorkInfo>> =
+        workManager.getWorkInfosForUniqueWorkLiveData(DOWNLOAD_FULL_PROGRAMS)
 
-    private var _selectedList = MutableStateFlow(storeHelper.defaultChannelList)
-    val selectedList = _selectedList.asStateFlow()
-
-    private var _selectedPrograms = MutableStateFlow<List<SelectedChannelModel>>(emptyList())
+    private var _selectedPrograms = MutableStateFlow(ChannelsViewState())
     val selectedPrograms = _selectedPrograms.asStateFlow()
 
     private var _availableLists: List<CustomList> = emptyList()
 
-    private var savedList = storeHelper.defaultChannelList
-
-    private var visibleCount = storeHelper.programByChannelDefaultCount
+    private val channelList = MutableStateFlow(storeHelper.defaultChannelList)
 
     init {
         Timber.i("testing ChannelViewModel init")
@@ -64,65 +63,71 @@ class ChannelViewModel @Inject constructor(
                 _availableLists = it
             }
         }
+
+        channelList.mapLatest { listName ->
+            _selectedPrograms.value =
+                selectedPrograms.value.copy(listName = listName)
+            updatePrograms()
+        }.launchIn(viewModelScope)
     }
 
-    fun checkSavedList() {
-        savedList = storeHelper.defaultChannelList
-        viewModelScope.launch(Dispatchers.IO) {
-            _selectedList.emit(savedList)
+    fun reloadChannels() {
+        val current = storeHelper.defaultChannelList
+        if (channelList.value != current) {
+            channelList.value = current
         }
+        updatePrograms()
+    }
+
+    fun applyList(listName: String) {
+        channelList.value = listName
     }
 
     val availableLists get() = _availableLists.map { it.listName }
-
-    fun reloadChannels() {
-        visibleCount = storeHelper.programByChannelDefaultCount
-        updatePrograms()
-    }
-
-    fun saveSelectedList(listName: String) {
-        storeHelper.setDefaultChannelList(listName)
-        checkSavedList()
-        updatePrograms()
-    }
-
     val obtainListIndex
-        get() = availableLists.obtainIndexOrZero(savedList)
+        get() = availableLists.obtainIndexOrZero(channelList.value)
 
-    private fun updatePrograms() = viewModelScope.launch(Dispatchers.IO) {
-        if (savedList.isNotEmpty()) {
-            val selectedChannels =
-                selectedChannelRepository.loadSelectedChannels(savedList)
-
-            val selectedChannelIds = selectedChannels.map { it.channelId }
-            val programsWithChannels =
-                channelProgramRepository.loadPrograms(selectedChannelIds)
-
-            val programs = programsWithChannels
-                .toSortedSelectedChannelsPrograms(selectedChannels, visibleCount)
-            _selectedPrograms.emit(programs)
-
-            val obtainedChannelsIds = programsWithChannels.groupBy { it.channel }.keys
-            val obtainedChannelsIdsCount = channelProgramRepository.loadProgramsCount(selectedChannelIds)
-            if (selectedChannelIds.count() > obtainedChannelsIdsCount) {
-                val missingIds = selectedChannelIds.minus(obtainedChannelsIds)
-                startPartiallyUpdate(missingIds.toTypedArray())
-            }
-        } else {
+    private fun updatePrograms() {
+        if (channelList.value.isEmpty()) {
             Timber.e("testing no current saved list")
+        } else {
+            viewModelScope.launch(Dispatchers.IO) {
+                val programs = sortedProgramsUseCase(listName = channelList.value)
+
+                _selectedPrograms.value =
+                    selectedPrograms.value.copy(
+                        listName = channelList.value,
+                        programs = programs
+                    )
+
+              //  val obtainedChannelsIds = programs.map { it.channel.channelId }
+
+                val selectedChannelIds = selectedChannelRepository
+                    .loadSelectedChannels(channelList.value)
+                    .map { it.channelId }
+
+                val obtainedChannelsIdsCount =
+                    channelProgramRepository.loadProgramsCount(selectedChannelIds)
+
+                if (selectedChannelIds.count() > obtainedChannelsIdsCount) {
+                   // val missingIds = selectedChannelIds.minus(obtainedChannelsIds)
+                    //startPartiallyUpdate(missingIds.toTypedArray())
+                    startProgramsFullUpdate()
+                }
+            }
         }
     }
 
-    private fun startPartiallyUpdate(ids: Array<String> = emptyArray()) {
-        val channelRequest = OneTimeWorkRequest.Builder(PartiallyUpdateProgramsWorker::class.java)
-            .setInputData(createInputDataForPartialUpdate(ids = ids))
-            .build()
-        workManager.enqueueUniqueWork(
-            DOWNLOAD_PROGRAMS,
-            ExistingWorkPolicy.REPLACE,
-            channelRequest
-        )
-    }
+    //private fun startPartiallyUpdate(ids: Array<String> = emptyArray()) {
+    //    val channelRequest = OneTimeWorkRequest.Builder(PartiallyUpdateProgramsWorker::class.java)
+    //        .setInputData(createInputDataForPartialUpdate(ids = ids))
+    //        .build()
+    //    workManager.enqueueUniqueWork(
+    //        DOWNLOAD_PROGRAMS,
+    //        ExistingWorkPolicy.REPLACE,
+    //        channelRequest
+    //    )
+    //}
 
     fun checkAvailableChannelsUpdate() {
         if (storeHelper.isNeedAvailableChannelsUpdate) {
@@ -131,7 +136,7 @@ class ChannelViewModel @Inject constructor(
     }
 
     fun checkFullProgramsUpdate() {
-        if (storeHelper.isNeedFullProgramsUpdate) {
+        if (channelList.value.isNotEmpty() && storeHelper.isNeedFullProgramsUpdate) {
             startProgramsFullUpdate()
         }
     }
@@ -139,11 +144,14 @@ class ChannelViewModel @Inject constructor(
     private fun startChannelsUpdate() {
         if (networkHelper.isNetworkConnected()) {
             val channelRequest = OneTimeWorkRequest.Builder(UpdateChannelsWorker::class.java)
+                // .setConstraints(
+                //    Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+                // )
                 .setInputData(createInputDataForUpdate())
                 .build()
             workManager.enqueueUniqueWork(
                 DOWNLOAD_CHANNELS,
-                ExistingWorkPolicy.REPLACE,
+                ExistingWorkPolicy.KEEP,
                 channelRequest
             )
         } else {
@@ -152,16 +160,16 @@ class ChannelViewModel @Inject constructor(
     }
 
     private fun startProgramsFullUpdate() {
-        val programRequest = OneTimeWorkRequest.Builder(FullUpdateProgramsWorker::class.java)
-            //.setConstraints(
-            //    Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
-            //)
-            .setInputData(createInputDataForUpdate())
-            .build()
         if (networkHelper.isNetworkConnected()) {
+            val programRequest = OneTimeWorkRequest.Builder(FullUpdateProgramsWorker::class.java)
+                // .setConstraints(
+                //    Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+                // )
+                .setInputData(createInputDataForUpdate())
+                .build()
             workManager.enqueueUniqueWork(
                 DOWNLOAD_FULL_PROGRAMS,
-                ExistingWorkPolicy.REPLACE,
+                ExistingWorkPolicy.KEEP,
                 programRequest
             )
         } else {
@@ -171,6 +179,7 @@ class ChannelViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
+        storeHelper.setDefaultChannelList(channelList.value)
         Timber.i("testing ChannelViewModel onCleared")
     }
 }
