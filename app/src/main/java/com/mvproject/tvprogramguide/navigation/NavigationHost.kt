@@ -1,9 +1,7 @@
 package com.mvproject.tvprogramguide.navigation
 
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -17,7 +15,9 @@ import com.mvproject.tvprogramguide.ui.settings.app.SettingsScreen
 import com.mvproject.tvprogramguide.ui.settings.channels.view.TabMainScreen
 import com.mvproject.tvprogramguide.ui.singlechannel.view.SingleChannelScreen
 import com.mvproject.tvprogramguide.ui.usercustomlist.view.UserCustomListScreen
-import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_SCREEN_TRANSITION
+import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_200
+import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_600
+import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_900
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.utils.NavConstants.ARGUMENT_CHANNEL_ID
 import com.mvproject.tvprogramguide.utils.NavConstants.ARGUMENT_CHANNEL_NAME
@@ -31,17 +31,15 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalAnimationApi
 @Composable
 fun NavigationHost(navController: NavHostController) {
-
     AnimatedNavHost(
         navController = navController,
         startDestination = AppRoutes.Channels.route,
     ) {
         composable(
             AppRoutes.Channels.route,
-            enterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) },
-            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) },
-            popEnterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) },
-            popExitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) }
+            enterTransition = { scaleIn(animationSpec = tween(ANIM_DURATION_600)) },
+            exitTransition = { scaleOut(animationSpec = tween(ANIM_DURATION_200)) +
+                    fadeOut(animationSpec = tween(ANIM_DURATION_200)) } ,
         ) {
             ChannelScreen(
                 onSettingsClick = {
@@ -57,13 +55,11 @@ fun NavigationHost(navController: NavHostController) {
                 }
             )
         }
-
         composable(
             AppRoutes.SelectedChannel.route,
-            enterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) },
-            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) },
-            popEnterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) },
-            popExitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) }
+            enterTransition = { scaleIn(animationSpec = tween(ANIM_DURATION_600)) },
+            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_200)) +
+                    fadeOut(animationSpec = tween(ANIM_DURATION_200)) }
         ) { backStackEntry ->
             val channelId =
                 backStackEntry.arguments?.getString(ARGUMENT_CHANNEL_ID) ?: NO_VALUE_STRING
@@ -80,10 +76,8 @@ fun NavigationHost(navController: NavHostController) {
 
         composable(
             AppRoutes.OptionSettings.route,
-            enterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) },
-            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) },
-            popEnterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) },
-            popExitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) }
+            enterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_900)) },
+            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_900)) }
         ) {
             SettingsOptions(
                 onBackClick = {
@@ -100,10 +94,8 @@ fun NavigationHost(navController: NavHostController) {
 
         composable(
             AppRoutes.AppSettings.route,
-            enterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) },
-            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) },
-            popEnterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) },
-            popExitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) }
+            enterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_900)) },
+            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_900)) }
         ) {
             SettingsScreen {
                 navController.popBackStack()
@@ -112,10 +104,8 @@ fun NavigationHost(navController: NavHostController) {
 
         composable(
             AppRoutes.UserCustomList.route,
-            enterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) },
-            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) },
-            popEnterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) },
-            popExitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) }
+            enterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_900)) },
+            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_900)) }
         ) {
             UserCustomListScreen(
                 onItemClick = { id ->
@@ -131,10 +121,8 @@ fun NavigationHost(navController: NavHostController) {
 
         composable(
             AppRoutes.ChannelSettings.route,
-            enterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) },
-            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) },
-            popEnterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) },
-            popExitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_SCREEN_TRANSITION)) }
+            enterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_900)) },
+            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_900)) }
         ) { backStackEntry ->
             val userListName =
                 backStackEntry.arguments?.getString(ARGUMENT_USER_LIST_NAME) ?: NO_VALUE_STRING
