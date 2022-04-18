@@ -61,6 +61,8 @@ fun ProgramItem(
             verticalArrangement = Arrangement.Center
         ) {
             Row(
+                modifier = Modifier
+                    .defaultMinSize(minHeight = MaterialTheme.dimens.size42),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 TimeItem(time = prgTime)

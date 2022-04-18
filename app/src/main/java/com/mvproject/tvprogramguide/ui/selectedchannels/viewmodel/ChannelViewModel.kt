@@ -144,9 +144,6 @@ class ChannelViewModel @Inject constructor(
     private fun startChannelsUpdate() {
         if (networkHelper.isNetworkConnected()) {
             val channelRequest = OneTimeWorkRequest.Builder(UpdateChannelsWorker::class.java)
-                // .setConstraints(
-                //    Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
-                // )
                 .setInputData(createInputDataForUpdate())
                 .build()
             workManager.enqueueUniqueWork(
@@ -162,9 +159,6 @@ class ChannelViewModel @Inject constructor(
     private fun startProgramsFullUpdate() {
         if (networkHelper.isNetworkConnected()) {
             val programRequest = OneTimeWorkRequest.Builder(FullUpdateProgramsWorker::class.java)
-                // .setConstraints(
-                //    Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
-                // )
                 .setInputData(createInputDataForUpdate())
                 .build()
             workManager.enqueueUniqueWork(
