@@ -27,6 +27,8 @@ data class Dimens(
     val size32: Dp = 32.dp,
     val size34: Dp = 34.dp,
     val size38: Dp = 38.dp,
+    val size40: Dp = 40.dp,
+    val size42: Dp = 42.dp,
     val size44: Dp = 44.dp,
     val size46: Dp = 46.dp,
     val size48: Dp = 48.dp,
