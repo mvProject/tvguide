@@ -48,7 +48,7 @@ fun ToolbarWithOptions(
                 .weight(MaterialTheme.dimens.weight1),
             color = titleColor,
             textAlign = TextAlign.Center,
-            fontSize = MaterialTheme.dimens.font14,
+            fontSize = MaterialTheme.dimens.font18,
             style = MaterialTheme.appTypography.textSemiBold
         )
 
@@ -58,9 +58,11 @@ fun ToolbarWithOptions(
             Icons.Outlined.Settings,
             contentDescription = null,
             tint = actionTintColor,
-            modifier = Modifier.clickable {
-                onSettingsClick()
-            }
+            modifier = Modifier
+                .size(MaterialTheme.dimens.size32)
+                .clickable {
+                    onSettingsClick()
+                }
         )
     }
 }

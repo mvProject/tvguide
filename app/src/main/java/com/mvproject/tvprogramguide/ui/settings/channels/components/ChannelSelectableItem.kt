@@ -1,6 +1,5 @@
 package com.mvproject.tvprogramguide.ui.settings.channels.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,8 +15,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.theme.appColors
 import com.mvproject.tvprogramguide.theme.appTypography
@@ -41,20 +46,23 @@ fun ChannelSelectableItem(
                 onClickAction()
             }
     ) {
-        Image(
-            painter = rememberAsyncImagePainter(model = channelLogo),
-            contentDescription = null,
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(channelLogo)
+                .crossfade(true)
+                .build(),
+            placeholder = painterResource(R.drawable.ic_plus),
+            contentDescription = stringResource(R.string.app_name),
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(MaterialTheme.dimens.size38)
                 .clip(RoundedCornerShape(MaterialTheme.dimens.size4))
-
         )
-
         Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
 
         Text(
             text = channelName,
-            fontSize = MaterialTheme.dimens.font14,
+            fontSize = MaterialTheme.dimens.font16,
             style = MaterialTheme.appTypography.textMedium,
             modifier = Modifier
                 .weight(1f)
@@ -71,7 +79,9 @@ fun ChannelSelectableItem(
             else
                 MaterialTheme.appColors.tintPrimary,
             contentDescription = null,
-            modifier = Modifier.align(Alignment.CenterVertically)
+            modifier = Modifier
+                .size(MaterialTheme.dimens.size24)
+                .align(Alignment.CenterVertically)
         )
     }
 }

@@ -42,9 +42,11 @@ fun ToolbarWithBack(
             Icons.Outlined.ArrowBack,
             contentDescription = null,
             tint = backTintColor,
-            modifier = Modifier.clickable {
-                onBackClick()
-            }
+            modifier = Modifier
+                .size(MaterialTheme.dimens.size32)
+                .clickable {
+                    onBackClick()
+                }
         )
 
         Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
@@ -55,7 +57,7 @@ fun ToolbarWithBack(
                 .weight(MaterialTheme.dimens.weight1),
             color = titleColor,
             textAlign = TextAlign.Center,
-            fontSize = MaterialTheme.dimens.font14,
+            fontSize = MaterialTheme.dimens.font18,
             style = MaterialTheme.appTypography.textMedium
         )
     }
