@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -27,12 +26,13 @@ import timber.log.Timber
 @ExperimentalFoundationApi
 @ExperimentalPagerApi
 @Composable
-fun TabMainScreen(userListName: String) {
-    val customListViewModel: CustomListViewModel = hiltViewModel()
-
+fun TabMainScreen(
+    viewModel: CustomListViewModel,
+    userListName: String
+) {
     SideEffect {
         Timber.i("testing TabMainScreen SideEffect")
-        customListViewModel.setSelectedList(userListName)
+        viewModel.setSelectedList(userListName)
     }
 
     val tabItems = listOf(

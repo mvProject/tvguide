@@ -8,7 +8,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.work.WorkInfo
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.components.NoItemsScreen
@@ -28,36 +27,37 @@ import timber.log.Timber
 @ExperimentalFoundationApi
 @Composable
 fun ChannelScreen(
+    viewModel: ChannelViewModel,
     onNavigate: (route: String) -> Unit
 ) {
-    val channelViewModel: ChannelViewModel = hiltViewModel()
-
     val owner = LocalLifecycleOwner.current
     LaunchedEffect(key1 = true) {
         Timber.i("testing ChannelScreen LaunchedEffect")
-       // channelViewModel.partiallyUpdateWorkInfo.observe(
-       //     owner
-       // ) { listOfWorkInfo: List<WorkInfo>? ->
-       //     if (listOfWorkInfo == null || listOfWorkInfo.isEmpty()) {
-       //         Timber.d("testing worker partiallyUpdateWorkInfo null")
-       //     } else {
-       //         val workInfo = listOfWorkInfo[0]
-       //         if (workInfo.state == WorkInfo.State.RUNNING) {
-       //             val progress = workInfo.progress
-       //             val current = progress.getInt(CHANNEL_INDEX, COUNT_ZERO)
-       //             val count = progress.getInt(CHANNEL_COUNT, COUNT_ZERO)
-       //             Timber.d(
-       //                 "testing worker partiallyUpdateWorkInfo " +
-       //                         "current $current, count $count"
-       //             )
-       //         }
-       //         if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-       //             channelViewModel.reloadChannels()
-       //             Timber.d("testing worker partiallyUpdateWorkInfo SUCCEEDED")
-       //         }
-       //     }
-       // }
-        with(channelViewModel){
+        // channelViewModel.partiallyUpdateWorkInfo.observe(
+        //     owner
+        // ) { listOfWorkInfo: List<WorkInfo>? ->
+        //     if (listOfWorkInfo == null || listOfWorkInfo.isEmpty()) {
+        //         Timber.d("testing worker partiallyUpdateWorkInfo null")
+        //     } else {
+        //         val workInfo = listOfWorkInfo[0]
+        //         if (workInfo.state == WorkInfo.State.RUNNING) {
+        //             val progress = workInfo.progress
+        //             val current = progress.getInt(CHANNEL_INDEX, COUNT_ZERO)
+        //             val count = progress.getInt(CHANNEL_COUNT, COUNT_ZERO)
+        //             Timber.d(
+        //                 "testing worker partiallyUpdateWorkInfo " +
+        //                         "current $current, count $count"
+        //             )
+        //         }
+        //         if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+        //             channelViewModel.reloadChannels()
+        //             Timber.d("testing worker partiallyUpdateWorkInfo SUCCEEDED")
+        //         }
+        //     }
+        // }
+        with(viewModel) {
+            reloadChannels()
+
             checkAvailableChannelsUpdate()
 
             checkFullProgramsUpdate()
@@ -79,7 +79,7 @@ fun ChannelScreen(
                         )
                     }
                     if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                        channelViewModel.reloadChannels()
+                        viewModel.reloadChannels()
                         Timber.d("testing worker fullUpdateWorkInfo SUCCEEDED")
                     }
                 }
@@ -89,9 +89,8 @@ fun ChannelScreen(
 
     val isDialogOpen = remember { mutableStateOf(false) }
 
- //   channelViewModel.reloadChannels()
+    val programState = viewModel.selectedPrograms.collectAsState().value
 
-    val programState = channelViewModel.selectedPrograms.collectAsState().value
     when {
         programState.listName.isEmpty() -> {
             NoItemsScreen(
@@ -127,9 +126,9 @@ fun ChannelScreen(
 
     ShowSelectDialog(
         isDialogOpen = isDialogOpen,
-        radioOptions = channelViewModel.availableLists,
-        defaultSelection = channelViewModel.obtainListIndex
+        radioOptions = viewModel.availableLists,
+        defaultSelection = viewModel.obtainListIndex
     ) { selected ->
-        channelViewModel.applyList(listName = selected)
+        viewModel.applyList(listName = selected)
     }
 }

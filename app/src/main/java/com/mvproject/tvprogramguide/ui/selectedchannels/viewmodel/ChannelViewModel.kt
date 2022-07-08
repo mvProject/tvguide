@@ -13,7 +13,6 @@ import com.mvproject.tvprogramguide.domain.repository.CustomListRepository
 import com.mvproject.tvprogramguide.domain.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.domain.utils.*
 import com.mvproject.tvprogramguide.domain.workers.FullUpdateProgramsWorker
-import com.mvproject.tvprogramguide.domain.workers.PartiallyUpdateProgramsWorker
 import com.mvproject.tvprogramguide.domain.workers.UpdateChannelsWorker
 import com.mvproject.tvprogramguide.helpers.NetworkHelper
 import com.mvproject.tvprogramguide.helpers.StoreHelper
@@ -54,7 +53,9 @@ class ChannelViewModel @Inject constructor(
 
     private var _availableLists: List<CustomList> = emptyList()
 
-    private val channelList = MutableStateFlow(storeHelper.defaultChannelList)
+    private val currentChannelList get() = storeHelper.defaultChannelList
+
+    private val channelList = MutableStateFlow(currentChannelList)
 
     init {
         Timber.i("testing ChannelViewModel init")
@@ -65,6 +66,7 @@ class ChannelViewModel @Inject constructor(
         }
 
         channelList.mapLatest { listName ->
+            Timber.d("testing ChannelViewModel mapLatest listName $listName")
             _selectedPrograms.value =
                 selectedPrograms.value.copy(listName = listName)
             updatePrograms()
@@ -72,7 +74,8 @@ class ChannelViewModel @Inject constructor(
     }
 
     fun reloadChannels() {
-        val current = storeHelper.defaultChannelList
+        val current = currentChannelList
+        Timber.d("testing ChannelViewModel reloadChannels current $current, channelList.value ${channelList.value}")
         if (channelList.value != current) {
             channelList.value = current
         }

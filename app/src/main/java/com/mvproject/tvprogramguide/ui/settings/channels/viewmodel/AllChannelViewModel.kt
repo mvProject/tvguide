@@ -12,12 +12,12 @@ import com.mvproject.tvprogramguide.ui.settings.channels.actions.AvailableChanne
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class AllChannelViewModel @Inject constructor(
@@ -58,10 +58,10 @@ class AllChannelViewModel @Inject constructor(
             is AvailableChannelsAction.ChannelAdd -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     val selected = SelectedChannelEntity(
-                        action.channel.channelId,
-                        action.channel.channelName,
-                        action.channel.channelIcon,
-                        listName
+                        channel_id = action.channel.channelId,
+                        channel_name = action.channel.channelName,
+                        channel_icon = action.channel.channelIcon,
+                        parentList = listName
                     )
                     selectedChannelRepository.addChannel(selected)
                 }
