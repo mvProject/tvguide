@@ -7,7 +7,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.components.NoItemsScreen
 import com.mvproject.tvprogramguide.components.dialogs.ShowDialog
@@ -21,19 +20,20 @@ import timber.log.Timber
 @ExperimentalMaterialApi
 @Composable
 fun UserCustomListScreen(
+    viewModel: UserCustomListViewModel,
     onItemClick: (String) -> Unit,
     onBackClick: () -> Unit
 ) {
-    val userCustomListViewModel: UserCustomListViewModel = hiltViewModel()
+
     SideEffect {
         Timber.i("testing UserCustomListScreen SideEffect")
     }
 
-    val lists = userCustomListViewModel.customs.collectAsState().value
+    val lists = viewModel.customs.collectAsState().value
 
     UserCustomListContent(
         customsLists = lists,
-        onAction = userCustomListViewModel::processAction,
+        onAction = viewModel::processAction,
         onItemClick = onItemClick,
         onBackClick = onBackClick
     )

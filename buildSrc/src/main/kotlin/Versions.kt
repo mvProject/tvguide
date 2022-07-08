@@ -2,7 +2,7 @@ object Versions {
     // app level
     const val gradle = "7.0.3"
     const val kotlin = "1.6.10"
-    const val ktLint = "10.2.1"
+    const val ktLint = "10.3.0"
     const val depUpdate = "0.42.0"
     // libs
     const val coreKtx = "1.7.0"
@@ -32,14 +32,14 @@ object Versions {
     const val gsonConverter = "2.9.0"
 
     // Image
-    const val coil = "1.4.0"
-    const val coilCompose = "2.0.0-rc01"
+    const val coil = "2.1.0"
+    const val coilCompose = "2.1.0"
 
     // Database
     const val room = "2.4.1"
 
     // di
-    const val daggerHilt = "2.41"
+    const val daggerHilt = "2.42"
     const val androidHilt = "1.0.0"
 
     // Compose
@@ -48,12 +48,12 @@ object Versions {
     const val activityCompose = "1.4.0"
 
     // ViewPager
-    const val accompanistPager = "0.23.1"
+    const val accompanistPager = "0.24.9-beta"
 
     // navigationCompose
     const val navigationComposeHilt = "1.0.0"
     const val navigationCompose = "2.4.1"
-    const val accompanistNavigationAnimated = "0.24.5-alpha"
+    const val accompanistNavigationAnimated = "0.24.9-beta"
 
     // WorkManager
     const val workRuntime = "2.7.1"
