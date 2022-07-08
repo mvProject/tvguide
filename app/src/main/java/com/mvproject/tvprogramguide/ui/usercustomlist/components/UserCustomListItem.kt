@@ -42,7 +42,7 @@ fun UserCustomListItem(
     ) {
         Text(
             text = listName,
-            fontSize = MaterialTheme.dimens.font14,
+            fontSize = MaterialTheme.dimens.font18,
             style = MaterialTheme.appTypography.textMedium,
             modifier = Modifier
                 .weight(1f)
@@ -60,6 +60,7 @@ fun UserCustomListItem(
             contentDescription = null,
             modifier = Modifier
                 .align(Alignment.CenterVertically)
+                .size(MaterialTheme.dimens.size24)
                 .clickable {
                     onDeleteAction()
                 }
