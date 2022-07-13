@@ -38,6 +38,8 @@ class AllChannelViewModel @Inject constructor(
 
     private var allChannelsFixed = emptyList<Channel>()
 
+    private val channelOrderLast get() = selectedChannels.value.count() + 1
+
     init {
         Timber.i("testing AllChannelViewModel init")
         viewModelScope.launch {
@@ -61,6 +63,7 @@ class AllChannelViewModel @Inject constructor(
                         channel_id = action.channel.channelId,
                         channel_name = action.channel.channelName,
                         channel_icon = action.channel.channelIcon,
+                        order = channelOrderLast,
                         parentList = listName
                     )
                     selectedChannelRepository.addChannel(selected)

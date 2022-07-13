@@ -30,6 +30,7 @@ fun ChannelScreen(
     viewModel: ChannelViewModel,
     onNavigate: (route: String) -> Unit
 ) {
+
     val owner = LocalLifecycleOwner.current
     LaunchedEffect(key1 = true) {
         Timber.i("testing ChannelScreen LaunchedEffect")

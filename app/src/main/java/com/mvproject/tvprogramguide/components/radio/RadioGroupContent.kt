@@ -54,7 +54,8 @@ fun RadioGroupContent(
                 val annotatedString = buildAnnotatedString {
                     withStyle(
                         style = SpanStyle(
-                            color = MaterialTheme.colors.onPrimary,
+                            color = if (item == selectedOption) MaterialTheme.colors.onSecondary
+                            else MaterialTheme.colors.onPrimary,
                             fontWeight = FontWeight.Bold
                         )
                     ) { append("  $item  ") }
@@ -83,6 +84,7 @@ fun RadioGroupContentView() {
         )
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun RadioGroupContentDarkView() {

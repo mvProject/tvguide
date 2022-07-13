@@ -22,7 +22,9 @@ fun ShowSelectDialog(
     isDialogOpen: MutableState<Boolean>,
     onSelected: (String) -> Unit
 ) {
-    val def = if (radioOptions.isEmpty()) NO_VALUE_STRING else radioOptions[defaultSelection]
+    val def = if (radioOptions.isEmpty()) NO_VALUE_STRING
+    else radioOptions[defaultSelection]
+
     val name = remember { mutableStateOf(def) }
 
     if (isDialogOpen.value) {
