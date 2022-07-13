@@ -11,7 +11,9 @@ import com.mvproject.tvprogramguide.data.model.CustomList
 import com.mvproject.tvprogramguide.domain.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.domain.repository.CustomListRepository
 import com.mvproject.tvprogramguide.domain.repository.SelectedChannelRepository
-import com.mvproject.tvprogramguide.domain.utils.*
+import com.mvproject.tvprogramguide.domain.utils.DOWNLOAD_CHANNELS
+import com.mvproject.tvprogramguide.domain.utils.DOWNLOAD_FULL_PROGRAMS
+import com.mvproject.tvprogramguide.domain.utils.createInputDataForUpdate
 import com.mvproject.tvprogramguide.domain.workers.FullUpdateProgramsWorker
 import com.mvproject.tvprogramguide.domain.workers.UpdateChannelsWorker
 import com.mvproject.tvprogramguide.helpers.NetworkHelper
@@ -42,8 +44,8 @@ class ChannelViewModel @Inject constructor(
     private val sortedProgramsUseCase: SortedProgramsUseCase
 ) : ViewModel() {
 
-   // val partiallyUpdateWorkInfo: LiveData<List<WorkInfo>> =
-   //     workManager.getWorkInfosForUniqueWorkLiveData(DOWNLOAD_PROGRAMS)
+    // val partiallyUpdateWorkInfo: LiveData<List<WorkInfo>> =
+    //     workManager.getWorkInfosForUniqueWorkLiveData(DOWNLOAD_PROGRAMS)
 
     val fullUpdateWorkInfo: LiveData<List<WorkInfo>> =
         workManager.getWorkInfosForUniqueWorkLiveData(DOWNLOAD_FULL_PROGRAMS)
@@ -66,7 +68,6 @@ class ChannelViewModel @Inject constructor(
         }
 
         channelList.mapLatest { listName ->
-            Timber.d("testing ChannelViewModel mapLatest listName $listName")
             _selectedPrograms.value =
                 selectedPrograms.value.copy(listName = listName)
             updatePrograms()
@@ -75,7 +76,6 @@ class ChannelViewModel @Inject constructor(
 
     fun reloadChannels() {
         val current = currentChannelList
-        Timber.d("testing ChannelViewModel reloadChannels current $current, channelList.value ${channelList.value}")
         if (channelList.value != current) {
             channelList.value = current
         }
@@ -103,7 +103,7 @@ class ChannelViewModel @Inject constructor(
                         programs = programs
                     )
 
-              //  val obtainedChannelsIds = programs.map { it.channel.channelId }
+                //  val obtainedChannelsIds = programs.map { it.channel.channelId }
 
                 val selectedChannelIds = selectedChannelRepository
                     .loadSelectedChannels(channelList.value)
@@ -113,7 +113,7 @@ class ChannelViewModel @Inject constructor(
                     channelProgramRepository.loadProgramsCount(selectedChannelIds)
 
                 if (selectedChannelIds.count() > obtainedChannelsIdsCount) {
-                   // val missingIds = selectedChannelIds.minus(obtainedChannelsIds)
+                    // val missingIds = selectedChannelIds.minus(obtainedChannelsIds)
                     //startPartiallyUpdate(missingIds.toTypedArray())
                     startProgramsFullUpdate()
                 }

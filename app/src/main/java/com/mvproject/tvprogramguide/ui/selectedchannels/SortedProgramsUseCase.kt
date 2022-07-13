@@ -18,6 +18,7 @@ class SortedProgramsUseCase @Inject constructor(
             selectedChannelRepository.loadSelectedChannels(listName)
 
         val selectedChannelIds = selectedChannels.map { it.channelId }
+
         val programsWithChannels =
             channelProgramRepository.loadPrograms(selectedChannelIds)
 

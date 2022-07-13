@@ -7,12 +7,12 @@ import com.mvproject.tvprogramguide.domain.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.ui.settings.channels.actions.SelectedChannelsAction
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class SelectedChannelsViewModel @Inject constructor(
@@ -28,8 +28,8 @@ class SelectedChannelsViewModel @Inject constructor(
     init {
         Timber.i("testing SelectedChannelsViewModel init")
         viewModelScope.launch {
-            selectedChannelRepository.loadSelectedChannelsFlow(listName).collect {
-                _selectedChannels.emit(it)
+            selectedChannelRepository.loadSelectedChannelsFlow(listName).collect { channels ->
+                _selectedChannels.emit(channels)
             }
         }
     }

@@ -1,9 +1,6 @@
 package com.mvproject.tvprogramguide.domain.database.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.mvproject.tvprogramguide.data.entity.ChannelEntity
 import com.mvproject.tvprogramguide.data.entity.SelectedChannelEntity
 import kotlinx.coroutines.flow.Flow
@@ -12,6 +9,9 @@ import kotlinx.coroutines.flow.Flow
 interface SelectedChannelDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertChannel(channel: SelectedChannelEntity)
+
+    @Update
+    suspend fun updateChannels(channels: List<SelectedChannelEntity>)
 
     @Query("SELECT * FROM selected_channels WHERE parentList = :listName")
     suspend fun getSelectedChannels(listName: String): List<ChannelEntity>

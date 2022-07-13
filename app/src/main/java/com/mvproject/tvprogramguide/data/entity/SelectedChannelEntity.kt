@@ -13,5 +13,6 @@ data class SelectedChannelEntity(
     val channel_id: String,
     val channel_name: String,
     val channel_icon: String,
+    val order: Int,
     val parentList: String
 )
