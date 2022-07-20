@@ -2,12 +2,12 @@ package com.mvproject.tvprogramguide.di
 
 import android.app.Application
 import androidx.room.Room
-import com.mvproject.tvprogramguide.domain.database.AppDatabase
-import com.mvproject.tvprogramguide.domain.database.dao.AllChannelDao
-import com.mvproject.tvprogramguide.domain.database.dao.CustomListDao
-import com.mvproject.tvprogramguide.domain.database.dao.ProgramDao
-import com.mvproject.tvprogramguide.domain.database.dao.SelectedChannelDao
-import com.mvproject.tvprogramguide.utils.DbConstants.DATABASE
+import com.mvproject.tvprogramguide.data.database.AppDatabase
+import com.mvproject.tvprogramguide.data.database.DbConstants.DATABASE
+import com.mvproject.tvprogramguide.data.database.dao.AllChannelDao
+import com.mvproject.tvprogramguide.data.database.dao.ProgramDao
+import com.mvproject.tvprogramguide.data.database.dao.SelectedChannelDao
+import com.mvproject.tvprogramguide.data.database.dao.UserChannelsListDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,7 +51,7 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideCustomListDao(appDatabase: AppDatabase): CustomListDao {
-        return appDatabase.customListDao()
+    fun provideUserChannelsListDao(appDatabase: AppDatabase): UserChannelsListDao {
+        return appDatabase.userChannelsListDao()
     }
 }

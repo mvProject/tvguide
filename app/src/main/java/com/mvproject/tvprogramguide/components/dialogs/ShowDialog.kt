@@ -56,7 +56,7 @@ fun ShowDialog(
                     OutlinedTextField(
                         value = name.value,
                         onValueChange = { name.value = it },
-                        placeholder = { Text(text = "Email Address") },
+                        placeholder = { Text(text = "List name") },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(0.8f)
                     )
