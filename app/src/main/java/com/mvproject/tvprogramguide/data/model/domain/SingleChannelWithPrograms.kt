@@ -1,9 +1,9 @@
-package com.mvproject.tvprogramguide.data.model
+package com.mvproject.tvprogramguide.data.model.domain
 
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class SingleChannelModel(
+data class SingleChannelWithPrograms(
     val date: String,
     val programs: List<Program>
 )
