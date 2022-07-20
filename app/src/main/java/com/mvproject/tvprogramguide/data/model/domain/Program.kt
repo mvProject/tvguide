@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.data.model
+package com.mvproject.tvprogramguide.data.model.domain
 
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 

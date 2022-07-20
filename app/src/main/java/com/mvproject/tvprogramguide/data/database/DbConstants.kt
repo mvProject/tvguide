@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.utils
+package com.mvproject.tvprogramguide.data.database
 
 object DbConstants {
     const val DATABASE = "tvp_db"
