@@ -10,6 +10,9 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_CHANNEL_ID
+import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_CHANNEL_NAME
+import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_USER_LIST_NAME
 import com.mvproject.tvprogramguide.ui.selectedchannels.view.ChannelScreen
 import com.mvproject.tvprogramguide.ui.selectedchannels.viewmodel.ChannelViewModel
 import com.mvproject.tvprogramguide.ui.settings.SettingsOptions
@@ -24,9 +27,6 @@ import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_200
 import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_600
 import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_900
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
-import com.mvproject.tvprogramguide.utils.NavConstants.ARGUMENT_CHANNEL_ID
-import com.mvproject.tvprogramguide.utils.NavConstants.ARGUMENT_CHANNEL_NAME
-import com.mvproject.tvprogramguide.utils.NavConstants.ARGUMENT_USER_LIST_NAME
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalPagerApi

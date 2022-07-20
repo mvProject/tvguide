@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.utils
+package com.mvproject.tvprogramguide.navigation
 
 object NavConstants {
     const val ARGUMENT_CHANNEL_ID = "channelId"

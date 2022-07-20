@@ -1,14 +1,14 @@
 package com.mvproject.tvprogramguide.navigation
 
-import com.mvproject.tvprogramguide.utils.NavConstants.ARGUMENT_CHANNEL_ID
-import com.mvproject.tvprogramguide.utils.NavConstants.ARGUMENT_CHANNEL_NAME
-import com.mvproject.tvprogramguide.utils.NavConstants.ARGUMENT_USER_LIST_NAME
-import com.mvproject.tvprogramguide.utils.NavConstants.ROUTE_APP_SETTINGS
-import com.mvproject.tvprogramguide.utils.NavConstants.ROUTE_CHANNELS
-import com.mvproject.tvprogramguide.utils.NavConstants.ROUTE_CHANNEL_SETTINGS
-import com.mvproject.tvprogramguide.utils.NavConstants.ROUTE_OPTION_SETTINGS
-import com.mvproject.tvprogramguide.utils.NavConstants.ROUTE_SELECTED_CHANNELS
-import com.mvproject.tvprogramguide.utils.NavConstants.ROUTE_USER_CUSTOM_LIST
+import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_CHANNEL_ID
+import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_CHANNEL_NAME
+import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_USER_LIST_NAME
+import com.mvproject.tvprogramguide.navigation.NavConstants.ROUTE_APP_SETTINGS
+import com.mvproject.tvprogramguide.navigation.NavConstants.ROUTE_CHANNELS
+import com.mvproject.tvprogramguide.navigation.NavConstants.ROUTE_CHANNEL_SETTINGS
+import com.mvproject.tvprogramguide.navigation.NavConstants.ROUTE_OPTION_SETTINGS
+import com.mvproject.tvprogramguide.navigation.NavConstants.ROUTE_SELECTED_CHANNELS
+import com.mvproject.tvprogramguide.navigation.NavConstants.ROUTE_USER_CUSTOM_LIST
 
 sealed class AppRoutes(val route: String) {
     object Channels : AppRoutes(ROUTE_CHANNELS)

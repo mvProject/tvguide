@@ -5,8 +5,8 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import com.mvproject.tvprogramguide.helpers.LocaleHelper
-import com.mvproject.tvprogramguide.helpers.StoreHelper
+import com.mvproject.tvprogramguide.domain.helpers.LocaleHelper
+import com.mvproject.tvprogramguide.domain.helpers.StoreHelper
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
