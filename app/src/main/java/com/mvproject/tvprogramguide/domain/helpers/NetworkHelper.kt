@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.helpers
+package com.mvproject.tvprogramguide.domain.helpers
 
 import android.content.Context
 import android.net.ConnectivityManager

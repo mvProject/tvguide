@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.initializers
+package com.mvproject.tvprogramguide.domain.initializers
 
 import android.content.Context
 import androidx.startup.Initializer

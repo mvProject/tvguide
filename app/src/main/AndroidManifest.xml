@@ -30,7 +30,7 @@
             tools:node="merge">
 
             <meta-data
-                android:name="com.mvproject.tvprogramguide.initializers.TimberInitializer"
+                android:name="com.mvproject.tvprogramguide.domain.initializers.TimberInitializer"
                 android:value="androidx.startup" />
 
             <meta-data

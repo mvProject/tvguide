@@ -1,10 +1,9 @@
-package com.mvproject.tvprogramguide.helpers
+package com.mvproject.tvprogramguide.domain.helpers
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.text.format.DateUtils
 import androidx.preference.PreferenceManager
-import com.mvproject.tvprogramguide.utils.*
 import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_CHANNELS_UPDATE_PERIOD
 import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_PROGRAMS_UPDATE_PERIOD
 import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_PROGRAMS_VISIBLE_COUNT
