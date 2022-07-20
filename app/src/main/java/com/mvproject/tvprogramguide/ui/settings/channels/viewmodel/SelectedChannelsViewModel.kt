@@ -2,35 +2,30 @@ package com.mvproject.tvprogramguide.ui.settings.channels.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mvproject.tvprogramguide.data.model.Channel
-import com.mvproject.tvprogramguide.domain.repository.SelectedChannelRepository
-import com.mvproject.tvprogramguide.helpers.StoreHelper
+import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
+import com.mvproject.tvprogramguide.domain.usecases.SelectedChannelUseCase
 import com.mvproject.tvprogramguide.ui.settings.channels.actions.SelectedChannelsAction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class SelectedChannelsViewModel @Inject constructor(
-    private val selectedChannelRepository: SelectedChannelRepository,
-    private val storeHelper: StoreHelper
+    private val selectedChannelUseCase: SelectedChannelUseCase,
 ) : ViewModel() {
 
-    private var _selectedChannels = MutableStateFlow<List<Channel>>(emptyList())
+    private var _selectedChannels = MutableStateFlow<List<SelectedChannel>>(emptyList())
     val selectedChannels = _selectedChannels.asStateFlow()
 
-    private val listName = storeHelper.currentChannelList
-
     init {
-        Timber.i("testing SelectedChannelsViewModel init")
         viewModelScope.launch {
-            selectedChannelRepository.loadSelectedChannelsFlow(listName).collect { channels ->
-                _selectedChannels.emit(channels)
-            }
+            selectedChannelUseCase.loadSelectedChannelsFlow()
+                .collect { channels ->
+                    _selectedChannels.emit(channels)
+                }
         }
     }
 
@@ -38,14 +33,11 @@ class SelectedChannelsViewModel @Inject constructor(
         when (action) {
             is SelectedChannelsAction.ChannelDelete -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    selectedChannelRepository.deleteChannel(action.channel.channelId)
+                    selectedChannelUseCase.deleteChannelFromSelected(
+                        channelId = action.selectedChannel.channelId
+                    )
                 }
             }
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        Timber.i("testing SelectedChannelsViewModel onCleared")
     }
 }

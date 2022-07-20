@@ -2,12 +2,11 @@ package com.mvproject.tvprogramguide.ui.settings.channels.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mvproject.tvprogramguide.data.entity.SelectedChannelEntity
-import com.mvproject.tvprogramguide.data.model.Channel
-import com.mvproject.tvprogramguide.domain.repository.AllChannelRepository
-import com.mvproject.tvprogramguide.domain.repository.SelectedChannelRepository
-import com.mvproject.tvprogramguide.domain.utils.Mappers.asAlreadySelected
-import com.mvproject.tvprogramguide.helpers.StoreHelper
+import com.mvproject.tvprogramguide.data.model.domain.AvailableChannel
+import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
+import com.mvproject.tvprogramguide.data.repository.AllChannelRepository
+import com.mvproject.tvprogramguide.data.utils.Mappers.asAlreadySelected
+import com.mvproject.tvprogramguide.domain.usecases.SelectedChannelUseCase
 import com.mvproject.tvprogramguide.ui.settings.channels.actions.AvailableChannelsAction
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
@@ -16,38 +15,32 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class AllChannelViewModel @Inject constructor(
     private val allChannelRepository: AllChannelRepository,
-    private val selectedChannelRepository: SelectedChannelRepository,
-    private val storeHelper: StoreHelper
+    private val selectedChannelUseCase: SelectedChannelUseCase,
 ) : ViewModel() {
 
-    private var _allChannels = MutableStateFlow<List<Channel>>(emptyList())
-    val allChannels = _allChannels.asStateFlow()
+    private var _availableChannels = MutableStateFlow<List<AvailableChannel>>(emptyList())
+    val availableChannels = _availableChannels.asStateFlow()
 
-    private var _selectedChannels = MutableStateFlow<List<Channel>>(emptyList())
+    private var _selectedChannels = MutableStateFlow<List<SelectedChannel>>(emptyList())
     val selectedChannels = _selectedChannels.asStateFlow()
-
-    private val listName = storeHelper.currentChannelList
 
     private var queryText = NO_VALUE_STRING
 
-    private var allChannelsFixed = emptyList<Channel>()
-
-    private val channelOrderLast get() = selectedChannels.value.count() + 1
+    private var allChannels = emptyList<AvailableChannel>()
 
     init {
-        Timber.i("testing AllChannelViewModel init")
         viewModelScope.launch {
-            selectedChannelRepository.loadSelectedChannelsFlow(listName).collect {
-                _selectedChannels.emit(it)
-                allChannelsFixed = allChannelRepository.loadChannels()
-                reloadAllChannels()
-            }
+            selectedChannelUseCase.loadSelectedChannelsFlow()
+                .collect { channels ->
+                    allChannels = allChannelRepository.loadChannels()
+                    _selectedChannels.emit(channels)
+                    reloadAllChannels()
+                }
         }
     }
 
@@ -59,19 +52,18 @@ class AllChannelViewModel @Inject constructor(
         when (action) {
             is AvailableChannelsAction.ChannelAdd -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    val selected = SelectedChannelEntity(
-                        channel_id = action.channel.channelId,
-                        channel_name = action.channel.channelName,
-                        channel_icon = action.channel.channelIcon,
-                        order = channelOrderLast,
-                        parentList = listName
-                    )
-                    selectedChannelRepository.addChannel(selected)
+                    selectedChannelUseCase
+                        .addChannelToSelected(
+                            selectedChannel = action.selectedChannel
+                        )
                 }
             }
             is AvailableChannelsAction.ChannelDelete -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    selectedChannelRepository.deleteChannel(action.channel.channelId)
+                    selectedChannelUseCase
+                        .deleteChannelFromSelected(
+                            channelId = action.selectedChannel.channelId
+                        )
                 }
             }
             is AvailableChannelsAction.ChannelFilter -> {
@@ -81,22 +73,26 @@ class AllChannelViewModel @Inject constructor(
         }
     }
 
-    private fun performQuery(data: List<Channel>): List<Channel> {
+    private fun performQuery(data: List<AvailableChannel>): List<AvailableChannel> {
         if (queryText.length > COUNT_ONE) {
-            return data.filter { it.channelName.contains(queryText, true) }
+            return data.filter { channel ->
+                channel.channelName
+                    .contains(queryText, true)
+            }
         }
         return data
     }
 
     private suspend fun updateChannelsData() {
-        val alreadySelected = selectedChannels.value.map { it.channelName }
-        val filtered = allChannelsFixed
-            .map { it.asAlreadySelected(it.channelName in alreadySelected) }
-        _allChannels.emit(performQuery(filtered))
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        Timber.i("testing AllChannelViewModel onCleared")
+        val alreadySelected = selectedChannels.value.map { channel ->
+            channel.channelName
+        }
+        val filtered = allChannels
+            .map { channel ->
+                channel.asAlreadySelected(
+                    state = channel.channelName in alreadySelected
+                )
+            }
+        _availableChannels.emit(performQuery(filtered))
     }
 }

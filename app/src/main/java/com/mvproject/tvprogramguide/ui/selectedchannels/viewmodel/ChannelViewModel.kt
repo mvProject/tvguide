@@ -7,20 +7,20 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import com.mvproject.tvprogramguide.data.model.CustomList
-import com.mvproject.tvprogramguide.domain.repository.ChannelProgramRepository
-import com.mvproject.tvprogramguide.domain.repository.CustomListRepository
-import com.mvproject.tvprogramguide.domain.repository.SelectedChannelRepository
+import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
+import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
+import com.mvproject.tvprogramguide.data.repository.CustomListRepository
+import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
+import com.mvproject.tvprogramguide.data.utils.obtainIndexOrZero
+import com.mvproject.tvprogramguide.domain.helpers.NetworkHelper
+import com.mvproject.tvprogramguide.domain.helpers.StoreHelper
+import com.mvproject.tvprogramguide.domain.usecases.SortedProgramsUseCase
 import com.mvproject.tvprogramguide.domain.utils.DOWNLOAD_CHANNELS
 import com.mvproject.tvprogramguide.domain.utils.DOWNLOAD_FULL_PROGRAMS
 import com.mvproject.tvprogramguide.domain.utils.createInputDataForUpdate
 import com.mvproject.tvprogramguide.domain.workers.FullUpdateProgramsWorker
 import com.mvproject.tvprogramguide.domain.workers.UpdateChannelsWorker
-import com.mvproject.tvprogramguide.helpers.NetworkHelper
-import com.mvproject.tvprogramguide.helpers.StoreHelper
 import com.mvproject.tvprogramguide.ui.selectedchannels.ChannelsViewState
-import com.mvproject.tvprogramguide.ui.selectedchannels.SortedProgramsUseCase
-import com.mvproject.tvprogramguide.utils.Utils.obtainIndexOrZero
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -53,17 +53,17 @@ class ChannelViewModel @Inject constructor(
     private var _selectedPrograms = MutableStateFlow(ChannelsViewState())
     val selectedPrograms = _selectedPrograms.asStateFlow()
 
-    private var _availableLists: List<CustomList> = emptyList()
+    private var _availableLists: List<UserChannelsList> = emptyList()
 
-    private val currentChannelList get() = storeHelper.defaultChannelList
+    private val currentChannelList
+        get() = storeHelper.defaultChannelList
 
     private val channelList = MutableStateFlow(currentChannelList)
 
     init {
-        Timber.i("testing ChannelViewModel init")
         viewModelScope.launch(Dispatchers.IO) {
-            customListRepository.loadChannelsLists().collect {
-                _availableLists = it
+            customListRepository.loadChannelsLists().collect { lists ->
+                _availableLists = lists
             }
         }
 
@@ -83,34 +83,42 @@ class ChannelViewModel @Inject constructor(
     }
 
     fun applyList(listName: String) {
+        storeHelper.setDefaultChannelList(name = listName)
         channelList.value = listName
     }
 
-    val availableLists get() = _availableLists.map { it.listName }
+    val availableLists
+        get() = _availableLists.map { channels ->
+            channels.listName
+        }
     val obtainListIndex
-        get() = availableLists.obtainIndexOrZero(channelList.value)
+        get() = availableLists.obtainIndexOrZero(target = channelList.value)
 
     private fun updatePrograms() {
         if (channelList.value.isEmpty()) {
             Timber.e("testing no current saved list")
         } else {
             viewModelScope.launch(Dispatchers.IO) {
-                val programs = sortedProgramsUseCase(listName = channelList.value)
+                val programs = sortedProgramsUseCase
+                    .retrieveSelectedChannelWithPrograms()
 
                 _selectedPrograms.value =
                     selectedPrograms.value.copy(
                         listName = channelList.value,
-                        programs = programs
+                        programs = programs.sortedBy { it.selectedChannel.order }
                     )
 
                 //  val obtainedChannelsIds = programs.map { it.channel.channelId }
 
                 val selectedChannelIds = selectedChannelRepository
-                    .loadSelectedChannels(channelList.value)
-                    .map { it.channelId }
+                    .loadSelectedChannels(listName = channelList.value)
+                    .map { entity ->
+                        entity.channelId
+                    }
 
                 val obtainedChannelsIdsCount =
-                    channelProgramRepository.loadProgramsCount(selectedChannelIds)
+                    channelProgramRepository
+                        .loadProgramsCount(channelsIds = selectedChannelIds)
 
                 if (selectedChannelIds.count() > obtainedChannelsIdsCount) {
                     // val missingIds = selectedChannelIds.minus(obtainedChannelsIds)
@@ -172,11 +180,5 @@ class ChannelViewModel @Inject constructor(
         } else {
             Timber.e("testing no connection")
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        storeHelper.setDefaultChannelList(channelList.value)
-        Timber.i("testing ChannelViewModel onCleared")
     }
 }
