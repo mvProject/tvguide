@@ -6,6 +6,7 @@ import com.mvproject.tvprogramguide.data.database.DbConstants.SELECTED_CHANNEL_K
 import com.mvproject.tvprogramguide.data.database.DbConstants.SELECTED_CHANNEL_KEY_PARENT_LIST
 import com.mvproject.tvprogramguide.data.database.DbConstants.TABLE_SELECTED_CHANNELS
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
+import com.mvproject.tvprogramguide.data.utils.parseChannelName
 
 @Entity(
     tableName = TABLE_SELECTED_CHANNELS,
@@ -21,7 +22,7 @@ data class SelectedChannelEntity(
     fun toSelectedChannel() = with(this) {
         SelectedChannel(
             channelId = channelId,
-            channelName = channelName,
+            channelName = channelName.parseChannelName(),
             channelIcon = channelIcon,
             order = order,
             parentList = parentList
