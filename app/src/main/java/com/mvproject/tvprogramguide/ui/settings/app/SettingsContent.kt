@@ -19,10 +19,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.mvproject.tvprogramguide.MainActivity
 import com.mvproject.tvprogramguide.R
+import com.mvproject.tvprogramguide.domain.utils.Utils.findActivity
 import com.mvproject.tvprogramguide.theme.appColors
 import com.mvproject.tvprogramguide.theme.dimens
 import com.mvproject.tvprogramguide.ui.settings.channels.PickerItem
-import com.mvproject.tvprogramguide.utils.Utils.findActivity
 import timber.log.Timber
 
 @ExperimentalPagerApi

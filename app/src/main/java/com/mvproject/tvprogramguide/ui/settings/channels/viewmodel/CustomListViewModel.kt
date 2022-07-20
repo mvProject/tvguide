@@ -1,11 +1,10 @@
 package com.mvproject.tvprogramguide.ui.settings.channels.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.mvproject.tvprogramguide.helpers.StoreHelper
+import com.mvproject.tvprogramguide.domain.helpers.StoreHelper
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import timber.log.Timber
 
 @HiltViewModel
 class CustomListViewModel @Inject constructor(
@@ -13,20 +12,15 @@ class CustomListViewModel @Inject constructor(
 ) : ViewModel() {
 
     fun setSelectedList(name: String) {
-        storeHelper.setCurrentChannelList(name)
+        storeHelper.setCurrentChannelList(name = name)
     }
 
     fun clearSelectedList() {
-        storeHelper.setCurrentChannelList(NO_VALUE_STRING)
-    }
-
-    init {
-        Timber.i("testing CustomListViewModel init")
+        storeHelper.setCurrentChannelList(name = NO_VALUE_STRING)
     }
 
     override fun onCleared() {
         super.onCleared()
-        storeHelper.setCurrentChannelList(NO_VALUE_STRING)
-        Timber.i("testing CustomListViewModel onCleared")
+        storeHelper.setCurrentChannelList(name = NO_VALUE_STRING)
     }
 }
