@@ -2,6 +2,8 @@
     <string name="app_name">TV Program Guide</string>
 
     <string name="add_new_custom_list">Add New List</string>
+    <string name="new_custom_hint">type list name</string>
+    <string name="btn_close">Close</string>
     <string name="all_channels_title">All channels</string>
     <string name="selected_channels_title">Selected channels</string>
     <string name="hint_search">Search channel</string>

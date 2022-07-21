@@ -1,7 +1,6 @@
 package com.mvproject.tvprogramguide.ui.settings.channels.view
 
 import androidx.compose.animation.Animatable
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,10 +19,8 @@ import com.mvproject.tvprogramguide.theme.dimens
 import com.mvproject.tvprogramguide.ui.settings.channels.viewmodel.CustomListViewModel
 import com.mvproject.tvprogramguide.utils.AppConstants.SELECTED_CHANNELS_PAGE
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @ExperimentalMaterialApi
-@ExperimentalFoundationApi
 @ExperimentalPagerApi
 @Composable
 fun TabMainScreen(
@@ -31,8 +28,7 @@ fun TabMainScreen(
     userListName: String
 ) {
     SideEffect {
-        Timber.i("testing TabMainScreen SideEffect")
-        viewModel.setSelectedList(userListName)
+        viewModel.setSelectedList(name = userListName)
     }
 
     val tabItems = listOf(

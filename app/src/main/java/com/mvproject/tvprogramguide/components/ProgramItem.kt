@@ -1,6 +1,6 @@
 package com.mvproject.tvprogramguide.components
 
-import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.*
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -14,8 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
@@ -32,6 +34,8 @@ fun ProgramItem(
     progressValue: Float = COUNT_ZERO_FLOAT
 ) {
     var expandedState by remember { mutableStateOf(false) }
+    val density = LocalDensity.current
+
     val rotationState by animateFloatAsState(
         targetValue = if (expandedState) 180f else 0f
     )
@@ -104,7 +108,17 @@ fun ProgramItem(
                 )
             }
 
-            if (expandedState) {
+            AnimatedVisibility(
+                visible = expandedState,
+                enter = slideInVertically {
+                    // Slide in from 40 dp from the top.
+                    with(density) { -40.dp.roundToPx() }
+                } + fadeIn(
+                    // Fade in with the initial alpha of 0.3f.
+                    initialAlpha = 0.3f
+                ),
+                exit = slideOutVertically() + shrinkVertically() + fadeOut()
+            ) {
                 Text(
                     text = prgDescription,
                     modifier = Modifier

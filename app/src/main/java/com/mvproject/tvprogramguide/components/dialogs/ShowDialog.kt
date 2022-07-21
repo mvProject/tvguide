@@ -16,13 +16,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.mvproject.tvprogramguide.R
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 
 @Composable
 fun ShowDialog(
     isDialogOpen: MutableState<Boolean>,
     onSelected: (String) -> Unit
 ) {
-    val name = remember { mutableStateOf("") }
+    val name = remember { mutableStateOf(NO_VALUE_STRING) }
 
     if (isDialogOpen.value) {
         Dialog(
@@ -56,7 +57,9 @@ fun ShowDialog(
                     OutlinedTextField(
                         value = name.value,
                         onValueChange = { name.value = it },
-                        placeholder = { Text(text = "List name") },
+                        placeholder = {
+                            Text(text = stringResource(id = R.string.new_custom_hint))
+                        },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(0.8f)
                     )
@@ -78,7 +81,7 @@ fun ShowDialog(
                         )
                     ) {
                         Text(
-                            text = "Close",
+                            text = stringResource(id = R.string.btn_close),
                             color = Color.White,
                             fontSize = 12.sp
                         )

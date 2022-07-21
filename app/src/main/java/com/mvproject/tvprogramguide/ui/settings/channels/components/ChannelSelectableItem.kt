@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -28,7 +27,6 @@ import com.mvproject.tvprogramguide.theme.appColors
 import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
 
-@ExperimentalMaterialApi
 @Composable
 fun ChannelSelectableItem(
     channelName: String,
@@ -86,7 +84,6 @@ fun ChannelSelectableItem(
     }
 }
 
-@ExperimentalMaterialApi
 @Composable
 @Preview(showBackground = true)
 fun ChannelSelectableItemPreview() {
@@ -107,7 +104,6 @@ fun ChannelSelectableItemPreview() {
     }
 }
 
-@ExperimentalMaterialApi
 @Composable
 @Preview(showBackground = true)
 fun ChannelSelectableItemPreviewDark() {

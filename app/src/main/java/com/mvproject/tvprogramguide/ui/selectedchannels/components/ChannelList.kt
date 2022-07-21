@@ -10,34 +10,33 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.mvproject.tvprogramguide.components.ProgramItem
-import com.mvproject.tvprogramguide.data.model.Channel
-import com.mvproject.tvprogramguide.data.model.SelectedChannelModel
-import com.mvproject.tvprogramguide.utils.Utils.calculateProgramProgress
-import com.mvproject.tvprogramguide.utils.Utils.convertTimeToReadableFormat
-import com.mvproject.tvprogramguide.utils.Utils.parseChannelName
+import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
+import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
+import com.mvproject.tvprogramguide.data.utils.convertTimeToReadableFormat
+import com.mvproject.tvprogramguide.domain.utils.Utils.calculateProgramProgress
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 fun ChannelList(
-    singleChannelPrograms: List<SelectedChannelModel>,
-    onChannelClick: (Channel) -> Unit
+    singleChannelPrograms: List<SelectedChannelWithPrograms>,
+    onChannelClick: (SelectedChannel) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
             .fillMaxHeight()
             .background(MaterialTheme.colors.primary)
     ) {
-        singleChannelPrograms.forEach {
+        singleChannelPrograms.forEach { item ->
             stickyHeader {
                 ChannelItem(
-                    channelName = it.channel.channelName.parseChannelName(),
-                    channelLogo = it.channel.channelIcon
+                    channelName = item.selectedChannel.channelName,
+                    channelLogo = item.selectedChannel.channelIcon
                 ) {
-                    onChannelClick(it.channel)
+                    onChannelClick(item.selectedChannel)
                 }
             }
-            items(it.programs) { program ->
+            items(item.programs) { program ->
                 ProgramItem(
                     prgTime = program.dateTimeStart.convertTimeToReadableFormat(),
                     prgTitle = program.title,
