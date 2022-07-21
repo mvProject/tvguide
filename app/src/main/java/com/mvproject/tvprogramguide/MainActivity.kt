@@ -1,53 +1,34 @@
 package com.mvproject.tvprogramguide
 
-import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
-import com.mvproject.tvprogramguide.databinding.ActivityMainBinding
-import com.mvproject.tvprogramguide.helpers.LocaleHelper
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.ExperimentalMaterialApi
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.mvproject.tvprogramguide.navigation.NavigationHost
+import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalPagerApi
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
+@ExperimentalCoroutinesApi
+@ExperimentalAnimationApi
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-
-    private val navHostFragment by lazy {
-        supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-    }
-    private val navController get() = navHostFragment.navController
-
-    private val mainViewModel: MainViewModel by viewModels()
-
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        //navController.addOnDestinationChangedListener { controller, destination, arguments ->
-        //    controller.backStack.forEach {
-        //        Timber.d(
-        //            "currentStack ${it.destination.label}"
-        //        )
-        //    }
-        //}
-    }
+        setContent {
+            val navController = rememberAnimatedNavController()
 
-    override fun onResume() {
-        super.onResume()
-        mainViewModel.checkAvailableChannelsUpdate()
-        mainViewModel.checkFullProgramsUpdate()
-        Timber.d("testing MainActivity onResume")
-    }
-
-    override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(LocaleHelper.wrapContext(base))
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        LocaleHelper.overrideLocale(this)
+            TvGuideTheme(isSystemInDarkTheme()) {
+                NavigationHost(navController = navController)
+            }
+        }
     }
 }

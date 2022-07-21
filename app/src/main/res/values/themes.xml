@@ -2,56 +2,6 @@
     <!-- Base application theme. -->
     <style name="Theme.TVProgramGuide" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/midnightblue</item>
-        <item name="colorOnPrimary">@color/whitesmoke</item>
-        <item name="colorAccent">@color/midnightblue</item>
-        <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
-
-        <item name="radioButtonStyle">@style/Widget.App.RadioButton</item>
-
-        <item name="color_default_background">@color/whitesmoke</item>
-        <item name="color_default_title">@color/midnightblue</item>
-
-        <item name="color_title_selected">@color/midnightblue</item>
-        <item name="color_title_unselected">@color/midnightblue_alpha40</item>
-
-        <item name="color_dialog_background">@color/whitesmoke</item>
-        <item name="color_dialog_btn_background">@color/midnightblue</item>
-        <item name="color_dialog_btn_title">@color/whitesmoke</item>
-        <item name="color_dialog_title">@color/midnightblue</item>
-
-        <item name="color_add_tint">@color/medium_sea_green</item>
-        <item name="color_delete_tint">@color/red</item>
-
-        <item name="color_toolbar_background">@color/midnightblue</item>
-        <item name="color_toolbar_title">@color/whitesmoke</item>
-        <item name="color_toolbar_tint">@color/whitesmoke</item>
-
-        <item name="color_channel_header_background">@color/midnightblue</item>
-        <item name="color_channel_header_title">@color/whitesmoke</item>
-
-        <item name="color_channel_item_background">@color/whitesmoke</item>
-        <item name="color_channel_item_title">@color/midnightblue</item>
-        <item name="color_channel_item_tint">@color/midnightblue</item>
-
-        <item name="color_program_item_background">@color/whitesmoke</item>
-        <item name="color_program_item_title">@color/midnightblue_alpha80</item>
-        <item name="color_program_item_description">@color/midnightblue_alpha40</item>
-        <item name="color_program_item_tint">@color/midnightblue_alpha20</item>
-
-        <item name="color_tab_indicator">@color/whitesmoke</item>
-        <item name="color_tab_text_selected">@color/whitesmoke</item>
-        <item name="color_tab_text_unselected">@color/lightslategray</item>
-        <item name="color_tab_background">@color/midnightblue</item>
-
-        <item name="color_search_background">@color/whitesmoke</item>
-        <item name="color_search_title">@color/midnightblue</item>
-        <item name="color_search_tint">@color/midnightblue</item>
-
-        <item name="color_selector_value">@color/midnightblue</item>
-        <item name="color_selector_action">@color/midnightblue_alpha20</item>
-
-        <item name="color_current_progress">@color/whitesmoke</item>
-        <item name="color_background_progress">@color/midnightblue</item>
     </style>
 </resources>

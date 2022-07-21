@@ -3,21 +3,20 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
-    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
     compileSdk = Config.compileSdk
 
     defaultConfig {
-        applicationId = "com.mvproject.tvprogramguide"
+        applicationId = Config.applicationId
         minSdk = Config.minSdk
         targetSdk = Config.targetSdk
         versionCode = Config.versionCode
         versionName = Config.versionName
         testInstrumentationRunner = Config.androidTestInstrumentation
 
-        resourceConfigurations.addAll(listOf("en","ru","uk"))
+        resourceConfigurations.addAll(listOf("en", "ru", "uk"))
     }
 
     signingConfigs {
@@ -30,7 +29,7 @@ android {
     }
 
     buildTypes {
-        debug{
+        debug {
             isDebuggable = true
             setProperty(
                 "archivesBaseName",
@@ -60,39 +59,50 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
     viewBinding {
         android.buildFeatures.viewBinding = true
+    }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.1.1"
     }
 }
 
 dependencies {
 
     implementation(Dependencies.appLibraries)
+
     implementation(Dependencies.preference)
+
     implementation(Dependencies.network)
+
     implementation(Dependencies.logging)
-    implementation(Dependencies.lifecycleKtx)
-    implementation(Dependencies.navigationKtx)
+
     implementation(Dependencies.coroutines)
-    implementation(Dependencies.pager)
+
     implementation(Dependencies.coil)
 
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation(Dependencies.appComposeLibraries)
 
-    // startup
-    implementation("androidx.startup:startup-runtime:1.1.0")
+    implementation(Dependencies.lifecycleCompose)
 
-    // WorkManager
-    implementation ("androidx.work:work-runtime-ktx:2.7.1")
+    implementation(Dependencies.pagerCompose)
 
-    implementation("androidx.hilt:hilt-work:1.0.0")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
+    implementation(Dependencies.navigationCompose)
+
+    implementation(Dependencies.startupRuntime)
+
+    implementation(Dependencies.workManager)
 
     implementationRoom()
 
     implementationHilt()
+
+    testImplementation(Dependencies.testComposeLibraries)
 
     testImplementation(Dependencies.testLibraries)
     androidTestImplementation(Dependencies.androidTestLibraries)
