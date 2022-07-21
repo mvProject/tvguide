@@ -6,6 +6,7 @@ import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
 import com.mvproject.tvprogramguide.data.repository.CustomListRepository
 import com.mvproject.tvprogramguide.domain.helpers.StoreHelper
 import com.mvproject.tvprogramguide.ui.usercustomlist.action.UserListAction
+import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,18 +26,21 @@ class UserCustomListViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             customListRepository.loadChannelsLists().collect { lists ->
-                //  initDefaultList(lists)
                 _customs.emit(lists)
             }
         }
     }
 
-    private fun initDefaultList(lists: List<UserChannelsList>) {
-        // val current = storeHelper.defaultChannelList
-        val listCount = lists.count()
-        // if (current == NO_VALUE_STRING && listCount == COUNT_ONE) {
-        if (listCount > 0) {
-            val listName = lists.first().listName
+    private fun checkForDefaultAfterAdd() {
+        if (customs.value.count() == COUNT_ONE) {
+            val listName = customs.value.first().listName
+            storeHelper.setDefaultChannelList(name = listName)
+        }
+    }
+
+    private fun checkForDefaultAfterDelete() {
+        if (customs.value.isNotEmpty()) {
+            val listName = customs.value.first().listName
             storeHelper.setDefaultChannelList(name = listName)
         }
     }
@@ -46,14 +50,14 @@ class UserCustomListViewModel @Inject constructor(
             is UserListAction.AddList -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     customListRepository.addCustomList(name = action.listName)
-                    storeHelper.setCurrentChannelList(name = action.listName)
+                    checkForDefaultAfterAdd()
                 }
             }
             is UserListAction.DeleteList -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    viewModelScope.launch(Dispatchers.IO) {
-                        customListRepository.deleteList(item = action.list)
-                        initDefaultList(lists = customs.value)
+                    customListRepository.deleteList(item = action.list)
+                    if (storeHelper.defaultChannelList == action.list.listName) {
+                        checkForDefaultAfterDelete()
                     }
                 }
             }

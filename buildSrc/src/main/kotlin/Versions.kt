@@ -15,8 +15,8 @@ object Versions {
     const val annotation = "1.2.0"
 
     // coroutines
-    const val coroutinesCoreKtx = "1.6.1"
-    const val coroutinesAndroid = "1.6.1"
+    const val coroutinesCoreKtx = "1.6.4"
+    const val coroutinesAndroid = "1.6.4"
 
     // test
     const val junit = "4.13.2"

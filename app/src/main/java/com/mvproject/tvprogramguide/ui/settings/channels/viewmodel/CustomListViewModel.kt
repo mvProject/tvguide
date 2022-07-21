@@ -15,10 +15,6 @@ class CustomListViewModel @Inject constructor(
         storeHelper.setCurrentChannelList(name = name)
     }
 
-    fun clearSelectedList() {
-        storeHelper.setCurrentChannelList(name = NO_VALUE_STRING)
-    }
-
     override fun onCleared() {
         super.onCleared()
         storeHelper.setCurrentChannelList(name = NO_VALUE_STRING)
