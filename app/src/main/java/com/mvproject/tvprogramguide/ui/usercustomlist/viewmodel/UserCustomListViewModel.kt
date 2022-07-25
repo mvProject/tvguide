@@ -27,6 +27,7 @@ class UserCustomListViewModel @Inject constructor(
         viewModelScope.launch {
             customListRepository.loadChannelsLists().collect { lists ->
                 _customs.emit(lists)
+                checkForDefaultAfterAdd()
             }
         }
     }
@@ -50,7 +51,6 @@ class UserCustomListViewModel @Inject constructor(
             is UserListAction.AddList -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     customListRepository.addCustomList(name = action.listName)
-                    checkForDefaultAfterAdd()
                 }
             }
             is UserListAction.DeleteList -> {
