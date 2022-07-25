@@ -44,7 +44,7 @@ fun ProgramItem(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .defaultMinSize(minHeight = MaterialTheme.dimens.size48)
+            // .defaultMinSize(minHeight = MaterialTheme.dimens.size48)
             .animateContentSize(
                 animationSpec = tween(
                     durationMillis = ANIM_DURATION_300,
@@ -52,17 +52,12 @@ fun ProgramItem(
                 )
             ),
         shape = RoundedCornerShape(MaterialTheme.dimens.sizeZero),
-        onClick = {
-            if (prgDescription.isNotEmpty()) {
-                expandedState = !expandedState
-            }
-        },
         elevation = MaterialTheme.dimens.size2
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth(),
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Top
         ) {
             Row(
                 modifier = Modifier
@@ -146,15 +141,33 @@ fun ExpandableCardPreview() {
         Column() {
             ProgramItem(
                 prgTime = "11:35",
-                prgTitle = "My Title",
+                prgTitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                        "sed do eiusmod tempor incididunt ut labore",
                 prgDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                    "sed do eiusmod tempor incididunt ut labore et dolore magna " +
-                    "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
-                    "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                        "sed do eiusmod tempor incididunt ut labore et dolore magna " +
+                        "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
+                        "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
                 progressValue = 0.1f
             )
             ProgramItem(
                 prgTime = "10:01",
+                prgTitle = "My Title",
+                prgDescription = "",
+                progressValue = 0.1f
+            )
+
+            ProgramItem(
+                prgTime = "11:15",
+                prgTitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                        "sed do eiusmod tempor incididunt ut labore",
+                prgDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                        "sed do eiusmod tempor incididunt ut labore et dolore magna " +
+                        "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
+                        "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+
+                )
+            ProgramItem(
+                prgTime = "13:46",
                 prgTitle = "My Title",
                 prgDescription = ""
             )
@@ -170,15 +183,33 @@ fun ExpandableCardPreviewDark() {
         Column() {
             ProgramItem(
                 prgTime = "11:35",
-                prgTitle = "My Title",
+                prgTitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                        "sed do eiusmod tempor incididunt ut labore",
                 prgDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                    "sed do eiusmod tempor incididunt ut labore et dolore magna " +
-                    "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
-                    "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                        "sed do eiusmod tempor incididunt ut labore et dolore magna " +
+                        "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
+                        "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
                 progressValue = 0.1f
             )
             ProgramItem(
                 prgTime = "10:01",
+                prgTitle = "My Title",
+                prgDescription = "",
+                progressValue = 0.1f
+            )
+
+            ProgramItem(
+                prgTime = "11:15",
+                prgTitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                        "sed do eiusmod tempor incididunt ut labore",
+                prgDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                        "sed do eiusmod tempor incididunt ut labore et dolore magna " +
+                        "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
+                        "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+
+                )
+            ProgramItem(
+                prgTime = "13:46",
                 prgTitle = "My Title",
                 prgDescription = ""
             )

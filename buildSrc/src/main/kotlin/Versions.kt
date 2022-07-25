@@ -43,7 +43,8 @@ object Versions {
     const val androidHilt = "1.0.0"
 
     // Compose
-    const val compose = "1.1.1"
+    const val compose = "1.2.0-beta02"
+    const val composeCompiler = "1.1.1"
     const val viewModelCompose = "2.4.1"
     const val activityCompose = "1.4.0"
 
