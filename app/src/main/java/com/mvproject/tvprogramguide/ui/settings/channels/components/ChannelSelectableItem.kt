@@ -1,5 +1,8 @@
 package com.mvproject.tvprogramguide.ui.settings.channels.components
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,17 +36,25 @@ fun ChannelSelectableItem(
     channelName: String,
     channelLogo: String,
     isSelected: Boolean = true,
+    isDragged: Boolean = false,
     onClickAction: () -> Unit
 ) {
+
+    val colorBackground by animateColorAsState(
+        if (isDragged) MaterialTheme.appColors.backgroundSecondary
+        else MaterialTheme.appColors.backgroundPrimary,
+        animationSpec = tween(
+            durationMillis = 1000,
+            easing = LinearOutSlowInEasing
+        )
+    )
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentSize()
-            .background(color = MaterialTheme.appColors.backgroundPrimary)
+            .background(color = colorBackground)
             .padding(MaterialTheme.dimens.size8)
-            .clickable {
-                onClickAction()
-            }
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -80,6 +92,9 @@ fun ChannelSelectableItem(
             modifier = Modifier
                 .size(MaterialTheme.dimens.size24)
                 .align(Alignment.CenterVertically)
+                .clickable {
+                    onClickAction()
+                }
         )
     }
 }
