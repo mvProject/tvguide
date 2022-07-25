@@ -122,6 +122,17 @@ object Mappers {
         item.toSelectedChannel()
     }
 
+    fun List<SelectedChannel>.asSelectedChannelsEntitiesFromChannels() = this.map { item ->
+        SelectedChannelEntity(
+            channelId = item.channelId,
+            channelName = item.channelName,
+            channelIcon = item.channelIcon,
+            order = item.order,
+            parentList = item.parentList
+        )
+    }
+
+
     fun List<UserChannelsListEntity>.asUserChannelsLists() = this.map { item ->
         item.toUserChannelsList()
     }

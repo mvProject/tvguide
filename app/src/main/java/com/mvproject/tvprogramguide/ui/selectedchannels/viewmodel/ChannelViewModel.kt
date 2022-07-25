@@ -105,10 +105,12 @@ class ChannelViewModel @Inject constructor(
                 _selectedPrograms.value =
                     selectedPrograms.value.copy(
                         listName = channelList.value,
-                        programs = programs.sortedBy { it.selectedChannel.order }
+                        programs = programs.sortedBy { item ->
+                            item.selectedChannel.order
+                        }
                     )
 
-                //  val obtainedChannelsIds = programs.map { it.channel.channelId }
+                //  val obtainedChannelsIds = programs.map { it.selectedChannel.channelId }
 
                 val selectedChannelIds = selectedChannelRepository
                     .loadSelectedChannels(listName = channelList.value)
