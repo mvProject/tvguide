@@ -20,8 +20,7 @@ import com.mvproject.tvprogramguide.ui.settings.channels.viewmodel.CustomListVie
 import com.mvproject.tvprogramguide.utils.AppConstants.SELECTED_CHANNELS_PAGE
 import kotlinx.coroutines.launch
 
-@ExperimentalMaterialApi
-@ExperimentalPagerApi
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun TabMainScreen(
     viewModel: CustomListViewModel,

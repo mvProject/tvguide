@@ -25,7 +25,6 @@ import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_300
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO_FLOAT
 import com.mvproject.tvprogramguide.utils.AppConstants.OPACITY_60
 
-@ExperimentalMaterialApi
 @Composable
 fun ProgramItem(
     prgTime: String,
@@ -40,42 +39,43 @@ fun ProgramItem(
         targetValue = if (expandedState) 180f else 0f
     )
 
+    val cardAlpha = if (progressValue > 1f) 0.5f else 1f
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .defaultMinSize(minHeight = MaterialTheme.dimens.size48)
             .animateContentSize(
                 animationSpec = tween(
                     durationMillis = ANIM_DURATION_300,
                     easing = LinearOutSlowInEasing
                 )
             ),
+
         shape = RoundedCornerShape(MaterialTheme.dimens.sizeZero),
-        onClick = {
-            if (prgDescription.isNotEmpty()) {
-                expandedState = !expandedState
-            }
-        },
         elevation = MaterialTheme.dimens.size2
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth(),
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Top
         ) {
             Row(
                 modifier = Modifier
                     .defaultMinSize(minHeight = MaterialTheme.dimens.size42),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                TimeItem(time = prgTime)
+                TimeItem(
+                    time = prgTime,
+                    modifier = Modifier.alpha(cardAlpha)
+                )
 
                 Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size4))
 
                 Text(
                     modifier = Modifier
-                        .weight(MaterialTheme.dimens.weight6),
+                        .weight(MaterialTheme.dimens.weight6)
+                        .alpha(cardAlpha),
                     text = prgTitle,
                     fontSize = MaterialTheme.dimens.font14,
                     style = MaterialTheme.appTypography.textMedium,
@@ -85,7 +85,7 @@ fun ProgramItem(
                     IconButton(
                         modifier = Modifier
                             .weight(MaterialTheme.dimens.weight1)
-                            .alpha(ContentAlpha.medium)
+                            .alpha(cardAlpha)
                             .rotate(rotationState),
                         onClick = {
                             expandedState = !expandedState
@@ -99,7 +99,7 @@ fun ProgramItem(
                 }
             }
 
-            if (progressValue > COUNT_ZERO_FLOAT) {
+            if (progressValue > COUNT_ZERO_FLOAT && progressValue <= 1f) {
                 LinearProgressIndicator(
                     progress = progressValue,
                     modifier = Modifier.fillMaxWidth(),
@@ -138,7 +138,6 @@ fun ProgramItem(
     }
 }
 
-@ExperimentalMaterialApi
 @Composable
 @Preview(showBackground = true)
 fun ExpandableCardPreview() {
@@ -146,15 +145,33 @@ fun ExpandableCardPreview() {
         Column() {
             ProgramItem(
                 prgTime = "11:35",
-                prgTitle = "My Title",
+                prgTitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                        "sed do eiusmod tempor incididunt ut labore",
                 prgDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                    "sed do eiusmod tempor incididunt ut labore et dolore magna " +
-                    "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
-                    "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                        "sed do eiusmod tempor incididunt ut labore et dolore magna " +
+                        "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
+                        "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
                 progressValue = 0.1f
             )
             ProgramItem(
                 prgTime = "10:01",
+                prgTitle = "My Title",
+                prgDescription = "",
+                progressValue = 0.1f
+            )
+
+            ProgramItem(
+                prgTime = "11:15",
+                prgTitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                        "sed do eiusmod tempor incididunt ut labore",
+                prgDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                        "sed do eiusmod tempor incididunt ut labore et dolore magna " +
+                        "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
+                        "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+
+                )
+            ProgramItem(
+                prgTime = "13:46",
                 prgTitle = "My Title",
                 prgDescription = ""
             )
@@ -162,7 +179,6 @@ fun ExpandableCardPreview() {
     }
 }
 
-@ExperimentalMaterialApi
 @Composable
 @Preview(showBackground = true)
 fun ExpandableCardPreviewDark() {
@@ -170,15 +186,33 @@ fun ExpandableCardPreviewDark() {
         Column() {
             ProgramItem(
                 prgTime = "11:35",
-                prgTitle = "My Title",
+                prgTitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                        "sed do eiusmod tempor incididunt ut labore",
                 prgDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                    "sed do eiusmod tempor incididunt ut labore et dolore magna " +
-                    "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
-                    "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                        "sed do eiusmod tempor incididunt ut labore et dolore magna " +
+                        "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
+                        "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
                 progressValue = 0.1f
             )
             ProgramItem(
                 prgTime = "10:01",
+                prgTitle = "My Title",
+                prgDescription = "",
+                progressValue = 0.1f
+            )
+
+            ProgramItem(
+                prgTime = "11:15",
+                prgTitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                        "sed do eiusmod tempor incididunt ut labore",
+                prgDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                        "sed do eiusmod tempor incididunt ut labore et dolore magna " +
+                        "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
+                        "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+
+                )
+            ProgramItem(
+                prgTime = "13:46",
                 prgTitle = "My Title",
                 prgDescription = ""
             )

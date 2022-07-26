@@ -39,7 +39,6 @@ private fun AllChannelsContent(
         ) { selectedQuery ->
             onAction(AvailableChannelsAction.ChannelFilter(query = selectedQuery))
         }
-
         AllChannelsList(selectedChannels) { channel ->
             if (channel.isSelected) {
                 onAction(

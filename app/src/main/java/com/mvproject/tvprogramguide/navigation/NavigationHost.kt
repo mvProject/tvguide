@@ -2,14 +2,13 @@ package com.mvproject.tvprogramguide.navigation
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.pager.ExperimentalPagerApi
 import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_CHANNEL_ID
 import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_CHANNEL_NAME
 import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_USER_LIST_NAME
@@ -29,16 +28,13 @@ import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_900
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalPagerApi
-@ExperimentalMaterialApi
-@ExperimentalFoundationApi
-@ExperimentalCoroutinesApi
-@ExperimentalAnimationApi
+@OptIn(ExperimentalAnimationApi::class, ExperimentalCoroutinesApi::class)
 @Composable
 fun NavigationHost(navController: NavHostController) {
     AnimatedNavHost(
         navController = navController,
         startDestination = AppRoutes.Channels.route,
+        modifier = Modifier.systemBarsPadding()
     ) {
         composable(
             AppRoutes.Channels.route,
