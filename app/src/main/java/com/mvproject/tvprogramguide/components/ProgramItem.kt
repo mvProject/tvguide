@@ -25,7 +25,6 @@ import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_300
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO_FLOAT
 import com.mvproject.tvprogramguide.utils.AppConstants.OPACITY_60
 
-@ExperimentalMaterialApi
 @Composable
 fun ProgramItem(
     prgTime: String,
@@ -40,17 +39,19 @@ fun ProgramItem(
         targetValue = if (expandedState) 180f else 0f
     )
 
+    val cardAlpha = if (progressValue > 1f) 0.5f else 1f
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            // .defaultMinSize(minHeight = MaterialTheme.dimens.size48)
             .animateContentSize(
                 animationSpec = tween(
                     durationMillis = ANIM_DURATION_300,
                     easing = LinearOutSlowInEasing
                 )
             ),
+
         shape = RoundedCornerShape(MaterialTheme.dimens.sizeZero),
         elevation = MaterialTheme.dimens.size2
     ) {
@@ -64,13 +65,17 @@ fun ProgramItem(
                     .defaultMinSize(minHeight = MaterialTheme.dimens.size42),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                TimeItem(time = prgTime)
+                TimeItem(
+                    time = prgTime,
+                    modifier = Modifier.alpha(cardAlpha)
+                )
 
                 Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size4))
 
                 Text(
                     modifier = Modifier
-                        .weight(MaterialTheme.dimens.weight6),
+                        .weight(MaterialTheme.dimens.weight6)
+                        .alpha(cardAlpha),
                     text = prgTitle,
                     fontSize = MaterialTheme.dimens.font14,
                     style = MaterialTheme.appTypography.textMedium,
@@ -80,7 +85,7 @@ fun ProgramItem(
                     IconButton(
                         modifier = Modifier
                             .weight(MaterialTheme.dimens.weight1)
-                            .alpha(ContentAlpha.medium)
+                            .alpha(cardAlpha)
                             .rotate(rotationState),
                         onClick = {
                             expandedState = !expandedState
@@ -94,7 +99,7 @@ fun ProgramItem(
                 }
             }
 
-            if (progressValue > COUNT_ZERO_FLOAT) {
+            if (progressValue > COUNT_ZERO_FLOAT && progressValue <= 1f) {
                 LinearProgressIndicator(
                     progress = progressValue,
                     modifier = Modifier.fillMaxWidth(),
@@ -133,7 +138,6 @@ fun ProgramItem(
     }
 }
 
-@ExperimentalMaterialApi
 @Composable
 @Preview(showBackground = true)
 fun ExpandableCardPreview() {
@@ -175,7 +179,6 @@ fun ExpandableCardPreview() {
     }
 }
 
-@ExperimentalMaterialApi
 @Composable
 @Preview(showBackground = true)
 fun ExpandableCardPreviewDark() {
