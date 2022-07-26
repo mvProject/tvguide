@@ -5,6 +5,7 @@ import com.mvproject.tvprogramguide.data.model.domain.AvailableChannel
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
 import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelEntity
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
+import com.mvproject.tvprogramguide.data.utils.Mappers.asSelectedChannelsEntitiesFromChannels
 import com.mvproject.tvprogramguide.data.utils.Mappers.asSelectedChannelsFromEntities
 import com.mvproject.tvprogramguide.domain.helpers.StoreHelper
 import kotlinx.coroutines.flow.map
@@ -54,18 +55,33 @@ class SelectedChannelUseCase @Inject constructor(
 
     suspend fun deleteChannelFromSelected(channelId: String) {
         selectedChannelRepository.deleteChannel(channelId = channelId)
-        updateChannelsOrdering()
+        updateChannelsOrdersAfterDelete()
     }
 
     @Transaction
-    suspend fun updateChannelsOrdering() {
+    suspend fun updateChannelsOrdersAfterDelete() {
         val selectedChannels = selectedChannelRepository
             .loadSelectedChannels(listName = targetList)
+            .sortedBy { entity ->
+                entity.order
+            }
+            .updateOrdersByAsc()
 
-        val selectedOrderedChannels = selectedChannels.mapIndexed { ind, entity ->
+        selectedChannelRepository.updateChannels(channels = selectedChannels)
+    }
+
+    @Transaction
+    suspend fun updateChannelsOrdersAfterReorder(reorderedChannels: List<SelectedChannel>) {
+        val reorderedChannelsUpdate = reorderedChannels
+            .asSelectedChannelsEntitiesFromChannels()
+            .updateOrdersByAsc()
+
+        selectedChannelRepository.updateChannels(channels = reorderedChannelsUpdate)
+    }
+
+    private fun List<SelectedChannelEntity>.updateOrdersByAsc(): List<SelectedChannelEntity> {
+        return this.mapIndexed { ind, entity ->
             entity.copy(order = ind + 1)
         }
-        selectedChannelRepository.updateChannels(channels = selectedOrderedChannels)
-
     }
 }

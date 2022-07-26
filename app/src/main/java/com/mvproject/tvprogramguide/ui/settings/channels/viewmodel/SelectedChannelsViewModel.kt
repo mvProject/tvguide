@@ -22,9 +22,14 @@ class SelectedChannelsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            selectedChannelUseCase.loadSelectedChannelsFlow()
+            selectedChannelUseCase
+                .loadSelectedChannelsFlow()
                 .collect { channels ->
-                    _selectedChannels.emit(channels)
+                    _selectedChannels.emit(
+                        channels.sortedBy { chn ->
+                            chn.order
+                        }
+                    )
                 }
         }
     }
@@ -35,6 +40,13 @@ class SelectedChannelsViewModel @Inject constructor(
                 viewModelScope.launch(Dispatchers.IO) {
                     selectedChannelUseCase.deleteChannelFromSelected(
                         channelId = action.selectedChannel.channelId
+                    )
+                }
+            }
+            is SelectedChannelsAction.ChannelsReorder -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    selectedChannelUseCase.updateChannelsOrdersAfterReorder(
+                        reorderedChannels = action.selectedChannels
                     )
                 }
             }
