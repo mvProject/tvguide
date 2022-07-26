@@ -25,10 +25,14 @@ import com.mvproject.tvprogramguide.theme.dimens
 import com.mvproject.tvprogramguide.ui.settings.channels.PickerItem
 import timber.log.Timber
 
-@ExperimentalPagerApi
-@ExperimentalMaterialApi
-@ExperimentalFoundationApi
-@ExperimentalAnimationApi
+@OptIn(
+    ExperimentalAnimationApi::class, ExperimentalFoundationApi::class,
+    ExperimentalMaterialApi::class, ExperimentalPagerApi::class
+)
+//@ExperimentalPagerApi
+//@ExperimentalMaterialApi
+//@ExperimentalFoundationApi
+//@ExperimentalAnimationApi
 @Composable
 fun SettingsContent() {
 

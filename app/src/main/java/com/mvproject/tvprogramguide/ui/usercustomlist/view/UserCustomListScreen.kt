@@ -2,6 +2,7 @@ package com.mvproject.tvprogramguide.ui.usercustomlist.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -46,6 +47,8 @@ private fun UserCustomListContent(
     Column(
         modifier = Modifier
             .background(color = MaterialTheme.colors.primary)
+            .imePadding()
+
     ) {
         ToolbarWithBackAndAction(
             title = stringResource(id = R.string.custom_channels_list_title),

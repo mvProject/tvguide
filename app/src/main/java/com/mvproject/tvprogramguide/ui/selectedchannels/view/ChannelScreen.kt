@@ -1,9 +1,7 @@
 package com.mvproject.tvprogramguide.ui.selectedchannels.view
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -22,9 +20,7 @@ import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 
-@ExperimentalCoroutinesApi
-@ExperimentalMaterialApi
-@ExperimentalFoundationApi
+@OptIn(ExperimentalCoroutinesApi::class)
 @Composable
 fun ChannelScreen(
     viewModel: ChannelViewModel,

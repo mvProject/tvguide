@@ -11,19 +11,30 @@ import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
-fun TimeItem(time: String) {
+fun TimeItem(time: String, modifier: Modifier = Modifier) {
+    val datTime = time.split(":")
     Row(
-        modifier = Modifier
+        modifier = modifier
             .width(MaterialTheme.dimens.size44)
             .wrapContentHeight()
             .padding(
                 horizontal = MaterialTheme.dimens.size4,
                 vertical = MaterialTheme.dimens.size2
             ),
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.SpaceAround
     ) {
         Text(
-            text = time,
+            text = datTime.first(),
+            fontSize = MaterialTheme.dimens.font12,
+            style = MaterialTheme.appTypography.textSemiBold
+        )
+        Text(
+            text = ":",
+            fontSize = MaterialTheme.dimens.font12,
+            style = MaterialTheme.appTypography.textSemiBold
+        )
+        Text(
+            text = datTime.last(),
             fontSize = MaterialTheme.dimens.font12,
             style = MaterialTheme.appTypography.textSemiBold
         )
@@ -34,7 +45,13 @@ fun TimeItem(time: String) {
 @Composable
 fun TimeItemPreview() {
     TvGuideTheme() {
-        TimeItem(time = "12:05")
+        Column {
+            TimeItem(time = "06:55")
+            TimeItem(time = "10:11")
+            TimeItem(time = "11:05")
+            TimeItem(time = "17:21")
+            TimeItem(time = "20:37")
+        }
     }
 }
 
@@ -42,6 +59,12 @@ fun TimeItemPreview() {
 @Composable
 fun TimeItemPreviewDark() {
     TvGuideTheme(true) {
-        TimeItem(time = "12:05")
+        Column {
+            TimeItem(time = "06:55")
+            TimeItem(time = "10:11")
+            TimeItem(time = "11:05")
+            TimeItem(time = "17:21")
+            TimeItem(time = "20:37")
+        }
     }
 }
