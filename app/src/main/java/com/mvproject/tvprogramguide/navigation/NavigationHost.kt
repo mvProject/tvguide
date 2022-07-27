@@ -1,7 +1,10 @@
 package com.mvproject.tvprogramguide.navigation
 
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,16 +18,15 @@ import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_USER_LIST_N
 import com.mvproject.tvprogramguide.ui.selectedchannels.view.ChannelScreen
 import com.mvproject.tvprogramguide.ui.selectedchannels.viewmodel.ChannelViewModel
 import com.mvproject.tvprogramguide.ui.settings.SettingsOptions
-import com.mvproject.tvprogramguide.ui.settings.app.SettingsScreen
+import com.mvproject.tvprogramguide.ui.settings.app.view.SettingsScreen
+import com.mvproject.tvprogramguide.ui.settings.app.viewmodel.AppSettingsViewModel
 import com.mvproject.tvprogramguide.ui.settings.channels.view.TabMainScreen
 import com.mvproject.tvprogramguide.ui.settings.channels.viewmodel.CustomListViewModel
 import com.mvproject.tvprogramguide.ui.singlechannel.view.SingleChannelScreen
 import com.mvproject.tvprogramguide.ui.singlechannel.viewmodel.SingleChannelViewModel
 import com.mvproject.tvprogramguide.ui.usercustomlist.view.UserCustomListScreen
 import com.mvproject.tvprogramguide.ui.usercustomlist.viewmodel.UserCustomListViewModel
-import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_200
 import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_600
-import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_900
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -38,11 +40,18 @@ fun NavigationHost(navController: NavHostController) {
     ) {
         composable(
             AppRoutes.Channels.route,
-            enterTransition = { scaleIn(animationSpec = tween(ANIM_DURATION_600)) },
-            exitTransition = {
-                scaleOut(animationSpec = tween(ANIM_DURATION_200)) +
-                        fadeOut(animationSpec = tween(ANIM_DURATION_200))
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentScope.SlideDirection.Left,
+                    animationSpec = tween(ANIM_DURATION_600)
+                ) + fadeIn(animationSpec = tween(ANIM_DURATION_600))
             },
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentScope.SlideDirection.Right,
+                    animationSpec = tween(ANIM_DURATION_600)
+                ) + fadeOut(animationSpec = tween(ANIM_DURATION_600))
+            }
         ) {
             val channelViewModel = hiltViewModel<ChannelViewModel>()
             ChannelScreen(
@@ -54,10 +63,17 @@ fun NavigationHost(navController: NavHostController) {
         }
         composable(
             AppRoutes.SelectedChannel.route,
-            enterTransition = { scaleIn(animationSpec = tween(ANIM_DURATION_600)) },
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentScope.SlideDirection.Left,
+                    animationSpec = tween(ANIM_DURATION_600)
+                ) + fadeIn(animationSpec = tween(ANIM_DURATION_600))
+            },
             exitTransition = {
-                fadeOut(animationSpec = tween(ANIM_DURATION_200)) +
-                        fadeOut(animationSpec = tween(ANIM_DURATION_200))
+                slideOutOfContainer(
+                    AnimatedContentScope.SlideDirection.Right,
+                    animationSpec = tween(ANIM_DURATION_600)
+                ) + fadeOut(animationSpec = tween(ANIM_DURATION_600))
             }
         ) { backStackEntry ->
             val singleChannelProgramsViewModel = hiltViewModel<SingleChannelViewModel>()
@@ -77,8 +93,18 @@ fun NavigationHost(navController: NavHostController) {
 
         composable(
             AppRoutes.OptionSettings.route,
-            enterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_900)) },
-            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_900)) }
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentScope.SlideDirection.Left,
+                    animationSpec = tween(ANIM_DURATION_600)
+                ) + fadeIn(animationSpec = tween(ANIM_DURATION_600))
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentScope.SlideDirection.Right,
+                    animationSpec = tween(ANIM_DURATION_600)
+                ) + fadeOut(animationSpec = tween(ANIM_DURATION_600))
+            }
         ) {
             SettingsOptions(
                 onBackClick = {
@@ -95,18 +121,40 @@ fun NavigationHost(navController: NavHostController) {
 
         composable(
             AppRoutes.AppSettings.route,
-            enterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_900)) },
-            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_900)) }
-        ) {
-            SettingsScreen {
-                navController.popBackStack()
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentScope.SlideDirection.Left,
+                    animationSpec = tween(ANIM_DURATION_600)
+                ) + fadeIn(animationSpec = tween(ANIM_DURATION_600))
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentScope.SlideDirection.Right,
+                    animationSpec = tween(ANIM_DURATION_600)
+                ) + fadeOut(animationSpec = tween(ANIM_DURATION_600))
             }
+        ) {
+            val appSettingsViewModel = hiltViewModel<AppSettingsViewModel>()
+            SettingsScreen(
+                viewModel = appSettingsViewModel,
+                onBackClick = { navController.popBackStack() }
+            )
         }
 
         composable(
             AppRoutes.UserCustomList.route,
-            enterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_900)) },
-            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_900)) }
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentScope.SlideDirection.Left,
+                    animationSpec = tween(ANIM_DURATION_600)
+                ) + fadeIn(animationSpec = tween(ANIM_DURATION_600))
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentScope.SlideDirection.Right,
+                    animationSpec = tween(ANIM_DURATION_600)
+                ) + fadeOut(animationSpec = tween(ANIM_DURATION_600))
+            }
         ) {
             val userCustomListViewModel = hiltViewModel<UserCustomListViewModel>()
             UserCustomListScreen(
@@ -124,8 +172,18 @@ fun NavigationHost(navController: NavHostController) {
 
         composable(
             AppRoutes.ChannelSettings.route,
-            enterTransition = { fadeIn(animationSpec = tween(ANIM_DURATION_900)) },
-            exitTransition = { fadeOut(animationSpec = tween(ANIM_DURATION_900)) }
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentScope.SlideDirection.Left,
+                    animationSpec = tween(ANIM_DURATION_600)
+                ) + fadeIn(animationSpec = tween(ANIM_DURATION_600))
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentScope.SlideDirection.Right,
+                    animationSpec = tween(ANIM_DURATION_600)
+                ) + fadeOut(animationSpec = tween(ANIM_DURATION_600))
+            }
         ) { backStackEntry ->
             val customListViewModel = hiltViewModel<CustomListViewModel>()
             val userListName =

@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.settings.channels
+package com.mvproject.tvprogramguide.ui.settings.app.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text

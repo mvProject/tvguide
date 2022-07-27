@@ -18,6 +18,7 @@ object Dependencies {
 
     // Preference
     private const val preferenceKtx = "androidx.preference:preference-ktx:${Versions.preferenceKtx}"
+    private const val dataStore = "androidx.datastore:datastore-preferences:${Versions.dataStore}"
 
     // Annotation
     private const val annotationX = "androidx.annotation:annotation:${Versions.annotation}"
@@ -111,6 +112,7 @@ object Dependencies {
 
     val preference = arrayListOf<String>().apply {
         add(preferenceKtx)
+        add(dataStore)
     }
 
     val annotation = arrayListOf<String>().apply {

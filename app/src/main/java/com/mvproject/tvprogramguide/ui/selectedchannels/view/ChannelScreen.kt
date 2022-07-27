@@ -55,8 +55,6 @@ fun ChannelScreen(
         with(viewModel) {
             reloadChannels()
 
-            checkAvailableChannelsUpdate()
-
             checkFullProgramsUpdate()
 
             fullUpdateWorkInfo.observe(
