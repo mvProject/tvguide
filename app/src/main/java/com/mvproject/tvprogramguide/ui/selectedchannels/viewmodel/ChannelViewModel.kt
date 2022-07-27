@@ -15,11 +15,9 @@ import com.mvproject.tvprogramguide.data.utils.obtainIndexOrZero
 import com.mvproject.tvprogramguide.domain.helpers.NetworkHelper
 import com.mvproject.tvprogramguide.domain.helpers.StoreHelper
 import com.mvproject.tvprogramguide.domain.usecases.SortedProgramsUseCase
-import com.mvproject.tvprogramguide.domain.utils.DOWNLOAD_CHANNELS
 import com.mvproject.tvprogramguide.domain.utils.DOWNLOAD_FULL_PROGRAMS
 import com.mvproject.tvprogramguide.domain.utils.createInputDataForUpdate
 import com.mvproject.tvprogramguide.domain.workers.FullUpdateProgramsWorker
-import com.mvproject.tvprogramguide.domain.workers.UpdateChannelsWorker
 import com.mvproject.tvprogramguide.ui.selectedchannels.ChannelsViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -142,30 +140,10 @@ class ChannelViewModel @Inject constructor(
     //    )
     //}
 
-    fun checkAvailableChannelsUpdate() {
-        if (storeHelper.isNeedAvailableChannelsUpdate) {
-            startChannelsUpdate()
-        }
-    }
 
     fun checkFullProgramsUpdate() {
         if (channelList.value.isNotEmpty() && storeHelper.isNeedFullProgramsUpdate) {
             startProgramsFullUpdate()
-        }
-    }
-
-    private fun startChannelsUpdate() {
-        if (networkHelper.isNetworkConnected()) {
-            val channelRequest = OneTimeWorkRequest.Builder(UpdateChannelsWorker::class.java)
-                .setInputData(createInputDataForUpdate())
-                .build()
-            workManager.enqueueUniqueWork(
-                DOWNLOAD_CHANNELS,
-                ExistingWorkPolicy.KEEP,
-                channelRequest
-            )
-        } else {
-            Timber.e("testing no connection")
         }
     }
 

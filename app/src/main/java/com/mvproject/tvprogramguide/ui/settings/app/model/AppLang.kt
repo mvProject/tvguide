@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.settings.app
+package com.mvproject.tvprogramguide.ui.settings.app.model
 
 sealed class AppLang(val name: String, val locale: String) {
     object English : AppLang("English", "en")

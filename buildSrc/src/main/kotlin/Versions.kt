@@ -1,6 +1,6 @@
 object Versions {
     // app level
-    const val gradle = "7.0.3"
+    const val gradle = "7.1.3"
     const val kotlin = "1.6.10"
     const val ktLint = "10.3.0"
     const val depUpdate = "0.42.0"
@@ -9,6 +9,7 @@ object Versions {
     const val appcompat = "1.4.1"
 
     const val preferenceKtx = "1.2.0"
+    const val dataStore = "1.0.0"
     const val material = "1.4.0"
 
     const val timber = "5.0.1"
