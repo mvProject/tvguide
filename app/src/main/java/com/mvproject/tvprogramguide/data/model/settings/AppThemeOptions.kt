@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.settings.app.model
+package com.mvproject.tvprogramguide.data.model.settings
 
 import androidx.annotation.StringRes
 import com.mvproject.tvprogramguide.R
@@ -24,5 +24,10 @@ enum class AppThemeOptions(val id: Int, @StringRes val titleRes: Int) {
     /**
      * System-based app theme.
      */
-    SYSTEM(2, R.string.settings_theme_system)
+    SYSTEM(2, R.string.settings_theme_system);
+
+    companion object {
+        fun getThemeById(targetId: Int) = values().find { theme -> theme.id == targetId } ?: SYSTEM
+    }
+
 }

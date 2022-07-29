@@ -5,13 +5,17 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
+import com.mvproject.tvprogramguide.data.utils.AppConstants.ANIM_DURATION_600
+import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_CHANNEL_ID
 import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_CHANNEL_NAME
 import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_USER_LIST_NAME
@@ -26,8 +30,6 @@ import com.mvproject.tvprogramguide.ui.singlechannel.view.SingleChannelScreen
 import com.mvproject.tvprogramguide.ui.singlechannel.viewmodel.SingleChannelViewModel
 import com.mvproject.tvprogramguide.ui.usercustomlist.view.UserCustomListScreen
 import com.mvproject.tvprogramguide.ui.usercustomlist.viewmodel.UserCustomListViewModel
-import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_600
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalCoroutinesApi::class)
@@ -36,7 +38,9 @@ fun NavigationHost(navController: NavHostController) {
     AnimatedNavHost(
         navController = navController,
         startDestination = AppRoutes.Channels.route,
-        modifier = Modifier.systemBarsPadding()
+        modifier = Modifier
+            .systemBarsPadding()
+            .background(MaterialTheme.colors.primary)
     ) {
         composable(
             AppRoutes.Channels.route,
@@ -159,10 +163,10 @@ fun NavigationHost(navController: NavHostController) {
             val userCustomListViewModel = hiltViewModel<UserCustomListViewModel>()
             UserCustomListScreen(
                 viewModel = userCustomListViewModel,
-                onItemClick = { id ->
+                onItemClick = { userListId ->
                     navController.navigate(
                         AppRoutes.ChannelSettings.applyArgs(
-                            userListName = id,
+                            userListName = userListId,
                         )
                     )
                 },

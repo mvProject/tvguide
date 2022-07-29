@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.mvproject.tvprogramguide.R
+import com.mvproject.tvprogramguide.data.utils.AppConstants.ANIM_DURATION_900
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.theme.appColors
 import com.mvproject.tvprogramguide.theme.appTypography
@@ -44,7 +45,7 @@ fun ChannelSelectableItem(
         if (isDragged) MaterialTheme.appColors.backgroundSecondary
         else MaterialTheme.appColors.backgroundPrimary,
         animationSpec = tween(
-            durationMillis = 1000,
+            durationMillis = ANIM_DURATION_900,
             easing = LinearOutSlowInEasing
         )
     )

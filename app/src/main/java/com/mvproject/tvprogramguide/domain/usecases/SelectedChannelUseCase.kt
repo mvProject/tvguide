@@ -4,25 +4,21 @@ import androidx.room.Transaction
 import com.mvproject.tvprogramguide.data.model.domain.AvailableChannel
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
 import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelEntity
+import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.data.utils.Mappers.asSelectedChannelsEntitiesFromChannels
 import com.mvproject.tvprogramguide.data.utils.Mappers.asSelectedChannelsFromEntities
-import com.mvproject.tvprogramguide.domain.helpers.StoreHelper
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class SelectedChannelUseCase @Inject constructor(
     private val selectedChannelRepository: SelectedChannelRepository,
-    private val storeHelper: StoreHelper
+    private val preferenceRepository: PreferenceRepository
 ) {
-    private val currentChannelList
-        get() = storeHelper.currentChannelList
-
-    private val defaultChannelList
-        get() = storeHelper.defaultChannelList
-
     private val targetList
-        get() = currentChannelList.ifEmpty { defaultChannelList }
+        get() = runBlocking { preferenceRepository.targetList.first() }
 
     suspend fun loadSelectedChannels(): List<SelectedChannel> {
         return selectedChannelRepository.loadSelectedChannels(listName = targetList)

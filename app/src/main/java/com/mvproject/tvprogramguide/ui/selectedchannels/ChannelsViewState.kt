@@ -1,7 +1,7 @@
 package com.mvproject.tvprogramguide.ui.selectedchannels
 
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
 import javax.annotation.concurrent.Immutable
 
 @Immutable

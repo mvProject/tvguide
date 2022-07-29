@@ -7,10 +7,10 @@ import androidx.work.Data
 import androidx.work.WorkerParameters
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
+import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
-import com.mvproject.tvprogramguide.domain.helpers.StoreHelper
+import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.domain.utils.*
-import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import timber.log.Timber
@@ -21,7 +21,7 @@ class FullUpdateProgramsWorker @AssistedInject constructor(
     @Assisted params: WorkerParameters,
     private val selectedChannelRepository: SelectedChannelRepository,
     private val channelProgramRepository: ChannelProgramRepository,
-    private val storeHelper: StoreHelper
+    private val preferenceRepository: PreferenceRepository,
 ) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
         val applicationContext = applicationContext
@@ -29,8 +29,8 @@ class FullUpdateProgramsWorker @AssistedInject constructor(
         val isNotificationOn = inputData.getBoolean(NOTIFICATION_CONDITION, false)
         if (isNotificationOn) {
             makeStatusNotification(
-                applicationContext.getString(R.string.notif_programs_download),
-                applicationContext
+                message = applicationContext.getString(R.string.notif_programs_download),
+                context = applicationContext
             )
         }
 
@@ -46,13 +46,13 @@ class FullUpdateProgramsWorker @AssistedInject constructor(
                         .build()
                 )
             }
-            storeHelper.setProgramsUpdateLastTime(System.currentTimeMillis())
+            preferenceRepository.setProgramsUpdateLastTime(timeInMillis = System.currentTimeMillis())
         } else {
             Timber.e("testing FullUpdateProgramsWorker update count zero")
         }
 
         if (isNotificationOn) {
-            hideStatusNotification(applicationContext)
+            hideStatusNotification(context = applicationContext)
         }
 
         return Result.success()

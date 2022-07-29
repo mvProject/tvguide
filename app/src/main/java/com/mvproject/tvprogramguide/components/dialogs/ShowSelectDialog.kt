@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.mvproject.tvprogramguide.components.radio.RadioGroupScrollable
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
 
 @Composable
 fun ShowSelectDialog(

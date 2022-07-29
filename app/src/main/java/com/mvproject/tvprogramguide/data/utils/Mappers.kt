@@ -7,9 +7,9 @@ import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelEntity
 import com.mvproject.tvprogramguide.data.model.entity.UserChannelsListEntity
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
 import com.mvproject.tvprogramguide.data.model.response.ProgramResponse
+import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
+import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO_LONG
 import com.mvproject.tvprogramguide.domain.utils.Utils
-import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
-import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO_LONG
 
 object Mappers {
     fun List<Program>.toSingleChannelWithPrograms(): List<SingleChannelWithPrograms> {

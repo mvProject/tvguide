@@ -20,12 +20,14 @@ class SingleChannelViewModel @Inject constructor(
     private var _selectedPrograms = MutableStateFlow<List<SingleChannelWithPrograms>>(emptyList())
     val selectedPrograms = _selectedPrograms.asStateFlow()
 
-    fun loadPrograms(id: String) {
+    fun loadPrograms(channelId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val programsWithChannels =
-                channelProgramRepository.loadProgramsForChannel(channelId = id)
-            val programs = programsWithChannels.toSingleChannelWithPrograms()
-            _selectedPrograms.emit(programs)
+                channelProgramRepository
+                    .loadProgramsForChannel(channelId = channelId)
+                    .toSingleChannelWithPrograms()
+
+            _selectedPrograms.emit(programsWithChannels)
         }
     }
 }

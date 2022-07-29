@@ -6,7 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.repository.AllChannelRepository
-import com.mvproject.tvprogramguide.domain.helpers.StoreHelper
+import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.domain.utils.NOTIFICATION_CONDITION
 import com.mvproject.tvprogramguide.domain.utils.hideStatusNotification
 import com.mvproject.tvprogramguide.domain.utils.makeStatusNotification
@@ -18,7 +18,7 @@ class UpdateChannelsWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
     private val allChannelRepository: AllChannelRepository,
-    private val storeHelper: StoreHelper
+    private val preferenceRepository: PreferenceRepository,
 ) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
         val applicationContext = applicationContext
@@ -26,16 +26,16 @@ class UpdateChannelsWorker @AssistedInject constructor(
         val isNotificationOn = inputData.getBoolean(NOTIFICATION_CONDITION, false)
         if (isNotificationOn) {
             makeStatusNotification(
-                applicationContext.getString(R.string.notif_programs_download),
-                applicationContext
+                message = applicationContext.getString(R.string.notif_programs_download),
+                context = applicationContext
             )
         }
 
         allChannelRepository.loadProgramFromSource()
-        storeHelper.setChannelsUpdateLastTime(System.currentTimeMillis())
+        preferenceRepository.setChannelsUpdateLastTime(timeInMillis = System.currentTimeMillis())
 
         if (isNotificationOn) {
-            hideStatusNotification(applicationContext)
+            hideStatusNotification(context = applicationContext)
         }
 
         return Result.success()

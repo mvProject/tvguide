@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide
+package com.mvproject.tvprogramguide.ui.main.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -14,11 +14,12 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
 import com.mvproject.tvprogramguide.navigation.NavigationHost
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.theme.lightBlack
 import com.mvproject.tvprogramguide.theme.midnightBlue
-import com.mvproject.tvprogramguide.ui.settings.app.model.AppThemeOptions
+import com.mvproject.tvprogramguide.ui.main.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -46,8 +47,8 @@ class MainActivity : ComponentActivity() {
         window.apply {
             statusBarColor = targetColor
             navigationBarColor = targetColor
-            WindowInsetsControllerCompat(this, this.decorView).isAppearanceLightStatusBars =
-                !darkTheme
+            WindowInsetsControllerCompat(this, this.decorView)
+                .isAppearanceLightStatusBars = !darkTheme
         }
     }
 

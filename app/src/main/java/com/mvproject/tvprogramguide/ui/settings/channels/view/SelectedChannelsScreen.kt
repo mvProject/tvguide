@@ -25,7 +25,7 @@ import com.mvproject.tvprogramguide.ui.settings.channels.viewmodel.SelectedChann
 fun SelectedChannelsScreen(
     selectedChannelsViewModel: SelectedChannelsViewModel = hiltViewModel()
 ) {
-    val channels = selectedChannelsViewModel.selectedChannels.collectAsState().value
+    val channels by selectedChannelsViewModel.selectedChannels.collectAsState()
     SelectedChannelsContent(
         selectedChannels = channels,
         onAction = selectedChannelsViewModel::processAction
