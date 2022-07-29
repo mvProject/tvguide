@@ -11,12 +11,12 @@ import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.components.NoItemsScreen
 import com.mvproject.tvprogramguide.components.dialogs.ShowSelectDialog
 import com.mvproject.tvprogramguide.components.toolbars.ToolbarWithOptions
+import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.domain.utils.CHANNEL_COUNT
 import com.mvproject.tvprogramguide.domain.utils.CHANNEL_INDEX
 import com.mvproject.tvprogramguide.navigation.AppRoutes
 import com.mvproject.tvprogramguide.ui.selectedchannels.components.ChannelList
 import com.mvproject.tvprogramguide.ui.selectedchannels.viewmodel.ChannelViewModel
-import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 
@@ -55,8 +55,6 @@ fun ChannelScreen(
         with(viewModel) {
             reloadChannels()
 
-            checkFullProgramsUpdate()
-
             fullUpdateWorkInfo.observe(
                 owner
             ) { listOfWorkInfo: List<WorkInfo>? ->
@@ -84,7 +82,7 @@ fun ChannelScreen(
 
     val isDialogOpen = remember { mutableStateOf(false) }
 
-    val programState = viewModel.selectedPrograms.collectAsState().value
+    val programState by viewModel.selectedPrograms.collectAsState()
 
     when {
         programState.listName.isEmpty() -> {

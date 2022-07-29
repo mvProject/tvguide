@@ -3,7 +3,9 @@ package com.mvproject.tvprogramguide.ui.singlechannel.view
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.mvproject.tvprogramguide.components.toolbars.ToolbarWithBack
 import com.mvproject.tvprogramguide.ui.singlechannel.components.SingleChannelList
@@ -16,9 +18,11 @@ fun SingleChannelScreen(
     channelName: String,
     onBackClick: () -> Unit
 ) {
-    viewModel.loadPrograms(channelId)
+    LaunchedEffect(key1 = Unit) {
+        viewModel.loadPrograms(channelId = channelId)
+    }
 
-    val state = viewModel.selectedPrograms.collectAsState()
+    val programs by viewModel.selectedPrograms.collectAsState()
 
     Column(
         modifier = Modifier
@@ -29,6 +33,6 @@ fun SingleChannelScreen(
             onBackClick = onBackClick
         )
 
-        SingleChannelList(singleChannelPrograms = state.value)
+        SingleChannelList(singleChannelPrograms = programs)
     }
 }

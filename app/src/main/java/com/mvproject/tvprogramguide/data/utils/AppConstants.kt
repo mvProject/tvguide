@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.utils
+package com.mvproject.tvprogramguide.data.utils
 
 object AppConstants {
     const val NO_VALUE_LONG = -1L

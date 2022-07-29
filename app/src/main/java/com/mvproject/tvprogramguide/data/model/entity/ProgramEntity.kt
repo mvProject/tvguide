@@ -5,8 +5,8 @@ import com.mvproject.tvprogramguide.data.database.DbConstants.PROGRAM_KEY_DATE_T
 import com.mvproject.tvprogramguide.data.database.DbConstants.PROGRAM_KEY_TITLE
 import com.mvproject.tvprogramguide.data.database.DbConstants.TABLE_PROGRAMS
 import com.mvproject.tvprogramguide.data.model.domain.Program
+import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.data.utils.correctTimeZone
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 
 @Entity(tableName = TABLE_PROGRAMS, primaryKeys = [PROGRAM_KEY_DATE_TIME, PROGRAM_KEY_TITLE])
 data class ProgramEntity(
