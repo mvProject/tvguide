@@ -56,13 +56,6 @@ class ChannelViewModel @Inject constructor(
                 _availableLists = lists
             }
         }
-        viewModelScope.launch(Dispatchers.IO) {
-            preferenceRepository.isNeedFullProgramsUpdate.collectLatest { updateRequired ->
-                if (selectedPrograms.value.listName.isNotEmpty() && updateRequired) {
-                    startProgramsFullUpdate()
-                }
-            }
-        }
 
         preferenceRepository.loadDefaultUserList()
             .mapLatest { listName ->
@@ -71,6 +64,14 @@ class ChannelViewModel @Inject constructor(
                 updatePrograms()
             }
             .launchIn(viewModelScope)
+
+        viewModelScope.launch(Dispatchers.IO) {
+            preferenceRepository.isNeedFullProgramsUpdate.collectLatest { updateRequired ->
+                if (selectedPrograms.value.listName.isNotEmpty() && updateRequired) {
+                    startProgramsFullUpdate()
+                }
+            }
+        }
     }
 
     fun reloadChannels() {
