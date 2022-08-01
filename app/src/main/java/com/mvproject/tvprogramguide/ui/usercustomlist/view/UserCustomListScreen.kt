@@ -4,10 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.mvproject.tvprogramguide.R
@@ -25,10 +22,10 @@ fun UserCustomListScreen(
     onItemClick: (String) -> Unit,
     onBackClick: () -> Unit
 ) {
-    val lists = viewModel.customs.collectAsState().value
+    val state by viewModel.customs.collectAsState()
 
     UserCustomListContent(
-        customsLists = lists,
+        userLists = state,
         onAction = viewModel::processAction,
         onItemClick = onItemClick,
         onBackClick = onBackClick
@@ -37,7 +34,7 @@ fun UserCustomListScreen(
 
 @Composable
 private fun UserCustomListContent(
-    customsLists: List<UserChannelsList>,
+    userLists: List<UserChannelsList>,
     onAction: (action: UserListAction) -> Unit,
     onItemClick: (item: String) -> Unit,
     onBackClick: () -> Unit
@@ -63,14 +60,14 @@ private fun UserCustomListContent(
         }
 
         when {
-            customsLists.isEmpty() -> {
+            userLists.isEmpty() -> {
                 NoItemsScreen(
                     title = stringResource(id = R.string.user_lists_empty)
                 )
             }
             else -> {
                 UserCustomList(
-                    list = customsLists,
+                    list = userLists,
                     onItemClick = { item ->
                         onItemClick(item.listName)
                     },

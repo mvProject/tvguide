@@ -18,12 +18,12 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mvproject.tvprogramguide.data.utils.AppConstants.ANIM_DURATION_300
+import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO_FLOAT
+import com.mvproject.tvprogramguide.data.utils.AppConstants.OPACITY_60
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
-import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_300
-import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO_FLOAT
-import com.mvproject.tvprogramguide.utils.AppConstants.OPACITY_60
 
 @Composable
 fun ProgramItem(

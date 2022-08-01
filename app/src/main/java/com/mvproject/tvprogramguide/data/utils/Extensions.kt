@@ -1,7 +1,6 @@
 package com.mvproject.tvprogramguide.data.utils
 
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
-import com.mvproject.tvprogramguide.utils.AppConstants
 import java.text.SimpleDateFormat
 import java.util.*
 

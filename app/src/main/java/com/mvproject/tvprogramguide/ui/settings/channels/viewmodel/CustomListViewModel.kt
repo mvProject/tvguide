@@ -1,22 +1,27 @@
 package com.mvproject.tvprogramguide.ui.settings.channels.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.mvproject.tvprogramguide.domain.helpers.StoreHelper
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
+import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
 class CustomListViewModel @Inject constructor(
-    private val storeHelper: StoreHelper
+    private val preferenceRepository: PreferenceRepository
 ) : ViewModel() {
 
     fun setSelectedList(name: String) {
-        storeHelper.setCurrentChannelList(name = name)
+        runBlocking {
+            preferenceRepository.setCurrentUserList(listName = name)
+        }
     }
 
     override fun onCleared() {
         super.onCleared()
-        storeHelper.setCurrentChannelList(name = NO_VALUE_STRING)
+        runBlocking {
+            preferenceRepository.setCurrentUserList(listName = NO_VALUE_STRING)
+        }
     }
 }

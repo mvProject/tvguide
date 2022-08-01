@@ -10,10 +10,10 @@ import androidx.work.WorkManager
 import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
 import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.data.repository.CustomListRepository
+import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.data.utils.obtainIndexOrZero
 import com.mvproject.tvprogramguide.domain.helpers.NetworkHelper
-import com.mvproject.tvprogramguide.domain.helpers.StoreHelper
 import com.mvproject.tvprogramguide.domain.usecases.SortedProgramsUseCase
 import com.mvproject.tvprogramguide.domain.utils.DOWNLOAD_FULL_PROGRAMS
 import com.mvproject.tvprogramguide.domain.utils.createInputDataForUpdate
@@ -22,10 +22,7 @@ import com.mvproject.tvprogramguide.ui.selectedchannels.ChannelsViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -33,13 +30,13 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltViewModel
 class ChannelViewModel @Inject constructor(
-    private val storeHelper: StoreHelper,
     private val selectedChannelRepository: SelectedChannelRepository,
     private val channelProgramRepository: ChannelProgramRepository,
     private val customListRepository: CustomListRepository,
     private val workManager: WorkManager,
     private val networkHelper: NetworkHelper,
-    private val sortedProgramsUseCase: SortedProgramsUseCase
+    private val sortedProgramsUseCase: SortedProgramsUseCase,
+    private val preferenceRepository: PreferenceRepository
 ) : ViewModel() {
 
     // val partiallyUpdateWorkInfo: LiveData<List<WorkInfo>> =
@@ -53,11 +50,6 @@ class ChannelViewModel @Inject constructor(
 
     private var _availableLists: List<UserChannelsList> = emptyList()
 
-    private val currentChannelList
-        get() = storeHelper.defaultChannelList
-
-    private val channelList = MutableStateFlow(currentChannelList)
-
     init {
         viewModelScope.launch(Dispatchers.IO) {
             customListRepository.loadChannelsLists().collect { lists ->
@@ -65,35 +57,45 @@ class ChannelViewModel @Inject constructor(
             }
         }
 
-        channelList.mapLatest { listName ->
-            _selectedPrograms.value =
-                selectedPrograms.value.copy(listName = listName)
-            updatePrograms()
-        }.launchIn(viewModelScope)
+        preferenceRepository.loadDefaultUserList()
+            .mapLatest { listName ->
+                _selectedPrograms.value =
+                    selectedPrograms.value.copy(listName = listName)
+                updatePrograms()
+            }
+            .launchIn(viewModelScope)
+
+        viewModelScope.launch(Dispatchers.IO) {
+            preferenceRepository.isNeedFullProgramsUpdate.collectLatest { updateRequired ->
+                if (selectedPrograms.value.listName.isNotEmpty() && updateRequired) {
+                    startProgramsFullUpdate()
+                }
+            }
+        }
     }
 
     fun reloadChannels() {
-        val current = currentChannelList
-        if (channelList.value != current) {
-            channelList.value = current
-        }
         updatePrograms()
     }
 
     fun applyList(listName: String) {
-        storeHelper.setDefaultChannelList(name = listName)
-        channelList.value = listName
+        _selectedPrograms.value =
+            selectedPrograms.value.copy(listName = listName)
+        viewModelScope.launch {
+            preferenceRepository.setDefaultUserList(listName = listName)
+        }
     }
 
     val availableLists
-        get() = _availableLists.map { channels ->
-            channels.listName
-        }
+        get() = _availableLists
+            .map { channels -> channels.listName }
+
     val obtainListIndex
-        get() = availableLists.obtainIndexOrZero(target = channelList.value)
+        get() = availableLists
+            .obtainIndexOrZero(target = selectedPrograms.value.listName)
 
     private fun updatePrograms() {
-        if (channelList.value.isEmpty()) {
+        if (selectedPrograms.value.listName.isEmpty()) {
             Timber.e("testing no current saved list")
         } else {
             viewModelScope.launch(Dispatchers.IO) {
@@ -102,7 +104,7 @@ class ChannelViewModel @Inject constructor(
 
                 _selectedPrograms.value =
                     selectedPrograms.value.copy(
-                        listName = channelList.value,
+                        listName = selectedPrograms.value.listName,
                         programs = programs.sortedBy { item ->
                             item.selectedChannel.order
                         }
@@ -111,7 +113,7 @@ class ChannelViewModel @Inject constructor(
                 //  val obtainedChannelsIds = programs.map { it.selectedChannel.channelId }
 
                 val selectedChannelIds = selectedChannelRepository
-                    .loadSelectedChannels(listName = channelList.value)
+                    .loadSelectedChannels(listName = selectedPrograms.value.listName)
                     .map { entity ->
                         entity.channelId
                     }
@@ -139,13 +141,6 @@ class ChannelViewModel @Inject constructor(
     //        channelRequest
     //    )
     //}
-
-
-    fun checkFullProgramsUpdate() {
-        if (channelList.value.isNotEmpty() && storeHelper.isNeedFullProgramsUpdate) {
-            startProgramsFullUpdate()
-        }
-    }
 
     private fun startProgramsFullUpdate() {
         if (networkHelper.isNetworkConnected()) {

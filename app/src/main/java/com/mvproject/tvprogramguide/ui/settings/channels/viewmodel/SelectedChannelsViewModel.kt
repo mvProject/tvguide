@@ -21,7 +21,7 @@ class SelectedChannelsViewModel @Inject constructor(
     val selectedChannels = _selectedChannels.asStateFlow()
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             selectedChannelUseCase
                 .loadSelectedChannelsFlow()
                 .collect { channels ->

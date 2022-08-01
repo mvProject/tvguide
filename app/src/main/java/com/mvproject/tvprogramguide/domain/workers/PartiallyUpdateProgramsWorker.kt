@@ -7,8 +7,8 @@ import androidx.work.Data
 import androidx.work.WorkerParameters
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
+import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.domain.utils.*
-import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import timber.log.Timber
@@ -25,8 +25,8 @@ class PartiallyUpdateProgramsWorker @AssistedInject constructor(
         val isNotificationOn = inputData.getBoolean(NOTIFICATION_CONDITION, false)
         if (isNotificationOn) {
             makeStatusNotification(
-                applicationContext.getString(R.string.notif_programs_download),
-                applicationContext
+                message = applicationContext.getString(R.string.notif_programs_download),
+                context = applicationContext
             )
         }
         val updateIds = inputData.getStringArray(CHANNEL_MISSING_COUNT)
@@ -49,7 +49,7 @@ class PartiallyUpdateProgramsWorker @AssistedInject constructor(
         }
 
         if (isNotificationOn) {
-            hideStatusNotification(applicationContext)
+            hideStatusNotification(context = applicationContext)
         }
 
         return Result.success()

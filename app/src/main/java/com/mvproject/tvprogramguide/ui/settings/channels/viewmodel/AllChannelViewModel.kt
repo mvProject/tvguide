@@ -5,11 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.mvproject.tvprogramguide.data.model.domain.AvailableChannel
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
 import com.mvproject.tvprogramguide.data.repository.AllChannelRepository
+import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ONE
+import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.data.utils.Mappers.asAlreadySelected
 import com.mvproject.tvprogramguide.domain.usecases.SelectedChannelUseCase
 import com.mvproject.tvprogramguide.ui.settings.channels.actions.AvailableChannelsAction
-import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,7 +34,7 @@ class AllChannelViewModel @Inject constructor(
     private var allChannels = emptyList<AvailableChannel>()
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             selectedChannelUseCase.loadSelectedChannelsFlow()
                 .collect { channels ->
                     allChannels = allChannelRepository.loadChannels()

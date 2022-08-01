@@ -9,7 +9,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -19,12 +18,11 @@ fun RadioGroup(
     radioOptions: List<String> = listOf(),
     title: String = "",
     defaultSelection: Int = 0,
-    cardBackgroundColor: Color = MaterialTheme.colors.primary,
     onItemClick: (String) -> Unit
 ) {
     if (radioOptions.isNotEmpty()) {
         Card(
-            backgroundColor = cardBackgroundColor,
+            backgroundColor = MaterialTheme.colors.primary,
             modifier = Modifier
                 .padding(10.dp)
                 .fillMaxWidth(),

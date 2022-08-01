@@ -17,7 +17,7 @@ object Dependencies {
     private const val gson = "com.google.code.gson:gson:${Versions.gson}"
 
     // Preference
-    private const val preferenceKtx = "androidx.preference:preference-ktx:${Versions.preferenceKtx}"
+    // private const val preferenceKtx = "androidx.preference:preference-ktx:${Versions.preferenceKtx}"
     private const val dataStore = "androidx.datastore:datastore-preferences:${Versions.dataStore}"
 
     // Annotation
@@ -111,7 +111,7 @@ object Dependencies {
     }
 
     val preference = arrayListOf<String>().apply {
-        add(preferenceKtx)
+        //  add(preferenceKtx)
         add(dataStore)
     }
 

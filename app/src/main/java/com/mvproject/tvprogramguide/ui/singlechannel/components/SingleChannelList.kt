@@ -21,11 +21,11 @@ fun SingleChannelList(singleChannelPrograms: List<SingleChannelWithPrograms>) {
             .fillMaxHeight()
             .background(MaterialTheme.colors.primary)
     ) {
-        singleChannelPrograms.forEach {
+        singleChannelPrograms.forEach { item ->
             stickyHeader {
-                DateItem(date = it.date)
+                DateItem(date = item.date)
             }
-            items(it.programs) { program ->
+            items(item.programs) { program ->
                 ProgramItem(
                     prgTime = program.dateTimeStart.convertTimeToReadableFormat(),
                     prgTitle = program.title,

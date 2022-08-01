@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mvproject.tvprogramguide.components.search.SearchView
@@ -19,7 +20,7 @@ import com.mvproject.tvprogramguide.ui.settings.channels.viewmodel.AllChannelVie
 fun AllChannelsScreen(
     allChannelViewModel: AllChannelViewModel = hiltViewModel()
 ) {
-    val channels = allChannelViewModel.availableChannels.collectAsState().value
+    val channels by allChannelViewModel.availableChannels.collectAsState()
     AllChannelsContent(
         selectedChannels = channels,
         onAction = allChannelViewModel::processAction
