@@ -94,7 +94,7 @@ class PreferenceRepository @Inject constructor(
     }
 
     fun loadAppSettings() = dataStore.data.map { preferences ->
-        val savedId = preferences[APP_THEME_OPTION] ?: AppThemeOptions.SYSTEM.id
+        val themeId = preferences[APP_THEME_OPTION] ?: AppThemeOptions.SYSTEM.id
         val programUpdatePeriod =
             preferences[PROGRAM_UPDATE_PERIOD_OPTION] ?: DEFAULT_PROGRAMS_UPDATE_PERIOD
         val channelsUpdatePeriod =
@@ -106,7 +106,7 @@ class PreferenceRepository @Inject constructor(
             programsUpdatePeriod = programUpdatePeriod,
             channelsUpdatePeriod = channelsUpdatePeriod,
             programsViewCount = programsViewCount,
-            appTheme = savedId
+            appTheme = themeId
         )
 
     }
