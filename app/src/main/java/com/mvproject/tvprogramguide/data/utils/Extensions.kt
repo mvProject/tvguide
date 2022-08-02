@@ -1,26 +1,33 @@
 package com.mvproject.tvprogramguide.data.utils
 
+import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
+import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_EPG_PROGRAM_DURATION
+import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_EPG_PROGRAM_RANGE_END
+import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_EPG_PROGRAM_RANGE_START
+import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_EPG_PROGRAM_TITLE
+import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_LONG
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.time.Duration.Companion.hours
 
 private const val DATE_FORMAT = "dd-MM-yyyy HH:mm"
-
 private const val TARGET_DATE_FORMAT = "dd MM yyyy"
-private const val TARGET_TIME_FORMAT = "HH:mm"
-private const val TARGET_TIME_FORMAT_HOURS = "HH"
-private const val TARGET_TIME_FORMAT_MINUTES = "mm"
 
 fun String.parseChannelName(): String {
     if (this.contains(" • ")) {
-        return this.split(" • ")[0]
+        return this.split(" • ").first()
     }
     return this
 }
 
 fun String.toMillis(): Long {
     val parser = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())
-    return parser.parse(this)?.time ?: -1L
+    return parser.parse(this)?.time ?: NO_VALUE_LONG
 }
 
 /**
@@ -37,37 +44,16 @@ fun Long.convertDateToReadableFormat(): String {
 
 /**
  * Extension Method to non-null long variable which
- * convert value to specified date pattern
- * @return String converted date value
+ * convert value to specified time with local timezone
+ * @return String converted time value
  */
 fun Long.convertTimeToReadableFormat(): String {
-    return SimpleDateFormat(
-        TARGET_TIME_FORMAT,
-        Locale.getDefault()
-    ).format(this)
-}
-
-fun Long.toHoursFormat(): String {
-    return SimpleDateFormat(
-        TARGET_TIME_FORMAT_HOURS,
-        Locale.getDefault()
-    ).format(this)
-}
-
-fun Long.toMinutesFormat(): String {
-    return SimpleDateFormat(
-        TARGET_TIME_FORMAT_MINUTES,
-        Locale.getDefault()
-    ).format(this)
-}
-
-// todo find proper way for summer/winter time correction
-fun Long.correctTimeZone(): Long {
-    // val offset = (TimeZone.getDefault()?.rawOffset?.let {
-    //    DEFAULT_TIME_ZONE_OFFSET - it
-    // } ?: 0).toLong()
-    // return this - offset
-    return this
+    val targetTz = TimeZone.currentSystemDefault()
+    return Instant
+        .fromEpochMilliseconds(this)
+        .toLocalDateTime(targetTz)
+        .time
+        .toString()
 }
 
 fun List<String>.obtainIndexOrZero(target: String): Int {
@@ -80,3 +66,24 @@ fun List<AvailableChannelResponse>.filterNoEpg() =
         it.channelNames.contains("No Epg", true) ||
                 it.channelNames.contains("Заглушка", true)
     }
+
+fun String.getNoProgramData(): List<ProgramEntity> {
+    return buildList {
+        val initTime = Clock.System.now()
+        for (i in NO_EPG_PROGRAM_RANGE_START..NO_EPG_PROGRAM_RANGE_END) {
+            val startDelta = i * NO_EPG_PROGRAM_DURATION
+            val start = (initTime + startDelta.hours)
+                .toEpochMilliseconds()
+            val end = (initTime + (startDelta + NO_EPG_PROGRAM_DURATION).hours)
+                .toEpochMilliseconds()
+            add(
+                ProgramEntity(
+                    dateTimeStart = start,
+                    dateTimeEnd = end,
+                    title = NO_EPG_PROGRAM_TITLE,
+                    channelId = this@getNoProgramData
+                )
+            )
+        }
+    }
+}

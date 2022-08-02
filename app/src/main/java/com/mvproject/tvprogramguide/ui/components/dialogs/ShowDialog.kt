@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.components.dialogs
+package com.mvproject.tvprogramguide.ui.components.dialogs
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape

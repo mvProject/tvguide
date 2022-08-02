@@ -1,6 +1,5 @@
 package com.mvproject.tvprogramguide.data.repository
 
-import android.text.format.DateUtils
 import androidx.room.Transaction
 import com.mvproject.tvprogramguide.data.database.dao.ProgramDao
 import com.mvproject.tvprogramguide.data.model.domain.Program
@@ -9,6 +8,9 @@ import com.mvproject.tvprogramguide.data.network.EpgService
 import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.data.utils.Mappers.asProgramEntities
 import com.mvproject.tvprogramguide.data.utils.Mappers.asProgramFromEntities
+import com.mvproject.tvprogramguide.data.utils.getNoProgramData
+import kotlinx.datetime.Clock
+import timber.log.Timber
 import javax.inject.Inject
 
 class ChannelProgramRepository @Inject constructor(
@@ -19,7 +21,7 @@ class ChannelProgramRepository @Inject constructor(
         return programDao.getSelectedChannelPrograms(ids = channelsIds)
             .asProgramFromEntities()
             .filter { program ->
-                program.dateTimeEnd > System.currentTimeMillis()
+                program.dateTimeEnd > Clock.System.now().toEpochMilliseconds()
             }
     }
 
@@ -27,7 +29,7 @@ class ChannelProgramRepository @Inject constructor(
         return programDao.getSingleChannelPrograms(channelId = channelId)
             .asProgramFromEntities()
             .filter { program ->
-                program.dateTimeEnd > System.currentTimeMillis()
+                program.dateTimeEnd > Clock.System.now().toEpochMilliseconds()
             }
     }
 
@@ -47,22 +49,9 @@ class ChannelProgramRepository @Inject constructor(
             val ch = epgService.getChannelProgram(channelId).chPrograms
             entities = ch.asProgramEntities(channelId = channelId)
         } catch (ex: Exception) {
-            // todo extract and refactor
-            val noData = mutableListOf<ProgramEntity>()
-            var multip = 0
-            (1..5).forEach { _ ->
-                val start = System.currentTimeMillis() + DateUtils.HOUR_IN_MILLIS * multip
-                val end = System.currentTimeMillis() + DateUtils.HOUR_IN_MILLIS * (multip + 2)
-                val p = ProgramEntity(
-                    dateTimeStart = start,
-                    dateTimeEnd = end,
-                    title = "No Data",
-                    channelId = channelId
-                )
-                noData.add(p)
-                multip += 2
-            }
-            entities = noData
+            ex.printStackTrace()
+            Timber.e("loadProgram exception ${ex.localizedMessage}")
+            channelId.getNoProgramData()
         } finally {
             if (entities.count() > COUNT_ZERO) {
                 programDao.apply {

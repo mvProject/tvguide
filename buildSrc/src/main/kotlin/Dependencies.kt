@@ -20,6 +20,9 @@ object Dependencies {
     // private const val preferenceKtx = "androidx.preference:preference-ktx:${Versions.preferenceKtx}"
     private const val dataStore = "androidx.datastore:datastore-preferences:${Versions.dataStore}"
 
+    private const val kotlinxDatetime =
+        "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.datetime}"
+
     // Annotation
     private const val annotationX = "androidx.annotation:annotation:${Versions.annotation}"
 
@@ -111,8 +114,11 @@ object Dependencies {
     }
 
     val preference = arrayListOf<String>().apply {
-        //  add(preferenceKtx)
         add(dataStore)
+    }
+
+    val datetime = arrayListOf<String>().apply {
+        add(kotlinxDatetime)
     }
 
     val annotation = arrayListOf<String>().apply {

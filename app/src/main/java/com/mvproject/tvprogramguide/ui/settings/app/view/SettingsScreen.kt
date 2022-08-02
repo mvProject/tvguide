@@ -13,11 +13,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.components.radio.RadioGroup
-import com.mvproject.tvprogramguide.components.toolbars.ToolbarWithBack
 import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
 import com.mvproject.tvprogramguide.theme.appColors
 import com.mvproject.tvprogramguide.theme.dimens
+import com.mvproject.tvprogramguide.ui.components.radio.RadioGroup
+import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
 import com.mvproject.tvprogramguide.ui.settings.app.action.SettingAction
 import com.mvproject.tvprogramguide.ui.settings.app.components.PickerItem
 import com.mvproject.tvprogramguide.ui.settings.app.viewmodel.AppSettingsViewModel

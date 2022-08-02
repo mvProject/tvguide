@@ -13,6 +13,7 @@ import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.domain.utils.*
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.datetime.Clock
 import timber.log.Timber
 
 @HiltWorker
@@ -35,6 +36,7 @@ class FullUpdateProgramsWorker @AssistedInject constructor(
         }
 
         val selectedChannels = selectedChannelRepository.loadSelectedChannelsIds()
+
         val channelsCount = selectedChannels.count()
         if (channelsCount > COUNT_ZERO) {
             selectedChannels.forEachIndexed { ind, chn ->
@@ -46,7 +48,9 @@ class FullUpdateProgramsWorker @AssistedInject constructor(
                         .build()
                 )
             }
-            preferenceRepository.setProgramsUpdateLastTime(timeInMillis = System.currentTimeMillis())
+            preferenceRepository.setProgramsUpdateLastTime(
+                timeInMillis = Clock.System.now().toEpochMilliseconds()
+            )
         } else {
             Timber.e("testing FullUpdateProgramsWorker update count zero")
         }

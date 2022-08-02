@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.components.search
+package com.mvproject.tvprogramguide.ui.components.search
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

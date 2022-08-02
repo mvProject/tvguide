@@ -99,6 +99,8 @@ dependencies {
 
     implementation(Dependencies.workManager)
 
+    implementation(Dependencies.datetime)
+
     implementationRoom()
 
     implementationHilt()

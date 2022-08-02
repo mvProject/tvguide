@@ -8,10 +8,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.mvproject.tvprogramguide.components.ProgramItem
 import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
 import com.mvproject.tvprogramguide.data.utils.convertTimeToReadableFormat
-import com.mvproject.tvprogramguide.domain.utils.Utils.calculateProgramProgress
+import com.mvproject.tvprogramguide.ui.components.ProgramItem
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -30,10 +29,7 @@ fun SingleChannelList(singleChannelPrograms: List<SingleChannelWithPrograms>) {
                     prgTime = program.dateTimeStart.convertTimeToReadableFormat(),
                     prgTitle = program.title,
                     prgDescription = program.description,
-                    progressValue = calculateProgramProgress(
-                        program.dateTimeStart,
-                        program.dateTimeEnd
-                    )
+                    progressValue = program.programProgress
                 )
             }
         }

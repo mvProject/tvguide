@@ -8,10 +8,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.components.NoItemsScreen
-import com.mvproject.tvprogramguide.components.dialogs.ShowDialog
-import com.mvproject.tvprogramguide.components.toolbars.ToolbarWithBackAndAction
 import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
+import com.mvproject.tvprogramguide.ui.components.NoItemsScreen
+import com.mvproject.tvprogramguide.ui.components.dialogs.ShowDialog
+import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBackAndAction
 import com.mvproject.tvprogramguide.ui.usercustomlist.action.UserListAction
 import com.mvproject.tvprogramguide.ui.usercustomlist.components.UserCustomList
 import com.mvproject.tvprogramguide.ui.usercustomlist.viewmodel.UserCustomListViewModel

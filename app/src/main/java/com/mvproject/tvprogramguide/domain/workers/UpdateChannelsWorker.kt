@@ -12,6 +12,7 @@ import com.mvproject.tvprogramguide.domain.utils.hideStatusNotification
 import com.mvproject.tvprogramguide.domain.utils.makeStatusNotification
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.datetime.Clock
 
 @HiltWorker
 class UpdateChannelsWorker @AssistedInject constructor(
@@ -32,7 +33,9 @@ class UpdateChannelsWorker @AssistedInject constructor(
         }
 
         allChannelRepository.loadProgramFromSource()
-        preferenceRepository.setChannelsUpdateLastTime(timeInMillis = System.currentTimeMillis())
+        preferenceRepository.setChannelsUpdateLastTime(
+            timeInMillis = Clock.System.now().toEpochMilliseconds()
+        )
 
         if (isNotificationOn) {
             hideStatusNotification(context = applicationContext)

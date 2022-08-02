@@ -11,10 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.components.toolbars.ToolbarWithBack
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
+import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
 
 @Composable
 fun SettingsOptions(

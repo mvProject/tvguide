@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.components.radio
+package com.mvproject.tvprogramguide.ui.components.radio
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

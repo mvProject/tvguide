@@ -9,9 +9,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.mvproject.tvprogramguide.components.search.SearchView
 import com.mvproject.tvprogramguide.data.model.domain.AvailableChannel
 import com.mvproject.tvprogramguide.theme.dimens
+import com.mvproject.tvprogramguide.ui.components.search.SearchView
 import com.mvproject.tvprogramguide.ui.settings.channels.actions.AvailableChannelsAction
 import com.mvproject.tvprogramguide.ui.settings.channels.components.AllChannelsList
 import com.mvproject.tvprogramguide.ui.settings.channels.viewmodel.AllChannelViewModel

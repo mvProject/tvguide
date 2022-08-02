@@ -6,7 +6,6 @@ import com.mvproject.tvprogramguide.data.database.DbConstants.PROGRAM_KEY_TITLE
 import com.mvproject.tvprogramguide.data.database.DbConstants.TABLE_PROGRAMS
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
-import com.mvproject.tvprogramguide.data.utils.correctTimeZone
 
 @Entity(tableName = TABLE_PROGRAMS, primaryKeys = [PROGRAM_KEY_DATE_TIME, PROGRAM_KEY_TITLE])
 data class ProgramEntity(
@@ -19,8 +18,8 @@ data class ProgramEntity(
 ) {
     fun toProgram() = with(this) {
         Program(
-            dateTimeStart = dateTimeStart.correctTimeZone(),
-            dateTimeEnd = dateTimeEnd.correctTimeZone(),
+            dateTimeStart = dateTimeStart,
+            dateTimeEnd = dateTimeEnd,
             title = title,
             description = description,
             category = category,

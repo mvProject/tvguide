@@ -10,7 +10,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mvproject.tvprogramguide.components.pickers.NumberPicker
+import com.mvproject.tvprogramguide.ui.components.pickers.NumberPicker
 
 @Composable
 fun PickerItem(
