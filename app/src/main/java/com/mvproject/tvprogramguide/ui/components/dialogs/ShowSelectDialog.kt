@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.components.dialogs
+package com.mvproject.tvprogramguide.ui.components.dialogs
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.mvproject.tvprogramguide.components.radio.RadioGroupScrollable
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.ui.components.radio.RadioGroupScrollable
 
 @Composable
 fun ShowSelectDialog(

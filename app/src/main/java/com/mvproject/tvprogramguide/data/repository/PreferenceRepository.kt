@@ -1,6 +1,5 @@
 package com.mvproject.tvprogramguide.data.repository
 
-import android.text.format.DateUtils
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import com.mvproject.tvprogramguide.data.model.settings.AppSettingsModel
@@ -12,7 +11,10 @@ import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_LONG
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.days
 
 class PreferenceRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>
@@ -50,17 +52,21 @@ class PreferenceRepository @Inject constructor(
         loadAppSettings(),
         loadProgramsUpdateLastTime()
     ) { userList, settings, lastUpdate ->
-        return@combine userList.isNotEmpty() &&
-                System.currentTimeMillis() - lastUpdate >
-                DateUtils.DAY_IN_MILLIS * settings.programsUpdatePeriod
+        val current = Clock.System.now()
+        val last = Instant.fromEpochMilliseconds(lastUpdate)
+        val updateRequest = current - last > settings.programsUpdatePeriod.days
+
+        return@combine userList.isNotEmpty() && updateRequest
     }
 
     val isNeedAvailableChannelsUpdate = combine(
         loadAppSettings(),
         loadChannelsUpdateLastTime()
     ) { settings, lastUpdate ->
-        return@combine System.currentTimeMillis() - lastUpdate >
-                DateUtils.DAY_IN_MILLIS * settings.channelsUpdatePeriod
+        val current = Clock.System.now()
+        val last = Instant.fromEpochMilliseconds(lastUpdate)
+
+        return@combine current - last > settings.channelsUpdatePeriod.days
     }
 
     suspend fun setChannelsUpdateLastTime(timeInMillis: Long) {

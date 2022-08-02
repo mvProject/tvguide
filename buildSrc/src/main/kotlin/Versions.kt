@@ -11,6 +11,7 @@ object Versions {
     const val preferenceKtx = "1.2.0"
     const val dataStore = "1.0.0"
     const val material = "1.4.0"
+    const val datetime = "0.4.0"
 
     const val timber = "5.0.1"
     const val annotation = "1.2.0"

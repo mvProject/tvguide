@@ -7,7 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.mvproject.tvprogramguide.components.toolbars.ToolbarWithBack
+import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
 import com.mvproject.tvprogramguide.ui.singlechannel.components.SingleChannelList
 import com.mvproject.tvprogramguide.ui.singlechannel.viewmodel.SingleChannelViewModel
 

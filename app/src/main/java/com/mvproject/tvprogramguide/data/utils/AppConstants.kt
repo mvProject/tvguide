@@ -21,5 +21,21 @@ object AppConstants {
     const val ANIM_DURATION_600 = 600
     const val ANIM_DURATION_900 = 900
 
+    const val OPACITY_30 = 0.3f
     const val OPACITY_60 = 0.6f
+    const val OPACITY_50 = 0.5f
+    const val OPACITY_DEFAULT = 1f
+
+    const val PROGRESS_STATE_COMPLETE = 1f
+
+    const val ROTATION_STATE_UP = 180f
+    const val ROTATION_STATE_DOWN = 0f
+
+    const val NO_EPG_PROGRAM_TITLE = "No EPG"
+    const val NO_EPG_PROGRAM_DURATION = 2
+    const val NO_EPG_PROGRAM_RANGE_START = 0
+    const val NO_EPG_PROGRAM_RANGE_END = 5
+
+    const val PROGRAM_TIME_MEASURE_DELIMITER = ":"
+    const val PROGRAM_TIME_MEASURE_COUNT = 2
 }

@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.components.toolbars
+package com.mvproject.tvprogramguide.ui.components.toolbars
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -7,7 +7,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,35 +21,26 @@ import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
-fun ToolbarWithBack(
+fun ToolbarWithOptions(
     modifier: Modifier = Modifier,
     title: String = stringResource(id = R.string.default_toolbar_title),
     toolbarBackgroundColor: Color = MaterialTheme.colors.primary,
     titleColor: Color = MaterialTheme.colors.onPrimary,
-    backTintColor: Color = MaterialTheme.colors.onPrimary,
-    onBackClick: () -> Unit = {}
+    actionTintColor: Color = MaterialTheme.colors.onPrimary,
+    onSelectClick: () -> Unit = {},
+    onSettingsClick: () -> Unit = {}
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentSize()
+            .clickable {
+                onSelectClick()
+            }
             .background(color = toolbarBackgroundColor)
-            .padding(MaterialTheme.dimens.size8),
+            .padding(MaterialTheme.dimens.size4),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
-        Icon(
-            Icons.Outlined.ArrowBack,
-            contentDescription = null,
-            tint = backTintColor,
-            modifier = Modifier
-                .size(MaterialTheme.dimens.size32)
-                .clickable {
-                    onBackClick()
-                }
-        )
-
-        Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
 
         Text(
             text = title,
@@ -58,23 +49,36 @@ fun ToolbarWithBack(
             color = titleColor,
             textAlign = TextAlign.Center,
             fontSize = MaterialTheme.dimens.font18,
-            style = MaterialTheme.appTypography.textMedium
+            style = MaterialTheme.appTypography.textSemiBold
+        )
+
+        Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
+
+        Icon(
+            Icons.Outlined.Settings,
+            contentDescription = null,
+            tint = actionTintColor,
+            modifier = Modifier
+                .size(MaterialTheme.dimens.size32)
+                .clickable {
+                    onSettingsClick()
+                }
         )
     }
 }
 
 @Preview
 @Composable
-fun ToolbarWithBackView() {
-    TvGuideTheme {
-        ToolbarWithBack(title = "TetstTitle")
+fun ToolbarWithOptionsView() {
+    TvGuideTheme() {
+        ToolbarWithOptions(title = "TetstTitle")
     }
 }
 
 @Preview
 @Composable
-fun ToolbarWithBackDarkView() {
+fun ToolbarWithOptionsDarkView() {
     TvGuideTheme(true) {
-        ToolbarWithBack(title = "TetstTitle")
+        ToolbarWithOptions(title = "TetstTitle")
     }
 }

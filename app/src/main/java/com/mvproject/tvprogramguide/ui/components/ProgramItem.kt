@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.components
+package com.mvproject.tvprogramguide.ui.components
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -20,7 +20,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mvproject.tvprogramguide.data.utils.AppConstants.ANIM_DURATION_300
 import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO_FLOAT
+import com.mvproject.tvprogramguide.data.utils.AppConstants.OPACITY_30
+import com.mvproject.tvprogramguide.data.utils.AppConstants.OPACITY_50
 import com.mvproject.tvprogramguide.data.utils.AppConstants.OPACITY_60
+import com.mvproject.tvprogramguide.data.utils.AppConstants.OPACITY_DEFAULT
+import com.mvproject.tvprogramguide.data.utils.AppConstants.PROGRESS_STATE_COMPLETE
+import com.mvproject.tvprogramguide.data.utils.AppConstants.ROTATION_STATE_DOWN
+import com.mvproject.tvprogramguide.data.utils.AppConstants.ROTATION_STATE_UP
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
@@ -33,13 +39,14 @@ fun ProgramItem(
     progressValue: Float = COUNT_ZERO_FLOAT
 ) {
     var expandedState by remember { mutableStateOf(false) }
+
     val density = LocalDensity.current
 
     val rotationState by animateFloatAsState(
-        targetValue = if (expandedState) 180f else 0f
+        targetValue = if (expandedState) ROTATION_STATE_UP else ROTATION_STATE_DOWN
     )
 
-    val cardAlpha = if (progressValue > 1f) 0.5f else 1f
+    val cardAlpha = if (progressValue > PROGRESS_STATE_COMPLETE) OPACITY_50 else OPACITY_DEFAULT
 
     Card(
         modifier = Modifier
@@ -67,7 +74,10 @@ fun ProgramItem(
             ) {
                 TimeItem(
                     time = prgTime,
-                    modifier = Modifier.alpha(cardAlpha)
+                    modifier = Modifier.alpha(cardAlpha),
+                    onTimeClick = {
+                        // todo alarm set
+                    }
                 )
 
                 Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size4))
@@ -99,7 +109,7 @@ fun ProgramItem(
                 }
             }
 
-            if (progressValue > COUNT_ZERO_FLOAT && progressValue <= 1f) {
+            if (progressValue > COUNT_ZERO_FLOAT && progressValue <= PROGRESS_STATE_COMPLETE) {
                 LinearProgressIndicator(
                     progress = progressValue,
                     modifier = Modifier.fillMaxWidth(),
@@ -111,13 +121,9 @@ fun ProgramItem(
             AnimatedVisibility(
                 visible = expandedState,
                 enter = slideInVertically {
-                    // Slide in from 40 dp from the top.
-                    with(density) { -40.dp.roundToPx() }
-                } + fadeIn(
-                    // Fade in with the initial alpha of 0.3f.
-                    initialAlpha = 0.3f
-                ),
-                exit = slideOutVertically() + shrinkVertically() + fadeOut()
+                    with(density) { -20.dp.roundToPx() }
+                } + fadeIn(initialAlpha = OPACITY_30),
+                exit = slideOutVertically() + fadeOut()
             ) {
                 Text(
                     text = prgDescription,

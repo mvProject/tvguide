@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.components.test
+package com.mvproject.tvprogramguide.ui.components.test
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape

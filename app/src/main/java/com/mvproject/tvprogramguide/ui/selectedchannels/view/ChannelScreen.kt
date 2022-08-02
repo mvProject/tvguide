@@ -8,13 +8,13 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.work.WorkInfo
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.components.NoItemsScreen
-import com.mvproject.tvprogramguide.components.dialogs.ShowSelectDialog
-import com.mvproject.tvprogramguide.components.toolbars.ToolbarWithOptions
 import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.domain.utils.CHANNEL_COUNT
 import com.mvproject.tvprogramguide.domain.utils.CHANNEL_INDEX
 import com.mvproject.tvprogramguide.navigation.AppRoutes
+import com.mvproject.tvprogramguide.ui.components.NoItemsScreen
+import com.mvproject.tvprogramguide.ui.components.dialogs.ShowSelectDialog
+import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithOptions
 import com.mvproject.tvprogramguide.ui.selectedchannels.components.ChannelList
 import com.mvproject.tvprogramguide.ui.selectedchannels.viewmodel.ChannelViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
