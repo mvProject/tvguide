@@ -10,14 +10,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
-import com.mvproject.tvprogramguide.data.utils.convertTimeToReadableFormat
+import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
 import com.mvproject.tvprogramguide.ui.components.ProgramItem
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ChannelList(
     singleChannelPrograms: List<SelectedChannelWithPrograms>,
-    onChannelClick: (SelectedChannel) -> Unit
+    onChannelClick: (SelectedChannel) -> Unit,
+    onScheduleClick: (ProgramSchedule) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -28,18 +29,21 @@ fun ChannelList(
             stickyHeader {
                 ChannelItem(
                     channelName = item.selectedChannel.channelName,
-                    channelLogo = item.selectedChannel.channelIcon
+                    channelLogo = item.selectedChannel.channelIcon,
                 ) {
                     onChannelClick(item.selectedChannel)
                 }
             }
             items(item.programs) { program ->
                 ProgramItem(
-                    prgTime = program.dateTimeStart.convertTimeToReadableFormat(),
-                    prgTitle = program.title,
-                    prgDescription = program.description,
-                    progressValue = program.programProgress
-                )
+                    program = program
+                ) {
+                    val programSchedule = ProgramSchedule(
+                        channelId = program.channel,
+                        programTitle = program.title,
+                    )
+                    onScheduleClick(programSchedule)
+                }
             }
         }
     }

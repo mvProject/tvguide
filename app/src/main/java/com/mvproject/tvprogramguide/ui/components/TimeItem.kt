@@ -6,6 +6,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.mvproject.tvprogramguide.data.utils.AppConstants.PROGRAM_TIME_MEASURE_COUNT
 import com.mvproject.tvprogramguide.data.utils.AppConstants.PROGRAM_TIME_MEASURE_DELIMITER
@@ -15,30 +16,21 @@ import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
 fun TimeItem(
-    time: String,
     modifier: Modifier = Modifier,
-    onTimeClick: () -> Unit = {},
-    withAlarm: Boolean = false
+    time: String,
+    timeColor: Color = MaterialTheme.colors.onSurface,
+    onTimeClick: () -> Unit = {}
 ) {
     val datTime = time
         .split(PROGRAM_TIME_MEASURE_DELIMITER)
         .take(PROGRAM_TIME_MEASURE_COUNT)
 
-    //  val bgColor = if (withAlarm)
-    //      MaterialTheme.colors.secondary
-    //  else
-    //      MaterialTheme.colors.primary
-//
-    //  val timeColor = if (withAlarm)
-    //      MaterialTheme.colors.onSecondary
-    //  else
-    //      MaterialTheme.colors.onPrimary
+
 
     Row(
         modifier = modifier
             .width(MaterialTheme.dimens.size44)
             .wrapContentHeight()
-            //  .background(bgColor)
             .clickable {
                 onTimeClick()
             }
@@ -51,17 +43,20 @@ fun TimeItem(
         Text(
             text = datTime.first(),
             fontSize = MaterialTheme.dimens.font12,
-            style = MaterialTheme.appTypography.textSemiBold
+            style = MaterialTheme.appTypography.textSemiBold,
+            color = timeColor
         )
         Text(
-            text = ":",
+            text = PROGRAM_TIME_MEASURE_DELIMITER,
             fontSize = MaterialTheme.dimens.font12,
-            style = MaterialTheme.appTypography.textSemiBold
+            style = MaterialTheme.appTypography.textSemiBold,
+            color = timeColor
         )
         Text(
             text = datTime.last(),
             fontSize = MaterialTheme.dimens.font12,
-            style = MaterialTheme.appTypography.textSemiBold
+            style = MaterialTheme.appTypography.textSemiBold,
+            color = timeColor
         )
     }
 }
