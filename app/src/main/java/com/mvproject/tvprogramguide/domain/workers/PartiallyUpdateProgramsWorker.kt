@@ -8,7 +8,11 @@ import androidx.work.WorkerParameters
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
-import com.mvproject.tvprogramguide.domain.utils.*
+import com.mvproject.tvprogramguide.domain.helpers.NotificationHelper
+import com.mvproject.tvprogramguide.domain.utils.CHANNEL_COUNT
+import com.mvproject.tvprogramguide.domain.utils.CHANNEL_INDEX
+import com.mvproject.tvprogramguide.domain.utils.CHANNEL_MISSING_COUNT
+import com.mvproject.tvprogramguide.domain.utils.NOTIFICATION_CONDITION
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import timber.log.Timber
@@ -17,16 +21,16 @@ import timber.log.Timber
 class PartiallyUpdateProgramsWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
-    private val channelProgramRepository: ChannelProgramRepository
+    private val channelProgramRepository: ChannelProgramRepository,
+    private val notificationHelper: NotificationHelper
 ) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
         val applicationContext = applicationContext
 
         val isNotificationOn = inputData.getBoolean(NOTIFICATION_CONDITION, false)
         if (isNotificationOn) {
-            makeStatusNotification(
-                message = applicationContext.getString(R.string.notif_programs_download),
-                context = applicationContext
+            notificationHelper.makeStatusNotification(
+                message = applicationContext.getString(R.string.notif_programs_download)
             )
         }
         val updateIds = inputData.getStringArray(CHANNEL_MISSING_COUNT)
@@ -44,12 +48,12 @@ class PartiallyUpdateProgramsWorker @AssistedInject constructor(
                     )
                 }
             } else {
-                Timber.e("testing PartiallyUpdateProgramsWorker update count zero")
+                Timber.e("PartiallyUpdateProgramsWorker update count zero")
             }
         }
 
         if (isNotificationOn) {
-            hideStatusNotification(context = applicationContext)
+            notificationHelper.hideStatusNotification()
         }
 
         return Result.success()
