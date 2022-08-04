@@ -1,9 +1,6 @@
 package com.mvproject.tvprogramguide.data.database.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
 
 @Dao
@@ -20,4 +17,8 @@ interface ProgramDao {
 
     @Query("DELETE FROM programs WHERE channelId = :channelId")
     suspend fun deletePrograms(channelId: String)
+
+    @Update
+    suspend fun updateProgram(programForUpdate: ProgramEntity)
+
 }
