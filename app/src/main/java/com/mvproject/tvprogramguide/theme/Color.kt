@@ -42,6 +42,7 @@ data class AppColors(
     val border: Color,
     val tintPrimary: Color,
     val tintSecondary: Color,
+    val textSelected: Color,
     val material: Colors,
 ) {
     val primary: Color get() = material.primary
@@ -67,6 +68,7 @@ val LightColor = AppColors(
     border = lightSteelBlueAlpha60,
     tintPrimary = steelBlue,
     tintSecondary = chocolate,
+    textSelected = chocolate,
     material = LightColorPalette
 )
 
@@ -78,6 +80,7 @@ val DarkColor = AppColors(
     border = chocolate,
     tintPrimary = steelBlue,
     tintSecondary = chocolate,
+    textSelected = chocolate,
     material = DarkColorPalette
 )
 internal val LocalColors = staticCompositionLocalOf { LightColor }
