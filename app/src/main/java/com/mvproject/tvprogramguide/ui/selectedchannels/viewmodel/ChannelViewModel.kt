@@ -8,6 +8,7 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
+import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
 import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.data.repository.CustomListRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
@@ -96,7 +97,7 @@ class ChannelViewModel @Inject constructor(
 
     private fun updatePrograms() {
         if (selectedPrograms.value.listName.isEmpty()) {
-            Timber.e("testing no current saved list")
+            Timber.e("no current saved list")
         } else {
             viewModelScope.launch(Dispatchers.IO) {
                 val programs = sortedProgramsUseCase
@@ -142,6 +143,14 @@ class ChannelViewModel @Inject constructor(
     //    )
     //}
 
+    fun toggleProgramSchedule(programForSchedule: ProgramSchedule) {
+        viewModelScope.launch(Dispatchers.IO) {
+            sortedProgramsUseCase
+                .updateProgramScheduleWithAlarm(programSchedule = programForSchedule)
+            updatePrograms()
+        }
+    }
+
     private fun startProgramsFullUpdate() {
         if (networkHelper.isNetworkConnected()) {
             val programRequest = OneTimeWorkRequest.Builder(FullUpdateProgramsWorker::class.java)
@@ -153,7 +162,7 @@ class ChannelViewModel @Inject constructor(
                 programRequest
             )
         } else {
-            Timber.e("testing no connection")
+            Timber.e("startProgramsFullUpdate no connection")
         }
     }
 }

@@ -16,8 +16,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.utils.AppConstants.ANIM_DURATION_300
 import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO_FLOAT
 import com.mvproject.tvprogramguide.data.utils.AppConstants.OPACITY_30
@@ -27,16 +27,15 @@ import com.mvproject.tvprogramguide.data.utils.AppConstants.OPACITY_DEFAULT
 import com.mvproject.tvprogramguide.data.utils.AppConstants.PROGRESS_STATE_COMPLETE
 import com.mvproject.tvprogramguide.data.utils.AppConstants.ROTATION_STATE_DOWN
 import com.mvproject.tvprogramguide.data.utils.AppConstants.ROTATION_STATE_UP
-import com.mvproject.tvprogramguide.theme.TvGuideTheme
+import com.mvproject.tvprogramguide.data.utils.convertTimeToReadableFormat
+import com.mvproject.tvprogramguide.theme.appColors
 import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
 fun ProgramItem(
-    prgTime: String,
-    prgTitle: String,
-    prgDescription: String,
-    progressValue: Float = COUNT_ZERO_FLOAT
+    program: Program,
+    onProgramClick: () -> Unit = {}
 ) {
     var expandedState by remember { mutableStateOf(false) }
 
@@ -46,7 +45,8 @@ fun ProgramItem(
         targetValue = if (expandedState) ROTATION_STATE_UP else ROTATION_STATE_DOWN
     )
 
-    val cardAlpha = if (progressValue > PROGRESS_STATE_COMPLETE) OPACITY_50 else OPACITY_DEFAULT
+    val cardAlpha =
+        if (program.programProgress > PROGRESS_STATE_COMPLETE) OPACITY_50 else OPACITY_DEFAULT
 
     Card(
         modifier = Modifier
@@ -72,11 +72,20 @@ fun ProgramItem(
                     .defaultMinSize(minHeight = MaterialTheme.dimens.size42),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                val timeColor =
+                    if (program.programProgress == COUNT_ZERO_FLOAT && program.scheduledId != null)
+                        MaterialTheme.appColors.textSelected
+                    else
+                        MaterialTheme.colors.onSurface
+
                 TimeItem(
-                    time = prgTime,
+                    time = program.dateTimeStart.convertTimeToReadableFormat(),
                     modifier = Modifier.alpha(cardAlpha),
+                    timeColor = timeColor,
                     onTimeClick = {
-                        // todo alarm set
+                        if (program.programProgress == COUNT_ZERO_FLOAT) {
+                            onProgramClick()
+                        }
                     }
                 )
 
@@ -86,12 +95,12 @@ fun ProgramItem(
                     modifier = Modifier
                         .weight(MaterialTheme.dimens.weight6)
                         .alpha(cardAlpha),
-                    text = prgTitle,
+                    text = program.title,
                     fontSize = MaterialTheme.dimens.font14,
                     style = MaterialTheme.appTypography.textMedium,
                     overflow = TextOverflow.Ellipsis
                 )
-                if (prgDescription.isNotEmpty()) {
+                if (program.description.isNotEmpty()) {
                     IconButton(
                         modifier = Modifier
                             .weight(MaterialTheme.dimens.weight1)
@@ -109,9 +118,9 @@ fun ProgramItem(
                 }
             }
 
-            if (progressValue > COUNT_ZERO_FLOAT && progressValue <= PROGRESS_STATE_COMPLETE) {
+            if (program.programProgress > COUNT_ZERO_FLOAT && program.programProgress <= PROGRESS_STATE_COMPLETE) {
                 LinearProgressIndicator(
-                    progress = progressValue,
+                    progress = program.programProgress,
                     modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colors.onPrimary,
                     backgroundColor = MaterialTheme.colors.surface
@@ -126,7 +135,7 @@ fun ProgramItem(
                 exit = slideOutVertically() + fadeOut()
             ) {
                 Text(
-                    text = prgDescription,
+                    text = program.description,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(MaterialTheme.dimens.size2)
@@ -143,7 +152,7 @@ fun ProgramItem(
         }
     }
 }
-
+/*
 @Composable
 @Preview(showBackground = true)
 fun ExpandableCardPreview() {
@@ -225,3 +234,5 @@ fun ExpandableCardPreviewDark() {
         }
     }
 }
+
+ */

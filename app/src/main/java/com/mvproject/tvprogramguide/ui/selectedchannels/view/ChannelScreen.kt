@@ -59,7 +59,7 @@ fun ChannelScreen(
                 owner
             ) { listOfWorkInfo: List<WorkInfo>? ->
                 if (listOfWorkInfo == null || listOfWorkInfo.isEmpty()) {
-                    Timber.e("testing worker fullUpdateWorkInfo null")
+                    Timber.e("worker fullUpdateWorkInfo null")
                 } else {
                     val workInfo = listOfWorkInfo[0]
                     if (workInfo.state == WorkInfo.State.RUNNING) {
@@ -105,14 +105,18 @@ fun ChannelScreen(
                     onSettingsClick = { onNavigate(AppRoutes.OptionSettings.route) }
                 )
 
-                ChannelList(programState.programs) { channel ->
-                    onNavigate(
-                        AppRoutes.SelectedChannel.applyArgs(
-                            channelId = channel.channelId,
-                            channelName = channel.channelName
+                ChannelList(programState.programs,
+                    onChannelClick = { channel ->
+                        onNavigate(
+                            AppRoutes.SelectedChannel.applyArgs(
+                                channelId = channel.channelId,
+                                channelName = channel.channelName
+                            )
                         )
-                    )
-                }
+                    },
+                    onScheduleClick = { program ->
+                        viewModel.toggleProgramSchedule(programForSchedule = program)
+                    })
             }
         }
     }
