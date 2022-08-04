@@ -15,6 +15,9 @@ class SelectedChannelRepository @Inject constructor(
     suspend fun loadSelectedChannelsIds() =
         selectedChannelDao.getSelectedChannelsIds()
 
+    suspend fun loadChannelNameById(selectedId: String) =
+        selectedChannelDao.getChannelNameById(id = selectedId)
+
     fun loadSelectedChannelsFlow(listName: String) =
         selectedChannelDao.getSelectedChannelsFlow(listName = listName)
 

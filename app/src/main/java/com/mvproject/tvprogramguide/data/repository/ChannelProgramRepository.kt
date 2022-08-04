@@ -61,4 +61,8 @@ class ChannelProgramRepository @Inject constructor(
             }
         }
     }
+
+    suspend fun updateProgram(program: Program) {
+        programDao.updateProgram(programForUpdate = program.toEntity())
+    }
 }

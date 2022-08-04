@@ -8,6 +8,8 @@
     <string name="custom_channels_list_title">Список каналов</string>
 
     <string name="notif_programs_download">Обновление программы</string>
+    <string name="notif_channels_download">Downloading channels</string>
+
 
     <string name="settings_theme_light">Светлая</string>
     <string name="settings_theme_dark">Темная</string>
