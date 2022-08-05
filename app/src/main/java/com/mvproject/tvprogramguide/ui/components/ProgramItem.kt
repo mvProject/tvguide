@@ -132,7 +132,7 @@ fun ProgramItem(
                 enter = slideInVertically {
                     with(density) { -20.dp.roundToPx() }
                 } + fadeIn(initialAlpha = OPACITY_30),
-                exit = slideOutVertically() + fadeOut()
+                exit = slideOutVertically() + shrinkVertically() + fadeOut()
             ) {
                 Text(
                     text = program.description,
