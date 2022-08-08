@@ -9,12 +9,15 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
-import com.mvproject.tvprogramguide.data.utils.convertTimeToReadableFormat
+import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
 import com.mvproject.tvprogramguide.ui.components.ProgramItem
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun SingleChannelList(singleChannelPrograms: List<SingleChannelWithPrograms>) {
+fun SingleChannelList(
+    singleChannelPrograms: List<SingleChannelWithPrograms>,
+    onScheduleClick: (ProgramSchedule) -> Unit
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxHeight()
@@ -26,11 +29,14 @@ fun SingleChannelList(singleChannelPrograms: List<SingleChannelWithPrograms>) {
             }
             items(item.programs) { program ->
                 ProgramItem(
-                    prgTime = program.dateTimeStart.convertTimeToReadableFormat(),
-                    prgTitle = program.title,
-                    prgDescription = program.description,
-                    progressValue = program.programProgress
-                )
+                    program = program
+                ) {
+                    val programSchedule = ProgramSchedule(
+                        programTitle = program.title,
+                        channelId = program.channel
+                    )
+                    onScheduleClick(programSchedule)
+                }
             }
         }
     }

@@ -19,6 +19,9 @@ interface SelectedChannelDao {
     @Query("SELECT channel_id FROM selected_channels")
     suspend fun getSelectedChannelsIds(): List<String>
 
+    @Query("SELECT channel_name FROM selected_channels WHERE channel_id = :id")
+    suspend fun getChannelNameById(id: String): String
+
     @Query("SELECT * FROM selected_channels WHERE parentList = :listName")
     fun getSelectedChannelsFlow(listName: String): Flow<List<SelectedChannelEntity>>
 

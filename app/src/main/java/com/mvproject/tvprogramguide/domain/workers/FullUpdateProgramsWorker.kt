@@ -10,7 +10,10 @@ import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
-import com.mvproject.tvprogramguide.domain.utils.*
+import com.mvproject.tvprogramguide.domain.helpers.NotificationHelper
+import com.mvproject.tvprogramguide.domain.utils.CHANNEL_COUNT
+import com.mvproject.tvprogramguide.domain.utils.CHANNEL_INDEX
+import com.mvproject.tvprogramguide.domain.utils.NOTIFICATION_CONDITION
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.datetime.Clock
@@ -23,15 +26,15 @@ class FullUpdateProgramsWorker @AssistedInject constructor(
     private val selectedChannelRepository: SelectedChannelRepository,
     private val channelProgramRepository: ChannelProgramRepository,
     private val preferenceRepository: PreferenceRepository,
+    private val notificationHelper: NotificationHelper
 ) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
         val applicationContext = applicationContext
 
         val isNotificationOn = inputData.getBoolean(NOTIFICATION_CONDITION, false)
         if (isNotificationOn) {
-            makeStatusNotification(
-                message = applicationContext.getString(R.string.notif_programs_download),
-                context = applicationContext
+            notificationHelper.makeStatusNotification(
+                message = applicationContext.getString(R.string.notif_programs_download)
             )
         }
 
@@ -43,7 +46,7 @@ class FullUpdateProgramsWorker @AssistedInject constructor(
                 channelProgramRepository.loadProgram(chn)
                 setProgressAsync(
                     Data.Builder()
-                        .putInt(CHANNEL_INDEX, ind)
+                        .putInt(CHANNEL_INDEX, ind + 1)
                         .putInt(CHANNEL_COUNT, channelsCount)
                         .build()
                 )
@@ -52,11 +55,11 @@ class FullUpdateProgramsWorker @AssistedInject constructor(
                 timeInMillis = Clock.System.now().toEpochMilliseconds()
             )
         } else {
-            Timber.e("testing FullUpdateProgramsWorker update count zero")
+            Timber.e("FullUpdateProgramsWorker update count zero")
         }
 
         if (isNotificationOn) {
-            hideStatusNotification(context = applicationContext)
+            notificationHelper.hideStatusNotification()
         }
 
         return Result.success()

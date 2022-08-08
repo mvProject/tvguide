@@ -3,8 +3,8 @@ package com.mvproject.tvprogramguide.ui.singlechannel.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
-import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
-import com.mvproject.tvprogramguide.data.utils.Mappers.toSingleChannelWithPrograms
+import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
+import com.mvproject.tvprogramguide.domain.usecases.SortedProgramsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SingleChannelViewModel @Inject constructor(
-    private val channelProgramRepository: ChannelProgramRepository
+    private val sortedProgramsUseCase: SortedProgramsUseCase,
 ) : ViewModel() {
 
     private var _selectedPrograms = MutableStateFlow<List<SingleChannelWithPrograms>>(emptyList())
@@ -22,12 +22,18 @@ class SingleChannelViewModel @Inject constructor(
 
     fun loadPrograms(channelId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val programsWithChannels =
-                channelProgramRepository
-                    .loadProgramsForChannel(channelId = channelId)
-                    .toSingleChannelWithPrograms()
+            val programsWithChannels = sortedProgramsUseCase
+                .retrieveProgramsForChannel(channelId = channelId)
 
             _selectedPrograms.emit(programsWithChannels)
+        }
+    }
+
+    fun toggleProgramSchedule(programForSchedule: ProgramSchedule) {
+        viewModelScope.launch(Dispatchers.IO) {
+            sortedProgramsUseCase
+                .updateProgramScheduleWithAlarm(programSchedule = programForSchedule)
+            loadPrograms(channelId = programForSchedule.channelId)
         }
     }
 }

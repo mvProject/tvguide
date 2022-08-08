@@ -14,7 +14,8 @@ data class ProgramEntity(
     val title: String = NO_VALUE_STRING,
     val description: String = NO_VALUE_STRING,
     val category: String = NO_VALUE_STRING,
-    val channelId: String = NO_VALUE_STRING
+    val channelId: String = NO_VALUE_STRING,
+    val scheduledId: Long? = null,
 ) {
     fun toProgram() = with(this) {
         Program(
@@ -24,6 +25,7 @@ data class ProgramEntity(
             description = description,
             category = category,
             channel = channelId,
+            scheduledId = scheduledId
         )
     }
 }

@@ -3,9 +3,7 @@ package com.mvproject.tvprogramguide.data.repository
 import androidx.room.Transaction
 import com.mvproject.tvprogramguide.data.database.dao.ProgramDao
 import com.mvproject.tvprogramguide.data.model.domain.Program
-import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
 import com.mvproject.tvprogramguide.data.network.EpgService
-import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.data.utils.Mappers.asProgramEntities
 import com.mvproject.tvprogramguide.data.utils.Mappers.asProgramFromEntities
 import com.mvproject.tvprogramguide.data.utils.getNoProgramData
@@ -44,21 +42,20 @@ class ChannelProgramRepository @Inject constructor(
 
     @Transaction
     suspend fun loadProgram(channelId: String) {
-        var entities = emptyList<ProgramEntity>()
-        try {
+        val entities = try {
             val ch = epgService.getChannelProgram(channelId).chPrograms
-            entities = ch.asProgramEntities(channelId = channelId)
+            ch.asProgramEntities(channelId = channelId)
         } catch (ex: Exception) {
-            ex.printStackTrace()
-            Timber.e("loadProgram exception ${ex.localizedMessage}")
+            Timber.e("loadProgram for $channelId IllegalStateException  ${ex.localizedMessage}")
             channelId.getNoProgramData()
-        } finally {
-            if (entities.count() > COUNT_ZERO) {
-                programDao.apply {
-                    deletePrograms(channelId = channelId)
-                    insertPrograms(channels = entities)
-                }
-            }
         }
+        programDao.apply {
+            deletePrograms(channelId = channelId)
+            insertPrograms(channels = entities)
+        }
+    }
+
+    suspend fun updateProgram(program: Program) {
+        programDao.updateProgram(programForUpdate = program.toEntity())
     }
 }

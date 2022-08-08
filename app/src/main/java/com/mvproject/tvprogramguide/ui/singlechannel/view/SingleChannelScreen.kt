@@ -33,6 +33,8 @@ fun SingleChannelScreen(
             onBackClick = onBackClick
         )
 
-        SingleChannelList(singleChannelPrograms = programs)
+        SingleChannelList(singleChannelPrograms = programs) { program ->
+            viewModel.toggleProgramSchedule(programForSchedule = program)
+        }
     }
 }
