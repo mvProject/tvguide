@@ -42,7 +42,7 @@ class PartiallyUpdateProgramsWorker @AssistedInject constructor(
                     channelProgramRepository.loadProgram(id)
                     setProgressAsync(
                         Data.Builder()
-                            .putInt(CHANNEL_INDEX, ind)
+                            .putInt(CHANNEL_INDEX, ind + 1)
                             .putInt(CHANNEL_COUNT, idsCount)
                             .build()
                     )

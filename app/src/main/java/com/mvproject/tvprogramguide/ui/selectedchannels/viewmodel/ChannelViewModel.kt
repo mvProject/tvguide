@@ -153,7 +153,8 @@ class ChannelViewModel @Inject constructor(
 
     private fun startProgramsFullUpdate() {
         if (networkHelper.isNetworkConnected()) {
-            val programRequest = OneTimeWorkRequest.Builder(FullUpdateProgramsWorker::class.java)
+            val programRequest = OneTimeWorkRequest
+                .Builder(FullUpdateProgramsWorker::class.java)
                 .setInputData(createInputDataForUpdate())
                 .build()
             workManager.enqueueUniqueWork(
