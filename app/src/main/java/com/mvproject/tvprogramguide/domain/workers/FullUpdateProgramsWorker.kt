@@ -43,10 +43,11 @@ class FullUpdateProgramsWorker @AssistedInject constructor(
         val channelsCount = selectedChannels.count()
         if (channelsCount > COUNT_ZERO) {
             selectedChannels.forEachIndexed { ind, chn ->
-                channelProgramRepository.loadProgram(chn)
+                channelProgramRepository.loadProgram(channelId = chn)
+                val channelNumber = ind + 1
                 setProgressAsync(
                     Data.Builder()
-                        .putInt(CHANNEL_INDEX, ind + 1)
+                        .putInt(CHANNEL_INDEX, channelNumber)
                         .putInt(CHANNEL_COUNT, channelsCount)
                         .build()
                 )
