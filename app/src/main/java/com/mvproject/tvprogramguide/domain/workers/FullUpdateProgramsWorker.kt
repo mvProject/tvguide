@@ -46,7 +46,7 @@ class FullUpdateProgramsWorker @AssistedInject constructor(
                 channelProgramRepository.loadProgram(chn)
                 setProgressAsync(
                     Data.Builder()
-                        .putInt(CHANNEL_INDEX, ind)
+                        .putInt(CHANNEL_INDEX, ind + 1)
                         .putInt(CHANNEL_COUNT, channelsCount)
                         .build()
                 )
