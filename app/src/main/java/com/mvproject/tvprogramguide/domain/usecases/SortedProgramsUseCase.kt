@@ -56,7 +56,6 @@ class SortedProgramsUseCase @Inject constructor(
             .loadProgramsForChannel(channelId = channelId)
             .toSingleChannelWithPrograms()
 
-
     suspend fun updateProgramScheduleWithAlarm(programSchedule: ProgramSchedule) {
         val scheduleProgram = channelProgramRepository
             .loadProgramsForChannel(channelId = programSchedule.channelId)
@@ -87,5 +86,25 @@ class SortedProgramsUseCase @Inject constructor(
             }
             channelProgramRepository.updateProgram(program = program)
         } ?: Timber.e("scheduleProgram is null")
+    }
+
+    suspend fun checkProgramsUpdateRequired(obtainedChannelsIds: List<String>): Array<String>? {
+        val currentChannelList = preferenceRepository.loadDefaultUserList().first()
+
+        val selectedChannelIds = selectedChannelRepository
+            .loadSelectedChannels(listName = currentChannelList)
+            .map { entity ->
+                entity.channelId
+            }
+
+        val obtainedChannelsIdsCount =
+            channelProgramRepository
+                .loadProgramsCount(channelsIds = selectedChannelIds)
+
+
+        if (selectedChannelIds.count() > obtainedChannelsIdsCount) {
+            return selectedChannelIds.minus(obtainedChannelsIds.toSet()).toTypedArray()
+        }
+        return null
     }
 }
