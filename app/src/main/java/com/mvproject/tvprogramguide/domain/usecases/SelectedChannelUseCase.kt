@@ -20,14 +20,6 @@ class SelectedChannelUseCase @Inject constructor(
     private val targetList
         get() = runBlocking { preferenceRepository.targetList.first() }
 
-    suspend fun loadSelectedChannels(): List<SelectedChannel> {
-        return selectedChannelRepository.loadSelectedChannels(listName = targetList)
-            .asSelectedChannelsFromEntities()
-    }
-
-    suspend fun loadSelectedChannelsIds() =
-        selectedChannelRepository.loadSelectedChannelsIds()
-
     fun loadSelectedChannelsFlow() =
         selectedChannelRepository.loadSelectedChannelsFlow(listName = targetList)
             .map { entities ->
