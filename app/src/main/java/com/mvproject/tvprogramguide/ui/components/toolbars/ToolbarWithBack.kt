@@ -11,7 +11,6 @@ import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,16 +23,13 @@ import com.mvproject.tvprogramguide.theme.dimens
 fun ToolbarWithBack(
     modifier: Modifier = Modifier,
     title: String = stringResource(id = R.string.default_toolbar_title),
-    toolbarBackgroundColor: Color = MaterialTheme.colors.primary,
-    titleColor: Color = MaterialTheme.colors.onPrimary,
-    backTintColor: Color = MaterialTheme.colors.onPrimary,
     onBackClick: () -> Unit = {}
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentSize()
-            .background(color = toolbarBackgroundColor)
+            .background(color = MaterialTheme.colors.primary)
             .padding(MaterialTheme.dimens.size8),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -41,7 +37,7 @@ fun ToolbarWithBack(
         Icon(
             Icons.Outlined.ArrowBack,
             contentDescription = null,
-            tint = backTintColor,
+            tint = MaterialTheme.colors.onPrimary,
             modifier = Modifier
                 .size(MaterialTheme.dimens.size32)
                 .clickable {
@@ -55,7 +51,7 @@ fun ToolbarWithBack(
             text = title,
             modifier = Modifier
                 .weight(MaterialTheme.dimens.weight1),
-            color = titleColor,
+            color = MaterialTheme.colors.onPrimary,
             textAlign = TextAlign.Center,
             fontSize = MaterialTheme.dimens.font18,
             style = MaterialTheme.appTypography.textMedium
