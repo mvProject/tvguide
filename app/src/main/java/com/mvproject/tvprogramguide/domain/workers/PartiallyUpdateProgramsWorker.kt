@@ -39,10 +39,11 @@ class PartiallyUpdateProgramsWorker @AssistedInject constructor(
             val idsCount = ids.count()
             if (idsCount > COUNT_ZERO) {
                 ids.forEachIndexed { ind, id ->
-                    channelProgramRepository.loadProgram(id)
+                    channelProgramRepository.loadProgram(channelId = id)
+                    val channelNumber = ind + 1
                     setProgressAsync(
                         Data.Builder()
-                            .putInt(CHANNEL_INDEX, ind + 1)
+                            .putInt(CHANNEL_INDEX, channelNumber)
                             .putInt(CHANNEL_COUNT, idsCount)
                             .build()
                     )
