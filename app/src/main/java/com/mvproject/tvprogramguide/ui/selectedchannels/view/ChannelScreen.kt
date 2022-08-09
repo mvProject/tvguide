@@ -6,6 +6,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.work.WorkInfo
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
@@ -24,65 +26,43 @@ import timber.log.Timber
 @Composable
 fun ChannelScreen(
     viewModel: ChannelViewModel,
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
     onNavigate: (route: String) -> Unit
 ) {
+    val isDialogOpen = remember { mutableStateOf(false) }
 
-    val owner = LocalLifecycleOwner.current
-    LaunchedEffect(key1 = true) {
-        Timber.i("testing ChannelScreen LaunchedEffect")
-        // channelViewModel.partiallyUpdateWorkInfo.observe(
-        //     owner
-        // ) { listOfWorkInfo: List<WorkInfo>? ->
-        //     if (listOfWorkInfo == null || listOfWorkInfo.isEmpty()) {
-        //         Timber.d("testing worker partiallyUpdateWorkInfo null")
-        //     } else {
-        //         val workInfo = listOfWorkInfo[0]
-        //         if (workInfo.state == WorkInfo.State.RUNNING) {
-        //             val progress = workInfo.progress
-        //             val current = progress.getInt(CHANNEL_INDEX, COUNT_ZERO)
-        //             val count = progress.getInt(CHANNEL_COUNT, COUNT_ZERO)
-        //             Timber.d(
-        //                 "testing worker partiallyUpdateWorkInfo " +
-        //                         "current $current, count $count"
-        //             )
-        //         }
-        //         if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-        //             channelViewModel.reloadChannels()
-        //             Timber.d("testing worker partiallyUpdateWorkInfo SUCCEEDED")
-        //         }
-        //     }
-        // }
-        with(viewModel) {
-            reloadChannels()
+    val programState by viewModel.selectedPrograms.collectAsState()
 
-            fullUpdateWorkInfo.observe(
-                owner
-            ) { listOfWorkInfo: List<WorkInfo>? ->
-                if (listOfWorkInfo == null || listOfWorkInfo.isEmpty()) {
-                    Timber.e("worker fullUpdateWorkInfo null")
-                } else {
-                    val workInfo = listOfWorkInfo[0]
-                    if (workInfo.state == WorkInfo.State.RUNNING) {
-                        val progress = workInfo.progress
-                        val current = progress.getInt(CHANNEL_INDEX, COUNT_ZERO)
-                        val count = progress.getInt(CHANNEL_COUNT, COUNT_ZERO)
-                        Timber.d(
-                            "testing worker fullUpdateWorkInfo " +
-                                    "current $current, count $count"
-                        )
-                    }
-                    if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                        viewModel.reloadChannels()
-                        Timber.d("testing worker fullUpdateWorkInfo SUCCEEDED")
-                    }
+    val updateObserver = remember {
+        Observer<List<WorkInfo>?> { listOfWorkInfo ->
+            if (listOfWorkInfo == null || listOfWorkInfo.isEmpty()) {
+                Timber.e("worker updateWorkInfo null")
+            } else {
+                val workInfo = listOfWorkInfo.first()
+                if (workInfo.state == WorkInfo.State.RUNNING) {
+                    val progress = workInfo.progress
+                    val current = progress.getInt(CHANNEL_INDEX, COUNT_ZERO)
+                    val count = progress.getInt(CHANNEL_COUNT, COUNT_ZERO)
+                    Timber.d("testing worker updateWorkInfo current $current, count $count")
+                }
+                if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+                    Timber.d("testing worker updateWorkInfo SUCCEEDED")
+                    viewModel.reloadProgramsAfterUpdate()
                 }
             }
         }
     }
 
-    val isDialogOpen = remember { mutableStateOf(false) }
+    DisposableEffect(lifecycleOwner) {
+        with(viewModel) {
+            checkForPartiallyUpdate()
+            fullUpdateWorkInfo.observe(lifecycleOwner, updateObserver)
 
-    val programState by viewModel.selectedPrograms.collectAsState()
+            onDispose {
+                fullUpdateWorkInfo.removeObserver(updateObserver)
+            }
+        }
+    }
 
     when {
         programState.listName.isEmpty() -> {
@@ -124,7 +104,7 @@ fun ChannelScreen(
     ShowSelectDialog(
         isDialogOpen = isDialogOpen,
         radioOptions = viewModel.availableLists,
-        defaultSelection = viewModel.obtainListIndex
+        defaultSelection = viewModel.obtainSelectedListIndex
     ) { selected ->
         viewModel.applyList(listName = selected)
     }
