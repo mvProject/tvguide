@@ -10,6 +10,7 @@ import com.mvproject.tvprogramguide.data.utils.AppConstants.DEFAULT_PROGRAMS_VIS
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_LONG
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -38,7 +39,7 @@ class PreferenceRepository @Inject constructor(
 
     fun loadDefaultUserList() = dataStore.data.map { preferences ->
         preferences[DEFAULT_CHANNEL_LIST] ?: NO_VALUE_STRING
-    }
+    }.distinctUntilChanged()
 
     val targetList = combine(
         loadCurrentUserList(),

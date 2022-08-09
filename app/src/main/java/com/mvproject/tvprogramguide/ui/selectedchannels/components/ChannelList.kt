@@ -1,5 +1,6 @@
 package com.mvproject.tvprogramguide.ui.selectedchannels.components
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -20,29 +21,31 @@ fun ChannelList(
     onChannelClick: (SelectedChannel) -> Unit,
     onScheduleClick: (ProgramSchedule) -> Unit
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxHeight()
-            .background(MaterialTheme.colors.primary)
-    ) {
-        singleChannelPrograms.forEach { item ->
-            stickyHeader {
-                ChannelItem(
-                    channelName = item.selectedChannel.channelName,
-                    channelLogo = item.selectedChannel.channelIcon,
-                ) {
-                    onChannelClick(item.selectedChannel)
+    Crossfade(targetState = singleChannelPrograms) { data ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxHeight()
+                .background(MaterialTheme.colors.primary)
+        ) {
+            data.forEach { item ->
+                stickyHeader {
+                    ChannelItem(
+                        channelName = item.selectedChannel.channelName,
+                        channelLogo = item.selectedChannel.channelIcon,
+                    ) {
+                        onChannelClick(item.selectedChannel)
+                    }
                 }
-            }
-            items(item.programs) { program ->
-                ProgramItem(
-                    program = program
-                ) {
-                    val programSchedule = ProgramSchedule(
-                        channelId = program.channel,
-                        programTitle = program.title,
-                    )
-                    onScheduleClick(programSchedule)
+                items(item.programs) { program ->
+                    ProgramItem(
+                        program = program
+                    ) {
+                        val programSchedule = ProgramSchedule(
+                            channelId = program.channel,
+                            programTitle = program.title,
+                        )
+                        onScheduleClick(programSchedule)
+                    }
                 }
             }
         }
