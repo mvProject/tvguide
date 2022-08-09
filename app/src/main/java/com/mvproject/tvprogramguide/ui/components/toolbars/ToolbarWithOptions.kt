@@ -11,7 +11,6 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,9 +23,6 @@ import com.mvproject.tvprogramguide.theme.dimens
 fun ToolbarWithOptions(
     modifier: Modifier = Modifier,
     title: String = stringResource(id = R.string.default_toolbar_title),
-    toolbarBackgroundColor: Color = MaterialTheme.colors.primary,
-    titleColor: Color = MaterialTheme.colors.onPrimary,
-    actionTintColor: Color = MaterialTheme.colors.onPrimary,
     onSelectClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {}
 ) {
@@ -37,7 +33,7 @@ fun ToolbarWithOptions(
             .clickable {
                 onSelectClick()
             }
-            .background(color = toolbarBackgroundColor)
+            .background(color = MaterialTheme.colors.primary)
             .padding(MaterialTheme.dimens.size4),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -46,7 +42,7 @@ fun ToolbarWithOptions(
             text = title,
             modifier = Modifier
                 .weight(MaterialTheme.dimens.weight1),
-            color = titleColor,
+            color = MaterialTheme.colors.onPrimary,
             textAlign = TextAlign.Center,
             fontSize = MaterialTheme.dimens.font18,
             style = MaterialTheme.appTypography.textSemiBold
@@ -57,7 +53,7 @@ fun ToolbarWithOptions(
         Icon(
             Icons.Outlined.Settings,
             contentDescription = null,
-            tint = actionTintColor,
+            tint = MaterialTheme.colors.onPrimary,
             modifier = Modifier
                 .size(MaterialTheme.dimens.size32)
                 .clickable {
