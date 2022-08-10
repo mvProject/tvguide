@@ -9,42 +9,41 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
+import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.theme.appTypography
+import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
 fun RadioGroup(
     radioOptions: List<String> = listOf(),
-    title: String = "",
-    defaultSelection: Int = 0,
+    title: String = NO_VALUE_STRING,
+    defaultSelection: Int = COUNT_ZERO,
     onItemClick: (String) -> Unit
 ) {
-    if (radioOptions.isNotEmpty()) {
-        Card(
-            backgroundColor = MaterialTheme.colors.primary,
+    Card(
+        backgroundColor = MaterialTheme.colors.primary,
+        modifier = Modifier
+            .padding(MaterialTheme.dimens.size8)
+            .fillMaxWidth(),
+        elevation = MaterialTheme.dimens.size8,
+        shape = RoundedCornerShape(MaterialTheme.dimens.size8),
+    ) {
+        Column(
             modifier = Modifier
-                .padding(10.dp)
-                .fillMaxWidth(),
-            elevation = 8.dp,
-            shape = RoundedCornerShape(8.dp),
+                .padding(MaterialTheme.dimens.size2)
         ) {
-            Column(
-                Modifier.padding(10.dp)
-            ) {
-                Text(
-                    text = title,
-                    fontStyle = FontStyle.Normal,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(5.dp),
-                )
+            Text(
+                text = title,
+                modifier = Modifier.padding(MaterialTheme.dimens.size6),
+                style = MaterialTheme.appTypography.textBold
+            )
 
-                RadioGroupContent(
-                    radioOptions = radioOptions,
-                    defaultSelection = defaultSelection,
-                    onItemClick = { item -> onItemClick(item) }
-                )
-            }
+            RadioGroupContent(
+                radioOptions = radioOptions,
+                defaultSelection = defaultSelection,
+                onItemClick = { item -> onItemClick(item) }
+            )
         }
     }
 }
