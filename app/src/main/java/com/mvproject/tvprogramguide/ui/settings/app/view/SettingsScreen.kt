@@ -40,8 +40,8 @@ fun SettingsScreen(
         Card(
             backgroundColor = MaterialTheme.appColors.backgroundPrimary,
             modifier = Modifier
-                .padding(MaterialTheme.dimens.size8)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(MaterialTheme.dimens.size8),
             elevation = MaterialTheme.dimens.size8,
             shape = RoundedCornerShape(MaterialTheme.dimens.size8)
         ) {

@@ -56,14 +56,14 @@ private fun UserCustomListContent(
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
             FloatingActionButton(
-                backgroundColor = MaterialTheme.colors.background,
+                backgroundColor = MaterialTheme.colors.secondary,
                 onClick = {
                     isDialogOpen.value = true
                 }) {
                 Icon(
                     Icons.Outlined.Add,
                     contentDescription = null,
-                    tint = MaterialTheme.colors.onBackground,
+                    tint = MaterialTheme.colors.onSecondary,
                     modifier = Modifier
                         .size(MaterialTheme.dimens.size32)
                 )

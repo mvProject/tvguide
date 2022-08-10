@@ -4,7 +4,10 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.unit.*
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 data class Dimens(
     val sizeZero: Dp = 0.dp,
@@ -33,6 +36,7 @@ data class Dimens(
     val size46: Dp = 46.dp,
     val size48: Dp = 48.dp,
     val size50: Dp = 50.dp,
+    val size60: Dp = 60.dp,
     val size96: Dp = 96.dp,
 
     val font12: TextUnit = 12.sp,
