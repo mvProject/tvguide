@@ -2,7 +2,6 @@ package com.mvproject.tvprogramguide.ui.components.radio
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.RadioButton
@@ -11,19 +10,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
+import com.mvproject.tvprogramguide.theme.appTypography
 
 @Composable
 fun RadioGroupContent(
     radioOptions: List<String> = listOf(),
-    defaultSelection: Int = 0,
+    defaultSelection: Int = COUNT_ZERO,
     onItemClick: (String) -> Unit
 ) {
 
@@ -31,12 +30,9 @@ fun RadioGroupContent(
         mutableStateOf(radioOptions[defaultSelection])
     }
 
-    Column(
-        Modifier.padding(10.dp)
-    ) {
+    Column {
         radioOptions.forEach { item ->
             Row(
-                Modifier.padding(2.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
@@ -63,8 +59,8 @@ fun RadioGroupContent(
 
                 ClickableText(
                     text = annotatedString,
+                    style = MaterialTheme.appTypography.textSemiBold,
                     onClick = {
-                        // selectedOption.value = item
                         onOptionSelected(item)
                         onItemClick(item)
                     }
