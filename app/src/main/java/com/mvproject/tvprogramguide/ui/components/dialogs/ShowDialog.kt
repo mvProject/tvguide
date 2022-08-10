@@ -9,14 +9,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.theme.appTypography
+import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
 fun ShowDialog(
@@ -33,38 +32,43 @@ fun ShowDialog(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(250.dp)
-                    .padding(5.dp),
-                shape = RoundedCornerShape(16.dp),
-                color = Color.LightGray,
-                elevation = 8.dp
+                    .padding(MaterialTheme.dimens.size6),
+                shape = RoundedCornerShape(MaterialTheme.dimens.size16),
+                color = MaterialTheme.colors.primary,
+                elevation = MaterialTheme.dimens.size8
             ) {
                 Column(
-                    modifier = Modifier.padding(5.dp),
+                    modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size6),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Spacer(modifier = Modifier.padding(5.dp))
 
                     Text(
                         text = stringResource(id = R.string.add_new_custom_list),
-                        color = Color.Black,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 25.sp
+                        modifier = Modifier.padding(MaterialTheme.dimens.size4),
+                        style = MaterialTheme.appTypography.textSemiBold,
+                        fontSize = MaterialTheme.dimens.font18
                     )
 
-                    Spacer(modifier = Modifier.padding(10.dp))
+                    Spacer(modifier = Modifier.padding(MaterialTheme.dimens.size4))
 
                     OutlinedTextField(
                         value = name.value,
                         onValueChange = { name.value = it },
+                        modifier = Modifier.fillMaxWidth(0.8f),
+                        textStyle = MaterialTheme.appTypography.textMedium,
                         placeholder = {
                             Text(text = stringResource(id = R.string.new_custom_hint))
                         },
                         singleLine = true,
-                        modifier = Modifier.fillMaxWidth(0.8f)
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            unfocusedLabelColor = MaterialTheme.colors.onBackground,
+                            focusedLabelColor = MaterialTheme.colors.onSecondary,
+                            textColor = MaterialTheme.colors.onPrimary
+                        )
                     )
 
-                    Spacer(modifier = Modifier.padding(10.dp))
+                    Spacer(modifier = Modifier.padding(MaterialTheme.dimens.size8))
 
                     Button(
                         onClick = {
@@ -73,17 +77,17 @@ fun ShowDialog(
                         },
                         modifier = Modifier
                             .fillMaxWidth(0.5f)
-                            .height(60.dp)
-                            .padding(10.dp),
-                        shape = RoundedCornerShape(5.dp),
+                            .padding(MaterialTheme.dimens.size4),
+                        shape = RoundedCornerShape(MaterialTheme.dimens.size8),
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = MaterialTheme.colors.primary
+                            backgroundColor = MaterialTheme.colors.secondary
                         )
                     ) {
                         Text(
                             text = stringResource(id = R.string.btn_close),
-                            color = Color.White,
-                            fontSize = 12.sp
+                            color = MaterialTheme.colors.onPrimary,
+                            style = MaterialTheme.appTypography.textSemiBold,
+                            fontSize = MaterialTheme.dimens.font12
                         )
                     }
                 }
