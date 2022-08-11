@@ -2,6 +2,11 @@ package com.mvproject.tvprogramguide.data.utils
 
 import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
+import com.mvproject.tvprogramguide.data.utils.AppConstants.CHANNEL_NAME_NO_EPG_FILTER
+import com.mvproject.tvprogramguide.data.utils.AppConstants.CHANNEL_NAME_PARSE_DELIMITER
+import com.mvproject.tvprogramguide.data.utils.AppConstants.CHANNEL_NAME_PLUG_FILTER
+import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
+import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_END_PROGRAM_DURATION
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_EPG_PROGRAM_DURATION
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_EPG_PROGRAM_RANGE_END
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_EPG_PROGRAM_RANGE_START
@@ -18,13 +23,25 @@ import kotlin.time.Duration.Companion.hours
 private const val DATE_FORMAT = "dd-MM-yyyy HH:mm"
 private const val TARGET_DATE_FORMAT = "dd MM yyyy"
 
+/**
+ * Extension Method to non-null string variable which
+ * parse value with specified delimiter
+ *
+ * @return first entry from parse result or source if no matches
+ */
 fun String.parseChannelName(): String {
-    if (this.contains(" • ")) {
-        return this.split(" • ").first()
+    if (this.contains(CHANNEL_NAME_PARSE_DELIMITER)) {
+        return this.split(CHANNEL_NAME_PARSE_DELIMITER).first()
     }
     return this
 }
 
+/**
+ * Extension Method to non-null string variable which
+ * convert date value to long value in milliseconds
+ *
+ * @return long value
+ */
 fun String.toMillis(): Long {
     val parser = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())
     return parser.parse(this)?.time ?: NO_VALUE_LONG
@@ -33,6 +50,7 @@ fun String.toMillis(): Long {
 /**
  * Extension Method to non-null long variable which
  * convert value to specified date pattern
+ *
  * @return String converted date value
  */
 fun Long.convertDateToReadableFormat(): String {
@@ -45,6 +63,7 @@ fun Long.convertDateToReadableFormat(): String {
 /**
  * Extension Method to non-null long variable which
  * convert value to specified time with local timezone
+ *
  * @return String converted time value
  */
 fun Long.convertTimeToReadableFormat(): String {
@@ -56,17 +75,37 @@ fun Long.convertTimeToReadableFormat(): String {
         .toString()
 }
 
+/**
+ * Extension Method to non-null list of strings which
+ * obtain index of target string in list
+ *
+ * @param target target to find
+ *
+ * @return index of target
+ */
 fun List<String>.obtainIndexOrZero(target: String): Int {
     val index = this.indexOf(target)
-    return if (index > AppConstants.COUNT_ZERO) index else AppConstants.COUNT_ZERO
+    return if (index > COUNT_ZERO) index else COUNT_ZERO
 }
 
+/**
+ * Extension Method to non-null list of responses which
+ * filter value for names with no epg
+ *
+ * @return filtered list of responses
+ */
 fun List<AvailableChannelResponse>.filterNoEpg() =
     this.filterNot {
-        it.channelNames.contains("No Epg", true) ||
-                it.channelNames.contains("Заглушка", true)
+        it.channelNames.contains(CHANNEL_NAME_NO_EPG_FILTER, true) ||
+                it.channelNames.contains(CHANNEL_NAME_PLUG_FILTER, true)
     }
 
+/**
+ * Extension Method to non-null string variable which
+ * create list od dummy program data with source string as channel id
+ *
+ * @return list of dummy program entities
+ */
 fun String.getNoProgramData(): List<ProgramEntity> {
     return buildList {
         val initTime = Clock.System.now()
@@ -86,4 +125,40 @@ fun String.getNoProgramData(): List<ProgramEntity> {
             )
         }
     }
+}
+
+/**
+ * Obtain time values of program end from start time of next
+ *
+ * @return the list of long values in milliseconds
+ */
+fun List<String>.calculateEndings(): List<Long> {
+    return buildList {
+        this@calculateEndings.zipWithNext().forEach { timing ->
+            add(timing.second.toMillis())
+        }
+    }
+}
+
+/**
+ * Obtain time value of program end for last element
+ * with hour duration from start time of current
+ *
+ * @return the long value in milliseconds
+ */
+fun Long.getLastItemEnding() =
+    (Instant.fromEpochMilliseconds(this) + NO_END_PROGRAM_DURATION.hours)
+        .toEpochMilliseconds()
+
+/**
+ * Take elements from source only if count bigger than 0
+ *
+ * @param count count of elements for take
+ *
+ * @return list of elements
+ */
+fun <T> List<T>.takeIfCountNotEmpty(count: Int): List<T> {
+    return if (count > COUNT_ZERO)
+        this.take(count)
+    else this
 }
