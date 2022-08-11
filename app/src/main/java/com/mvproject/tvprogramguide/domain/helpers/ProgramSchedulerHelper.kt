@@ -11,12 +11,17 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Helper to interact with the Alarm layer.
+ * @property context application context
+ */
+
 @Singleton
 class ProgramSchedulerHelper @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     /**
-     * Schedules a program notification based on the due date.
+     * Schedules a program alarm based on the due date.
      *
      * @param programSchedule program to be scheduled
      */
@@ -39,7 +44,7 @@ class ProgramSchedulerHelper @Inject constructor(
     }
 
     /**
-     * Cancels a program notification based on the program scheduler id.
+     * Cancels a program alarm based on the program scheduler id.
      *
      * @param schedulerId program scheduler id to be canceled
      */

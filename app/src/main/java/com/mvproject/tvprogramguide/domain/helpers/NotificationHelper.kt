@@ -12,10 +12,21 @@ import com.mvproject.tvprogramguide.R
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
+/**
+ * Helper to interact with the Notification layer.
+ * @property context application context
+ */
 class NotificationHelper @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
 
+    /**
+     * Shows an notification.
+     *
+     * @param id program id to be shown as notification
+     * @param channelTitle to be shown as notification title
+     * @param programTitle to be shown as notification content
+     */
     fun showScheduledProgramNotification(id: Int, programTitle: String, channelTitle: String) {
 
         val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
@@ -25,10 +36,7 @@ class NotificationHelper @Inject constructor(
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
             .build()
 
-        // Make a channel if necessary
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create the NotificationChannel, but only on API 26+ because
-            // the NotificationChannel class is new and not in the support library
             val channel = NotificationChannel(
                 PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_ID,
                 PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_NAME,
@@ -42,7 +50,6 @@ class NotificationHelper @Inject constructor(
             notificationManager?.createNotificationChannel(channel)
         }
 
-        // Create the notification
         val builder = NotificationCompat.Builder(
             context,
             PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_ID
@@ -53,12 +60,15 @@ class NotificationHelper @Inject constructor(
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
 
-        // Show the notification
         NotificationManagerCompat.from(context).notify(id, builder.build())
     }
 
+    /**
+     * Dismisses the current notification.
+     *
+     * @param id notification to be dismissed
+     */
     fun hideScheduledProgramNotification(id: Int) {
-        // Indicate whether the work finished successfully with the Result
         NotificationManagerCompat.from(context).cancel(id)
     }
 
@@ -69,10 +79,7 @@ class NotificationHelper @Inject constructor(
      */
 
     fun makeStatusNotification(message: String) {
-        // Make a channel if necessary
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create the NotificationChannel, but only on API 26+ because
-            // the NotificationChannel class is new and not in the support library
             val name = UPDATE_NOTIFICATION_CHANNEL_NAME
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(UPDATE_NOTIFICATION_CHANNEL_ID, name, importance)
@@ -82,19 +89,19 @@ class NotificationHelper @Inject constructor(
             notificationManager?.createNotificationChannel(channel)
         }
 
-        // Create the notification
         val builder = NotificationCompat.Builder(context, UPDATE_NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notify)
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setVibrate(LongArray(0))
 
-        // Show the notification
         NotificationManagerCompat.from(context).notify(UPDATE_NOTIFICATION_ID, builder.build())
     }
 
+    /**
+     * Dismisses the current notification.
+     */
     fun hideStatusNotification() {
-        // Indicate whether the work finished successfully with the Result
         NotificationManagerCompat.from(context).cancel(UPDATE_NOTIFICATION_ID)
     }
 

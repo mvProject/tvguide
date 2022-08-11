@@ -36,12 +36,12 @@ fun Context.setExactAlarm(
 ) {
     val currentTime = Calendar.getInstance().timeInMillis
     if (triggerAtMillis <= currentTime) {
-        Timber.w("testing It is not possible to set alarm in the past")
+        Timber.w("It is not possible to set alarm in the past")
         return
     }
 
     if (operation == null) {
-        Timber.e("testing PendingIntent is null")
+        Timber.e("PendingIntent is null")
         return
     }
 
@@ -52,7 +52,7 @@ fun Context.setExactAlarm(
             true
         }
         if (isSucceed) {
-            Timber.d("testing setExactAlarm to $triggerAtMillis, (${triggerAtMillis.convertTimeToReadableFormat()})")
+            Timber.d("setExactAlarm to $triggerAtMillis, (${triggerAtMillis.convertTimeToReadableFormat()})")
             AlarmManagerCompat
                 .setExactAndAllowWhileIdle(manager, type, triggerAtMillis, operation)
         } else {
