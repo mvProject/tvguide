@@ -8,6 +8,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Helper to interact with the Network connection
+ * @property context application context
+ */
 @Singleton
 class NetworkHelper @Inject constructor(@ApplicationContext private val context: Context) {
 

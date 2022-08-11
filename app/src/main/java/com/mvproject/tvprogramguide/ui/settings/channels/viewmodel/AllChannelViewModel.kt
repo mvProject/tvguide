@@ -7,7 +7,6 @@ import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
 import com.mvproject.tvprogramguide.data.repository.AllChannelRepository
 import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ONE
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
-import com.mvproject.tvprogramguide.data.utils.Mappers.asAlreadySelected
 import com.mvproject.tvprogramguide.domain.usecases.SelectedChannelUseCase
 import com.mvproject.tvprogramguide.ui.settings.channels.actions.AvailableChannelsAction
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -89,9 +88,7 @@ class AllChannelViewModel @Inject constructor(
         }
         val filtered = allChannels
             .map { channel ->
-                channel.asAlreadySelected(
-                    state = channel.channelName in alreadySelected
-                )
+                channel.copy(isSelected = channel.channelName in alreadySelected)
             }
         _availableChannels.emit(performQuery(filtered))
     }

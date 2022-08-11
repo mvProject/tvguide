@@ -33,9 +33,13 @@ object AppConstants {
 
     const val NO_EPG_PROGRAM_TITLE = "No EPG"
     const val NO_EPG_PROGRAM_DURATION = 2
+    const val NO_END_PROGRAM_DURATION = 1
     const val NO_EPG_PROGRAM_RANGE_START = 0
     const val NO_EPG_PROGRAM_RANGE_END = 5
 
+    const val CHANNEL_NAME_PARSE_DELIMITER = " • "
+    const val CHANNEL_NAME_NO_EPG_FILTER = "No Epg"
+    const val CHANNEL_NAME_PLUG_FILTER = "Заглушка"
     const val PROGRAM_TIME_MEASURE_DELIMITER = ":"
     const val PROGRAM_TIME_MEASURE_COUNT = 2
 }
