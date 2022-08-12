@@ -11,6 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -27,17 +28,32 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     val viewModel: MainViewModel by viewModels()
 
+    // todo refactor string resources
+
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                viewModel.isLoading.value
+            }
+        }
+
         setContent {
-            val navController = rememberAnimatedNavController()
             val isDarkTheme = rememberIsDarkTheme()
             updateTheme(isDarkTheme)
 
             TvGuideTheme(isDarkTheme) {
-                NavigationHost(navController = navController)
+                val navController = rememberAnimatedNavController()
+                val screen by viewModel.startDestination
+
+                if (screen.isNotEmpty()) {
+                    NavigationHost(
+                        navController = navController,
+                        startScreen = screen
+                    )
+                }
             }
         }
     }
