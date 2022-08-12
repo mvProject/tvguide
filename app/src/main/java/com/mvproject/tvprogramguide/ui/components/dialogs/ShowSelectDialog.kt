@@ -44,18 +44,23 @@ fun ShowSelectDialog(
                 elevation = MaterialTheme.dimens.size8
             ) {
                 Column(
-                    modifier = Modifier.padding(MaterialTheme.dimens.size6),
+                    modifier = Modifier
+                        .padding(MaterialTheme.dimens.size6),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
 
                     Text(
-                        text = "title",
-                        modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size4),
+                        text = stringResource(id = R.string.dlg_title_select_list),
+                        modifier = Modifier
+                            .padding(horizontal = MaterialTheme.dimens.size4),
                         style = MaterialTheme.appTypography.textSemiBold,
                         fontSize = MaterialTheme.dimens.font18
                     )
-                    Spacer(modifier = Modifier.padding(MaterialTheme.dimens.size4))
+                    Spacer(
+                        modifier = Modifier
+                            .padding(MaterialTheme.dimens.size4)
+                    )
 
                     RadioGroupScrollable(
                         radioOptions = radioOptions,
@@ -64,7 +69,10 @@ fun ShowSelectDialog(
                         name.value = selected
                     }
 
-                    Spacer(modifier = Modifier.padding(MaterialTheme.dimens.size8))
+                    Spacer(
+                        modifier = Modifier
+                            .padding(MaterialTheme.dimens.size8)
+                    )
 
                     Button(
                         onClick = {
@@ -72,18 +80,17 @@ fun ShowSelectDialog(
                             isDialogOpen.value = false
                         },
                         modifier = Modifier
-                            .fillMaxWidth(0.5f)
+                            .fillMaxWidth(MaterialTheme.dimens.fraction50)
                             .padding(MaterialTheme.dimens.size4),
                         shape = RoundedCornerShape(MaterialTheme.dimens.size8),
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = MaterialTheme.colors.secondary,
+                            contentColor = MaterialTheme.colors.onSecondary
                         )
                     ) {
                         Text(
                             text = stringResource(id = R.string.btn_close),
-                            color = MaterialTheme.colors.onPrimary,
                             style = MaterialTheme.appTypography.textSemiBold,
-                            fontSize = MaterialTheme.dimens.font12
                         )
                     }
                 }
