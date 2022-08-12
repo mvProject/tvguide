@@ -11,50 +11,72 @@ import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO_LONG
 import com.mvproject.tvprogramguide.domain.utils.Utils
 
+/**
+ * Maps Data between models
+ */
 object Mappers {
+    /**
+     * Maps List of [Program] from Domain to grouped list [SingleChannelWithPrograms].
+     *
+     * @return the converted object
+     */
     fun List<Program>.toSingleChannelWithPrograms(): List<SingleChannelWithPrograms> {
-        val sortedPrograms = mutableListOf<SingleChannelWithPrograms>()
         val programs = this.groupBy { program ->
             program.dateTimeStart.convertDateToReadableFormat()
         }
-
-        programs.forEach { (date, list) ->
-            sortedPrograms.add(
-                SingleChannelWithPrograms(
-                    date = date,
-                    programs = list
+        return buildList {
+            programs.forEach { (date, list) ->
+                add(
+                    SingleChannelWithPrograms(
+                        date = date,
+                        programs = list
+                    )
                 )
-            )
+            }
         }
-        return sortedPrograms
     }
 
+    /**
+     * Maps List of [Program] from Domain to grouped list [SelectedChannelWithPrograms].
+     * with itemsCount
+     *
+     * @param alreadySelected list of selected channels
+     * @param itemsCount programs count for view
+     *
+     * @return the converted object
+     */
     fun List<Program>.toSelectedChannelWithPrograms(
         alreadySelected: List<SelectedChannel>,
         itemsCount: Int = COUNT_ZERO
     ): List<SelectedChannelWithPrograms> {
-        val sortedPrograms = mutableListOf<SelectedChannelWithPrograms>()
         val programs = this.groupBy { program ->
             program.channel
         }
-
-        alreadySelected.forEach { chn ->
-            programs[chn.channelId]?.let { prg ->
-                if (prg.count() > COUNT_ZERO) {
-                    sortedPrograms.add(
-                        SelectedChannelWithPrograms(
-                            selectedChannel = chn,
-                            programs = if (itemsCount > COUNT_ZERO)
-                                prg.take(itemsCount)
-                            else prg
+        return buildList {
+            alreadySelected.forEach { chn ->
+                programs[chn.channelId]?.let { prg ->
+                    if (prg.count() > COUNT_ZERO) {
+                        add(
+                            SelectedChannelWithPrograms(
+                                selectedChannel = chn,
+                                programs = prg.takeIfCountNotEmpty(count = itemsCount)
+                            )
                         )
-                    )
+                    }
                 }
             }
         }
-        return sortedPrograms
     }
 
+    /**
+     * Maps List of [ProgramResponse] from Response to Entity.
+     * with id and end time
+     *
+     * @param channelId id of channel for program
+     * @param endTime time in milliseconds for program end
+     *
+     * @return the converted object
+     */
     private fun ProgramResponse.asProgramEntity(
         channelId: String,
         endTime: Long = COUNT_ZERO_LONG
@@ -70,17 +92,26 @@ object Mappers {
             )
         }
 
+    /**
+     * Maps List of [ProgramResponse] from Response to Entity
+     * with id and filter for current day
+     *
+     * @param channelId id of channel for program
+     *
+     * @return the converted object
+     */
     fun List<ProgramResponse>.asProgramEntities(
         channelId: String
     ): List<ProgramEntity> {
-        val actual = this.filter { programResponse ->
-            programResponse.start.toMillis() > Utils.actualDay
-        }
-        val filtered = if (actual.count() > COUNT_ZERO) actual else this
-        val endings = filtered.calculateEndings()
+        val actualDayFiltered = this.filterToActualDay()
 
-        return filtered.mapIndexed { index, item ->
-            val endingTime = endings.elementAtOrNull(index) ?: COUNT_ZERO_LONG
+        val programEndings = actualDayFiltered
+            .map { programResponse -> programResponse.start }
+            .calculateEndings()
+
+        return actualDayFiltered.mapIndexed { index, item ->
+            val endingTime = programEndings.elementAtOrNull(index)
+                ?: item.start.toMillis().getLastItemEnding()
             item.asProgramEntity(
                 channelId = channelId,
                 endTime = endingTime
@@ -88,40 +119,60 @@ object Mappers {
         }
     }
 
-    private fun List<ProgramResponse>.calculateEndings(): List<Long> = with(this) {
-        val endings = mutableListOf<Long>()
-        zipWithNext().forEach { programResponse ->
-            endings.add(programResponse.second.start.toMillis())
+    /**
+     * Filter List of [ProgramResponse] for current day programs start
+     *
+     * @return the filtered list
+     */
+    private fun List<ProgramResponse>.filterToActualDay(): List<ProgramResponse> {
+        val actual = this.filter { programResponse ->
+            programResponse.start.toMillis() > Utils.actualDay
         }
-        endings
+        return if (actual.count() > COUNT_ZERO) actual else this
     }
 
+    /**
+     * Maps List of [ProgramEntity] from Entity to Domain.
+     *
+     * @return the converted object
+     */
     fun List<ProgramEntity>.asProgramFromEntities() =
         this.map { item ->
             item.toProgram()
         }
 
+    /**
+     * Maps List of [AvailableChannelResponse] from Response to Entity.
+     *
+     * @return the converted object
+     */
     fun List<AvailableChannelResponse>.toAvailableChannelEntities() = this.map { item ->
         item.toEntity()
     }
 
-    fun AvailableChannel.asAlreadySelected(state: Boolean) = with(this) {
-        AvailableChannel(
-            channelName = channelName,
-            channelIcon = channelIcon,
-            channelId = channelId,
-            isSelected = state
-        )
-    }
-
+    /**
+     * Maps List of [AvailableChannelEntity] from Entity to Domain.
+     *
+     * @return the converted object
+     */
     fun List<AvailableChannelEntity>.asChannelsFromEntities() = this.map { item ->
         item.toAvailableChannel()
     }
 
+    /**
+     * Maps List of [SelectedChannelEntity] from Entity to Domain.
+     *
+     * @return the converted object
+     */
     fun List<SelectedChannelEntity>.asSelectedChannelsFromEntities() = this.map { item ->
         item.toSelectedChannel()
     }
 
+    /**
+     * Maps List of [SelectedChannel] from Domain to Entity.
+     *
+     * @return the converted object
+     */
     fun List<SelectedChannel>.asSelectedChannelsEntitiesFromChannels() = this.map { item ->
         SelectedChannelEntity(
             channelId = item.channelId,
@@ -132,7 +183,11 @@ object Mappers {
         )
     }
 
-
+    /**
+     * Maps List of [UserChannelsList] from Entity to Domain.
+     *
+     * @return the converted object
+     */
     fun List<UserChannelsListEntity>.asUserChannelsLists() = this.map { item ->
         item.toUserChannelsList()
     }

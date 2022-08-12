@@ -13,19 +13,39 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
+/**
+ * Use case to handle user lists and channels
+ * @property selectedChannelRepository the selectedChannelRepository repository
+ * @property preferenceRepository the preferences repository
+ */
 class SelectedChannelUseCase @Inject constructor(
     private val selectedChannelRepository: SelectedChannelRepository,
     private val preferenceRepository: PreferenceRepository
 ) {
+    /**
+     * Obtain current operating user list
+     *
+     * @return current user list
+     */
     private val targetList
         get() = runBlocking { preferenceRepository.targetList.first() }
 
+    /**
+     * Obtain channels add to user list
+     *
+     * @return list of channels for userlist
+     */
     fun loadSelectedChannelsFlow() =
         selectedChannelRepository.loadSelectedChannelsFlow(listName = targetList)
             .map { entities ->
                 entities.asSelectedChannelsFromEntities()
             }
 
+    /**
+     * Add new channel to selected
+     *
+     * @param selectedChannel channel model to add
+     */
     suspend fun addChannelToSelected(selectedChannel: AvailableChannel) {
         val currentCount = selectedChannelRepository
             .loadSelectedChannels(listName = targetList)
@@ -41,11 +61,19 @@ class SelectedChannelUseCase @Inject constructor(
         selectedChannelRepository.addChannel(selectedChannel = selected)
     }
 
+    /**
+     * Delete channel from selected
+     *
+     * @param channelId the id for delete
+     */
     suspend fun deleteChannelFromSelected(channelId: String) {
         selectedChannelRepository.deleteChannel(channelId = channelId)
         updateChannelsOrdersAfterDelete()
     }
 
+    /**
+     * Update orders and save entities after deleting entity
+     */
     @Transaction
     suspend fun updateChannelsOrdersAfterDelete() {
         val selectedChannels = selectedChannelRepository
@@ -58,6 +86,11 @@ class SelectedChannelUseCase @Inject constructor(
         selectedChannelRepository.updateChannels(channels = selectedChannels)
     }
 
+    /**
+     * Update and save entities after reordering
+     *
+     * @param reorderedChannels list of reordered entities
+     */
     @Transaction
     suspend fun updateChannelsOrdersAfterReorder(reorderedChannels: List<SelectedChannel>) {
         val reorderedChannelsUpdate = reorderedChannels
@@ -67,6 +100,11 @@ class SelectedChannelUseCase @Inject constructor(
         selectedChannelRepository.updateChannels(channels = reorderedChannelsUpdate)
     }
 
+    /**
+     * Extension for update order property according entities index in list.
+     *
+     * @return sorted entities list
+     */
     private fun List<SelectedChannelEntity>.updateOrdersByAsc(): List<SelectedChannelEntity> {
         return this.mapIndexed { ind, entity ->
             entity.copy(order = ind + 1)

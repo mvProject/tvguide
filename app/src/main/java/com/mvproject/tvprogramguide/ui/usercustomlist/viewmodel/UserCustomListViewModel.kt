@@ -28,7 +28,7 @@ class UserCustomListViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             customListRepository.loadChannelsLists()
                 .collect { lists ->
-                    _customs.emit(lists)
+                    _customs.value = lists
                     checkForDefaultAfterAdd()
                 }
         }

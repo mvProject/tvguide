@@ -9,16 +9,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
+import com.mvproject.tvprogramguide.R
+import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.theme.appTypography
+import com.mvproject.tvprogramguide.theme.dimens
 import com.mvproject.tvprogramguide.ui.components.radio.RadioGroupScrollable
 
 @Composable
 fun ShowSelectDialog(
     radioOptions: List<String> = listOf(),
-    defaultSelection: Int = 0,
+    defaultSelection: Int = COUNT_ZERO,
     isDialogOpen: MutableState<Boolean>,
     onSelected: (String) -> Unit
 ) {
@@ -35,16 +38,24 @@ fun ShowSelectDialog(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .padding(5.dp),
-                shape = RoundedCornerShape(16.dp),
+                    .padding(MaterialTheme.dimens.size6),
+                shape = RoundedCornerShape(MaterialTheme.dimens.size16),
                 color = MaterialTheme.colors.primary,
-                elevation = 8.dp
+                elevation = MaterialTheme.dimens.size8
             ) {
                 Column(
-                    modifier = Modifier.padding(5.dp),
+                    modifier = Modifier.padding(MaterialTheme.dimens.size6),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
+
+                    Text(
+                        text = "title",
+                        modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size4),
+                        style = MaterialTheme.appTypography.textSemiBold,
+                        fontSize = MaterialTheme.dimens.font18
+                    )
+                    Spacer(modifier = Modifier.padding(MaterialTheme.dimens.size4))
 
                     RadioGroupScrollable(
                         radioOptions = radioOptions,
@@ -53,7 +64,7 @@ fun ShowSelectDialog(
                         name.value = selected
                     }
 
-                    Spacer(modifier = Modifier.padding(10.dp))
+                    Spacer(modifier = Modifier.padding(MaterialTheme.dimens.size8))
 
                     Button(
                         onClick = {
@@ -62,17 +73,17 @@ fun ShowSelectDialog(
                         },
                         modifier = Modifier
                             .fillMaxWidth(0.5f)
-                            .height(60.dp)
-                            .padding(10.dp),
-                        shape = RoundedCornerShape(5.dp),
+                            .padding(MaterialTheme.dimens.size4),
+                        shape = RoundedCornerShape(MaterialTheme.dimens.size8),
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = MaterialTheme.colors.onPrimary,
+                            backgroundColor = MaterialTheme.colors.secondary,
                         )
                     ) {
                         Text(
-                            text = "Close",
-                            color = MaterialTheme.colors.primary,
-                            fontSize = 12.sp
+                            text = stringResource(id = R.string.btn_close),
+                            color = MaterialTheme.colors.onPrimary,
+                            style = MaterialTheme.appTypography.textSemiBold,
+                            fontSize = MaterialTheme.dimens.font12
                         )
                     }
                 }
