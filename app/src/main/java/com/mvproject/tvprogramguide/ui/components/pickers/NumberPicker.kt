@@ -23,7 +23,6 @@ import com.mvproject.tvprogramguide.R
 
 @Composable
 fun NumberPicker(
-    modifier: Modifier = Modifier,
     height: Dp = 24.dp,
     min: Int = 0,
     max: Int = 10,

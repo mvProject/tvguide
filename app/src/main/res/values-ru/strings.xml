@@ -14,4 +14,12 @@
     <string name="settings_theme_light">Светлая</string>
     <string name="settings_theme_dark">Темная</string>
     <string name="settings_theme_system">Выбор Системы</string>
+
+    <string name="onboard_title_user_list_create">Несколько списков каналов</string>
+    <string name="onboard_title_user_list_switch">Быстро переключать списки</string>
+    <string name="onboard_title_notification">Уведомление о программе</string>
+
+    <string name="onboard_description_user_list_create">Возможность создать несколько списков с разными каналами для удобства</string>
+    <string name="onboard_description_user_list_switch">Быстро переключайтесь между разными пользовательскими списками</string>
+    <string name="onboard_description_notification">Возможность установить напоминание , что бы не пропустить просмотр программы в будущем</string>
 </resources>

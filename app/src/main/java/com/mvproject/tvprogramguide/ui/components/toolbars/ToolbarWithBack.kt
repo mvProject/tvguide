@@ -21,12 +21,11 @@ import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
 fun ToolbarWithBack(
-    modifier: Modifier = Modifier,
     title: String = stringResource(id = R.string.default_toolbar_title),
     onBackClick: () -> Unit = {}
 ) {
     Row(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .wrapContentSize()
             .background(color = MaterialTheme.colors.primary)
@@ -45,7 +44,10 @@ fun ToolbarWithBack(
                 }
         )
 
-        Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
+        Spacer(
+            modifier = Modifier
+                .padding(horizontal = MaterialTheme.dimens.size8)
+        )
 
         Text(
             text = title,

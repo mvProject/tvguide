@@ -20,10 +20,6 @@ import androidx.compose.ui.unit.dp
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.utils.AppConstants.ANIM_DURATION_300
 import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO_FLOAT
-import com.mvproject.tvprogramguide.data.utils.AppConstants.OPACITY_30
-import com.mvproject.tvprogramguide.data.utils.AppConstants.OPACITY_50
-import com.mvproject.tvprogramguide.data.utils.AppConstants.OPACITY_60
-import com.mvproject.tvprogramguide.data.utils.AppConstants.OPACITY_DEFAULT
 import com.mvproject.tvprogramguide.data.utils.AppConstants.PROGRESS_STATE_COMPLETE
 import com.mvproject.tvprogramguide.data.utils.AppConstants.ROTATION_STATE_DOWN
 import com.mvproject.tvprogramguide.data.utils.AppConstants.ROTATION_STATE_UP
@@ -46,7 +42,9 @@ fun ProgramItem(
     )
 
     val cardAlpha =
-        if (program.programProgress > PROGRESS_STATE_COMPLETE) OPACITY_50 else OPACITY_DEFAULT
+        if (program.programProgress > PROGRESS_STATE_COMPLETE)
+            MaterialTheme.dimens.alpha50
+        else MaterialTheme.dimens.alphaDefault
 
     Card(
         modifier = Modifier
@@ -89,7 +87,10 @@ fun ProgramItem(
                     }
                 )
 
-                Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size4))
+                Spacer(
+                    modifier = Modifier
+                        .padding(horizontal = MaterialTheme.dimens.size4)
+                )
 
                 Text(
                     modifier = Modifier
@@ -131,7 +132,7 @@ fun ProgramItem(
                 visible = expandedState,
                 enter = slideInVertically {
                     with(density) { -20.dp.roundToPx() }
-                } + fadeIn(initialAlpha = OPACITY_30),
+                } + fadeIn(initialAlpha = MaterialTheme.dimens.alpha30),
                 exit = slideOutVertically() + shrinkVertically() + fadeOut()
             ) {
                 Text(
@@ -139,7 +140,7 @@ fun ProgramItem(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(MaterialTheme.dimens.size2)
-                        .alpha(OPACITY_60)
+                        .alpha(MaterialTheme.dimens.alpha60)
                         .padding(
                             horizontal = MaterialTheme.dimens.size10,
                             vertical = MaterialTheme.dimens.size4
@@ -152,87 +153,3 @@ fun ProgramItem(
         }
     }
 }
-/*
-@Composable
-@Preview(showBackground = true)
-fun ExpandableCardPreview() {
-    TvGuideTheme() {
-        Column() {
-            ProgramItem(
-                prgTime = "11:35",
-                prgTitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                        "sed do eiusmod tempor incididunt ut labore",
-                prgDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                        "sed do eiusmod tempor incididunt ut labore et dolore magna " +
-                        "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
-                        "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                progressValue = 0.1f
-            )
-            ProgramItem(
-                prgTime = "10:01",
-                prgTitle = "My Title",
-                prgDescription = "",
-                progressValue = 0.1f
-            )
-
-            ProgramItem(
-                prgTime = "11:15",
-                prgTitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                        "sed do eiusmod tempor incididunt ut labore",
-                prgDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                        "sed do eiusmod tempor incididunt ut labore et dolore magna " +
-                        "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
-                        "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-
-                )
-            ProgramItem(
-                prgTime = "13:46",
-                prgTitle = "My Title",
-                prgDescription = ""
-            )
-        }
-    }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun ExpandableCardPreviewDark() {
-    TvGuideTheme(true) {
-        Column() {
-            ProgramItem(
-                prgTime = "11:35",
-                prgTitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                        "sed do eiusmod tempor incididunt ut labore",
-                prgDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                        "sed do eiusmod tempor incididunt ut labore et dolore magna " +
-                        "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
-                        "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                progressValue = 0.1f
-            )
-            ProgramItem(
-                prgTime = "10:01",
-                prgTitle = "My Title",
-                prgDescription = "",
-                progressValue = 0.1f
-            )
-
-            ProgramItem(
-                prgTime = "11:15",
-                prgTitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                        "sed do eiusmod tempor incididunt ut labore",
-                prgDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                        "sed do eiusmod tempor incididunt ut labore et dolore magna " +
-                        "aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
-                        "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-
-                )
-            ProgramItem(
-                prgTime = "13:46",
-                prgTitle = "My Title",
-                prgDescription = ""
-            )
-        }
-    }
-}
-
- */

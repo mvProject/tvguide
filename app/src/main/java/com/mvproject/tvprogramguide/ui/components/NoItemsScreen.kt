@@ -8,7 +8,6 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.mvproject.tvprogramguide.R
@@ -18,18 +17,13 @@ import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
 fun NoItemsScreen(
-    modifier: Modifier = Modifier,
     title: String = stringResource(id = R.string.no_items_found),
-    backgroundColor: Color = MaterialTheme.colors.primary,
-    titleColor: Color = MaterialTheme.colors.onPrimary,
-    tintColor: Color = MaterialTheme.colors.onPrimary,
     navigateTitle: String = NO_VALUE_STRING,
     onNavigateClick: () -> Unit = {}
-
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = backgroundColor
+        color = MaterialTheme.colors.primary
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -39,9 +33,10 @@ fun NoItemsScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
-                    modifier = Modifier.size(MaterialTheme.dimens.size96),
+                    modifier = Modifier
+                        .size(MaterialTheme.dimens.size96),
                     imageVector = Icons.Filled.Info,
-                    tint = tintColor,
+                    tint = MaterialTheme.colors.onPrimary,
                     contentDescription = title
                 )
 
@@ -53,7 +48,7 @@ fun NoItemsScreen(
                         ),
                     text = title,
                     style = MaterialTheme.appTypography.textSemiBold,
-                    color = titleColor,
+                    color = MaterialTheme.colors.onPrimary,
                     textAlign = TextAlign.Center
                 )
 
@@ -67,7 +62,7 @@ fun NoItemsScreen(
                             .clickable { onNavigateClick() },
                         text = navigateTitle,
                         style = MaterialTheme.appTypography.textExtraBold,
-                        color = titleColor,
+                        color = MaterialTheme.colors.onPrimary,
                         textAlign = TextAlign.Center
                     )
                 }

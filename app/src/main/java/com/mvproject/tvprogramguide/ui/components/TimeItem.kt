@@ -25,8 +25,6 @@ fun TimeItem(
         .split(PROGRAM_TIME_MEASURE_DELIMITER)
         .take(PROGRAM_TIME_MEASURE_COUNT)
 
-
-
     Row(
         modifier = modifier
             .width(MaterialTheme.dimens.size44)
