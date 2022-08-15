@@ -69,7 +69,7 @@ class ChannelViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             preferenceRepository.isNeedFullProgramsUpdate.collectLatest { updateRequired ->
-                if (selectedPrograms.value.programs.isNotEmpty() && updateRequired) {
+                if (updateRequired) {
                     startProgramsUpdate(
                         requestForUpdate = buildFullUpdateRequest()
                     )
