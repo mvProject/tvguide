@@ -6,11 +6,13 @@ import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_USER_LIST_N
 import com.mvproject.tvprogramguide.navigation.NavConstants.ROUTE_APP_SETTINGS
 import com.mvproject.tvprogramguide.navigation.NavConstants.ROUTE_CHANNELS
 import com.mvproject.tvprogramguide.navigation.NavConstants.ROUTE_CHANNEL_SETTINGS
+import com.mvproject.tvprogramguide.navigation.NavConstants.ROUTE_ONBOARD
 import com.mvproject.tvprogramguide.navigation.NavConstants.ROUTE_OPTION_SETTINGS
 import com.mvproject.tvprogramguide.navigation.NavConstants.ROUTE_SELECTED_CHANNELS
 import com.mvproject.tvprogramguide.navigation.NavConstants.ROUTE_USER_CUSTOM_LIST
 
 sealed class AppRoutes(val route: String) {
+    object OnBoard : AppRoutes(ROUTE_ONBOARD)
     object Channels : AppRoutes(ROUTE_CHANNELS)
     object SelectedChannel :
         AppRoutes("$ROUTE_SELECTED_CHANNELS/{$ARGUMENT_CHANNEL_ID}/{$ARGUMENT_CHANNEL_NAME}") {

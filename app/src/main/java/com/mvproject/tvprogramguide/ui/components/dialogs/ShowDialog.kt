@@ -10,7 +10,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
@@ -31,31 +30,37 @@ fun ShowDialog(
             Surface(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(250.dp)
+                    .height(MaterialTheme.dimens.size250)
                     .padding(MaterialTheme.dimens.size6),
                 shape = RoundedCornerShape(MaterialTheme.dimens.size16),
                 color = MaterialTheme.colors.primary,
                 elevation = MaterialTheme.dimens.size8
             ) {
                 Column(
-                    modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size6),
+                    modifier = Modifier
+                        .padding(horizontal = MaterialTheme.dimens.size6),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
 
                     Text(
                         text = stringResource(id = R.string.add_new_custom_list),
-                        modifier = Modifier.padding(MaterialTheme.dimens.size4),
+                        modifier = Modifier
+                            .padding(MaterialTheme.dimens.size4),
                         style = MaterialTheme.appTypography.textSemiBold,
                         fontSize = MaterialTheme.dimens.font18
                     )
 
-                    Spacer(modifier = Modifier.padding(MaterialTheme.dimens.size4))
+                    Spacer(
+                        modifier = Modifier
+                            .padding(MaterialTheme.dimens.size4)
+                    )
 
                     OutlinedTextField(
                         value = name.value,
                         onValueChange = { name.value = it },
-                        modifier = Modifier.fillMaxWidth(0.8f),
+                        modifier = Modifier
+                            .fillMaxWidth(MaterialTheme.dimens.fraction80),
                         textStyle = MaterialTheme.appTypography.textMedium,
                         placeholder = {
                             Text(text = stringResource(id = R.string.new_custom_hint))
@@ -68,7 +73,10 @@ fun ShowDialog(
                         )
                     )
 
-                    Spacer(modifier = Modifier.padding(MaterialTheme.dimens.size8))
+                    Spacer(
+                        modifier = Modifier
+                            .padding(MaterialTheme.dimens.size8)
+                    )
 
                     Button(
                         onClick = {
@@ -76,18 +84,17 @@ fun ShowDialog(
                             isDialogOpen.value = false
                         },
                         modifier = Modifier
-                            .fillMaxWidth(0.5f)
+                            .fillMaxWidth(MaterialTheme.dimens.fraction50)
                             .padding(MaterialTheme.dimens.size4),
                         shape = RoundedCornerShape(MaterialTheme.dimens.size8),
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = MaterialTheme.colors.secondary
+                            backgroundColor = MaterialTheme.colors.secondary,
+                            contentColor = MaterialTheme.colors.onSecondary
                         )
                     ) {
                         Text(
                             text = stringResource(id = R.string.btn_close),
-                            color = MaterialTheme.colors.onPrimary,
-                            style = MaterialTheme.appTypography.textSemiBold,
-                            fontSize = MaterialTheme.dimens.font12
+                            style = MaterialTheme.appTypography.textMedium
                         )
                     }
                 }

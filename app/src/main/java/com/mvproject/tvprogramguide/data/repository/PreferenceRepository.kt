@@ -21,6 +21,16 @@ class PreferenceRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {
 
+    suspend fun setOnBoardState(onBoardState: Boolean) {
+        dataStore.edit { settings ->
+            settings[ON_BOARD_COMPLETE] = onBoardState
+        }
+    }
+
+    fun loadOnBoardState() = dataStore.data.map { preferences ->
+        preferences[ON_BOARD_COMPLETE] ?: false
+    }.distinctUntilChanged()
+
     suspend fun setCurrentUserList(listName: String) {
         dataStore.edit { settings ->
             settings[CURRENT_CHANNEL_LIST] = listName
@@ -128,5 +138,7 @@ class PreferenceRepository @Inject constructor(
         val CURRENT_CHANNEL_LIST = stringPreferencesKey("CurrentChannelList")
         val LAST_UPDATE_CHANNELS = longPreferencesKey("LastUpdateChannels")
         val LAST_UPDATE_PROGRAMS = longPreferencesKey("LastUpdatePrograms")
+
+        val ON_BOARD_COMPLETE = booleanPreferencesKey("onBoardComplete")
     }
 }

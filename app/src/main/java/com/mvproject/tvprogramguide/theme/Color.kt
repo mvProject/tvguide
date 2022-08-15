@@ -9,6 +9,7 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
+// todo select proper colors
 val darkSlateGray = Color(0xFF24485e)
 val steelBlue = Color(0xFF4a8fc4)
 val lightBlack = Color(0xFF1C1D1D)

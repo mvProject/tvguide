@@ -22,4 +22,16 @@
     <string name="user_lists_empty">No users lists</string>
     <string name="tap_to_create_list">tap here to create list</string>
     <string name="user_filled_list_empty">No List with selected channels found</string>
+
+    <string name="dlg_title_select_list">Select Channels List</string>
+
+    <string name="onboard_btn_complete">Complete</string>
+
+    <string name="onboard_title_user_list_create">Multiple channel lists</string>
+    <string name="onboard_title_user_list_switch">Quickly switch lists</string>
+    <string name="onboard_title_notification">Program Notification</string>
+
+    <string name="onboard_description_user_list_create">Ability to create multiple lists with different channels for convenience</string>
+    <string name="onboard_description_user_list_switch">Quickly switch between different custom lists</string>
+    <string name="onboard_description_notification">Possibility to set a reminder, so as not to miss watching the program in the future</string>
 </resources>

@@ -6,9 +6,7 @@ object Versions {
     const val depUpdate = "0.42.0"
     // libs
     const val coreKtx = "1.7.0"
-    const val appcompat = "1.4.1"
 
-    const val preferenceKtx = "1.2.0"
     const val dataStore = "1.0.0"
     const val material = "1.4.0"
     const val datetime = "0.4.0"
@@ -61,4 +59,7 @@ object Versions {
     // WorkManager
     const val workRuntime = "2.7.1"
     const val workHilt = "1.0.0"
+
+    // Splash API
+    const val splash = "1.0.0"
 }
