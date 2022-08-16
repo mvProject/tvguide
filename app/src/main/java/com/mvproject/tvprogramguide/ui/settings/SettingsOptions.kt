@@ -32,10 +32,13 @@ fun SettingsOptions(
             onBackClick()
         }
 
-        Spacer(modifier = Modifier.padding(vertical = MaterialTheme.dimens.size16))
+        Spacer(
+            modifier = Modifier
+                .padding(vertical = MaterialTheme.dimens.size16)
+        )
 
         Text(
-            text = stringResource(id = R.string.settings_channels_title),
+            text = stringResource(id = R.string.settings_channels_settings_title),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = MaterialTheme.dimens.size8)
@@ -48,8 +51,12 @@ fun SettingsOptions(
         )
 
         Divider(
+            modifier = Modifier.padding(
+                horizontal = MaterialTheme.dimens.size6,
+                vertical = MaterialTheme.dimens.size1
+            ),
             color = MaterialTheme.colors.onPrimary,
-            modifier = Modifier.padding(start = MaterialTheme.dimens.size8)
+            thickness = MaterialTheme.dimens.size1
         )
 
         Spacer(modifier = Modifier.padding(vertical = MaterialTheme.dimens.size8))
@@ -68,8 +75,12 @@ fun SettingsOptions(
         )
 
         Divider(
+            modifier = Modifier.padding(
+                horizontal = MaterialTheme.dimens.size6,
+                vertical = MaterialTheme.dimens.size1
+            ),
             color = MaterialTheme.colors.onPrimary,
-            modifier = Modifier.padding(start = MaterialTheme.dimens.size8)
+            thickness = MaterialTheme.dimens.size1
         )
     }
 }

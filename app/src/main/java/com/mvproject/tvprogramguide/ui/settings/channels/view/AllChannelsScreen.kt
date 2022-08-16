@@ -3,6 +3,7 @@ package com.mvproject.tvprogramguide.ui.settings.channels.view
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -32,6 +33,8 @@ private fun AllChannelsContent(
     selectedChannels: List<AvailableChannel>,
     onAction: (action: AvailableChannelsAction) -> Unit
 ) {
+    val listState = rememberLazyListState()
+
     Column {
         SearchView(
             modifier = Modifier
@@ -40,7 +43,10 @@ private fun AllChannelsContent(
         ) { selectedQuery ->
             onAction(AvailableChannelsAction.ChannelFilter(query = selectedQuery))
         }
-        AllChannelsList(selectedChannels) { channel ->
+        AllChannelsList(
+            state = listState,
+            selectedChannels = selectedChannels
+        ) { channel ->
             if (channel.isSelected) {
                 onAction(
                     AvailableChannelsAction.ChannelDelete(selectedChannel = channel)
