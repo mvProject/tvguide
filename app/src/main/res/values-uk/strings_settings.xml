@@ -1,14 +1,17 @@
 <resources>
     <string name="settings_title">Налаштування</string>
-    <string name="settings_notification_title">Сповіщення</string>
-    <string name="settings_channels_title">Канали</string>
+    <string name="settings_channels_settings_title">Налаштування каналів</string>
     <string name="settings_app_settings_title">Налаштування додатку</string>
 
-    <string name="settings_updates_title">Оновлення (днів)</string>
-    <string name="settings_language_title">Мова</string>
+    <string name="settings_updates_title">Період оновлення (днів)</string>
     <string name="settings_theme_title">Тема</string>
+    <string name="settings_ui_title">Зовнішній вигляд</string>
 
-    <string name="settings_channels_update_title">Період оновлення доступних каналів</string>
-    <string name="settings_programs_update_title">Період оновлення телевізійних програм</string>
+    <string name="settings_channels_update_title">Доступні канали</string>
+    <string name="settings_programs_update_title">Телевізійні програми</string>
     <string name="settings_programs_count_title">Кількість відображених програм</string>
+
+    <string name="settings_theme_light">Світла</string>
+    <string name="settings_theme_dark">Темна</string>
+    <string name="settings_theme_system">Вибір Системи</string>
 </resources>

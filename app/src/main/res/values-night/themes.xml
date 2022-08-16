@@ -1,9 +1,9 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.TVProgramGuide" parent="Theme.MaterialComponents.DayNight.NoActionBar"></style>
+    <style name="Theme.TVProgramGuide" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
 
     <style name="Theme.CustomSplashScreenTheme" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/orange</item>
+        <item name="windowSplashScreenBackground">@color/lightBlack</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_tvguide_logo</item>
         <item name="windowSplashScreenAnimationDuration">600</item>
         <item name="postSplashScreenTheme">@style/Theme.TVProgramGuide</item>

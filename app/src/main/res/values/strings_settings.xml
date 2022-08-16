@@ -1,14 +1,17 @@
 <resources>
     <string name="settings_title">Settings</string>
-    <string name="settings_notification_title">Notification</string>
-    <string name="settings_channels_title">Channels</string>
+    <string name="settings_channels_settings_title">Channels Settings</string>
     <string name="settings_app_settings_title">App Settings</string>
 
-    <string name="settings_updates_title">Update (days)</string>
-    <string name="settings_language_title">Language</string>
+    <string name="settings_updates_title">Update period (days)</string>
     <string name="settings_theme_title">Theme</string>
+    <string name="settings_ui_title">Appearance</string>
 
-    <string name="settings_channels_update_title">Available channels update period</string>
-    <string name="settings_programs_update_title">TV programs update period</string>
+    <string name="settings_channels_update_title">Available channels</string>
+    <string name="settings_programs_update_title">Television programs</string>
     <string name="settings_programs_count_title">View programs count by default</string>
+
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_system">System Select</string>
 </resources>

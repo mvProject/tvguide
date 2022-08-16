@@ -1,18 +1,26 @@
 <resources>
     <string name="app_name">ТВ Программа</string>
 
-    <string name="add_new_custom_list">Додати новий список</string>
-    <string name="all_channels_title">Усі канали</string>
-    <string name="selected_channels_title">Вибрані канали</string>
-    <string name="hint_search">Пошук каналі</string>
-    <string name="custom_channels_list_title">Перелік каналів</string>
+    <string name="title_all_channels">Усі</string>
+    <string name="title_selected_channels">Вибрані</string>
+    <string name="title_custom_channels_list">Користувацькі списки каналів</string>
 
-    <string name="notif_programs_download">Оновлення программи</string>
-    <string name="notif_channels_download">Downloading channels</string>
+    <string name="hint_search">Пошук каналів</string>
 
-    <string name="settings_theme_light">Світла</string>
-    <string name="settings_theme_dark">Темна</string>
-    <string name="settings_theme_system">Вибір Системи</string>
+    <string name="notification_programs_download">Оновлення программи</string>
+    <string name="notification_channels_download">Downloading channels</string>
+
+    <string name="msg_user_filled_list_empty">Не знайдено список із вибраними каналами</string>
+    <string name="msg_no_items_found">Елементів не знайдено</string>
+    <string name="msg_user_lists_empty">Немає списків користувачів</string>
+    <string name="msg_tap_to_create_list">натисніть, щоб створити список</string>
+
+    <string name="dlg_title_select_custom_user_list">Виберіть список каналів</string>
+    <string name="dlg_title_add_new_custom_user_list">Додати новий список</string>
+    <string name="dlg_hint_new_custom_user_list">введіть назву списку</string>
+    <string name="dlg_btn_close">Закрити</string>
+
+    <string name="onboard_btn_complete">Завершити</string>
 
     <string name="onboard_title_user_list_create">Кілька списків каналів</string>
     <string name="onboard_title_user_list_switch">Швидко перемикайте списки</string>
