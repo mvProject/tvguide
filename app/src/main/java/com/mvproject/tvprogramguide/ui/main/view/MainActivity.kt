@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -18,8 +19,6 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
 import com.mvproject.tvprogramguide.navigation.NavigationHost
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
-import com.mvproject.tvprogramguide.theme.lightBlack
-import com.mvproject.tvprogramguide.theme.midnightBlue
 import com.mvproject.tvprogramguide.ui.main.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,8 +26,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     val viewModel: MainViewModel by viewModels()
-
-    // todo refactor string resources
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -42,9 +39,13 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val isDarkTheme = rememberIsDarkTheme()
-            updateTheme(isDarkTheme)
 
             TvGuideTheme(isDarkTheme) {
+                updateTheme(
+                    darkTheme = isDarkTheme,
+                    targetColor = MaterialTheme.colors.primary.toArgb()
+                )
+
                 val navController = rememberAnimatedNavController()
                 val screen by viewModel.startDestination
 
@@ -58,8 +59,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun updateTheme(darkTheme: Boolean) {
-        val targetColor = if (darkTheme) lightBlack.toArgb() else midnightBlue.toArgb()
+    private fun updateTheme(darkTheme: Boolean, targetColor: Int) {
         window.apply {
             statusBarColor = targetColor
             navigationBarColor = targetColor

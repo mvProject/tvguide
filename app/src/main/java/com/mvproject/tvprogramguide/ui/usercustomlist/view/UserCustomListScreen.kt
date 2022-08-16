@@ -49,7 +49,7 @@ private fun UserCustomListContent(
     Scaffold(
         topBar = {
             ToolbarWithBack(
-                title = stringResource(id = R.string.custom_channels_list_title),
+                title = stringResource(id = R.string.title_custom_channels_list),
                 onBackClick = onBackClick
             )
         },
@@ -80,7 +80,7 @@ private fun UserCustomListContent(
             when {
                 userLists.isEmpty() -> {
                     NoItemsScreen(
-                        title = stringResource(id = R.string.user_lists_empty)
+                        title = stringResource(id = R.string.msg_user_lists_empty)
                     )
                 }
                 else -> {

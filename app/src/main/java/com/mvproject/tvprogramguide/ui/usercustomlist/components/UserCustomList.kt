@@ -19,7 +19,7 @@ fun UserCustomList(
     LazyColumn(
         modifier = modifier
             .fillMaxHeight()
-            .background(color = MaterialTheme.colors.primary),
+            .background(color = MaterialTheme.colors.background),
     ) {
         items(list) { item ->
             UserCustomListItem(

@@ -42,8 +42,9 @@ fun ChannelSelectableItem(
 ) {
 
     val colorBackground by animateColorAsState(
-        if (isDragged) MaterialTheme.appColors.backgroundSecondary
-        else MaterialTheme.appColors.backgroundPrimary,
+        if (isDragged) MaterialTheme.colors.secondary
+            .copy(alpha = MaterialTheme.dimens.alpha30)
+        else MaterialTheme.colors.primary,
         animationSpec = tween(
             durationMillis = ANIM_DURATION_900,
             easing = LinearOutSlowInEasing
@@ -74,11 +75,11 @@ fun ChannelSelectableItem(
         Text(
             text = channelName,
             fontSize = MaterialTheme.dimens.font16,
-            style = MaterialTheme.appTypography.textMedium,
+            style = MaterialTheme.appTypography.textSemiBold,
             modifier = Modifier
-                .weight(1f)
+                .weight(MaterialTheme.dimens.weight1)
                 .align(Alignment.CenterVertically),
-            color = MaterialTheme.appColors.textPrimary
+            color = MaterialTheme.colors.onPrimary
         )
 
         Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))

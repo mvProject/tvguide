@@ -1,6 +1,5 @@
 package com.mvproject.tvprogramguide.ui.usercustomlist.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -31,16 +30,15 @@ fun UserCustomListItem(
             .clickable {
                 onItemAction()
             }
-            .background(color = MaterialTheme.colors.primary)
             .padding(MaterialTheme.dimens.size8)
 
     ) {
         Text(
             text = listName,
             fontSize = MaterialTheme.dimens.font18,
-            style = MaterialTheme.appTypography.textMedium,
+            style = MaterialTheme.appTypography.textSemiBold,
             modifier = Modifier
-                .weight(1f)
+                .weight(MaterialTheme.dimens.weight1)
                 .align(Alignment.CenterVertically)
                 .padding(start = MaterialTheme.dimens.size8),
 
