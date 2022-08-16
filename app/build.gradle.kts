@@ -18,6 +18,8 @@ android {
         testInstrumentationRunner = Config.androidTestInstrumentation
 
         resourceConfigurations.addAll(listOf("en", "ru", "uk"))
+
+        vectorDrawables.useSupportLibrary = true
     }
 
     signingConfigs {

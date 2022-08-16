@@ -19,6 +19,8 @@ import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_CHANNEL_ID
 import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_CHANNEL_NAME
 import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_USER_LIST_NAME
+import com.mvproject.tvprogramguide.ui.onboard.view.OnBoardScreen
+import com.mvproject.tvprogramguide.ui.onboard.viewmodel.OnBoardViewModel
 import com.mvproject.tvprogramguide.ui.selectedchannels.view.ChannelScreen
 import com.mvproject.tvprogramguide.ui.selectedchannels.viewmodel.ChannelViewModel
 import com.mvproject.tvprogramguide.ui.settings.SettingsOptions
@@ -34,27 +36,33 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalCoroutinesApi::class)
 @Composable
-fun NavigationHost(navController: NavHostController) {
+fun NavigationHost(navController: NavHostController, startScreen: String) {
     AnimatedNavHost(
         navController = navController,
-        startDestination = AppRoutes.Channels.route,
+        startDestination = startScreen,
         modifier = Modifier
             .systemBarsPadding()
             .background(MaterialTheme.colors.primary)
     ) {
         composable(
+            AppRoutes.OnBoard.route,
+        ) {
+            val onBoardViewModel = hiltViewModel<OnBoardViewModel>()
+            OnBoardScreen(
+                viewModel = onBoardViewModel,
+                onComplete = {
+                    navController.popBackStack()
+                    navController.navigate(AppRoutes.Channels.route)
+                }
+            )
+        }
+        composable(
             AppRoutes.Channels.route,
             enterTransition = {
-                slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Left,
-                    animationSpec = tween(ANIM_DURATION_600)
-                ) + fadeIn(animationSpec = tween(ANIM_DURATION_600))
+                fadeIn(animationSpec = tween(ANIM_DURATION_600))
             },
             exitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Right,
-                    animationSpec = tween(ANIM_DURATION_600)
-                ) + fadeOut(animationSpec = tween(ANIM_DURATION_600))
+                fadeOut(animationSpec = tween(ANIM_DURATION_600))
             }
         ) {
             val channelViewModel = hiltViewModel<ChannelViewModel>()
@@ -68,16 +76,10 @@ fun NavigationHost(navController: NavHostController) {
         composable(
             AppRoutes.SelectedChannel.route,
             enterTransition = {
-                slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Left,
-                    animationSpec = tween(ANIM_DURATION_600)
-                ) + fadeIn(animationSpec = tween(ANIM_DURATION_600))
+                fadeIn(animationSpec = tween(ANIM_DURATION_600))
             },
             exitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Right,
-                    animationSpec = tween(ANIM_DURATION_600)
-                ) + fadeOut(animationSpec = tween(ANIM_DURATION_600))
+                fadeOut(animationSpec = tween(ANIM_DURATION_600))
             }
         ) { backStackEntry ->
             val singleChannelProgramsViewModel = hiltViewModel<SingleChannelViewModel>()

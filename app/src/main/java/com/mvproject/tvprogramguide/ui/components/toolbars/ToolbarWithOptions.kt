@@ -21,13 +21,12 @@ import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
 fun ToolbarWithOptions(
-    modifier: Modifier = Modifier,
     title: String = stringResource(id = R.string.default_toolbar_title),
     onSelectClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {}
 ) {
     Row(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .wrapContentSize()
             .clickable {
@@ -48,7 +47,10 @@ fun ToolbarWithOptions(
             style = MaterialTheme.appTypography.textSemiBold
         )
 
-        Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
+        Spacer(
+            modifier = Modifier
+                .padding(horizontal = MaterialTheme.dimens.size8)
+        )
 
         Icon(
             Icons.Outlined.Settings,

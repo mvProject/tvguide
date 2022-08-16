@@ -3,7 +3,6 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 object Dependencies {
 
     // android ui
-    private const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
     private const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
     private const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
     private const val material = "com.google.android.material:material:${Versions.material}"
@@ -17,7 +16,6 @@ object Dependencies {
     private const val gson = "com.google.code.gson:gson:${Versions.gson}"
 
     // Preference
-    // private const val preferenceKtx = "androidx.preference:preference-ktx:${Versions.preferenceKtx}"
     private const val dataStore = "androidx.datastore:datastore-preferences:${Versions.dataStore}"
 
     private const val kotlinxDatetime =
@@ -93,10 +91,14 @@ object Dependencies {
     private const val workHilt =
         "androidx.hilt:hilt-work:${Versions.workHilt}"
 
+    // Splash API
+    private const val splashScreen =
+        "androidx.core:core-splashscreen:${Versions.splash}"
+
     val appLibraries = arrayListOf<String>().apply {
         add(coreKtx)
-        //   add(appcompat)
         add(material)
+        add(splashScreen)
     }
 
     val appComposeLibraries = arrayListOf<String>().apply {

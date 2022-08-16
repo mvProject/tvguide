@@ -13,4 +13,12 @@
     <string name="settings_theme_light">Світла</string>
     <string name="settings_theme_dark">Темна</string>
     <string name="settings_theme_system">Вибір Системи</string>
+
+    <string name="onboard_title_user_list_create">Кілька списків каналів</string>
+    <string name="onboard_title_user_list_switch">Швидко перемикайте списки</string>
+    <string name="onboard_title_notification">Повідомлення про програму</string>
+
+    <string name="onboard_description_user_list_create">Можливість створити кілька списків із різними каналами для зручності</string>
+    <string name="onboard_description_user_list_switch">Швидко перемикайтеся між різними списками користувача</string>
+    <string name="onboard_description_notification">Можливість встановити нагадування, щоб не пропустити перегляд програми в майбутньому</string>
 </resources>
