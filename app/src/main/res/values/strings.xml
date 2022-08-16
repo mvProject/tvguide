@@ -1,29 +1,24 @@
 <resources>
     <string name="app_name">TV Program Guide</string>
 
-    <string name="add_new_custom_list">Add New List</string>
-    <string name="new_custom_hint">type list name</string>
-    <string name="btn_close">Close</string>
-    <string name="all_channels_title">All channels</string>
-    <string name="selected_channels_title">Selected channels</string>
-    <string name="hint_search">Search channel</string>
-    <string name="custom_channels_list_title">Channels List</string>
+    <string name="title_all_channels">All</string>
+    <string name="title_selected_channels">Selected</string>
+    <string name="title_custom_channels_list">Custom channel lists</string>
 
-    <string name="notif_programs_download">Downloading programs</string>
-    <string name="notif_channels_download">Downloading channels</string>
+    <string name="hint_search">Search channels</string>
 
-    <string name="settings_theme_light">Light</string>
-    <string name="settings_theme_dark">Dark</string>
-    <string name="settings_theme_system">System Select</string>
+    <string name="notification_programs_download">Downloading programs</string>
+    <string name="notification_channels_download">Downloading channels</string>
 
-    <string name="no_items_found">No Items Found</string>
-    <string name="default_toolbar_title">default_toolbar_title</string>
+    <string name="msg_user_filled_list_empty">List with selected channels not found</string>
+    <string name="msg_no_items_found">No Items Found</string>
+    <string name="msg_user_lists_empty">No custom lists</string>
+    <string name="msg_tap_to_create_list">tap to create list</string>
 
-    <string name="user_lists_empty">No users lists</string>
-    <string name="tap_to_create_list">tap here to create list</string>
-    <string name="user_filled_list_empty">No List with selected channels found</string>
-
-    <string name="dlg_title_select_list">Select Channels List</string>
+    <string name="dlg_title_select_custom_user_list">Select channels List</string>
+    <string name="dlg_title_add_new_custom_user_list">Add New List</string>
+    <string name="dlg_hint_new_custom_user_list">type list name</string>
+    <string name="dlg_btn_close">Close</string>
 
     <string name="onboard_btn_complete">Complete</string>
 
