@@ -16,12 +16,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ONE
+import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.theme.appColors
 import com.mvproject.tvprogramguide.theme.dimens
+import com.mvproject.tvprogramguide.theme.fonts
 import timber.log.Timber
 
 @Composable
@@ -30,11 +32,10 @@ fun SearchView(
     onSearch: (String) -> Unit = {}
 ) {
     var text by remember {
-        mutableStateOf("")
+        mutableStateOf(NO_VALUE_STRING)
     }
     Surface(
         modifier = modifier,
-        color = MaterialTheme.colors.primary,
         shape = CircleShape,
         elevation = MaterialTheme.dimens.size12
     ) {
@@ -46,10 +47,13 @@ fun SearchView(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colors.primary, CircleShape),
+                .background(MaterialTheme.colors.surface, CircleShape),
+
             textStyle = TextStyle(
-                color = MaterialTheme.colors.onPrimary,
-                fontSize = MaterialTheme.dimens.font18
+                color = MaterialTheme.colors.onSurface,
+                fontSize = MaterialTheme.dimens.font18,
+                fontFamily = fonts,
+                fontWeight = FontWeight.SemiBold
             ),
             leadingIcon = {
                 Icon(
@@ -57,14 +61,15 @@ fun SearchView(
                     contentDescription = "",
                     modifier = Modifier
                         .padding(MaterialTheme.dimens.size16)
-                        .size(MaterialTheme.dimens.size24)
+                        .size(MaterialTheme.dimens.size24),
+                    tint = MaterialTheme.colors.onSurface
                 )
             },
             trailingIcon = {
-                if (text != "") {
+                if (text != NO_VALUE_STRING) {
                     IconButton(
                         onClick = {
-                            text = ""
+                            text = NO_VALUE_STRING
                             onSearch(text)
                         }
                     ) {
@@ -73,7 +78,8 @@ fun SearchView(
                             contentDescription = "",
                             modifier = Modifier
                                 .padding(MaterialTheme.dimens.size16)
-                                .size(MaterialTheme.dimens.size24)
+                                .size(MaterialTheme.dimens.size24),
+                            tint = MaterialTheme.appColors.tintSecondary
                         )
                     }
                 }
@@ -81,11 +87,11 @@ fun SearchView(
             singleLine = true,
             shape = RectangleShape,
             colors = TextFieldDefaults.textFieldColors(
-                textColor = MaterialTheme.appColors.textPrimary,
-                cursorColor = MaterialTheme.appColors.textPrimary,
+                textColor = MaterialTheme.colors.onSurface,
+                cursorColor = MaterialTheme.colors.onSurface,
                 leadingIconColor = MaterialTheme.appColors.tintPrimary,
                 trailingIconColor = Color.Red,
-                backgroundColor = MaterialTheme.appColors.backgroundPrimary,
+                backgroundColor = MaterialTheme.colors.surface,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent
@@ -100,52 +106,60 @@ fun SearchBar(
     onSearch: (String) -> Unit = {}
 ) {
     var text by remember {
-        mutableStateOf("")
+        mutableStateOf(NO_VALUE_STRING)
     }
 
     Box(modifier = modifier) {
         BasicTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .shadow(4.dp, CircleShape)
-                .background(MaterialTheme.appColors.backgroundPrimary, CircleShape),
+                .shadow(
+                    elevation = MaterialTheme.dimens.size4,
+                    shape = CircleShape
+                )
+                .background(
+                    color = MaterialTheme.colors.primary,
+                    shape = CircleShape
+                ),
             value = text,
             onValueChange = {
                 text = it
                 onSearch(it)
             },
-            maxLines = 1,
+            maxLines = COUNT_ONE,
             textStyle = TextStyle(
-                color = MaterialTheme.appColors.textPrimary,
-                fontSize = 18.sp
+                color = MaterialTheme.colors.onPrimary,
+                fontSize = MaterialTheme.dimens.font18,
+                fontFamily = fonts,
+                fontWeight = FontWeight.SemiBold
             ),
-            cursorBrush = SolidColor(MaterialTheme.appColors.textPrimary),
+            cursorBrush = SolidColor(MaterialTheme.colors.onPrimary),
             decorationBox = { textView ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(horizontal = 4.dp)
+                    modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size4)
                 ) {
                     Icon(
                         Icons.Default.Search,
                         contentDescription = "",
                         modifier = Modifier
-                            .padding(15.dp)
-                            .size(24.dp),
+                            .padding(MaterialTheme.dimens.size16)
+                            .size(MaterialTheme.dimens.size24),
                         tint = MaterialTheme.appColors.tintPrimary
 
                     )
 
                     Box(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.weight(MaterialTheme.dimens.weight1),
                         contentAlignment = Alignment.CenterStart
                     ) {
                         textView()
                     }
 
-                    if (text != "") {
+                    if (text != NO_VALUE_STRING) {
                         IconButton(
                             onClick = {
-                                text = ""
+                                text = NO_VALUE_STRING
                                 onSearch(text)
                             }
                         ) {
@@ -153,8 +167,8 @@ fun SearchBar(
                                 Icons.Default.Close,
                                 contentDescription = "",
                                 modifier = Modifier
-                                    .padding(15.dp)
-                                    .size(24.dp),
+                                    .padding(MaterialTheme.dimens.size16)
+                                    .size(MaterialTheme.dimens.size24),
                                 tint = MaterialTheme.appColors.tintSecondary
                             )
                         }

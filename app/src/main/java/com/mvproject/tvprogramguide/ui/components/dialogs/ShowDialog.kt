@@ -33,7 +33,6 @@ fun ShowDialog(
                     .height(MaterialTheme.dimens.size250)
                     .padding(MaterialTheme.dimens.size6),
                 shape = RoundedCornerShape(MaterialTheme.dimens.size16),
-                color = MaterialTheme.colors.primary,
                 elevation = MaterialTheme.dimens.size8
             ) {
                 Column(
@@ -44,9 +43,10 @@ fun ShowDialog(
                 ) {
 
                     Text(
-                        text = stringResource(id = R.string.add_new_custom_list),
+                        text = stringResource(id = R.string.dlg_title_add_new_custom_user_list),
                         modifier = Modifier
                             .padding(MaterialTheme.dimens.size4),
+                        color = MaterialTheme.colors.onSurface,
                         style = MaterialTheme.appTypography.textSemiBold,
                         fontSize = MaterialTheme.dimens.font18
                     )
@@ -63,13 +63,15 @@ fun ShowDialog(
                             .fillMaxWidth(MaterialTheme.dimens.fraction80),
                         textStyle = MaterialTheme.appTypography.textMedium,
                         placeholder = {
-                            Text(text = stringResource(id = R.string.new_custom_hint))
+                            Text(text = stringResource(id = R.string.dlg_hint_new_custom_user_list))
                         },
                         singleLine = true,
                         colors = TextFieldDefaults.outlinedTextFieldColors(
-                            unfocusedLabelColor = MaterialTheme.colors.onBackground,
-                            focusedLabelColor = MaterialTheme.colors.onSecondary,
-                            textColor = MaterialTheme.colors.onPrimary
+                            textColor = MaterialTheme.colors.onSurface,
+                            unfocusedBorderColor = MaterialTheme.colors.onSurface
+                                .copy(alpha = MaterialTheme.dimens.alpha70),
+                            focusedBorderColor = MaterialTheme.colors.onSurface
+                                .copy(alpha = MaterialTheme.dimens.alpha30)
                         )
                     )
 
@@ -93,7 +95,7 @@ fun ShowDialog(
                         )
                     ) {
                         Text(
-                            text = stringResource(id = R.string.btn_close),
+                            text = stringResource(id = R.string.dlg_btn_close),
                             style = MaterialTheme.appTypography.textMedium
                         )
                     }

@@ -5,7 +5,6 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -24,7 +23,6 @@ import com.mvproject.tvprogramguide.data.utils.AppConstants.PROGRESS_STATE_COMPL
 import com.mvproject.tvprogramguide.data.utils.AppConstants.ROTATION_STATE_DOWN
 import com.mvproject.tvprogramguide.data.utils.AppConstants.ROTATION_STATE_UP
 import com.mvproject.tvprogramguide.data.utils.convertTimeToReadableFormat
-import com.mvproject.tvprogramguide.theme.appColors
 import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
 
@@ -46,7 +44,8 @@ fun ProgramItem(
             MaterialTheme.dimens.alpha50
         else MaterialTheme.dimens.alphaDefault
 
-    Card(
+
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
@@ -56,36 +55,26 @@ fun ProgramItem(
                     easing = LinearOutSlowInEasing
                 )
             ),
-
-        shape = RoundedCornerShape(MaterialTheme.dimens.sizeZero),
-        elevation = MaterialTheme.dimens.size2
+        verticalArrangement = Arrangement.Top
     ) {
-        Column(
+        Row(
             modifier = Modifier
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.Top
+                .defaultMinSize(minHeight = MaterialTheme.dimens.size42),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                modifier = Modifier
-                    .defaultMinSize(minHeight = MaterialTheme.dimens.size42),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                val timeColor =
-                    if (program.programProgress == COUNT_ZERO_FLOAT && program.scheduledId != null)
-                        MaterialTheme.appColors.textSelected
-                    else
-                        MaterialTheme.colors.onSurface
+            val isSelected = program.programProgress == COUNT_ZERO_FLOAT
+                    && program.scheduledId != null
 
-                TimeItem(
-                    time = program.dateTimeStart.convertTimeToReadableFormat(),
-                    modifier = Modifier.alpha(cardAlpha),
-                    timeColor = timeColor,
-                    onTimeClick = {
-                        if (program.programProgress == COUNT_ZERO_FLOAT) {
-                            onProgramClick()
-                        }
+            TimeItem(
+                time = program.dateTimeStart.convertTimeToReadableFormat(),
+                modifier = Modifier.alpha(cardAlpha),
+                isSelected = isSelected,
+                onTimeClick = {
+                    if (program.programProgress == COUNT_ZERO_FLOAT) {
+                        onProgramClick()
                     }
-                )
+                }
+            )
 
                 Spacer(
                     modifier = Modifier
@@ -98,6 +87,7 @@ fun ProgramItem(
                         .alpha(cardAlpha),
                     text = program.title,
                     fontSize = MaterialTheme.dimens.font14,
+                    color = MaterialTheme.colors.onPrimary,
                     style = MaterialTheme.appTypography.textMedium,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -113,7 +103,9 @@ fun ProgramItem(
                     ) {
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
+                            tint = MaterialTheme.colors.onPrimary,
                             contentDescription = "Drop-Down Arrow"
+
                         )
                     }
                 }
@@ -122,9 +114,10 @@ fun ProgramItem(
             if (program.programProgress > COUNT_ZERO_FLOAT && program.programProgress <= PROGRESS_STATE_COMPLETE) {
                 LinearProgressIndicator(
                     progress = program.programProgress,
-                    modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colors.onPrimary,
-                    backgroundColor = MaterialTheme.colors.surface
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    color = MaterialTheme.colors.secondary,
+                    backgroundColor = MaterialTheme.colors.primary,
                 )
             }
 
@@ -140,16 +133,17 @@ fun ProgramItem(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(MaterialTheme.dimens.size2)
-                        .alpha(MaterialTheme.dimens.alpha60)
                         .padding(
-                            horizontal = MaterialTheme.dimens.size10,
+                            horizontal = MaterialTheme.dimens.size8,
                             vertical = MaterialTheme.dimens.size4
                         ),
                     fontSize = MaterialTheme.dimens.font12,
+                    color = MaterialTheme.colors.onPrimary
+                        .copy(alpha = MaterialTheme.dimens.alpha80),
                     style = MaterialTheme.appTypography.textNormal,
                     overflow = TextOverflow.Ellipsis
                 )
             }
         }
-    }
+    // }
 }
