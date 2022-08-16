@@ -2,6 +2,7 @@ package com.mvproject.tvprogramguide.ui.selectedchannels.view
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -30,6 +31,8 @@ fun ChannelScreen(
     onNavigate: (route: String) -> Unit
 ) {
     val isDialogOpen = remember { mutableStateOf(false) }
+
+    val listState = rememberLazyListState()
 
     val programState by viewModel.selectedPrograms.collectAsState()
 
@@ -67,8 +70,8 @@ fun ChannelScreen(
     when {
         programState.listName.isEmpty() -> {
             NoItemsScreen(
-                title = stringResource(id = R.string.user_filled_list_empty),
-                navigateTitle = stringResource(id = R.string.tap_to_create_list),
+                title = stringResource(id = R.string.msg_user_filled_list_empty),
+                navigateTitle = stringResource(id = R.string.msg_tap_to_create_list),
                 onNavigateClick = { onNavigate(AppRoutes.UserCustomList.route) }
             )
         }
@@ -85,7 +88,9 @@ fun ChannelScreen(
                     onSettingsClick = { onNavigate(AppRoutes.OptionSettings.route) }
                 )
 
-                ChannelList(programState.programs,
+                ChannelList(
+                    singleChannelPrograms = programState.programs,
+                    listState = listState,
                     onChannelClick = { channel ->
                         onNavigate(
                             AppRoutes.SelectedChannel.applyArgs(

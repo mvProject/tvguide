@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -28,40 +29,49 @@ fun ChannelItem(
     channelLogo: String,
     onClickAction: () -> Unit
 ) {
-    Row(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentSize()
+            .wrapContentHeight()
+            .background(MaterialTheme.colors.surface)
             .clickable {
                 onClickAction()
-            }
-            .background(color = MaterialTheme.colors.primary)
-            .padding(MaterialTheme.dimens.size8)
+            },
+        shape = RoundedCornerShape(MaterialTheme.dimens.size4),
+        elevation = MaterialTheme.dimens.size2
     ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(channelLogo)
-                .crossfade(true)
-                .build(),
-            placeholder = painterResource(R.drawable.ic_plus),
-            contentDescription = stringResource(R.string.app_name),
-            contentScale = ContentScale.Crop,
+        Row(
             modifier = Modifier
-                .size(MaterialTheme.dimens.size38)
-                .clip(RoundedCornerShape(MaterialTheme.dimens.size4))
-        )
+                .fillMaxWidth()
+                .wrapContentSize()
+                .padding(MaterialTheme.dimens.size8)
 
-        Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
+        ) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(channelLogo)
+                    .crossfade(true)
+                    .build(),
+                placeholder = painterResource(R.drawable.ic_plus),
+                contentDescription = stringResource(R.string.app_name),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(MaterialTheme.dimens.size38)
+                    .clip(RoundedCornerShape(MaterialTheme.dimens.size4))
+            )
 
-        Text(
-            text = channelName,
-            fontSize = MaterialTheme.dimens.font16,
-            style = MaterialTheme.appTypography.textSemiBold,
-            modifier = Modifier
-                .weight(1f)
-                .align(Alignment.CenterVertically),
-            color = MaterialTheme.colors.onPrimary
-        )
+            Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
+
+            Text(
+                text = channelName,
+                fontSize = MaterialTheme.dimens.font16,
+                style = MaterialTheme.appTypography.textSemiBold,
+                modifier = Modifier
+                    .weight(MaterialTheme.dimens.weight1)
+                    .align(Alignment.CenterVertically),
+                color = MaterialTheme.colors.onPrimary
+            )
+        }
     }
 }
 
