@@ -17,7 +17,7 @@ import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
 fun NoItemsScreen(
-    title: String = stringResource(id = R.string.no_items_found),
+    title: String = stringResource(id = R.string.msg_no_items_found),
     navigateTitle: String = NO_VALUE_STRING,
     onNavigateClick: () -> Unit = {}
 ) {

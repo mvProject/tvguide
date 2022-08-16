@@ -68,7 +68,7 @@ fun ShowAlertDialog(
                 ) {
 
                     Text(
-                        text = stringResource(id = R.string.add_new_custom_list),
+                        text = stringResource(id = R.string.dlg_title_add_new_custom_user_list),
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
                         fontSize = 25.sp
