@@ -38,9 +38,9 @@ fun IndicateIcon(isSelected: Boolean) {
             .clip(CircleShape)
             .background(
                 if (isSelected) {
-                    MaterialTheme.colors.onBackground
+                    MaterialTheme.colors.onSurface
                 } else {
-                    MaterialTheme.colors.onBackground
+                    MaterialTheme.colors.onSurface
                         .copy(alpha = MaterialTheme.dimens.alpha50)
                 }
             )

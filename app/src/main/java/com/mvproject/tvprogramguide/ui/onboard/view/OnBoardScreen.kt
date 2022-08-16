@@ -1,5 +1,6 @@
 package com.mvproject.tvprogramguide.ui.onboard.view
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
@@ -30,7 +31,11 @@ fun OnBoardScreen(
     )
     val pagerState = rememberPagerState()
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colors.primary)
+    ) {
         HorizontalPager(
             modifier = Modifier.weight(MaterialTheme.dimens.weight10),
             count = ONBOARD_PAGES_COUNT,

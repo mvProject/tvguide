@@ -23,10 +23,14 @@ fun PagerScreen(onBoardingPage: OnBoardingPage) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
+        Spacer(
+            modifier = Modifier.padding(vertical = MaterialTheme.dimens.size24)
+        )
         Image(
             modifier = Modifier
-                .fillMaxWidth(MaterialTheme.dimens.fraction50)
-                .fillMaxHeight(MaterialTheme.dimens.fraction70),
+                .fillMaxWidth(MaterialTheme.dimens.fraction80)
+                .fillMaxHeight(MaterialTheme.dimens.fraction70)
+                .padding(top = MaterialTheme.dimens.size16),
             painter = painterResource(id = onBoardingPage.image),
             contentDescription = "Pager Image"
         )
@@ -35,7 +39,7 @@ fun PagerScreen(onBoardingPage: OnBoardingPage) {
                 .fillMaxWidth(),
             text = stringResource(id = onBoardingPage.title),
             color = MaterialTheme.colors.onPrimary,
-            fontSize = MaterialTheme.dimens.font18,
+            fontSize = MaterialTheme.dimens.font20,
             textAlign = TextAlign.Center,
             style = MaterialTheme.appTypography.textSemiBold
         )
@@ -47,7 +51,7 @@ fun PagerScreen(onBoardingPage: OnBoardingPage) {
             color = MaterialTheme.colors.onPrimary
                 .copy(alpha = MaterialTheme.dimens.alpha70),
             text = stringResource(id = onBoardingPage.description),
-            fontSize = MaterialTheme.dimens.font12,
+            fontSize = MaterialTheme.dimens.font14,
             textAlign = TextAlign.Center,
             style = MaterialTheme.appTypography.textMedium
         )
