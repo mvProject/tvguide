@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -19,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.mvproject.tvprogramguide.R
+import com.mvproject.tvprogramguide.domain.utils.forwardingPainter
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
@@ -52,12 +54,24 @@ fun ChannelItem(
                     .data(channelLogo)
                     .crossfade(true)
                     .build(),
-                placeholder = painterResource(R.drawable.ic_plus),
+
+                placeholder = forwardingPainter(
+                    painter = painterResource(R.drawable.no_channel_logo),
+                    colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onPrimary)
+                ),
+                error = forwardingPainter(
+                    painter = painterResource(R.drawable.no_channel_logo),
+                    colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onPrimary)
+                ),
                 contentDescription = stringResource(R.string.app_name),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(MaterialTheme.dimens.size38)
                     .clip(RoundedCornerShape(MaterialTheme.dimens.size4))
+                    .background(
+                        color = MaterialTheme.colors.onPrimary
+                            .copy(alpha = MaterialTheme.dimens.alpha20)
+                    ),
             )
 
             Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
