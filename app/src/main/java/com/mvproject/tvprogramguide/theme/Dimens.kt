@@ -59,6 +59,8 @@ data class Dimens(
     val fraction70: Float = 0.7f,
     val fraction80: Float = 0.8f,
 
+    val alpha10: Float = 0.1f,
+    val alpha20: Float = 0.2f,
     val alpha30: Float = 0.3f,
     val alpha50: Float = 0.5f,
     val alpha60: Float = 0.6f,
