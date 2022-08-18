@@ -34,7 +34,7 @@ class FullUpdateProgramsWorker @AssistedInject constructor(
         val isNotificationOn = inputData.getBoolean(NOTIFICATION_CONDITION, false)
         if (isNotificationOn) {
             notificationHelper.makeStatusNotification(
-                message = applicationContext.getString(R.string.notif_programs_download)
+                message = applicationContext.getString(R.string.notification_programs_download)
             )
         }
 

@@ -11,9 +11,9 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
+import com.mvproject.tvprogramguide.theme.dimens
 import com.mvproject.tvprogramguide.ui.settings.channels.actions.SelectedChannelsAction
 import com.mvproject.tvprogramguide.ui.settings.channels.components.ChannelSelectableItem
 import com.mvproject.tvprogramguide.ui.settings.channels.components.DraggableItem
@@ -62,10 +62,10 @@ private fun SelectedChannelsContent(
         modifier = Modifier
             .dragContainer(dragDropState)
             .fillMaxHeight()
-            .background(MaterialTheme.colors.primary),
+            .background(MaterialTheme.colors.background),
         state = listState,
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        contentPadding = PaddingValues(MaterialTheme.dimens.size8),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size8)
     ) {
         itemsIndexed(channels, key = { _, chn -> chn }) { index, chn ->
             DraggableItem(dragDropState, index) { isDragging ->

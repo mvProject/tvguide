@@ -1,15 +1,16 @@
 package com.mvproject.tvprogramguide.ui.settings.app.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.mvproject.tvprogramguide.theme.TvGuideTheme
+import com.mvproject.tvprogramguide.theme.appTypography
+import com.mvproject.tvprogramguide.theme.dimens
 import com.mvproject.tvprogramguide.ui.components.pickers.NumberPicker
 
 @Composable
@@ -22,23 +23,27 @@ fun PickerItem(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .background(MaterialTheme.colors.primary),
         verticalArrangement = Arrangement.Center
     ) {
         Row(
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 modifier = Modifier
-                    .weight(6f)
-                    .padding(8.dp),
+                    .weight(MaterialTheme.dimens.weight5)
+                    .padding(MaterialTheme.dimens.size8),
                 text = title,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                overflow = TextOverflow.Ellipsis
+                color = MaterialTheme.colors.onPrimary,
+                fontSize = MaterialTheme.dimens.font14,
+                style = MaterialTheme.appTypography.textMedium
             )
 
             NumberPicker(
+                modifier = Modifier
+                    .weight(MaterialTheme.dimens.weight2),
                 default = initialValue,
                 min = min,
                 max = max,
@@ -52,5 +57,25 @@ fun PickerItem(
 @Composable
 @Preview(showBackground = true)
 fun PickerItemPreview() {
-    PickerItem("Available channels update period", 10, onValueSelected = {})
+    TvGuideTheme() {
+        Column() {
+            PickerItem("Available channels update period", 1, onValueSelected = {})
+            PickerItem("Available channels update period", 5, onValueSelected = {})
+            PickerItem("Available channels update period", 7, onValueSelected = {})
+            PickerItem("Available channels update period", 10, onValueSelected = {})
+        }
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun PickerItemDarkPreview() {
+    TvGuideTheme(true) {
+        Column() {
+            PickerItem("Available channels update period", 1, onValueSelected = {})
+            PickerItem("Available channels update period", 5, onValueSelected = {})
+            PickerItem("Available channels update period", 7, onValueSelected = {})
+            PickerItem("Available channels update period", 10, onValueSelected = {})
+        }
+    }
 }

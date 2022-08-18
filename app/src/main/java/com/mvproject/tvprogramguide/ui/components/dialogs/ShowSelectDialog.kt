@@ -40,7 +40,6 @@ fun ShowSelectDialog(
                     .wrapContentHeight()
                     .padding(MaterialTheme.dimens.size6),
                 shape = RoundedCornerShape(MaterialTheme.dimens.size16),
-                color = MaterialTheme.colors.primary,
                 elevation = MaterialTheme.dimens.size8
             ) {
                 Column(
@@ -51,9 +50,10 @@ fun ShowSelectDialog(
                 ) {
 
                     Text(
-                        text = stringResource(id = R.string.dlg_title_select_list),
+                        text = stringResource(id = R.string.dlg_title_select_custom_user_list),
                         modifier = Modifier
                             .padding(horizontal = MaterialTheme.dimens.size4),
+                        color = MaterialTheme.colors.onSurface,
                         style = MaterialTheme.appTypography.textSemiBold,
                         fontSize = MaterialTheme.dimens.font18
                     )
@@ -89,7 +89,7 @@ fun ShowSelectDialog(
                         )
                     ) {
                         Text(
-                            text = stringResource(id = R.string.btn_close),
+                            text = stringResource(id = R.string.dlg_btn_close),
                             style = MaterialTheme.appTypography.textSemiBold,
                         )
                     }

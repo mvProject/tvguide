@@ -1,19 +1,26 @@
 <resources>
     <string name="app_name">Телепрограмма</string>
 
-    <string name="add_new_custom_list">Новый список каналов</string>
-    <string name="all_channels_title">Все каналы</string>
-    <string name="selected_channels_title">Выбранные каналы</string>
-    <string name="hint_search">Поиск канала</string>
-    <string name="custom_channels_list_title">Список каналов</string>
+    <string name="title_all_channels">Все</string>
+    <string name="title_selected_channels">Выбранные</string>
+    <string name="title_custom_channels_list">Пользовательские списки каналов</string>
 
-    <string name="notif_programs_download">Обновление программы</string>
-    <string name="notif_channels_download">Downloading channels</string>
+    <string name="hint_search">Поиск каналов</string>
 
+    <string name="notification_programs_download">Обновление программы</string>
+    <string name="notification_channels_download">Downloading channels</string>
 
-    <string name="settings_theme_light">Светлая</string>
-    <string name="settings_theme_dark">Темная</string>
-    <string name="settings_theme_system">Выбор Системы</string>
+    <string name="msg_user_filled_list_empty">Не найден список с выбранными каналами</string>
+    <string name="msg_no_items_found">Ничего не найдено</string>
+    <string name="msg_user_lists_empty">Нет пользователских списков</string>
+    <string name="msg_tap_to_create_list">нажмите, чтобы создать список</string>
+
+    <string name="dlg_title_select_custom_user_list">Выберите список каналов</string>
+    <string name="dlg_title_add_new_custom_user_list">Новый список каналов</string>
+    <string name="dlg_hint_new_custom_user_list">введите имя списка</string>
+    <string name="dlg_btn_close">Закрыть</string>
+
+    <string name="onboard_btn_complete">Завершить</string>
 
     <string name="onboard_title_user_list_create">Несколько списков каналов</string>
     <string name="onboard_title_user_list_switch">Быстро переключать списки</string>

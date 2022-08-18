@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="midnightblue">#032d4b</color>
-    <color name="orange">#FFA000</color>
-    <color name="light_black">#1C1D1D</color>
+    <color name="midnightblue">#AFD0E9</color>
+    <color name="lightBlack">#131414</color>
 </resources>

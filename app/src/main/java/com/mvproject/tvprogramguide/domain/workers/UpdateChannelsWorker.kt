@@ -27,7 +27,7 @@ class UpdateChannelsWorker @AssistedInject constructor(
         val isNotificationOn = inputData.getBoolean(NOTIFICATION_CONDITION, false)
         if (isNotificationOn) {
             notificationHelper.makeStatusNotification(
-                message = applicationContext.getString(R.string.notif_channels_download)
+                message = applicationContext.getString(R.string.notification_channels_download)
             )
         }
 

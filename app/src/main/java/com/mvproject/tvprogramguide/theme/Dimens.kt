@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.sp
 
 data class Dimens(
     val sizeZero: Dp = 0.dp,
+    val size1: Dp = 1.dp,
     val size2: Dp = 2.dp,
     val size4: Dp = 4.dp,
     val size5: Dp = 5.dp,
@@ -38,6 +39,7 @@ data class Dimens(
     val size50: Dp = 50.dp,
     val size60: Dp = 60.dp,
     val size96: Dp = 96.dp,
+    val size180: Dp = 180.dp,
     val size250: Dp = 250.dp,
 
     val font12: TextUnit = 12.sp,
@@ -47,6 +49,9 @@ data class Dimens(
     val font20: TextUnit = 20.sp,
 
     val weight1: Float = 1f,
+    val weight2: Float = 2f,
+    val weight4: Float = 4f,
+    val weight5: Float = 5f,
     val weight6: Float = 6f,
     val weight10: Float = 10f,
 
@@ -54,10 +59,13 @@ data class Dimens(
     val fraction70: Float = 0.7f,
     val fraction80: Float = 0.8f,
 
+    val alpha10: Float = 0.1f,
+    val alpha20: Float = 0.2f,
     val alpha30: Float = 0.3f,
     val alpha50: Float = 0.5f,
     val alpha60: Float = 0.6f,
     val alpha70: Float = 0.7f,
+    val alpha80: Float = 0.8f,
     val alphaDefault: Float = 1f
 
 )

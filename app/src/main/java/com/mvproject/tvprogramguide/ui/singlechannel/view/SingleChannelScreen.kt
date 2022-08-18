@@ -2,6 +2,7 @@ package com.mvproject.tvprogramguide.ui.singlechannel.view
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -24,6 +25,8 @@ fun SingleChannelScreen(
 
     val programs by viewModel.selectedPrograms.collectAsState()
 
+    val listState = rememberLazyListState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -33,7 +36,10 @@ fun SingleChannelScreen(
             onBackClick = onBackClick
         )
 
-        SingleChannelList(singleChannelPrograms = programs) { program ->
+        SingleChannelList(
+            singleChannelPrograms = programs,
+            listState = listState
+        ) { program ->
             viewModel.toggleProgramSchedule(programForSchedule = program)
         }
     }

@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -17,6 +18,7 @@ import com.google.accompanist.pager.rememberPagerState
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.utils.AppConstants.SELECTED_CHANNELS_PAGE
 import com.mvproject.tvprogramguide.theme.dimens
+import com.mvproject.tvprogramguide.theme.fonts
 import com.mvproject.tvprogramguide.ui.settings.channels.viewmodel.CustomListViewModel
 import kotlinx.coroutines.launch
 
@@ -31,8 +33,8 @@ fun TabMainScreen(
     }
 
     val tabItems = listOf(
-        stringResource(id = R.string.all_channels_title),
-        stringResource(id = R.string.selected_channels_title)
+        stringResource(id = R.string.title_all_channels),
+        stringResource(id = R.string.title_selected_channels)
     )
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
@@ -46,7 +48,7 @@ fun TabMainScreen(
             modifier = Modifier
                 .padding(MaterialTheme.dimens.size4)
                 .background(MaterialTheme.colors.primary)
-                .clip(RoundedCornerShape(MaterialTheme.dimens.size30)),
+                .clip(RoundedCornerShape(MaterialTheme.dimens.size26)),
             indicator = { tabPositions ->
                 TabRowDefaults.Indicator(
                     modifier = Modifier
@@ -68,12 +70,11 @@ fun TabMainScreen(
                 )
             }
         ) {
-            val startColor = MaterialTheme.colors.onPrimary
-            val activeColor = MaterialTheme.colors.onPrimary
-            val inActiveColor = MaterialTheme.colors.primary
+            val activeColor = MaterialTheme.colors.secondary
+            val inActiveColor = MaterialTheme.colors.onSecondary
 
             tabItems.forEachIndexed { index, title ->
-                val color = remember { Animatable(startColor) }
+                val color = remember { Animatable(activeColor) }
                 LaunchedEffect(pagerState.currentPage == index) {
                     color.animateTo(
                         if (pagerState.currentPage == index)
@@ -93,13 +94,17 @@ fun TabMainScreen(
                             text = title,
                             style = if (pagerState.currentPage == index) {
                                 TextStyle(
-                                    color = MaterialTheme.colors.primary,
-                                    fontSize = MaterialTheme.dimens.font18
+                                    color = MaterialTheme.colors.onSecondary,
+                                    fontSize = MaterialTheme.dimens.font16,
+                                    fontFamily = fonts,
+                                    fontWeight = FontWeight.SemiBold
                                 )
                             } else {
                                 TextStyle(
-                                    color = MaterialTheme.colors.onPrimary,
-                                    fontSize = MaterialTheme.dimens.font16
+                                    color = MaterialTheme.colors.secondary,
+                                    fontSize = MaterialTheme.dimens.font14,
+                                    fontFamily = fonts,
+                                    fontWeight = FontWeight.Medium
                                 )
                             }
                         )
@@ -117,7 +122,7 @@ fun TabMainScreen(
             state = pagerState,
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colors.primary)
+                .background(MaterialTheme.colors.background)
         ) { page ->
             when (page) {
                 SELECTED_CHANNELS_PAGE -> {
