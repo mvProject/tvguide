@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Programa de televisión</string>
+
+    <string name="title_all_channels">Todos ellos</string>
+    <string name="title_selected_channels">Seleccionado</string>
+    <string name="title_custom_channels_list">Listas de canales personalizados</string>
+
+    <string name="hint_search">Buscar canales</string>
+
+    <string name="notification_programs_download">Actualización del programa</string>
+    <string name="notification_channels_download">Actualizar canales</string>
+
+    <string name="msg_user_filled_list_empty">No se encontró ninguna lista de canales seleccionados</string>
+    <string name="msg_no_items_found">No se encontraron artículos</string>
+    <string name="msg_user_lists_empty">Sin listas de usuarios</string>
+    <string name="msg_tap_to_create_list">haga clic para crear una lista</string>
+
+    <string name="dlg_title_select_custom_user_list">Seleccione la lista de canales</string>
+    <string name="dlg_title_add_new_custom_user_list">Agregar una nueva lista</string>
+    <string name="dlg_hint_new_custom_user_list">introduzca un nombre para la lista</string>
+    <string name="dlg_btn_close">Cerca</string>
+
+    <string name="onboard_btn_complete">Completar</string>
+
+    <string name="onboard_title_user_list_create">Múltiples listas de canales</string>
+    <string name="onboard_title_user_list_switch">Cambiar entre listas rápidamente</string>
+    <string name="onboard_title_notification">Notificación del programa</string>
+
+    <string name="onboard_description_user_list_create">Capacidad para crear múltiples listas con diferentes canales para mayor comodidad</string>
+    <string name="onboard_description_user_list_switch">Cambiar rápidamente entre diferentes listas de usuarios</string>
+    <string name="onboard_description_notification">Posibilidad de configurar recordatorios para que no se pierda ver el programa en el futuro</string>
+</resources>

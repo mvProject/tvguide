@@ -1,0 +1,17 @@
+<resources>
+    <string name="settings_title">Nustatymai</string>
+    <string name="settings_channels_settings_title">Kanalo nustatymai</string>
+    <string name="settings_app_settings_title">Programos nustatymai</string>
+
+    <string name="settings_updates_title">Atnaujinimo laikotarpis (dienomis)</string>
+    <string name="settings_theme_title">Tema</string>
+    <string name="settings_ui_title">Išvaizda</string>
+
+    <string name="settings_channels_update_title">Galimi kanalai</string>
+    <string name="settings_programs_update_title">Televizijos programos</string>
+    <string name="settings_programs_count_title">Rodomų programų skaičius</string>
+
+    <string name="settings_theme_light">Šviesa</string>
+    <string name="settings_theme_dark">Tamsus</string>
+    <string name="settings_theme_system">Sistemos pasirinkimas</string>
+</resources>

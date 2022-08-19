@@ -8,7 +8,7 @@
     <string name="hint_search">Пошук каналів</string>
 
     <string name="notification_programs_download">Оновлення программи</string>
-    <string name="notification_channels_download">Downloading channels</string>
+    <string name="notification_channels_download">Оновлення каналів</string>
 
     <string name="msg_user_filled_list_empty">Не знайдено список із вибраними каналами</string>
     <string name="msg_no_items_found">Елементів не знайдено</string>

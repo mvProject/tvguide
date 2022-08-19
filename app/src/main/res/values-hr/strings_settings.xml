@@ -1,0 +1,17 @@
+<resources>
+    <string name="settings_title">postavke</string>
+    <string name="settings_channels_settings_title">Postavke kanala</string>
+    <string name="settings_app_settings_title">Postavke aplikacije</string>
+
+    <string name="settings_updates_title">Razdoblje ažuriranja (dani)</string>
+    <string name="settings_theme_title">Tema</string>
+    <string name="settings_ui_title">Izgled</string>
+
+    <string name="settings_channels_update_title">Dostupni kanali</string>
+    <string name="settings_programs_update_title">Televizijski programi</string>
+    <string name="settings_programs_count_title">Broj prikazanih programa</string>
+
+    <string name="settings_theme_light">Svjetlo</string>
+    <string name="settings_theme_dark">Mračno</string>
+    <string name="settings_theme_system">Izbor sustava</string>
+</resources>

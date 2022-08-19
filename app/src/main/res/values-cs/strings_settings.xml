@@ -1,0 +1,17 @@
+<resources>
+    <string name="settings_title">Nastavení</string>
+    <string name="settings_channels_settings_title">Nastavení kanálu</string>
+    <string name="settings_app_settings_title">Nastavení aplikace</string>
+
+    <string name="settings_updates_title">Období aktualizace (dny)</string>
+    <string name="settings_theme_title">Téma</string>
+    <string name="settings_ui_title">Vzhled</string>
+
+    <string name="settings_channels_update_title">Dostupné kanály</string>
+    <string name="settings_programs_update_title">Televizní programy</string>
+    <string name="settings_programs_count_title">Počet zobrazených programů</string>
+
+    <string name="settings_theme_light">Světlo</string>
+    <string name="settings_theme_dark">Temný</string>
+    <string name="settings_theme_system">Výběr systému</string>
+</resources>

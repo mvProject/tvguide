@@ -1,0 +1,17 @@
+<resources>
+    <string name="settings_title">Setări</string>
+    <string name="settings_channels_settings_title">Setări de canal</string>
+    <string name="settings_app_settings_title">Setările aplicației</string>
+
+    <string name="settings_updates_title">Perioada de actualizare (zile)</string>
+    <string name="settings_theme_title">Subiect</string>
+    <string name="settings_ui_title">Aspect</string>
+
+    <string name="settings_channels_update_title">Canale disponibile</string>
+    <string name="settings_programs_update_title">Programe de televiziune</string>
+    <string name="settings_programs_count_title">Numărul de programe afișate</string>
+
+    <string name="settings_theme_light">Ușoară</string>
+    <string name="settings_theme_dark">Întuneric</string>
+    <string name="settings_theme_system">Selectarea sistemului</string>
+</resources>
