@@ -1,33 +1,38 @@
+import java.util.*
+
 plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
-    compileSdk = Config.compileSdk
+    compileSdk = 32
 
     defaultConfig {
-        applicationId = Config.applicationId
-        minSdk = Config.minSdk
-        targetSdk = Config.targetSdk
-        versionCode = Config.versionCode
-        versionName = Config.versionName
-        testInstrumentationRunner = Config.androidTestInstrumentation
+        applicationId = libs.versions.applicationId.get()
+        minSdk = 24
+        targetSdk = 32
+        versionCode = 1
+        versionName = "0.2.5"
+        testInstrumentationRunner = libs.versions.androidTestInstrumentation.get()
 
         resourceConfigurations.addAll(listOf("en", "ru", "uk"))
 
         vectorDrawables.useSupportLibrary = true
     }
 
+    val projectProperties = readProperties(file("../keystore.properties"))
     signingConfigs {
         register("configRelease").configure {
-            storeFile = file("../presale.jks")
-            storePassword = "iq2umgo9"
-            keyAlias = "presale"
-            keyPassword = "iq2umgo9"
+            storeFile = file(projectProperties["storeFile"] as String)
+            storePassword = projectProperties["storePassword"] as String
+            keyAlias = projectProperties["keyAlias"] as String
+            keyPassword = projectProperties["keyPassword"] as String
         }
     }
 
@@ -71,44 +76,56 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
+    }
+    packagingOptions {
+        resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+    }
+}
+
+fun readProperties(propertiesFile: File) = Properties().apply {
+    propertiesFile.inputStream().use { fis ->
+        load(fis)
     }
 }
 
 dependencies {
 
-    implementation(Dependencies.appLibraries)
+    implementation(libs.bundles.appLibraries)
 
-    implementation(Dependencies.preference)
+    implementation(libs.dataStore)
 
-    implementation(Dependencies.network)
+    implementation(libs.bundles.network)
 
-    implementation(Dependencies.logging)
+    implementation(libs.bundles.coroutines)
 
-    implementation(Dependencies.coroutines)
+    implementation(libs.bundles.coil)
 
-    implementation(Dependencies.coil)
+    implementation(libs.bundles.compose)
 
-    implementation(Dependencies.appComposeLibraries)
+    implementation(libs.bundles.lifecycleCompose)
 
-    implementation(Dependencies.lifecycleCompose)
+    implementation(libs.bundles.pagerCompose)
 
-    implementation(Dependencies.pagerCompose)
+    implementation(libs.bundles.navHiltCompose)
 
-    implementation(Dependencies.navigationCompose)
+    implementation(libs.startUp)
 
-    implementation(Dependencies.startupRuntime)
+    implementation(libs.bundles.workManager)
 
-    implementation(Dependencies.workManager)
+    implementation(libs.kotlinxDatetime)
 
-    implementation(Dependencies.datetime)
+    implementation(libs.bundles.firebase)
 
-    implementationRoom()
+    implementation(libs.bundles.room)
+    kapt(libs.roomCompiler)
 
-    implementationHilt()
+    implementation(libs.hilt)
+    kapt(libs.bundles.hiltCompiler)
 
-    testImplementation(Dependencies.testComposeLibraries)
+    testImplementation(libs.testJunit)
 
-    testImplementation(Dependencies.testLibraries)
-    androidTestImplementation(Dependencies.androidTestLibraries)
+    implementation(libs.bundles.testAndroid)
+
+    debugImplementation(libs.bundles.testDebugCompose)
 }
