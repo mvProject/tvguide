@@ -1,0 +1,17 @@
+<resources>
+    <string name="settings_title">Ayarlar</string>
+    <string name="settings_channels_settings_title">Kanal ayarları</string>
+    <string name="settings_app_settings_title">Uygulama ayarları</string>
+
+    <string name="settings_updates_title">Güncelleme süresi (gün)</string>
+    <string name="settings_theme_title">Başlık</string>
+    <string name="settings_ui_title">Dış görünüş</string>
+
+    <string name="settings_channels_update_title">Kullanılabilir kanallar</string>
+    <string name="settings_programs_update_title">Televizyon programları</string>
+    <string name="settings_programs_count_title">Görüntülenen program sayısı</string>
+
+    <string name="settings_theme_light">Işık</string>
+    <string name="settings_theme_dark">Laranlık</string>
+    <string name="settings_theme_system">Sistem seçimi</string>
+</resources>

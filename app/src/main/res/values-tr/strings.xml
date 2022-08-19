@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">TV programı</string>
+
+    <string name="title_all_channels">Hepsi</string>
+    <string name="title_selected_channels">Seçildi</string>
+    <string name="title_custom_channels_list">Özel kanal listeleri</string>
+
+    <string name="hint_search">Kanal ara</string>
+
+    <string name="notification_programs_download">Program güncellemesi</string>
+    <string name="notification_channels_download">Kanalları güncelle</string>
+
+    <string name="msg_user_filled_list_empty">Seçilen kanalların listesi bulunamadı</string>
+    <string name="msg_no_items_found">hiç bir öğe bulunamadı</string>
+    <string name="msg_user_lists_empty">Kullanıcı listesi yok</string>
+    <string name="msg_tap_to_create_list">liste oluşturmak için tıklayın</string>
+
+    <string name="dlg_title_select_custom_user_list">Kanal listesini seçin</string>
+    <string name="dlg_title_add_new_custom_user_list">Yeni bir liste ekle</string>
+    <string name="dlg_hint_new_custom_user_list">liste için bir isim girin</string>
+    <string name="dlg_btn_close">Kapat</string>
+
+    <string name="onboard_btn_complete">Tamamlamak</string>
+
+    <string name="onboard_title_user_list_create">Çoklu kanal listeleri</string>
+    <string name="onboard_title_user_list_switch">Listeler arasında hızla geçiş yapın</string>
+    <string name="onboard_title_notification">Program bildirimi</string>
+
+    <string name="onboard_description_user_list_create">Kolaylık sağlamak için farklı kanallarla birden fazla liste oluşturabilme</string>
+    <string name="onboard_description_user_list_switch">Farklı kullanıcı listeleri arasında hızla geçiş yapın</string>
+    <string name="onboard_description_notification">Gelecekte programı izlemeyi kaçırmamak için hatırlatıcı ayarlama yeteneği</string>
+</resources>

@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Televizní program</string>
+
+    <string name="title_all_channels">Všichni</string>
+    <string name="title_selected_channels">Vybraný</string>
+    <string name="title_custom_channels_list">Vlastní seznamy kanálů</string>
+
+    <string name="hint_search">Hledat kanály</string>
+
+    <string name="notification_programs_download">Aktualizace programu</string>
+    <string name="notification_channels_download">Aktualizujte kanály</string>
+
+    <string name="msg_user_filled_list_empty">Nebyl nalezen žádný seznam vybraných kanálů</string>
+    <string name="msg_no_items_found">žádné předměty nenalezeny</string>
+    <string name="msg_user_lists_empty">Žádné seznamy uživatelů</string>
+    <string name="msg_tap_to_create_list">kliknutím vytvořte seznam</string>
+
+    <string name="dlg_title_select_custom_user_list">Vyberte seznam kanálů</string>
+    <string name="dlg_title_add_new_custom_user_list">Přidat nový seznam</string>
+    <string name="dlg_hint_new_custom_user_list">zadejte název seznamu</string>
+    <string name="dlg_btn_close">Zavřít</string>
+
+    <string name="onboard_btn_complete">Dokončit</string>
+
+    <string name="onboard_title_user_list_create">Více seznamů kanálů</string>
+    <string name="onboard_title_user_list_switch">Rychle přepínejte mezi seznamy</string>
+    <string name="onboard_title_notification">Upozornění na program</string>
+
+    <string name="onboard_description_user_list_create">Schopnost vytvářet více seznamů s různými kanály pro pohodlí</string>
+    <string name="onboard_description_user_list_switch">Rychlé přepínání mezi různými seznamy uživatelů</string>
+    <string name="onboard_description_notification">Možnost nastavit připomenutí, abyste v budoucnu nezmeškali sledování programu</string>
+</resources>

@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Tv programma</string>
+
+    <string name="title_all_channels">Allemaal</string>
+    <string name="title_selected_channels">Geselecteerd</string>
+    <string name="title_custom_channels_list">Aangepaste kanaallijsten</string>
+
+    <string name="hint_search">Kanalen zoeken</string>
+
+    <string name="notification_programs_download">Programma-update</string>
+    <string name="notification_channels_download">Kanalen bijwerken</string>
+
+    <string name="msg_user_filled_list_empty">Geen lijst met geselecteerde kanalen gevonden</string>
+    <string name="msg_no_items_found">Geen items gevonden</string>
+    <string name="msg_user_lists_empty">Geen gebruikerslijsten</string>
+    <string name="msg_tap_to_create_list">klik om een lijst te maken</string>
+
+    <string name="dlg_title_select_custom_user_list">Selecteer de zenderlijst</string>
+    <string name="dlg_title_add_new_custom_user_list">Een nieuwe lijst toevoegen</string>
+    <string name="dlg_hint_new_custom_user_list">voer een naam in voor de lijst</string>
+    <string name="dlg_btn_close">Dichtbij</string>
+
+    <string name="onboard_btn_complete">Vervolledigen</string>
+
+    <string name="onboard_title_user_list_create">Lijsten met meerdere kanalen</string>
+    <string name="onboard_title_user_list_switch">Snel schakelen tussen lijsten</string>
+    <string name="onboard_title_notification">Programmamelding</string>
+
+    <string name="onboard_description_user_list_create">Mogelijkheid om voor het gemak meerdere lijsten met verschillende kanalen te maken</string>
+    <string name="onboard_description_user_list_switch">Snel schakelen tussen verschillende gebruikerslijsten</string>
+    <string name="onboard_description_notification">Mogelijkheid om herinneringen in te stellen, zodat u het programma in de toekomst niet hoeft te missen</string>
+</resources>
