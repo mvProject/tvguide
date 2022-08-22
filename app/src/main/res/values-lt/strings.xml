@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">TV programa</string>
+
+    <string name="title_all_channels">Visi jie</string>
+    <string name="title_selected_channels">Pasirinkta</string>
+    <string name="title_custom_channels_list">Priskirti kanalų sąrašai</string>
+
+    <string name="hint_search">Ieškoti kanalų</string>
+
+    <string name="notification_programs_download">Programos atnaujinimas</string>
+    <string name="notification_channels_download">Atsisiunčiami kanalai</string>
+
+    <string name="msg_user_filled_list_empty">Pasirinktų kanalų sąrašas nerastas</string>
+    <string name="msg_no_items_found">Elementų nerasta</string>
+    <string name="msg_user_lists_empty">Nėra vartotojų sąrašų</string>
+    <string name="msg_tap_to_create_list">spustelėkite norėdami sukurti sąrašą</string>
+
+    <string name="dlg_title_select_custom_user_list">Pasirinkite kanalų sąrašą</string>
+    <string name="dlg_title_add_new_custom_user_list">Pridėti naują sąrašą</string>
+    <string name="dlg_hint_new_custom_user_list">įveskite sąrašo pavadinimą</string>
+    <string name="dlg_btn_close">Uždaryti</string>
+
+    <string name="onboard_btn_complete">Pabaigti</string>
+
+    <string name="onboard_title_user_list_create">Keli kanalų sąrašai</string>
+    <string name="onboard_title_user_list_switch">Greitai perjunkite sąrašus</string>
+    <string name="onboard_title_notification">Programos pranešimas</string>
+
+    <string name="onboard_description_user_list_create">Patogumui galimybė sudaryti kelis sąrašus su skirtingais kanalais</string>
+    <string name="onboard_description_user_list_switch">Greitai perjunkite skirtingus vartotojų sąrašus</string>
+    <string name="onboard_description_notification">Galimybė nustatyti priminimus, kad nepraleistumėte programos peržiūros ateityje</string>
+</resources>

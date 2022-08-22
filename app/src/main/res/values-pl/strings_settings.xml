@@ -1,0 +1,17 @@
+<resources>
+    <string name="settings_title">Ustawienia</string>
+    <string name="settings_channels_settings_title">Ustawienia kanałów</string>
+    <string name="settings_app_settings_title">Ustawienia aplikacji</string>
+
+    <string name="settings_updates_title">Okres aktualizacji (dni)</string>
+    <string name="settings_theme_title">Temat</string>
+    <string name="settings_ui_title">Wygląd zewnętrzny</string>
+
+    <string name="settings_channels_update_title">Dostępne kanały</string>
+    <string name="settings_programs_update_title">Programy telewizyjne</string>
+    <string name="settings_programs_count_title">Liczba wyświetlanych programów</string>
+
+    <string name="settings_theme_light">Światło</string>
+    <string name="settings_theme_dark">Сiemny</string>
+    <string name="settings_theme_system">Wybór systemu</string>
+</resources>

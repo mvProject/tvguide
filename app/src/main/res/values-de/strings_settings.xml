@@ -1,0 +1,17 @@
+<resources>
+    <string name="settings_title">Einstellungen</string>
+    <string name="settings_channels_settings_title">Kanaleinstellungen</string>
+    <string name="settings_app_settings_title">Anwendungseinstellungen</string>
+
+    <string name="settings_updates_title">Aktualisierungszeitraum (Tage)</string>
+    <string name="settings_theme_title">Thema</string>
+    <string name="settings_ui_title">Aussehen</string>
+
+    <string name="settings_channels_update_title">Verfügbare Kanäle</string>
+    <string name="settings_programs_update_title">Fernsehprogramm</string>
+    <string name="settings_programs_count_title">Anzahl der angezeigten Programme</string>
+
+    <string name="settings_theme_light">Hell</string>
+    <string name="settings_theme_dark">Dunkel</string>
+    <string name="settings_theme_system">Systemauswahl</string>
+</resources>

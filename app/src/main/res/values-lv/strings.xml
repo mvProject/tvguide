@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Televīzijas programma</string>
+
+    <string name="title_all_channels">Visus</string>
+    <string name="title_selected_channels">Atlasīts</string>
+    <string name="title_custom_channels_list">Pielāgoti kanālu saraksti</string>
+
+    <string name="hint_search">Meklēt kanālus</string>
+
+    <string name="notification_programs_download">Programmas atjauninājums</string>
+    <string name="notification_channels_download">Atjaunināt kanālus</string>
+
+    <string name="msg_user_filled_list_empty">Atlasīto kanālu saraksts nav atrasts</string>
+    <string name="msg_no_items_found">Nav atrasts neviens vienums</string>
+    <string name="msg_user_lists_empty">Nav lietotāju sarakstu</string>
+    <string name="msg_tap_to_create_list">noklikšķiniet, lai izveidotu sarakstu</string>
+
+    <string name="dlg_title_select_custom_user_list">Izvēlieties kanālu sarakstu</string>
+    <string name="dlg_title_add_new_custom_user_list">Pievienojiet jaunu sarakstu</string>
+    <string name="dlg_hint_new_custom_user_list">ievadiet saraksta nosaukumu</string>
+    <string name="dlg_btn_close">Aizveriet</string>
+
+    <string name="onboard_btn_complete">Lai pabeigtu</string>
+
+    <string name="onboard_title_user_list_create">Vairāki kanālu saraksti</string>
+    <string name="onboard_title_user_list_switch">Ātri pārslēdzieties starp sarakstiem</string>
+    <string name="onboard_title_notification">Programmas paziņojums</string>
+
+    <string name="onboard_description_user_list_create">Ērtības labad iespēja izveidot vairākus sarakstus ar dažādiem kanāliem</string>
+    <string name="onboard_description_user_list_switch">Ātri pārslēdzieties starp dažādiem lietotāju sarakstiem</string>
+    <string name="onboard_description_notification">Iespēja iestatīt atgādinājumus, lai turpmāk nepalaistu garām programmas apskati</string>
+</resources>

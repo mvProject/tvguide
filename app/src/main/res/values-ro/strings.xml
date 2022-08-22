@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Program TV</string>
+
+    <string name="title_all_channels">Toti</string>
+    <string name="title_selected_channels">Selectat</string>
+    <string name="title_custom_channels_list">Liste de canale personalizate</string>
+
+    <string name="hint_search">Căutați canale</string>
+
+    <string name="notification_programs_download">Actualizare program</string>
+    <string name="notification_channels_download">Actualizați canalele</string>
+
+    <string name="msg_user_filled_list_empty">Nu a fost găsită nicio listă cu canalele selectate</string>
+    <string name="msg_no_items_found">Nu au fost gasite articolele</string>
+    <string name="msg_user_lists_empty">Nu există liste de utilizatori</string>
+    <string name="msg_tap_to_create_list">faceți clic pentru a crea o listă</string>
+
+    <string name="dlg_title_select_custom_user_list">Selectați lista de canale</string>
+    <string name="dlg_title_add_new_custom_user_list">Adăugați o nouă listă</string>
+    <string name="dlg_hint_new_custom_user_list">introduceți un nume pentru listă</string>
+    <string name="dlg_btn_close">Închide</string>
+
+    <string name="onboard_btn_complete">A termina</string>
+
+    <string name="onboard_title_user_list_create">Liste de canale multiple</string>
+    <string name="onboard_title_user_list_switch">Comutați rapid între liste</string>
+    <string name="onboard_title_notification">Notificare program</string>
+
+    <string name="onboard_description_user_list_create">Abilitatea de a crea mai multe liste cu canale diferite pentru comoditate</string>
+    <string name="onboard_description_user_list_switch">Comutați rapid între diferite liste de utilizatori</string>
+    <string name="onboard_description_notification">Posibilitatea de a seta mementouri, astfel încât să nu ratați vizionarea programului în viitor</string>
+</resources>

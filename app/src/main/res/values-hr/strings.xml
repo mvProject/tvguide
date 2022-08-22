@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">TV program</string>
+
+    <string name="title_all_channels">Svi oni</string>
+    <string name="title_selected_channels">Odabran</string>
+    <string name="title_custom_channels_list">Prilagođeni popisi kanala</string>
+
+    <string name="hint_search">Traži kanale</string>
+
+    <string name="notification_programs_download">Ažuriranje programa</string>
+    <string name="notification_channels_download">Ažurirajte kanale</string>
+
+    <string name="msg_user_filled_list_empty">Nije pronađen popis odabranih kanala</string>
+    <string name="msg_no_items_found">Nema pronađenih stavki</string>
+    <string name="msg_user_lists_empty">Nema popisa korisnika</string>
+    <string name="msg_tap_to_create_list">kliknite za izradu popisa</string>
+
+    <string name="dlg_title_select_custom_user_list">Odaberite popis kanala</string>
+    <string name="dlg_title_add_new_custom_user_list">Dodajte novi popis</string>
+    <string name="dlg_hint_new_custom_user_list">unesite naziv za popis</string>
+    <string name="dlg_btn_close">Zatvoriti</string>
+
+    <string name="onboard_btn_complete">Dovršiti</string>
+
+    <string name="onboard_title_user_list_create">Višestruki popisi kanala</string>
+    <string name="onboard_title_user_list_switch">Brzo prebacivanje između popisa</string>
+    <string name="onboard_title_notification">Obavijest o programu</string>
+
+    <string name="onboard_description_user_list_create">Mogućnost stvaranja više popisa s različitim kanalima radi praktičnosti</string>
+    <string name="onboard_description_user_list_switch">Brzo prebacivanje između različitih popisa korisnika</string>
+    <string name="onboard_description_notification">Mogućnost postavljanja podsjetnika kako ubuduće ne biste propustili pogledati program</string>
+</resources>
