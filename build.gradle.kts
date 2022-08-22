@@ -1,17 +1,20 @@
 plugins {
-    id("org.jlleitschuh.gradle.ktlint").version(Versions.ktLint)
-    id("com.github.ben-manes.versions").version(Versions.depUpdate)
+    id("org.jlleitschuh.gradle.ktlint").version("10.3.0")
+    id("com.github.ben-manes.versions").version("0.42.0")
 }
+
 buildscript {
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:${Versions.gradle}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.daggerHilt}")
-        classpath("org.jlleitschuh.gradle:ktlint-gradle:${Versions.ktLint}")
+        classpath("com.android.tools.build:gradle:${libs.versions.androidGradle.get()}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:${libs.versions.daggerHilt.get()}")
+        classpath("org.jlleitschuh.gradle:ktlint-gradle:${libs.versions.ktLint.get()}")
+        classpath("com.google.gms:google-services:${libs.versions.googleServices.get()}")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:${libs.versions.crashlyticsGradle.get()}")
     }
 }
 
@@ -25,13 +28,6 @@ ktlint {
     }
     reporters {
         reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN)
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
     }
 }
 
