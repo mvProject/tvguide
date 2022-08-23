@@ -15,7 +15,7 @@ import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
 import com.mvproject.tvprogramguide.theme.dimens
 import com.mvproject.tvprogramguide.ui.components.NoItemsScreen
-import com.mvproject.tvprogramguide.ui.components.dialogs.ShowDialog
+import com.mvproject.tvprogramguide.ui.components.dialogs.ShowAddNewDialog
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
 import com.mvproject.tvprogramguide.ui.usercustomlist.action.UserListAction
 import com.mvproject.tvprogramguide.ui.usercustomlist.components.UserCustomList
@@ -96,7 +96,7 @@ private fun UserCustomListContent(
                 }
             }
         }
-        ShowDialog(isDialogOpen) { name ->
+        ShowAddNewDialog(isDialogOpen) { name ->
             onAction(UserListAction.AddList(name))
         }
     }

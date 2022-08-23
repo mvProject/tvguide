@@ -105,7 +105,6 @@ fun ProgramItem(
                             imageVector = Icons.Default.ArrowDropDown,
                             tint = MaterialTheme.colors.onPrimary,
                             contentDescription = "Drop-Down Arrow"
-
                         )
                     }
                 }

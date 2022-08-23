@@ -7,6 +7,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,23 +28,35 @@ fun ToolbarWithOptions(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentSize()
-            .clickable {
-                onSelectClick()
-            }
             .background(color = MaterialTheme.colors.primary)
             .padding(MaterialTheme.dimens.size4),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
-        Text(
-            text = title,
+        Row(
             modifier = Modifier
-                .weight(MaterialTheme.dimens.weight1),
-            color = MaterialTheme.colors.onPrimary,
-            textAlign = TextAlign.Center,
-            fontSize = MaterialTheme.dimens.font18,
-            style = MaterialTheme.appTypography.textBold
-        )
+                .weight(MaterialTheme.dimens.weight1)
+                .clickable {
+                    onSelectClick()
+                },
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                imageVector = Icons.Default.ArrowDropDown,
+                tint = MaterialTheme.colors.onPrimary,
+                contentDescription = "Drop-Down Arrow"
+            )
+            Spacer(
+                modifier = Modifier
+                    .padding(horizontal = MaterialTheme.dimens.size4)
+            )
+            Text(
+                text = title,
+                color = MaterialTheme.colors.onPrimary,
+                textAlign = TextAlign.Center,
+                fontSize = MaterialTheme.dimens.font18,
+                style = MaterialTheme.appTypography.textBold
+            )
+        }
 
         Spacer(
             modifier = Modifier
