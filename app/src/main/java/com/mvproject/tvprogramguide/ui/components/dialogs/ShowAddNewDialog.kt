@@ -13,11 +13,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.data.utils.manageLength
 import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
-fun ShowDialog(
+fun ShowAddNewDialog(
     isDialogOpen: MutableState<Boolean>,
     onSelected: (String) -> Unit
 ) {
@@ -58,7 +59,9 @@ fun ShowDialog(
 
                     OutlinedTextField(
                         value = name.value,
-                        onValueChange = { name.value = it },
+                        onValueChange = { typed ->
+                            name.value = typed.manageLength()
+                        },
                         modifier = Modifier
                             .fillMaxWidth(MaterialTheme.dimens.fraction80),
                         textStyle = MaterialTheme.appTypography.textMedium,

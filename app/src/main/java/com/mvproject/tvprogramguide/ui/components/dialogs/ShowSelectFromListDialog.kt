@@ -19,7 +19,7 @@ import com.mvproject.tvprogramguide.theme.dimens
 import com.mvproject.tvprogramguide.ui.components.radio.RadioGroupScrollable
 
 @Composable
-fun ShowSelectDialog(
+fun ShowSelectFromListDialog(
     radioOptions: List<String> = listOf(),
     defaultSelection: Int = COUNT_ZERO,
     isDialogOpen: MutableState<Boolean>,

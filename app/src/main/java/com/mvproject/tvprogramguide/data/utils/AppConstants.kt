@@ -18,6 +18,8 @@ object AppConstants {
 
     const val SELECTED_CHANNELS_PAGE = 1
 
+    const val USER_LIST_MAX_LENGTH = 20
+
     const val ANIM_DURATION_200 = 200
     const val ANIM_DURATION_300 = 300
     const val ANIM_DURATION_600 = 600
