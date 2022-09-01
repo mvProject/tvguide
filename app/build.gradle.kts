@@ -81,6 +81,11 @@ android {
     packagingOptions {
         resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
     }
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 fun readProperties(propertiesFile: File) = Properties().apply {
@@ -124,6 +129,9 @@ dependencies {
     kapt(libs.bundles.hiltCompiler)
 
     testImplementation(libs.testJunit)
+    testImplementation(libs.kotestRunnerJunit5)
+    testImplementation(libs.kotestAssertionsCore)
+    testImplementation(libs.mockk)
 
     implementation(libs.bundles.testAndroid)
 
