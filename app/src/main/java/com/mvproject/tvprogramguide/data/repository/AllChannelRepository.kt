@@ -39,10 +39,14 @@ class AllChannelRepository @Inject constructor(
 
         val entities = networkChannels.toAvailableChannelEntities()
         if (entities.count() > COUNT_ZERO) {
-            allChannelDao.apply {
-                deleteChannels()
-                insertChannelList(availableChannels = entities)
-            }
+            updateEntities(entities = entities)
+        }
+    }
+
+    suspend fun updateEntities(entities: List<AvailableChannelEntity>) {
+        allChannelDao.apply {
+            deleteChannels()
+            insertChannelList(availableChannels = entities)
         }
     }
 }

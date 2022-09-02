@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide
+package com.mvproject.tvprogramguide.extensions
 
 import com.mvproject.tvprogramguide.data.utils.convertDateToReadableFormat
 import com.mvproject.tvprogramguide.data.utils.convertTimeToReadableFormat
