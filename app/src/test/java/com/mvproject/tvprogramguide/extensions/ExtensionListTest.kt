@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide
+package com.mvproject.tvprogramguide.extensions
 
 import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_EPG_PROGRAM_TITLE
