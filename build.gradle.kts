@@ -35,6 +35,11 @@ tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
 
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+    jvmArgs = mutableListOf("--enable-preview")
+}
+
 tasks.withType<org.jlleitschuh.gradle.ktlint.tasks.KtLintFormatTask> {
     setSource(files(rootDir))
 }
