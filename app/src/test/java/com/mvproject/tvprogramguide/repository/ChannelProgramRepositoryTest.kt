@@ -6,13 +6,12 @@ import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
 import com.mvproject.tvprogramguide.data.network.EpgService
 import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
 import io.kotest.assertions.assertSoftly
+import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.mockk
+import io.mockk.*
 import kotlinx.datetime.Clock
 import kotlin.time.Duration.Companion.hours
 
@@ -24,11 +23,14 @@ class ChannelProgramRepositoryTest : StringSpec({
             val dao = mockk<ProgramDao>(relaxed = true)
             val repository = ChannelProgramRepository(epg, dao)
 
-            repository.loadProgram("test")
-            coVerify(exactly = 1) {
-                epg.getChannelProgram("test")
-                dao.deletePrograms("test")
-                dao.insertPrograms(listOf())
+            withClue("proper calls from dao execute") {
+                repository.loadProgram("test")
+
+                coVerifySequence {
+                    epg.getChannelProgram("test")
+                    dao.deletePrograms("test")
+                    dao.insertPrograms(listOf())
+                }
             }
         }
 
@@ -45,19 +47,22 @@ class ChannelProgramRepositoryTest : StringSpec({
 
             val programEntity = program.toEntity()
 
-            repository.updateProgram(program)
+            withClue("single call from epg execute") {
+                repository.updateProgram(program)
 
-            coVerify(exactly = 1) {
-                dao.updateProgram(programEntity)
+                coVerify(exactly = 1) {
+                    dao.updateProgram(programEntity)
+                }
+                confirmVerified(dao)
             }
         }
 
         "loadProgramsCount returns proper data" {
-            val epg = mockk<EpgService>(relaxed = true)
-            val dao = mockk<ProgramDao>(relaxed = true)
+            val epg = mockk<EpgService>()
+            val dao = mockk<ProgramDao>()
             val repository = ChannelProgramRepository(epg, dao)
 
-            val programEntity = listOf(
+            val expectedResultDao = listOf(
                 ProgramEntity(1661764500000L, 1661765400000L, "entity1", channelId = "id1"),
                 ProgramEntity(1661765400000L, 1661766500000L, "entity2", channelId = "id2"),
                 ProgramEntity(1661766500000L, 1661767600000L, "entity3", channelId = "id1")
@@ -65,54 +70,106 @@ class ChannelProgramRepositoryTest : StringSpec({
 
             coEvery {
                 dao.getSelectedChannelPrograms(any())
-            } returns programEntity
+            } returns expectedResultDao
 
-            val result = repository.loadProgramsCount(listOf())
+            val retrievedResult = repository.loadProgramsCount(listOf())
 
-            result shouldBe 2
-            result.shouldBeInstanceOf<Int>()
+            withClue("single call from dao execute") {
+                coVerify(exactly = 1) {
+                    dao.getSelectedChannelPrograms(any())
+                }
+                confirmVerified(dao)
+            }
+
+            withClue("result is list of entity value") {
+                retrievedResult.shouldBeInstanceOf<Int>()
+            }
+
+            withClue("result elements proper count") {
+                retrievedResult shouldBe 2
+            }
         }
 
         "loadProgramsForChannel for single id returns proper data" {
-            val epg = mockk<EpgService>(relaxed = true)
-            val dao = mockk<ProgramDao>(relaxed = true)
+            val epg = mockk<EpgService>()
+            val dao = mockk<ProgramDao>()
             val repository = ChannelProgramRepository(epg, dao)
 
-            val testEntityList = programEntitySingleId
+            val expectedResultDao = programEntitySingleId
 
             coEvery {
                 dao.getSingleChannelPrograms(any())
-            } returns testEntityList
+            } returns expectedResultDao
 
-            val result = repository.loadProgramsForChannel("id1")
+            val retrievedResult = repository.loadProgramsForChannel("id1")
 
-            result.count() shouldBe 3
-            result.shouldBeInstanceOf<List<Program>>()
-            result.first() shouldBeEqualToComparingFields testEntityList.first().toProgram()
-            result.first().channel shouldBe "id1"
-            result.first().title shouldBe "entity1"
+            withClue("single call from dao execute") {
+                coVerify(exactly = 1) {
+                    dao.getSingleChannelPrograms(any())
+                }
+                confirmVerified(dao)
+            }
+
+            withClue("result is list of entity value") {
+                retrievedResult.shouldBeInstanceOf<List<Program>>()
+                retrievedResult.first() shouldBeEqualToComparingFields expectedResultDao.first()
+                    .toProgram()
+            }
+
+            withClue("result elements proper count") {
+                retrievedResult.count() shouldBe 3
+            }
+
+            withClue("result fields values match expected values first item") {
+                retrievedResult.first().channel shouldBe "id1"
+                retrievedResult.first().title shouldBe "entity1"
+            }
+
+            withClue("result fields values match expected values last item") {
+                retrievedResult.last().channel shouldBe "id1"
+                retrievedResult.last().title shouldBe "entity3"
+            }
         }
 
         "loadProgramsForChannel for many ids returns proper data3" {
-            val epg = mockk<EpgService>(relaxed = true)
-            val dao = mockk<ProgramDao>(relaxed = true)
+            val epg = mockk<EpgService>()
+            val dao = mockk<ProgramDao>()
             val repository = ChannelProgramRepository(epg, dao)
 
-            val testEntityList = programEntityManyId
+            val expectedResult = programEntityManyId
 
             coEvery {
                 dao.getSelectedChannelPrograms(any())
-            } returns testEntityList
+            } returns expectedResult
 
-            val result = repository.loadProgramsForChannels(listOf("id1"))
+            val retrievedResult = repository.loadProgramsForChannels(listOf("id1"))
 
-            result.count() shouldBe 3
-            result.shouldBeInstanceOf<List<Program>>()
-            result.first() shouldBeEqualToComparingFields testEntityList.first().toProgram()
-            result.first().channel shouldBe "id1"
-            result.first().title shouldBe "entity1"
-            result.last().channel shouldBe "id3"
-            result.last().title shouldBe "entity3"
+            withClue("single call from dao execute") {
+                coVerify(exactly = 1) {
+                    dao.getSelectedChannelPrograms(any())
+                }
+                confirmVerified(dao)
+            }
+
+            withClue("result is list of entity value") {
+                retrievedResult.shouldBeInstanceOf<List<Program>>()
+                retrievedResult.first() shouldBeEqualToComparingFields expectedResult.first()
+                    .toProgram()
+            }
+
+            withClue("result elements proper count") {
+                retrievedResult.count() shouldBe expectedResult.count()
+            }
+
+            withClue("result fields values match expected values first item") {
+                retrievedResult.first().channel shouldBe expectedResult.first().channelId
+                retrievedResult.first().title shouldBe expectedResult.first().title
+            }
+
+            withClue("result fields values match expected values last item") {
+                retrievedResult.last().channel shouldBe "id3"
+                retrievedResult.last().title shouldBe "entity3"
+            }
         }
     }
 })
