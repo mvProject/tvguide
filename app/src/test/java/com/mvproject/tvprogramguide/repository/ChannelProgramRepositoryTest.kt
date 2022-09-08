@@ -131,7 +131,7 @@ class ChannelProgramRepositoryTest : StringSpec({
             }
         }
 
-        "loadProgramsForChannel for many ids returns proper data3" {
+        "loadProgramsForChannel for many ids returns proper data" {
             val epg = mockk<EpgService>()
             val dao = mockk<ProgramDao>()
             val repository = ChannelProgramRepository(epg, dao)

@@ -1,15 +1,19 @@
 package com.mvproject.tvprogramguide.extensions
 
 import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
+import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_EPG_PROGRAM_TITLE
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.data.utils.filterNoEpg
 import com.mvproject.tvprogramguide.data.utils.getNoProgramData
 import com.mvproject.tvprogramguide.data.utils.obtainIndexOrZero
 import com.mvproject.tvprogramguide.data.utils.takeIfCountNotEmpty
 import io.kotest.assertions.assertSoftly
 import io.kotest.core.spec.style.ShouldSpec
+import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.ints.shouldNotBeLessThan
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeInstanceOf
 import io.kotest.matchers.types.shouldBeSameInstanceAs
 
 class ExtensionListTest : ShouldSpec({
@@ -99,6 +103,43 @@ class ExtensionListTest : ShouldSpec({
             should("should return result from small with proper items count when take is too big") {
                 shortList.takeIfCountNotEmpty(takeCount).count() shouldBe 4
                 shortList.takeIfCountNotEmpty(emptyTakeCount).count() shouldBe 4
+            }
+        }
+    }
+
+    context("filter channels by proper name") {
+        val sourceList = listOf(
+            AvailableChannelResponse("id1", "name1", "icon"),
+            AvailableChannelResponse("id2", "name2 No Epg", "icon"),
+            AvailableChannelResponse("id3", "name3", "icon"),
+            AvailableChannelResponse("id4", "name4 Заглушка", "icon"),
+            AvailableChannelResponse("id5", "name5", "icon")
+        )
+        val expectedList = listOf(
+            AvailableChannelResponse("id1", "name1", "icon"),
+            AvailableChannelResponse("id3", "name3", "icon"),
+            AvailableChannelResponse("id5", "name5", "icon")
+        )
+
+        val retrievedList = sourceList.filterNoEpg()
+        assertSoftly {
+            should("result is list of string value") {
+                retrievedList.shouldBeInstanceOf<List<AvailableChannelResponse>>()
+                retrievedList.first() shouldBeEqualToComparingFields expectedList.first()
+            }
+
+            should("result elements proper count") {
+                retrievedList.count() shouldBe expectedList.count()
+            }
+
+            should("result fields values match expected values first item") {
+                retrievedList.first().channelNames shouldBe expectedList.first().channelNames
+                retrievedList.first().channelId shouldBe expectedList.first().channelId
+            }
+
+            should("result fields values match expected values last item") {
+                retrievedList.last().channelNames shouldBe "name5"
+                retrievedList.last().channelId shouldBe "id5"
             }
         }
     }
