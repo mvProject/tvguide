@@ -75,7 +75,7 @@ class SelectedChannelUseCase @Inject constructor(
      * Update orders and save entities after deleting entity
      */
     @Transaction
-    suspend fun updateChannelsOrdersAfterDelete() {
+    private suspend fun updateChannelsOrdersAfterDelete() {
         val selectedChannels = selectedChannelRepository
             .loadSelectedChannels(listName = targetList)
             .sortedBy { entity ->
