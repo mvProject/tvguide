@@ -22,25 +22,14 @@ class SelectedChannelUseCaseTest : StringSpec({
 
     assertSoftly {
         "load selected channels with flow" {
-            val selectedChannelRepository = mockk<SelectedChannelRepository>()
-            val preferenceRepository = mockk<PreferenceRepository>()
+            val selectedChannelRepository = createSelectedChannelMockRepository()
+            val preferenceRepository = createPreferenceMockRepository()
 
             val expectedResult = listOf(
                 SelectedChannel("testId1", "testName1", "iconUrl", order = 1, parentList = "test"),
                 SelectedChannel("testId2", "testName2", "iconUrl", order = 2, parentList = "test"),
                 SelectedChannel("testId3", "testName3", "iconUrl", order = 3, parentList = "test"),
             )
-            coEvery {
-                preferenceRepository.targetList
-            } returns flow {
-                emit("test")
-            }
-
-            coEvery {
-                selectedChannelRepository.loadSelectedChannelsFlow("test")
-            } returns flow {
-                emit(expectedResultDao)
-            }
 
             val selectedChannelUseCase = SelectedChannelUseCase(
                 selectedChannelRepository, preferenceRepository
@@ -54,7 +43,6 @@ class SelectedChannelUseCaseTest : StringSpec({
                 }
                 confirmVerified(selectedChannelRepository)
             }
-
 
             withClue("collect proper data from flow") {
                 runTest {
@@ -86,8 +74,8 @@ class SelectedChannelUseCaseTest : StringSpec({
         }
 
         "add channel item to selected" {
-            val selectedChannelRepository = mockk<SelectedChannelRepository>()
-            val preferenceRepository = mockk<PreferenceRepository>()
+            val selectedChannelRepository = createSelectedChannelMockRepository()
+            val preferenceRepository = createPreferenceMockRepository()
 
             val availableChannel = AvailableChannel("testId1", "testName1", "iconUrl")
             val channelToAdd = SelectedChannelEntity(
@@ -97,16 +85,6 @@ class SelectedChannelUseCaseTest : StringSpec({
                 order = 4,
                 parentList = "test"
             )
-
-            coEvery {
-                preferenceRepository.targetList
-            } returns flow {
-                emit("test")
-            }
-
-            coEvery {
-                selectedChannelRepository.loadSelectedChannels("test")
-            } returns expectedResultDao
 
             coEvery {
                 selectedChannelRepository.addChannel(channelToAdd)
@@ -129,17 +107,8 @@ class SelectedChannelUseCaseTest : StringSpec({
         }
 
         "delete channel item from selected" {
-            val selectedChannelRepository = mockk<SelectedChannelRepository>()
-            val preferenceRepository = mockk<PreferenceRepository>()
-
-            coEvery {
-                preferenceRepository.targetList
-            } returns flow {
-                emit("test")
-            }
-            coEvery {
-                selectedChannelRepository.loadSelectedChannels("test")
-            } returns expectedResultDao
+            val selectedChannelRepository = createSelectedChannelMockRepository()
+            val preferenceRepository = createPreferenceMockRepository()
 
             coEvery {
                 selectedChannelRepository.updateChannels(expectedResultDao)
@@ -167,20 +136,14 @@ class SelectedChannelUseCaseTest : StringSpec({
         }
 
         "update channels order" {
-            val selectedChannelRepository = mockk<SelectedChannelRepository>()
-            val preferenceRepository = mockk<PreferenceRepository>()
+            val selectedChannelRepository = createSelectedChannelMockRepository()
+            val preferenceRepository = createPreferenceMockRepository()
 
             val notOrdered = listOf(
                 SelectedChannel("testId1", "testName1", "iconUrl", order = 3, parentList = "test"),
                 SelectedChannel("testId2", "testName2", "iconUrl", order = 4, parentList = "test"),
                 SelectedChannel("testId3", "testName3", "iconUrl", order = 2, parentList = "test")
             )
-
-            coEvery {
-                preferenceRepository.targetList
-            } returns flow {
-                emit("test")
-            }
 
             coEvery {
                 selectedChannelRepository.updateChannels(expectedResultDao)
@@ -204,6 +167,31 @@ class SelectedChannelUseCaseTest : StringSpec({
         }
     }
 })
+
+private fun createPreferenceMockRepository(): PreferenceRepository {
+    val preferenceRepository = mockk<PreferenceRepository>()
+    coEvery {
+        preferenceRepository.targetList
+    } returns flow {
+        emit("test")
+    }
+    return preferenceRepository
+}
+
+private fun createSelectedChannelMockRepository(): SelectedChannelRepository {
+    val selectedChannelRepository = mockk<SelectedChannelRepository>()
+    coEvery {
+        selectedChannelRepository.loadSelectedChannelsFlow("test")
+    } returns flow {
+        emit(expectedResultDao)
+    }
+
+    coEvery {
+        selectedChannelRepository.loadSelectedChannels("test")
+    } returns expectedResultDao
+
+    return selectedChannelRepository
+}
 
 private val expectedResultDao
     get() = listOf(
