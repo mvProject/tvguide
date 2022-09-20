@@ -19,11 +19,20 @@ import kotlinx.coroutines.test.runTest
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SelectedChannelRepositoryTest : StringSpec({
+    lateinit var dao: SelectedChannelDao
+    lateinit var repository: SelectedChannelRepository
+
+    beforeTest {
+        dao = mockk<SelectedChannelDao>(relaxed = true)
+        repository = SelectedChannelRepository(dao)
+    }
+
+    afterTest {
+        println("test ${it.a.name.testName} complete status is ${it.b.isSuccess}")
+    }
+
     assertSoftly {
         "retrieve selected channels entities" {
-            val dao = mockk<SelectedChannelDao>(relaxed = true)
-            val repository = SelectedChannelRepository(dao)
-
             val expectedResult = listOf(
                 SelectedChannelEntity("testId1", "testName1", "iconUrl"),
                 SelectedChannelEntity("testId2", "testName2", "iconUrl"),
@@ -64,9 +73,6 @@ class SelectedChannelRepositoryTest : StringSpec({
         }
 
         "retrieve selected channels ids" {
-            val dao = mockk<SelectedChannelDao>(relaxed = true)
-            val repository = SelectedChannelRepository(dao)
-
             val expectedResult = listOf(
                 "testId1",
                 "testId2",
@@ -101,9 +107,6 @@ class SelectedChannelRepositoryTest : StringSpec({
         }
 
         "retrieve selected channel name by id" {
-            val dao = mockk<SelectedChannelDao>(relaxed = true)
-            val repository = SelectedChannelRepository(dao)
-
             val expectedResult = "testName1"
 
             coEvery {
@@ -130,9 +133,6 @@ class SelectedChannelRepositoryTest : StringSpec({
         }
 
         "add selected channel" {
-            val dao = mockk<SelectedChannelDao>(relaxed = true)
-            val repository = SelectedChannelRepository(dao)
-
             val testChannel = SelectedChannelEntity("testId", "testName", "iconUrl")
 
             withClue("single call from dao execute") {
@@ -146,9 +146,6 @@ class SelectedChannelRepositoryTest : StringSpec({
         }
 
         "delete selected channel" {
-            val dao = mockk<SelectedChannelDao>(relaxed = true)
-            val repository = SelectedChannelRepository(dao)
-
             val testChannel = SelectedChannelEntity("testId", "testName", "iconUrl")
 
             withClue("single call from dao execute") {
@@ -162,9 +159,6 @@ class SelectedChannelRepositoryTest : StringSpec({
         }
 
         "update selected channels" {
-            val dao = mockk<SelectedChannelDao>(relaxed = true)
-            val repository = SelectedChannelRepository(dao)
-
             val testChannel = SelectedChannelEntity("testId", "testName", "iconUrl")
 
             withClue("single call from dao execute") {
@@ -178,9 +172,6 @@ class SelectedChannelRepositoryTest : StringSpec({
         }
 
         "retrieve selected channels entities flow" {
-            val dao = mockk<SelectedChannelDao>(relaxed = true)
-            val repository = SelectedChannelRepository(dao)
-
             val expectedResultDao = listOf(
                 SelectedChannelEntity("testId1", "testName1", "iconUrl"),
                 SelectedChannelEntity("testId2", "testName2", "iconUrl"),

@@ -20,19 +20,31 @@ import kotlinx.coroutines.test.runTest
 @OptIn(ExperimentalCoroutinesApi::class)
 class SelectedChannelUseCaseTest : StringSpec({
 
+    lateinit var preferenceRepository: PreferenceRepository
+    lateinit var selectedChannelRepository: SelectedChannelRepository
+
+    lateinit var selectedChannelUseCase: SelectedChannelUseCase
+
+    beforeTest {
+        preferenceRepository = createPreferenceMockRepository()
+        selectedChannelRepository = createSelectedChannelMockRepository()
+
+        selectedChannelUseCase = SelectedChannelUseCase(
+            selectedChannelRepository,
+            preferenceRepository,
+        )
+    }
+
+    afterTest {
+        println("test ${it.a.name.testName} complete status is ${it.b.isSuccess}")
+    }
+
     assertSoftly {
         "load selected channels with flow" {
-            val selectedChannelRepository = createSelectedChannelMockRepository()
-            val preferenceRepository = createPreferenceMockRepository()
-
             val expectedResult = listOf(
                 SelectedChannel("testId1", "testName1", "iconUrl", order = 1, parentList = "test"),
                 SelectedChannel("testId2", "testName2", "iconUrl", order = 2, parentList = "test"),
                 SelectedChannel("testId3", "testName3", "iconUrl", order = 3, parentList = "test"),
-            )
-
-            val selectedChannelUseCase = SelectedChannelUseCase(
-                selectedChannelRepository, preferenceRepository
             )
 
             withClue("single call from selectedChannelRepository execute") {
@@ -74,9 +86,6 @@ class SelectedChannelUseCaseTest : StringSpec({
         }
 
         "add channel item to selected" {
-            val selectedChannelRepository = createSelectedChannelMockRepository()
-            val preferenceRepository = createPreferenceMockRepository()
-
             val availableChannel = AvailableChannel("testId1", "testName1", "iconUrl")
             val channelToAdd = SelectedChannelEntity(
                 "testId1",
@@ -89,10 +98,6 @@ class SelectedChannelUseCaseTest : StringSpec({
             coEvery {
                 selectedChannelRepository.addChannel(channelToAdd)
             } just runs
-
-            val selectedChannelUseCase = SelectedChannelUseCase(
-                selectedChannelRepository, preferenceRepository
-            )
 
             withClue("call sequence from selectedChannelRepository execute") {
                 runTest {
@@ -107,9 +112,6 @@ class SelectedChannelUseCaseTest : StringSpec({
         }
 
         "delete channel item from selected" {
-            val selectedChannelRepository = createSelectedChannelMockRepository()
-            val preferenceRepository = createPreferenceMockRepository()
-
             coEvery {
                 selectedChannelRepository.updateChannels(expectedResultDao)
             } just runs
@@ -117,10 +119,6 @@ class SelectedChannelUseCaseTest : StringSpec({
             coEvery {
                 selectedChannelRepository.deleteChannel("testId1")
             } just runs
-
-            val selectedChannelUseCase = SelectedChannelUseCase(
-                selectedChannelRepository, preferenceRepository
-            )
 
             withClue("call sequence from selectedChannelRepository execute") {
                 runTest {
@@ -136,9 +134,6 @@ class SelectedChannelUseCaseTest : StringSpec({
         }
 
         "update channels order" {
-            val selectedChannelRepository = createSelectedChannelMockRepository()
-            val preferenceRepository = createPreferenceMockRepository()
-
             val notOrdered = listOf(
                 SelectedChannel("testId1", "testName1", "iconUrl", order = 3, parentList = "test"),
                 SelectedChannel("testId2", "testName2", "iconUrl", order = 4, parentList = "test"),
@@ -148,10 +143,6 @@ class SelectedChannelUseCaseTest : StringSpec({
             coEvery {
                 selectedChannelRepository.updateChannels(expectedResultDao)
             } just runs
-
-            val selectedChannelUseCase = SelectedChannelUseCase(
-                selectedChannelRepository, preferenceRepository
-            )
 
             withClue("single call from selectedChannelRepository execute") {
                 runTest {
