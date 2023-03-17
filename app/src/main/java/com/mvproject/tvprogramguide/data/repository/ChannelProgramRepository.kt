@@ -7,7 +7,8 @@ import com.mvproject.tvprogramguide.data.network.EpgService
 import com.mvproject.tvprogramguide.data.utils.Mappers.asProgramEntities
 import com.mvproject.tvprogramguide.data.utils.Mappers.asProgramFromEntities
 import com.mvproject.tvprogramguide.data.utils.getNoProgramData
-import kotlinx.datetime.Clock
+import com.mvproject.tvprogramguide.domain.utils.Utils.correctTimeZone
+import kotlinx.datetime.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -43,15 +44,22 @@ class ChannelProgramRepository @Inject constructor(
     @Transaction
     suspend fun loadProgram(channelId: String) {
         val entities = try {
-            val ch = epgService.getChannelProgram(channelId).chPrograms
-            ch.asProgramEntities(channelId = channelId)
+            val prg = epgService.getChannelProgram(channelId)
+            val ch = prg.chPrograms
+            if (ch.isEmpty()){
+                channelId.getNoProgramData()
+            } else {
+                ch.asProgramEntities(channelId = channelId)
+            }
         } catch (ex: Exception) {
-            Timber.e("loadProgram for $channelId IllegalStateException  ${ex.localizedMessage}")
+            Timber.e("testing loadProgram for $channelId IllegalStateException  ${ex.localizedMessage}")
             channelId.getNoProgramData()
         }
         programDao.apply {
             deletePrograms(channelId = channelId)
-            insertPrograms(channels = entities)
+            insertPrograms(channels = entities.map {
+                it.correctTimeZone()
+            })
         }
     }
 
