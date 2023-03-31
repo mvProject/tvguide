@@ -4,6 +4,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
+    //id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
     id("com.google.gms.google-services")
@@ -18,12 +19,22 @@ android {
         minSdk = 24
         targetSdk = 32
         versionCode = 1
-        versionName = "0.2.7"
+        versionName = "0.3.0"
         testInstrumentationRunner = libs.versions.androidTestInstrumentation.get()
 
         resourceConfigurations.addAll(listOf("en", "ru", "uk"))
 
         vectorDrawables.useSupportLibrary = true
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
+
+        // ksp {
+        //     arg("room.schemaLocation", "$projectDir/schemas")
+        // }
     }
 
     val projectProperties = readProperties(file("../keystore.properties"))
@@ -124,6 +135,7 @@ dependencies {
 
     implementation(libs.bundles.room)
     kapt(libs.roomCompiler)
+    //ksp(libs.roomCompiler)
 
     implementation(libs.hilt)
     kapt(libs.bundles.hiltCompiler)
