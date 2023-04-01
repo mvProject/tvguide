@@ -95,7 +95,7 @@ fun ChannelItemViewDark() {
     TvGuideTheme(true) {
         ChannelItem(
             channelName = "TV1000 Comedy",
-            channelLogo = "https://iptvxpix.ml/vip-comedy.png",
+            channelLogo = "https://picon.ml/vip-comedy.png",
             onClickAction = {}
         )
     }
@@ -107,7 +107,7 @@ fun ChannelItemView() {
     TvGuideTheme() {
         ChannelItem(
             channelName = "TV1000 Comedy",
-            channelLogo = "https://iptvxpix.ml/vip-comedy.png",
+            channelLogo = "https://picon.ml/vip-comedy.png",
             onClickAction = {}
         )
     }

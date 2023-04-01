@@ -1,9 +1,13 @@
 package com.mvproject.tvprogramguide.domain.utils
 
-import kotlinx.datetime.Clock
+import com.mvproject.tvprogramguide.data.model.domain.Program
+import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
+import kotlinx.datetime.*
 import kotlin.time.Duration.Companion.days
 
 object Utils {
+    private val tzSource = TimeZone.of("Europe/Moscow")
+    private val tzCurrent = TimeZone.currentSystemDefault()
 
     val actualDay
         get() = Clock.System.now()
@@ -19,5 +23,31 @@ object Utils {
             progressValue = (spendValue / endValue).toFloat()
         }
         return progressValue
+    }
+
+    fun Program.correctTimeZone(): Program {
+        val startInstant = Instant.fromEpochMilliseconds(this.dateTimeStart)
+        val endInstant = Instant.fromEpochMilliseconds(this.dateTimeEnd)
+        return this.copy(
+            dateTimeStart = startInstant.toLocalDateTime(tzCurrent)
+                .toInstant(tzSource)
+                .toEpochMilliseconds(),
+            dateTimeEnd = endInstant.toLocalDateTime(tzCurrent)
+                .toInstant(tzSource)
+                .toEpochMilliseconds()
+        )
+    }
+
+    fun ProgramEntity.correctTimeZone(): ProgramEntity {
+        val startInstant = Instant.fromEpochMilliseconds(this.dateTimeStart)
+        val endInstant = Instant.fromEpochMilliseconds(this.dateTimeEnd)
+        return this.copy(
+            dateTimeStart = startInstant.toLocalDateTime(tzCurrent)
+                .toInstant(tzSource)
+                .toEpochMilliseconds(),
+            dateTimeEnd = endInstant.toLocalDateTime(tzCurrent)
+                .toInstant(tzSource)
+                .toEpochMilliseconds()
+        )
     }
 }

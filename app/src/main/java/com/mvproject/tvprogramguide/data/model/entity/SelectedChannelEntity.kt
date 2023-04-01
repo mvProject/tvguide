@@ -17,7 +17,6 @@ import com.mvproject.tvprogramguide.data.utils.parseChannelName
 data class SelectedChannelEntity(
     @ColumnInfo(name = "channel_id") val channelId: String,
     @ColumnInfo(name = "channel_name") val channelName: String,
-    @ColumnInfo(name = "channel_icon") val channelIcon: String,
     val order: Int = COUNT_ZERO,
     val parentList: String = NO_VALUE_STRING
 ) {
@@ -25,7 +24,6 @@ data class SelectedChannelEntity(
         SelectedChannel(
             channelId = channelId,
             channelName = channelName.parseChannelName(),
-            channelIcon = channelIcon,
             order = order,
             parentList = parentList
         )
