@@ -1,12 +1,16 @@
 package com.mvproject.tvprogramguide.ui.selectedchannels.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,7 +26,6 @@ import coil.request.ImageRequest
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.domain.utils.forwardingPainter
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
-import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
@@ -35,12 +38,10 @@ fun ChannelItem(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(MaterialTheme.colors.surface)
             .clickable {
                 onClickAction()
             },
-        shape = RoundedCornerShape(MaterialTheme.dimens.size4),
-        elevation = MaterialTheme.dimens.size2
+        shape = MaterialTheme.shapes.extraSmall
     ) {
         Row(
             modifier = Modifier
@@ -57,33 +58,31 @@ fun ChannelItem(
 
                 placeholder = forwardingPainter(
                     painter = painterResource(R.drawable.no_channel_logo),
-                    colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onPrimary)
+                    colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onSurface)
                 ),
                 error = forwardingPainter(
                     painter = painterResource(R.drawable.no_channel_logo),
-                    colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onPrimary)
+                    colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onPrimary)
                 ),
                 contentDescription = stringResource(R.string.app_name),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(MaterialTheme.dimens.size38)
-                    .clip(RoundedCornerShape(MaterialTheme.dimens.size4))
-                    .background(
-                        color = MaterialTheme.colors.onPrimary
-                            .copy(alpha = MaterialTheme.dimens.alpha20)
-                    ),
+                    .clip(MaterialTheme.shapes.small)
+                // .background(
+                //    color = MaterialTheme.colorScheme.onPrimary
+                //        .copy(alpha = MaterialTheme.dimens.alpha20)
+                // ),
             )
 
             Spacer(modifier = Modifier.padding(horizontal = MaterialTheme.dimens.size8))
 
             Text(
                 text = channelName,
-                fontSize = MaterialTheme.dimens.font16,
-                style = MaterialTheme.appTypography.textSemiBold,
+                style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier
                     .weight(MaterialTheme.dimens.weight1)
-                    .align(Alignment.CenterVertically),
-                color = MaterialTheme.colors.onPrimary
+                    .align(Alignment.CenterVertically)
             )
         }
     }

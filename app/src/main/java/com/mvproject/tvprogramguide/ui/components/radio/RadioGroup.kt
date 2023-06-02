@@ -2,7 +2,7 @@ package com.mvproject.tvprogramguide.ui.components.radio
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO

@@ -1,20 +1,31 @@
 package com.mvproject.tvprogramguide.ui.components.dialogs
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.data.utils.manageLength
-import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
@@ -34,7 +45,7 @@ fun ShowAddNewDialog(
                     .height(MaterialTheme.dimens.size250)
                     .padding(MaterialTheme.dimens.size6),
                 shape = RoundedCornerShape(MaterialTheme.dimens.size16),
-                elevation = MaterialTheme.dimens.size8
+                shadowElevation = MaterialTheme.dimens.size8
             ) {
                 Column(
                     modifier = Modifier
@@ -47,15 +58,11 @@ fun ShowAddNewDialog(
                         text = stringResource(id = R.string.dlg_title_add_new_custom_user_list),
                         modifier = Modifier
                             .padding(MaterialTheme.dimens.size4),
-                        color = MaterialTheme.colors.onSurface,
-                        style = MaterialTheme.appTypography.textSemiBold,
-                        fontSize = MaterialTheme.dimens.font18
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.titleMedium
                     )
 
-                    Spacer(
-                        modifier = Modifier
-                            .padding(MaterialTheme.dimens.size4)
-                    )
+                    Spacer(modifier = Modifier.height(MaterialTheme.dimens.size4))
 
                     OutlinedTextField(
                         value = name.value,
@@ -64,26 +71,26 @@ fun ShowAddNewDialog(
                         },
                         modifier = Modifier
                             .fillMaxWidth(MaterialTheme.dimens.fraction80),
-                        textStyle = MaterialTheme.appTypography.textMedium,
+                        textStyle = MaterialTheme.typography.bodyMedium,
                         placeholder = {
                             Text(text = stringResource(id = R.string.dlg_hint_new_custom_user_list))
                         },
                         singleLine = true,
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            textColor = MaterialTheme.colors.onSurface,
-                            unfocusedBorderColor = MaterialTheme.colors.onSurface
-                                .copy(alpha = MaterialTheme.dimens.alpha70),
-                            focusedBorderColor = MaterialTheme.colors.onSurface
-                                .copy(alpha = MaterialTheme.dimens.alpha30)
+                        colors = TextFieldDefaults.colors(
+                            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                            cursorColor = MaterialTheme.colorScheme.onSurface,
+                            focusedLeadingIconColor = MaterialTheme.colorScheme.tertiary,
+                            focusedTrailingIconColor = Color.Red,
+                            focusedContainerColor = MaterialTheme.colorScheme.surface,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            disabledIndicatorColor = Color.Transparent
                         )
                     )
 
-                    Spacer(
-                        modifier = Modifier
-                            .padding(MaterialTheme.dimens.size8)
-                    )
+                    Spacer(modifier = Modifier.height(MaterialTheme.dimens.size8))
 
-                    Button(
+                    ElevatedButton(
                         onClick = {
                             onSelected(name.value)
                             isDialogOpen.value = false
@@ -91,15 +98,15 @@ fun ShowAddNewDialog(
                         modifier = Modifier
                             .fillMaxWidth(MaterialTheme.dimens.fraction50)
                             .padding(MaterialTheme.dimens.size4),
-                        shape = RoundedCornerShape(MaterialTheme.dimens.size8),
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = MaterialTheme.colors.secondary,
-                            contentColor = MaterialTheme.colors.onSecondary
-                        )
+                            containerColor = MaterialTheme.colorScheme.tertiary
+                        ),
+                        shape = MaterialTheme.shapes.small
                     ) {
                         Text(
                             text = stringResource(id = R.string.dlg_btn_close),
-                            style = MaterialTheme.appTypography.textMedium
+                            color = MaterialTheme.colorScheme.onTertiary,
+                            style = MaterialTheme.typography.titleMedium
                         )
                     }
                 }

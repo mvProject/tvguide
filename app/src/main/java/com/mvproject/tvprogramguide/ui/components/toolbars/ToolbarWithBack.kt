@@ -1,62 +1,55 @@
 package com.mvproject.tvprogramguide.ui.components.toolbars
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.filled.NavigateBefore
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
-import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ToolbarWithBack(
     title: String,
     onBackClick: () -> Unit = {}
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentSize()
-            .background(color = MaterialTheme.colors.primary)
-            .padding(MaterialTheme.dimens.size8),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-
-        Icon(
-            Icons.Outlined.ArrowBack,
-            contentDescription = null,
-            tint = MaterialTheme.colors.onPrimary,
-            modifier = Modifier
-                .size(MaterialTheme.dimens.size32)
-                .clickable {
-                    onBackClick()
-                }
+    CenterAlignedTopAppBar(
+        title = {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        },
+        navigationIcon = {
+            FilledIconButton(
+                onClick = onBackClick,
+                modifier = Modifier.padding(MaterialTheme.dimens.size8),
+                colors = IconButtonDefaults.filledIconButtonColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Default.NavigateBefore,
+                    contentDescription = "Back",
+                )
+            }
+        },
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.inverseOnSurface
         )
-
-        Spacer(
-            modifier = Modifier
-                .padding(horizontal = MaterialTheme.dimens.size8)
-        )
-
-        Text(
-            text = title,
-            modifier = Modifier
-                .weight(MaterialTheme.dimens.weight1),
-            color = MaterialTheme.colors.onPrimary,
-            textAlign = TextAlign.Center,
-            fontSize = MaterialTheme.dimens.font18,
-            style = MaterialTheme.appTypography.textBold
-        )
-    }
+    )
 }
 
 @Preview
