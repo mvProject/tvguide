@@ -8,7 +8,7 @@ import com.mvproject.tvprogramguide.data.utils.Mappers.asProgramEntities
 import com.mvproject.tvprogramguide.data.utils.Mappers.asProgramFromEntities
 import com.mvproject.tvprogramguide.data.utils.getNoProgramData
 import com.mvproject.tvprogramguide.domain.utils.Utils.correctTimeZone
-import kotlinx.datetime.*
+import kotlinx.datetime.Clock
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -46,7 +46,7 @@ class ChannelProgramRepository @Inject constructor(
         val entities = try {
             val prg = epgService.getChannelProgram(channelId)
             val ch = prg.chPrograms
-            if (ch.isEmpty()){
+            if (ch.isEmpty()) {
                 channelId.getNoProgramData()
             } else {
                 ch.asProgramEntities(channelId = channelId)
@@ -57,9 +57,11 @@ class ChannelProgramRepository @Inject constructor(
         }
         programDao.apply {
             deletePrograms(channelId = channelId)
-            insertPrograms(channels = entities.map {
-                it.correctTimeZone()
-            })
+            insertPrograms(
+                channels = entities.map {
+                    it.correctTimeZone()
+                }
+            )
         }
     }
 

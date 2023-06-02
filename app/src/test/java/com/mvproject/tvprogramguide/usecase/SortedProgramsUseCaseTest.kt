@@ -402,7 +402,7 @@ class SortedProgramsUseCaseTest : StringSpec({
             }
         }
 
-        "no match channel"{
+        "no match channel" {
             val programSchedule = ProgramSchedule(
                 channelId = "channelId",
                 programTitle = "testTitle",
@@ -482,7 +482,6 @@ private fun createSelectedChannelMockRepository(): SelectedChannelRepository {
 
     return selectedChannelRepository
 }
-
 
 private val expectedResultDao
     get() = listOf(

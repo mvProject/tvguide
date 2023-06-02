@@ -1,7 +1,12 @@
 package com.mvproject.tvprogramguide.data.repository
 
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.*
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import com.mvproject.tvprogramguide.data.model.settings.AppSettingsModel
 import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
 import com.mvproject.tvprogramguide.data.utils.AppConstants.DEFAULT_CHANNELS_UPDATE_PERIOD
@@ -100,7 +105,6 @@ class PreferenceRepository @Inject constructor(
         preferences[LAST_UPDATE_PROGRAMS] ?: NO_VALUE_LONG
     }
 
-
     suspend fun setAppSettings(appSettings: AppSettingsModel) {
         dataStore.edit { settings ->
             settings[APP_THEME_OPTION] = appSettings.appTheme
@@ -125,7 +129,6 @@ class PreferenceRepository @Inject constructor(
             programsViewCount = programsViewCount,
             appTheme = themeId
         )
-
     }
 
     private companion object {

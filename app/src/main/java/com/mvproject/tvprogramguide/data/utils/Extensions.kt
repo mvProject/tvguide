@@ -18,7 +18,7 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 import kotlin.time.Duration.Companion.hours
 
 private const val DATE_FORMAT = "dd-MM-yyyy HH:mm"
@@ -163,7 +163,6 @@ fun <T> List<T>.takeIfCountNotEmpty(count: Int): List<T> {
         this.take(count)
     else this
 }
-
 
 fun String.manageLength() = if (this.length > USER_LIST_MAX_LENGTH)
     this.substring(COUNT_ZERO until USER_LIST_MAX_LENGTH)

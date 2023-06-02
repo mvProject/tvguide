@@ -1,6 +1,6 @@
 package com.mvproject.tvprogramguide.theme
 
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -50,6 +50,7 @@ data class Dimens(
 
     val weight1: Float = 1f,
     val weight2: Float = 2f,
+    val weight3: Float = 3f,
     val weight4: Float = 4f,
     val weight5: Float = 5f,
     val weight6: Float = 6f,

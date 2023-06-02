@@ -4,7 +4,11 @@ import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.ui.onboard.viewmodel.OnBoardViewModel
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.runs
 
 class OnBoardViewModelTest : StringSpec({
     lateinit var preferenceRepository: PreferenceRepository
@@ -14,7 +18,6 @@ class OnBoardViewModelTest : StringSpec({
         preferenceRepository = mockk<PreferenceRepository>()
         onBoardViewModel = OnBoardViewModel(preferenceRepository)
     }
-
 
     afterTest {
         println("test ${it.a.name.testName} complete status is ${it.b.isSuccess}")

@@ -30,7 +30,6 @@ class ExtensionListTest : ShouldSpec({
     val largeList = listOf(1, 2, 3, 4, 5, 6, 7, 8)
     val shortList = listOf(1, 2, 3, 4)
 
-
     context("index of target string in list") {
         assertSoftly {
             should("return the index of proper target") {

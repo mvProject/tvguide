@@ -6,7 +6,6 @@ import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.data.utils.Mappers.asSelectedChannelsFromAltEntities
-import com.mvproject.tvprogramguide.data.utils.Mappers.asSelectedChannelsFromEntities
 import com.mvproject.tvprogramguide.data.utils.Mappers.toSelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.utils.Mappers.toSingleChannelWithPrograms
 import com.mvproject.tvprogramguide.data.utils.parseChannelName
@@ -121,7 +120,6 @@ class SortedProgramsUseCase @Inject constructor(
      */
     suspend fun checkProgramsUpdateRequired(obtainedChannelsIds: List<String>): Array<String>? {
         val currentChannelList = preferenceRepository.loadDefaultUserList().first()
-
 
         val selectedChannelIds = selectedChannelRepository
             .loadSelectedChannels(listName = currentChannelList)

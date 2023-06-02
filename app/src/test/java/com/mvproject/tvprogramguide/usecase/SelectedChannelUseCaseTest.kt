@@ -79,7 +79,6 @@ class SelectedChannelUseCaseTest : StringSpec({
                             resultList.last().channelName shouldBe "testName3"
                             resultList.last().parentList shouldBe "test"
                         }
-
                     }
                 }
             }

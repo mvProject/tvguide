@@ -12,7 +12,13 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.runs
 
 class AllChannelsRepositoryTest : StringSpec({
     lateinit var epg: EpgService
@@ -43,7 +49,6 @@ class AllChannelsRepositoryTest : StringSpec({
                 dao.deleteChannels()
             } just runs
 
-
             withClue("single call from epg execute") {
                 repository.loadProgramFromSource()
                 coVerify(exactly = 1) {
@@ -72,8 +77,6 @@ class AllChannelsRepositoryTest : StringSpec({
                     dao.insertChannelList(listOf())
                 }
             }
-
-
         }
 
         "loadChannels returns proper data" {

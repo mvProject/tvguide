@@ -11,7 +11,11 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.mockk
 import kotlinx.datetime.Clock
 import kotlin.time.Duration.Companion.hours
 

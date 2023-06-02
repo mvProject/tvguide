@@ -42,7 +42,6 @@ class SelectedChannelRepositoryTest : StringSpec({
                 dao.getSelectedChannels("test")
             } returns expectedResult
 
-
             val retrievedResult = repository.loadSelectedChannels("test")
 
             withClue("single call from dao execute") {
@@ -112,7 +111,6 @@ class SelectedChannelRepositoryTest : StringSpec({
             coEvery {
                 dao.getChannelNameById("testId")
             } returns expectedResult
-
 
             val retrievedResult = repository.loadChannelNameById("testId")
 

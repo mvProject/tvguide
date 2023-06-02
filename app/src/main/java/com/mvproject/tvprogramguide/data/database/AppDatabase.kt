@@ -2,7 +2,6 @@ package com.mvproject.tvprogramguide.data.database
 
 import androidx.room.AutoMigration
 import androidx.room.Database
-import androidx.room.Delete
 import androidx.room.DeleteColumn
 import androidx.room.RoomDatabase
 import androidx.room.migration.AutoMigrationSpec
@@ -35,7 +34,7 @@ import com.mvproject.tvprogramguide.data.model.entity.UserChannelsListEntity
 abstract class AppDatabase : RoomDatabase() {
 
     @DeleteColumn(tableName = "selected_channels", columnName = "channel_icon")
-    class MigrateSelectedChannelsToSelectedChannelsWithoutIcon : AutoMigrationSpec {}
+    class MigrateSelectedChannelsToSelectedChannelsWithoutIcon : AutoMigrationSpec
 
     abstract fun allChannelDao(): AllChannelDao
 

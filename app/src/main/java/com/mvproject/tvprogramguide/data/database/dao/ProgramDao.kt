@@ -20,5 +20,4 @@ interface ProgramDao {
 
     @Update
     suspend fun updateProgram(programForUpdate: ProgramEntity)
-
 }

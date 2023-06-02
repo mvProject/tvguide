@@ -1,8 +1,8 @@
 package com.mvproject.tvprogramguide.data.database.dao
 
 import androidx.room.*
-import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelWithIconEntity
 import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelEntity
+import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelWithIconEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -13,7 +13,6 @@ interface SelectedChannelDao {
 
     @Update
     suspend fun updateChannels(channelsForUpdate: List<SelectedChannelEntity>)
-
 
     @Query("SELECT * FROM selected_channels WHERE parentList = :listName")
     suspend fun getSelectedChannels(listName: String): List<SelectedChannelWithIconEntity>
