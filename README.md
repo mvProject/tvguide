@@ -82,10 +82,10 @@ assertions and integrated property testing
 
 ## Screenshots
 
-<img src="screenshots/tiny_iptv_player_1.png" height="680" width="340">
-<img src="screenshots/tiny_iptv_player_2.png" height="680" width="340">
-<img src="screenshots/tiny_iptv_player_3.png" height="680" width="340">
-<img src="screenshots/tiny_iptv_player_4.png" height="680" width="340">
+<img src="screenshots/tv_program_guide_1.png" height="680" width="340">
+<img src="screenshots/tv_program_guide_2.png" height="680" width="340">
+<img src="screenshots/tv_program_guide_3.png" height="680" width="340">
+<img src="screenshots/tv_program_guide_4.png" height="680" width="340">
 
 
 
