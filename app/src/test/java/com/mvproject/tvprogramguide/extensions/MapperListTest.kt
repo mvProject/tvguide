@@ -340,5 +340,4 @@ class MapperListTest : ShouldSpec({
             }
         }
     }
-
 })

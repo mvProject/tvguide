@@ -29,5 +29,4 @@ enum class AppThemeOptions(val id: Int, @StringRes val titleRes: Int) {
     companion object {
         fun getThemeById(targetId: Int) = values().find { theme -> theme.id == targetId } ?: SYSTEM
     }
-
 }

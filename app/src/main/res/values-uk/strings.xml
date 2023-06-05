@@ -3,7 +3,7 @@
 
     <string name="title_all_channels">Усі</string>
     <string name="title_selected_channels">Вибрані</string>
-    <string name="title_custom_channels_list">Користувацькі списки каналів</string>
+    <string name="title_custom_channels_list">Списки каналів</string>
 
     <string name="hint_search">Пошук каналів</string>
 

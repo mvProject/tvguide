@@ -6,11 +6,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -19,7 +28,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
-import com.mvproject.tvprogramguide.theme.appColors
 import com.mvproject.tvprogramguide.theme.dimens
 import com.mvproject.tvprogramguide.theme.fonts
 import timber.log.Timber
@@ -35,7 +43,7 @@ fun SearchView(
     Surface(
         modifier = modifier,
         shape = CircleShape,
-        elevation = MaterialTheme.dimens.size12
+        shadowElevation = MaterialTheme.dimens.size12
     ) {
         TextField(
             value = text,
@@ -45,10 +53,10 @@ fun SearchView(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colors.surface, CircleShape),
+                .background(MaterialTheme.colorScheme.surface, CircleShape),
 
             textStyle = TextStyle(
-                color = MaterialTheme.colors.onSurface,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = MaterialTheme.dimens.font18,
                 fontFamily = fonts,
                 fontWeight = FontWeight.SemiBold
@@ -60,7 +68,7 @@ fun SearchView(
                     modifier = Modifier
                         .padding(MaterialTheme.dimens.size16)
                         .size(MaterialTheme.dimens.size24),
-                    tint = MaterialTheme.colors.onSurface
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             },
             trailingIcon = {
@@ -77,19 +85,19 @@ fun SearchView(
                             modifier = Modifier
                                 .padding(MaterialTheme.dimens.size16)
                                 .size(MaterialTheme.dimens.size24),
-                            tint = MaterialTheme.appColors.tintSecondary
+                            tint = MaterialTheme.colorScheme.tertiary
                         )
                     }
                 }
             },
             singleLine = true,
             shape = RectangleShape,
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = MaterialTheme.colors.onSurface,
-                cursorColor = MaterialTheme.colors.onSurface,
-                leadingIconColor = MaterialTheme.appColors.tintPrimary,
-                trailingIconColor = Color.Red,
-                backgroundColor = MaterialTheme.colors.surface,
+            colors = TextFieldDefaults.colors(
+                focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                cursorColor = MaterialTheme.colorScheme.onSurface,
+                focusedLeadingIconColor = MaterialTheme.colorScheme.tertiary,
+                focusedTrailingIconColor = Color.Red,
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent

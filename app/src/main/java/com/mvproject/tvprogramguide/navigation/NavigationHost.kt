@@ -1,13 +1,11 @@
 package com.mvproject.tvprogramguide.navigation
 
-import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -42,7 +40,6 @@ fun NavigationHost(navController: NavHostController, startScreen: String) {
         startDestination = startScreen,
         modifier = Modifier
             .systemBarsPadding()
-            .background(MaterialTheme.colors.primary)
     ) {
         composable(
             AppRoutes.OnBoard.route,
@@ -101,13 +98,13 @@ fun NavigationHost(navController: NavHostController, startScreen: String) {
             AppRoutes.OptionSettings.route,
             enterTransition = {
                 slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Left,
+                    AnimatedContentTransitionScope.SlideDirection.Left,
                     animationSpec = tween(ANIM_DURATION_600)
                 ) + fadeIn(animationSpec = tween(ANIM_DURATION_600))
             },
             exitTransition = {
                 slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Right,
+                    AnimatedContentTransitionScope.SlideDirection.Right,
                     animationSpec = tween(ANIM_DURATION_600)
                 ) + fadeOut(animationSpec = tween(ANIM_DURATION_600))
             }
@@ -129,13 +126,13 @@ fun NavigationHost(navController: NavHostController, startScreen: String) {
             AppRoutes.AppSettings.route,
             enterTransition = {
                 slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Left,
+                    AnimatedContentTransitionScope.SlideDirection.Left,
                     animationSpec = tween(ANIM_DURATION_600)
                 ) + fadeIn(animationSpec = tween(ANIM_DURATION_600))
             },
             exitTransition = {
                 slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Right,
+                    AnimatedContentTransitionScope.SlideDirection.Right,
                     animationSpec = tween(ANIM_DURATION_600)
                 ) + fadeOut(animationSpec = tween(ANIM_DURATION_600))
             }
@@ -151,13 +148,13 @@ fun NavigationHost(navController: NavHostController, startScreen: String) {
             AppRoutes.UserCustomList.route,
             enterTransition = {
                 slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Left,
+                    AnimatedContentTransitionScope.SlideDirection.Left,
                     animationSpec = tween(ANIM_DURATION_600)
                 ) + fadeIn(animationSpec = tween(ANIM_DURATION_600))
             },
             exitTransition = {
                 slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Right,
+                    AnimatedContentTransitionScope.SlideDirection.Right,
                     animationSpec = tween(ANIM_DURATION_600)
                 ) + fadeOut(animationSpec = tween(ANIM_DURATION_600))
             }
@@ -180,13 +177,13 @@ fun NavigationHost(navController: NavHostController, startScreen: String) {
             AppRoutes.ChannelSettings.route,
             enterTransition = {
                 slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Left,
+                    AnimatedContentTransitionScope.SlideDirection.Left,
                     animationSpec = tween(ANIM_DURATION_600)
                 ) + fadeIn(animationSpec = tween(ANIM_DURATION_600))
             },
             exitTransition = {
                 slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Right,
+                    AnimatedContentTransitionScope.SlideDirection.Right,
                     animationSpec = tween(ANIM_DURATION_600)
                 ) + fadeOut(animationSpec = tween(ANIM_DURATION_600))
             }

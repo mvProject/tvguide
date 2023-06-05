@@ -36,6 +36,4 @@ object DataStoreModule {
             produceFile = { appContext.preferencesDataStoreFile(TVGUIDE_PREFERENCES) }
         )
     }
-
-
 }

@@ -2,8 +2,8 @@ package com.mvproject.tvprogramguide.data.repository
 
 import androidx.room.Transaction
 import com.mvproject.tvprogramguide.data.database.dao.SelectedChannelDao
-import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelWithIconEntity
 import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelEntity
+import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelWithIconEntity
 import javax.inject.Inject
 
 class SelectedChannelRepository @Inject constructor(

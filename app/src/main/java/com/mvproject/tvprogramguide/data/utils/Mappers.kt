@@ -1,13 +1,20 @@
 package com.mvproject.tvprogramguide.data.utils
 
-import com.mvproject.tvprogramguide.data.model.domain.*
-import com.mvproject.tvprogramguide.data.model.entity.*
+import com.mvproject.tvprogramguide.data.model.domain.Program
+import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
+import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
+import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
+import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
+import com.mvproject.tvprogramguide.data.model.entity.AvailableChannelEntity
+import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
+import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelEntity
+import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelWithIconEntity
+import com.mvproject.tvprogramguide.data.model.entity.UserChannelsListEntity
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
 import com.mvproject.tvprogramguide.data.model.response.ProgramResponse
 import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO_LONG
 import com.mvproject.tvprogramguide.domain.utils.Utils
-import timber.log.Timber
 
 /**
  * Maps Data between models
@@ -167,7 +174,6 @@ object Mappers {
     }
 
     fun List<SelectedChannelWithIconEntity>.asSelectedChannelsFromAltEntities() = this.map { item ->
-        Timber.e("testing item - ${item.toSelectedChannel()}")
         item.toSelectedChannel()
     }
 

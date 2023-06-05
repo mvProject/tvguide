@@ -1,7 +1,7 @@
 plugins {
     id("org.jlleitschuh.gradle.ktlint").version("10.3.0")
     id("com.github.ben-manes.versions").version("0.42.0")
-   // id("com.google.devtools.ksp").version("1.7.0-1.0.6")
+    // id("com.google.devtools.ksp").version("1.7.0-1.0.6")
 }
 
 buildscript {

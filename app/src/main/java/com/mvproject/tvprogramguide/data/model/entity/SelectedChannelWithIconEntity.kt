@@ -12,7 +12,7 @@ data class SelectedChannelWithIconEntity(
         entityColumn = "channel_id"
     )
     val allChannel: AvailableChannelEntity?
-){
+) {
     fun toSelectedChannel() = with(this) {
         SelectedChannel(
             channelId = channel.channelId,

@@ -5,27 +5,23 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.PagerState
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.utils.AppConstants
-import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun AnimatedCompleteButton(
     modifier: Modifier,
-    pagerState: PagerState,
-    onClick: () -> Unit
+    currentPage: Int = AppConstants.ONBOARD_LAST_PAGES_INDEX,
+    onClick: () -> Unit = {}
 ) {
     Row(
         modifier = modifier
@@ -35,18 +31,22 @@ fun AnimatedCompleteButton(
     ) {
         AnimatedVisibility(
             modifier = Modifier.fillMaxWidth(),
-            visible = pagerState.currentPage == AppConstants.ONBOARD_LAST_PAGES_INDEX
+            visible = currentPage == AppConstants.ONBOARD_LAST_PAGES_INDEX
         ) {
-            Button(
+            ElevatedButton(
                 onClick = onClick,
+                modifier = Modifier
+                    .padding(MaterialTheme.dimens.size8)
+                    .fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = MaterialTheme.colors.secondary,
-                    contentColor = MaterialTheme.colors.onSecondary
-                )
+                    containerColor = MaterialTheme.colorScheme.tertiary
+                ),
+                shape = MaterialTheme.shapes.small
             ) {
                 Text(
                     text = stringResource(id = R.string.onboard_btn_complete),
-                    style = MaterialTheme.appTypography.textSemiBold
+                    color = MaterialTheme.colorScheme.onTertiary,
+                    style = MaterialTheme.typography.titleMedium
                 )
             }
         }
