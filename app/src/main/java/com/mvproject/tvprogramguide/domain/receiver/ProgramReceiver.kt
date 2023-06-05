@@ -30,7 +30,6 @@ internal class ProgramReceiver : BroadcastReceiver() {
             }
             Intent.ACTION_BOOT_COMPLETED,
             AlarmManager.ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED -> {
-
             }
             else ->
                 Timber.e("Action not supported")

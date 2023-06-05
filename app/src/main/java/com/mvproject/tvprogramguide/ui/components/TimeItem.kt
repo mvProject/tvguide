@@ -2,18 +2,22 @@ package com.mvproject.tvprogramguide.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import com.mvproject.tvprogramguide.data.utils.AppConstants.PROGRAM_TIME_MEASURE_COUNT
 import com.mvproject.tvprogramguide.data.utils.AppConstants.PROGRAM_TIME_MEASURE_DELIMITER
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
-import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
@@ -29,21 +33,21 @@ fun TimeItem(
 
     val timeColor =
         if (isSelected)
-            MaterialTheme.colors.onSecondary
+            MaterialTheme.colorScheme.onTertiaryContainer
         else
-            MaterialTheme.colors.onPrimary
+            MaterialTheme.colorScheme.onSurface
 
     val backColor =
         if (isSelected)
-            MaterialTheme.colors.secondary
+            MaterialTheme.colorScheme.tertiaryContainer
         else
-            MaterialTheme.colors.primary
+            MaterialTheme.colorScheme.inverseOnSurface
 
     Row(
         modifier = modifier
-            .width(MaterialTheme.dimens.size44)
+            .width(MaterialTheme.dimens.size48)
             .wrapContentHeight()
-            .clip(RoundedCornerShape(MaterialTheme.dimens.size8))
+            .clip(MaterialTheme.shapes.extraSmall)
             .background(backColor)
             .clickable {
                 onTimeClick()
@@ -52,24 +56,22 @@ fun TimeItem(
                 horizontal = MaterialTheme.dimens.size4,
                 vertical = MaterialTheme.dimens.size2
             ),
-        horizontalArrangement = Arrangement.SpaceAround
+        horizontalArrangement = Arrangement.SpaceAround,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = datTime.first(),
-            fontSize = MaterialTheme.dimens.font12,
-            style = MaterialTheme.appTypography.textSemiBold,
+            style = MaterialTheme.typography.bodySmall,
             color = timeColor
         )
         Text(
             text = PROGRAM_TIME_MEASURE_DELIMITER,
-            fontSize = MaterialTheme.dimens.font12,
-            style = MaterialTheme.appTypography.textSemiBold,
+            style = MaterialTheme.typography.labelSmall,
             color = timeColor
         )
         Text(
             text = datTime.last(),
-            fontSize = MaterialTheme.dimens.font12,
-            style = MaterialTheme.appTypography.textSemiBold,
+            style = MaterialTheme.typography.bodySmall,
             color = timeColor
         )
     }
@@ -92,7 +94,7 @@ fun TimeItemPreview() {
 @Preview(showBackground = true)
 @Composable
 fun TimeItemPreviewDark() {
-    TvGuideTheme(true) {
+    TvGuideTheme(darkTheme = true) {
         Column {
             TimeItem(time = "06:55")
             TimeItem(time = "10:11")

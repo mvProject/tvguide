@@ -2,13 +2,12 @@ package com.mvproject.tvprogramguide.ui.selectedchannels.components
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
@@ -28,8 +27,7 @@ fun ChannelList(
     Crossfade(targetState = singleChannelPrograms) { data ->
         LazyColumn(
             modifier = Modifier
-                .fillMaxHeight()
-                .background(MaterialTheme.colors.background),
+                .fillMaxHeight(),
             contentPadding = PaddingValues(horizontal = MaterialTheme.dimens.size4),
             state = listState
         ) {

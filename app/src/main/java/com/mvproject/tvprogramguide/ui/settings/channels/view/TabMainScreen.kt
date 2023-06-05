@@ -1,28 +1,30 @@
 package com.mvproject.tvprogramguide.ui.settings.channels.view
 
 import androidx.compose.animation.Animatable
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerDefaults
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.pagerTabIndicatorOffset
-import com.google.accompanist.pager.rememberPagerState
 import com.mvproject.tvprogramguide.R
+import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
+import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO_FLOAT
 import com.mvproject.tvprogramguide.data.utils.AppConstants.SELECTED_CHANNELS_PAGE
 import com.mvproject.tvprogramguide.theme.dimens
-import com.mvproject.tvprogramguide.theme.fonts
 import com.mvproject.tvprogramguide.ui.settings.channels.viewmodel.CustomListViewModel
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TabMainScreen(
     viewModel: CustomListViewModel,
@@ -36,54 +38,48 @@ fun TabMainScreen(
         stringResource(id = R.string.title_all_channels),
         stringResource(id = R.string.title_selected_channels)
     )
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState(
+        initialPage = COUNT_ZERO,
+        initialPageOffsetFraction = COUNT_ZERO_FLOAT
+    ) {
+        tabItems.size
+    }
     val coroutineScope = rememberCoroutineScope()
 
-    Column(
-        modifier = Modifier.background(MaterialTheme.colors.primary)
-    ) {
+    val activeTabColor = MaterialTheme.colorScheme.inverseOnSurface
+    val inActiveTabColor = MaterialTheme.colorScheme.surface
+    val activeTextColor = MaterialTheme.colorScheme.onSurfaceVariant
+    val inActiveTextColor = MaterialTheme.colorScheme.inverseOnSurface
+
+    Column {
         TabRow(
             selectedTabIndex = pagerState.currentPage,
-            backgroundColor = MaterialTheme.colors.primary,
             modifier = Modifier
                 .padding(MaterialTheme.dimens.size4)
-                .background(MaterialTheme.colors.primary)
-                .clip(RoundedCornerShape(MaterialTheme.dimens.size26)),
-            indicator = { tabPositions ->
-                TabRowDefaults.Indicator(
-                    modifier = Modifier
-                        .pagerTabIndicatorOffset(
-                            pagerState, tabPositions
-                        )
-                        .background(MaterialTheme.colors.primary)
-                        .width(MaterialTheme.dimens.sizeZero)
-                        .height(MaterialTheme.dimens.sizeZero),
-                    color = MaterialTheme.colors.primary
-                )
-            },
-            divider = {
-                TabRowDefaults.Divider(
-                    modifier = Modifier
-                        .background(MaterialTheme.colors.primary)
-                        .width(MaterialTheme.dimens.sizeZero)
-                        .height(MaterialTheme.dimens.sizeZero),
-                )
-            }
+                .clip(MaterialTheme.shapes.medium),
+            indicator = {},
+            divider = {}
         ) {
-            val activeColor = MaterialTheme.colors.secondary
-            val inActiveColor = MaterialTheme.colors.onSecondary
-
             tabItems.forEachIndexed { index, title ->
-                val color = remember { Animatable(activeColor) }
+                val tabColor = remember { Animatable(activeTabColor) }
+                val textColor = remember { Animatable(activeTextColor) }
                 LaunchedEffect(pagerState.currentPage == index) {
-                    color.animateTo(
+                    tabColor.animateTo(
                         if (pagerState.currentPage == index)
-                            activeColor else inActiveColor
+                            activeTabColor else inActiveTabColor
+                    )
+                    textColor.animateTo(
+                        if (pagerState.currentPage == index)
+                            activeTextColor else inActiveTextColor
                     )
                 }
 
+                val selected = pagerState.currentPage == index
                 Tab(
-                    selected = pagerState.currentPage == index,
+                    modifier = Modifier
+                        .clip(MaterialTheme.shapes.medium)
+                        .background(tabColor.value),
+                    selected = selected,
                     onClick = {
                         coroutineScope.launch {
                             pagerState.animateScrollToPage(index)
@@ -93,45 +89,34 @@ fun TabMainScreen(
                         Text(
                             text = title,
                             style = if (pagerState.currentPage == index) {
-                                TextStyle(
-                                    color = MaterialTheme.colors.onSecondary,
-                                    fontSize = MaterialTheme.dimens.font16,
-                                    fontFamily = fonts,
-                                    fontWeight = FontWeight.SemiBold
-                                )
+                                MaterialTheme.typography.titleMedium
                             } else {
-                                TextStyle(
-                                    color = MaterialTheme.colors.secondary,
-                                    fontSize = MaterialTheme.dimens.font14,
-                                    fontFamily = fonts,
-                                    fontWeight = FontWeight.Medium
-                                )
-                            }
+                                MaterialTheme.typography.bodyMedium
+                            },
+                            color = textColor.value
                         )
-                    },
-                    modifier = Modifier.background(
-                        color = color.value,
-                        shape = RoundedCornerShape(MaterialTheme.dimens.size30)
-                    )
+                    }
                 )
             }
         }
 
         HorizontalPager(
-            count = tabItems.size,
+            modifier = Modifier,
             state = pagerState,
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colors.background)
-        ) { page ->
-            when (page) {
-                SELECTED_CHANNELS_PAGE -> {
-                    SelectedChannelsScreen()
-                }
-                else -> {
-                    AllChannelsScreen()
+            pageNestedScrollConnection = PagerDefaults.pageNestedScrollConnection(
+                Orientation.Horizontal
+            ),
+            pageContent = { page ->
+                when (page) {
+                    SELECTED_CHANNELS_PAGE -> {
+                        SelectedChannelsScreen()
+                    }
+
+                    else -> {
+                        AllChannelsScreen()
+                    }
                 }
             }
-        }
+        )
     }
 }

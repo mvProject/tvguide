@@ -54,7 +54,6 @@ class SelectedChannelUseCase @Inject constructor(
         val selected = SelectedChannelEntity(
             channelId = selectedChannel.channelId,
             channelName = selectedChannel.channelName,
-            channelIcon = selectedChannel.channelIcon,
             order = currentCount,
             parentList = targetList
         )
@@ -75,11 +74,14 @@ class SelectedChannelUseCase @Inject constructor(
      * Update orders and save entities after deleting entity
      */
     @Transaction
-    suspend fun updateChannelsOrdersAfterDelete() {
+    private suspend fun updateChannelsOrdersAfterDelete() {
         val selectedChannels = selectedChannelRepository
             .loadSelectedChannels(listName = targetList)
             .sortedBy { entity ->
-                entity.order
+                entity.channel.order
+            }
+            .map { entity ->
+                entity.channel
             }
             .updateOrdersByAsc()
 

@@ -17,12 +17,21 @@ import kotlinx.coroutines.test.runTest
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CustomListRepositoryTest : StringSpec({
+    lateinit var dao: UserChannelsListDao
+    lateinit var repository: CustomListRepository
+
+    beforeTest {
+        dao = mockk<UserChannelsListDao>(relaxed = true)
+        repository = CustomListRepository(dao)
+    }
+
+    afterTest {
+        println("test ${it.a.name.testName} complete status is ${it.b.isSuccess}")
+    }
+
     assertSoftly {
 
         "delete list from database" {
-            val dao = mockk<UserChannelsListDao>()
-            val repository = CustomListRepository(dao)
-
             coEvery {
                 dao.deleteSingleUserChannelsList(1)
             } just runs
@@ -41,6 +50,10 @@ class CustomListRepositoryTest : StringSpec({
             val repository = mockk<CustomListRepository>()
 
             coEvery {
+                dao.addUserChannelsList(any())
+            } just runs
+
+            coEvery {
                 repository.addCustomList("list")
             } just runs
 
@@ -55,9 +68,6 @@ class CustomListRepositoryTest : StringSpec({
         }
 
         "add list to database if name empty" {
-            val dao = mockk<UserChannelsListDao>(relaxed = true)
-            val repository = CustomListRepository(dao)
-
             coEvery {
                 dao.addUserChannelsList(UserChannelsListEntity(1, ""))
             } just runs
@@ -73,9 +83,6 @@ class CustomListRepositoryTest : StringSpec({
         }
 
         "retrieve userlists" {
-            val dao = mockk<UserChannelsListDao>()
-            val repository = CustomListRepository(dao)
-
             val expectedResultDao = listOf(
                 UserChannelsListEntity(1, "list1"),
                 UserChannelsListEntity(2, "list2"),

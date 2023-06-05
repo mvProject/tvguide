@@ -1,9 +1,10 @@
-import java.util.*
+import java.util.Properties
 
 plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
+    // id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
     id("com.google.gms.google-services")
@@ -11,19 +12,29 @@ plugins {
 }
 
 android {
-    compileSdk = 32
+    namespace = libs.versions.applicationId.get()
+    compileSdk = 33
 
     defaultConfig {
-        applicationId = libs.versions.applicationId.get()
         minSdk = 24
-        targetSdk = 32
+        targetSdk = 33
         versionCode = 1
-        versionName = "0.2.7"
+        versionName = "0.5.0"
         testInstrumentationRunner = libs.versions.androidTestInstrumentation.get()
 
         resourceConfigurations.addAll(listOf("en", "ru", "uk"))
 
         vectorDrawables.useSupportLibrary = true
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
+
+        // ksp {
+        //     arg("room.schemaLocation", "$projectDir/schemas")
+        // }
     }
 
     val projectProperties = readProperties(file("../keystore.properties"))
@@ -110,8 +121,6 @@ dependencies {
 
     implementation(libs.bundles.lifecycleCompose)
 
-    implementation(libs.bundles.pagerCompose)
-
     implementation(libs.bundles.navHiltCompose)
 
     implementation(libs.startUp)
@@ -124,6 +133,9 @@ dependencies {
 
     implementation(libs.bundles.room)
     kapt(libs.roomCompiler)
+    // ksp(libs.roomCompiler)
+
+    implementation(libs.accompanistPermissions)
 
     implementation(libs.hilt)
     kapt(libs.bundles.hiltCompiler)

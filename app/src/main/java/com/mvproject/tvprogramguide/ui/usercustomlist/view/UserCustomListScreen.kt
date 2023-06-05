@@ -1,14 +1,21 @@
 package com.mvproject.tvprogramguide.ui.usercustomlist.view
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.runtime.*
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.mvproject.tvprogramguide.R
@@ -56,14 +63,15 @@ private fun UserCustomListContent(
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
             FloatingActionButton(
-                backgroundColor = MaterialTheme.colors.secondary,
+                containerColor = MaterialTheme.colorScheme.secondary,
                 onClick = {
                     isDialogOpen.value = true
-                }) {
+                }
+            ) {
                 Icon(
                     Icons.Outlined.Add,
                     contentDescription = null,
-                    tint = MaterialTheme.colors.onSecondary,
+                    tint = MaterialTheme.colorScheme.onSecondary,
                     modifier = Modifier
                         .size(MaterialTheme.dimens.size32)
                 )
@@ -72,10 +80,8 @@ private fun UserCustomListContent(
     ) { inner ->
         Column(
             modifier = Modifier
-                .background(color = MaterialTheme.colors.primary)
                 .padding(inner)
                 .imePadding()
-
         ) {
             when {
                 userLists.isEmpty() -> {

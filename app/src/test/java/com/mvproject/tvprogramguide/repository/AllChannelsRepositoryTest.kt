@@ -12,16 +12,31 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.runs
 
 class AllChannelsRepositoryTest : StringSpec({
+    lateinit var epg: EpgService
+    lateinit var dao: AllChannelDao
+    lateinit var repository: AllChannelRepository
+
+    beforeTest {
+        epg = mockk<EpgService>(relaxed = true)
+        dao = mockk<AllChannelDao>(relaxed = true)
+        repository = AllChannelRepository(epg, dao)
+    }
+
+    afterTest {
+        println("test ${it.a.name.testName} complete status is ${it.b.isSuccess}")
+    }
 
     assertSoftly {
         "loadProgramFromSource verify calls" {
-            val epg = mockk<EpgService>()
-            val dao = mockk<AllChannelDao>()
-            val repository = AllChannelRepository(epg, dao)
-
             coEvery {
                 epg.getChannels()
             } returns AllAvailableChannelsResponse(listOf())
@@ -33,7 +48,6 @@ class AllChannelsRepositoryTest : StringSpec({
             coEvery {
                 dao.deleteChannels()
             } just runs
-
 
             withClue("single call from epg execute") {
                 repository.loadProgramFromSource()
@@ -54,10 +68,6 @@ class AllChannelsRepositoryTest : StringSpec({
         }
 
         "loadChannels verify calls" {
-            val epg = mockk<EpgService>(relaxed = true)
-            val dao = mockk<AllChannelDao>(relaxed = true)
-            val repository = AllChannelRepository(epg, dao)
-
             withClue("proper calls from epg and dao execute") {
                 repository.loadChannels()
 
@@ -67,15 +77,9 @@ class AllChannelsRepositoryTest : StringSpec({
                     dao.insertChannelList(listOf())
                 }
             }
-
-
         }
 
         "loadChannels returns proper data" {
-            val epg = mockk<EpgService>(relaxed = true)
-            val dao = mockk<AllChannelDao>(relaxed = true)
-            val repository = AllChannelRepository(epg, dao)
-
             val expectedResultDao = listOf(
                 AvailableChannelEntity("id1", "name1", "icon"),
                 AvailableChannelEntity("id2", "name2", "icon"),

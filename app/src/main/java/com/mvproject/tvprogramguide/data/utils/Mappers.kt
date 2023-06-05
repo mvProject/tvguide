@@ -1,9 +1,14 @@
 package com.mvproject.tvprogramguide.data.utils
 
-import com.mvproject.tvprogramguide.data.model.domain.*
+import com.mvproject.tvprogramguide.data.model.domain.Program
+import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
+import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
+import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
+import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
 import com.mvproject.tvprogramguide.data.model.entity.AvailableChannelEntity
 import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
 import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelEntity
+import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelWithIconEntity
 import com.mvproject.tvprogramguide.data.model.entity.UserChannelsListEntity
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
 import com.mvproject.tvprogramguide.data.model.response.ProgramResponse
@@ -168,6 +173,10 @@ object Mappers {
         item.toSelectedChannel()
     }
 
+    fun List<SelectedChannelWithIconEntity>.asSelectedChannelsFromAltEntities() = this.map { item ->
+        item.toSelectedChannel()
+    }
+
     /**
      * Maps List of [SelectedChannel] from Domain to Entity.
      *
@@ -177,7 +186,6 @@ object Mappers {
         SelectedChannelEntity(
             channelId = item.channelId,
             channelName = item.channelName,
-            channelIcon = item.channelIcon,
             order = item.order,
             parentList = item.parentList
         )

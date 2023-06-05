@@ -3,12 +3,14 @@ package com.mvproject.tvprogramguide.data.repository
 import androidx.room.Transaction
 import com.mvproject.tvprogramguide.data.database.dao.SelectedChannelDao
 import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelEntity
+import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelWithIconEntity
 import javax.inject.Inject
 
 class SelectedChannelRepository @Inject constructor(
     private val selectedChannelDao: SelectedChannelDao,
 ) {
-    suspend fun loadSelectedChannels(listName: String): List<SelectedChannelEntity> {
+    @Transaction
+    suspend fun loadSelectedChannels(listName: String): List<SelectedChannelWithIconEntity> {
         return selectedChannelDao.getSelectedChannels(listName = listName)
     }
 

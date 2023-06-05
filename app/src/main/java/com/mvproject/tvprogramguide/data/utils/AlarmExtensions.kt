@@ -6,7 +6,7 @@ import android.content.Context
 import android.os.Build
 import androidx.core.app.AlarmManagerCompat
 import timber.log.Timber
-import java.util.*
+import java.util.Calendar
 
 /**
  * Gets the [AlarmManager] system service.
@@ -72,7 +72,5 @@ fun Context.cancelAlarm(operation: PendingIntent?) {
         return
     }
 
-    getAlarmManager()?.let { manager ->
-        manager.cancel(operation)
-    }
+    getAlarmManager()?.cancel(operation)
 }

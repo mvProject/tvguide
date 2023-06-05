@@ -11,18 +11,31 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.mockk
 import kotlinx.datetime.Clock
 import kotlin.time.Duration.Companion.hours
 
 class ChannelProgramRepositoryTest : StringSpec({
+    lateinit var epg: EpgService
+    lateinit var dao: ProgramDao
+    lateinit var repository: ChannelProgramRepository
+
+    beforeTest {
+        epg = mockk<EpgService>(relaxed = true)
+        dao = mockk<ProgramDao>(relaxed = true)
+        repository = ChannelProgramRepository(epg, dao)
+    }
+
+    afterTest {
+        println("test ${it.a.name.testName} complete status is ${it.b.isSuccess}")
+    }
 
     assertSoftly {
         "scheduled load program verify calls" {
-            val epg = mockk<EpgService>(relaxed = true)
-            val dao = mockk<ProgramDao>(relaxed = true)
-            val repository = ChannelProgramRepository(epg, dao)
-
             withClue("proper calls from dao execute") {
                 repository.loadProgram("test")
 
@@ -35,10 +48,6 @@ class ChannelProgramRepositoryTest : StringSpec({
         }
 
         "update program verify calls" {
-            val epg = mockk<EpgService>(relaxed = true)
-            val dao = mockk<ProgramDao>(relaxed = true)
-            val repository = ChannelProgramRepository(epg, dao)
-
             val program = Program(
                 1661764500000L,
                 1661765400000L,
@@ -58,10 +67,6 @@ class ChannelProgramRepositoryTest : StringSpec({
         }
 
         "loadProgramsCount returns proper data" {
-            val epg = mockk<EpgService>()
-            val dao = mockk<ProgramDao>()
-            val repository = ChannelProgramRepository(epg, dao)
-
             val expectedResultDao = listOf(
                 ProgramEntity(1661764500000L, 1661765400000L, "entity1", channelId = "id1"),
                 ProgramEntity(1661765400000L, 1661766500000L, "entity2", channelId = "id2"),
@@ -91,10 +96,6 @@ class ChannelProgramRepositoryTest : StringSpec({
         }
 
         "loadProgramsForChannel for single id returns proper data" {
-            val epg = mockk<EpgService>()
-            val dao = mockk<ProgramDao>()
-            val repository = ChannelProgramRepository(epg, dao)
-
             val expectedResultDao = programEntitySingleId
 
             coEvery {
@@ -131,11 +132,7 @@ class ChannelProgramRepositoryTest : StringSpec({
             }
         }
 
-        "loadProgramsForChannel for many ids returns proper data3" {
-            val epg = mockk<EpgService>()
-            val dao = mockk<ProgramDao>()
-            val repository = ChannelProgramRepository(epg, dao)
-
+        "loadProgramsForChannel for many ids returns proper data" {
             val expectedResult = programEntityManyId
 
             coEvery {

@@ -10,8 +10,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class SelectedChannel(
     val channelId: String,
-    val channelName: String,
-    val channelIcon: String,
+    val channelName: String = NO_VALUE_STRING,
+    val channelIcon: String = NO_VALUE_STRING,
     val order: Int = COUNT_ZERO,
     val parentList: String = NO_VALUE_STRING
 ) : Parcelable

@@ -1,79 +1,72 @@
 package com.mvproject.tvprogramguide.ui.components.toolbars
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
-import com.mvproject.tvprogramguide.theme.appTypography
 import com.mvproject.tvprogramguide.theme.dimens
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ToolbarWithOptions(
     title: String,
     onSelectClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {}
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentSize()
-            .background(color = MaterialTheme.colors.primary)
-            .padding(MaterialTheme.dimens.size4),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Row(
-            modifier = Modifier
-                .weight(MaterialTheme.dimens.weight1)
-                .clickable {
-                    onSelectClick()
-                },
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Icon(
-                imageVector = Icons.Default.ArrowDropDown,
-                tint = MaterialTheme.colors.onPrimary,
-                contentDescription = "Drop-Down Arrow"
-            )
-            Spacer(
-                modifier = Modifier
-                    .padding(horizontal = MaterialTheme.dimens.size4)
-            )
+    CenterAlignedTopAppBar(
+        title = {
             Text(
                 text = title,
-                color = MaterialTheme.colors.onPrimary,
-                textAlign = TextAlign.Center,
-                fontSize = MaterialTheme.dimens.font18,
-                style = MaterialTheme.appTypography.textBold
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-        }
-
-        Spacer(
-            modifier = Modifier
-                .padding(horizontal = MaterialTheme.dimens.size8)
+        },
+        navigationIcon = {
+            FilledIconButton(
+                onClick = onSelectClick,
+                modifier = Modifier.padding(MaterialTheme.dimens.size8),
+                colors = IconButtonDefaults.filledIconButtonColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Default.ArrowDropDown,
+                    contentDescription = "Back",
+                )
+            }
+        },
+        actions = {
+            FilledIconButton(
+                onClick = onSettingsClick,
+                modifier = Modifier.padding(MaterialTheme.dimens.size8),
+                colors = IconButtonDefaults.filledIconButtonColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "Back",
+                )
+            }
+        },
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.inverseOnSurface
         )
-
-        Icon(
-            Icons.Outlined.Settings,
-            contentDescription = null,
-            tint = MaterialTheme.colors.onPrimary,
-            modifier = Modifier
-                .size(MaterialTheme.dimens.size32)
-                .clickable {
-                    onSettingsClick()
-                }
-        )
-    }
+    )
 }
 
 @Preview

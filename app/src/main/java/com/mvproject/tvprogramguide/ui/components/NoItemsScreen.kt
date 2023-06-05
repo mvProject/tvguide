@@ -1,18 +1,26 @@
 package com.mvproject.tvprogramguide.ui.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
-import com.mvproject.tvprogramguide.theme.appTypography
+import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
@@ -22,8 +30,7 @@ fun NoItemsScreen(
     onNavigateClick: () -> Unit = {}
 ) {
     Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colors.primary
+        modifier = Modifier.fillMaxSize()
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -36,7 +43,6 @@ fun NoItemsScreen(
                     modifier = Modifier
                         .size(MaterialTheme.dimens.size96),
                     imageVector = Icons.Filled.Info,
-                    tint = MaterialTheme.colors.onPrimary,
                     contentDescription = title
                 )
 
@@ -47,8 +53,7 @@ fun NoItemsScreen(
                             bottom = MaterialTheme.dimens.size24
                         ),
                     text = title,
-                    style = MaterialTheme.appTypography.textSemiBold,
-                    color = MaterialTheme.colors.onPrimary,
+                    style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center
                 )
 
@@ -61,8 +66,7 @@ fun NoItemsScreen(
                             )
                             .clickable { onNavigateClick() },
                         text = navigateTitle,
-                        style = MaterialTheme.appTypography.textExtraBold,
-                        color = MaterialTheme.colors.onPrimary,
+                        style = MaterialTheme.typography.titleMedium,
                         textAlign = TextAlign.Center
                     )
                 }
@@ -71,16 +75,18 @@ fun NoItemsScreen(
     }
 }
 
+@Preview(showBackground = true)
 @Composable
-fun LoadingScreen() {
-    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-        CircularProgressIndicator(color = MaterialTheme.colors.onPrimary)
+fun PreviewNoItemsScreen() {
+    TvGuideTheme() {
+        NoItemsScreen()
     }
 }
 
+@Preview(showBackground = true)
 @Composable
-fun ErrorScreen(error: String) {
-    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-        Text(text = "Oops, $error!")
+fun PreviewDarkNoItemsScreen() {
+    TvGuideTheme(darkTheme = true) {
+        NoItemsScreen()
     }
 }

@@ -3,7 +3,7 @@
 
     <string name="title_all_channels">Všichni</string>
     <string name="title_selected_channels">Vybraný</string>
-    <string name="title_custom_channels_list">Vlastní seznamy kanálů</string>
+    <string name="title_custom_channels_list">Seznamy kanálů</string>
 
     <string name="hint_search">Hledat kanály</string>
 

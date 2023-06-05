@@ -5,7 +5,7 @@ import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
 import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
-import com.mvproject.tvprogramguide.data.utils.Mappers.asSelectedChannelsFromEntities
+import com.mvproject.tvprogramguide.data.utils.Mappers.asSelectedChannelsFromAltEntities
 import com.mvproject.tvprogramguide.data.utils.Mappers.toSelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.utils.Mappers.toSingleChannelWithPrograms
 import com.mvproject.tvprogramguide.data.utils.parseChannelName
@@ -44,7 +44,7 @@ class SortedProgramsUseCase @Inject constructor(
         val selectedChannels =
             selectedChannelRepository
                 .loadSelectedChannels(listName = currentChannelList)
-                .asSelectedChannelsFromEntities()
+                .asSelectedChannelsFromAltEntities()
 
         val selectedChannelIds = selectedChannels.map { channel ->
             channel.channelId
@@ -124,13 +124,12 @@ class SortedProgramsUseCase @Inject constructor(
         val selectedChannelIds = selectedChannelRepository
             .loadSelectedChannels(listName = currentChannelList)
             .map { entity ->
-                entity.channelId
+                entity.channel.channelId
             }
 
         val obtainedChannelsIdsCount =
             channelProgramRepository
                 .loadProgramsCount(channelsIds = selectedChannelIds)
-
 
         if (selectedChannelIds.count() > obtainedChannelsIdsCount) {
             return selectedChannelIds.minus(obtainedChannelsIds.toSet()).toTypedArray()

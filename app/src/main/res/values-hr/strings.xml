@@ -3,7 +3,7 @@
 
     <string name="title_all_channels">Svi oni</string>
     <string name="title_selected_channels">Odabran</string>
-    <string name="title_custom_channels_list">Prilagođeni popisi kanala</string>
+    <string name="title_custom_channels_list">Popisi kanala</string>
 
     <string name="hint_search">Traži kanale</string>
 

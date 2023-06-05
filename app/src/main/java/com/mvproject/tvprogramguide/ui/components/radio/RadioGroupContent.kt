@@ -4,9 +4,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.RadioButton
-import androidx.compose.material.RadioButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,14 +18,12 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
-import com.mvproject.tvprogramguide.theme.appTypography
-import com.mvproject.tvprogramguide.theme.dimens
 
 @Composable
 fun RadioGroupContent(
     radioOptions: List<String> = listOf(),
     defaultSelection: Int = COUNT_ZERO,
-    onItemClick: (String) -> Unit
+    onItemClick: (String) -> Unit = {}
 ) {
 
     val (selectedOption, onOptionSelected) = remember {
@@ -41,9 +39,8 @@ fun RadioGroupContent(
                 RadioButton(
                     selected = (item == selectedOption),
                     colors = RadioButtonDefaults.colors(
-                        selectedColor = MaterialTheme.colors.onPrimary,
-                        unselectedColor = MaterialTheme.colors.onPrimary
-                            .copy(alpha = MaterialTheme.dimens.alpha80)
+                        selectedColor = MaterialTheme.colorScheme.tertiary,
+                        unselectedColor = MaterialTheme.colorScheme.onSurface,
                     ),
                     onClick = {
                         onOptionSelected(item)
@@ -55,9 +52,8 @@ fun RadioGroupContent(
                     withStyle(
                         style = SpanStyle(
                             color = if (item == selectedOption)
-                                MaterialTheme.colors.onPrimary
-                            else MaterialTheme.colors.onPrimary
-                                .copy(alpha = MaterialTheme.dimens.alpha80),
+                                MaterialTheme.colorScheme.tertiary
+                            else MaterialTheme.colorScheme.onSurface,
                         )
                     ) { append("  $item  ") }
                 }
@@ -65,8 +61,8 @@ fun RadioGroupContent(
                 ClickableText(
                     text = annotatedString,
                     style = if (item == selectedOption)
-                        MaterialTheme.appTypography.textSemiBold
-                    else MaterialTheme.appTypography.textMedium,
+                        MaterialTheme.typography.titleMedium
+                    else MaterialTheme.typography.bodyMedium,
                     onClick = {
                         onOptionSelected(item)
                         onItemClick(item)
@@ -82,8 +78,7 @@ fun RadioGroupContent(
 fun RadioGroupContentView() {
     TvGuideTheme() {
         RadioGroupContent(
-            radioOptions = listOf("Option1", "Option2", "Option3"),
-            onItemClick = { String }
+            radioOptions = listOf("Option1", "Option2", "Option3")
         )
     }
 }
@@ -91,10 +86,9 @@ fun RadioGroupContentView() {
 @Preview(showBackground = true)
 @Composable
 fun RadioGroupContentDarkView() {
-    TvGuideTheme(true) {
+    TvGuideTheme(darkTheme = true) {
         RadioGroupContent(
-            radioOptions = listOf("Option1", "Option2", "Option3"),
-            onItemClick = { String }
+            radioOptions = listOf("Option1", "Option2", "Option3")
         )
     }
 }

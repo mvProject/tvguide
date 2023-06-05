@@ -3,7 +3,7 @@
 
     <string name="title_all_channels">Alle von ihnen</string>
     <string name="title_selected_channels">Ausgewählt</string>
-    <string name="title_custom_channels_list">Benutzerdefinierte Kanallisten</string>
+    <string name="title_custom_channels_list">Senderlisten</string>
 
     <string name="hint_search">Kanäle suchen</string>
 
