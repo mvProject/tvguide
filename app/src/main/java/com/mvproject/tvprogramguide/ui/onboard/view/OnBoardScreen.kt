@@ -1,15 +1,19 @@
 package com.mvproject.tvprogramguide.ui.onboard.view
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerDefaults
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.rememberPagerState
+import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
+import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO_FLOAT
 import com.mvproject.tvprogramguide.data.utils.AppConstants.ONBOARD_PAGES_COUNT
 import com.mvproject.tvprogramguide.theme.dimens
 import com.mvproject.tvprogramguide.ui.onboard.OnBoardingPage
@@ -18,7 +22,7 @@ import com.mvproject.tvprogramguide.ui.onboard.components.PagerIndicator
 import com.mvproject.tvprogramguide.ui.onboard.components.PagerScreen
 import com.mvproject.tvprogramguide.ui.onboard.viewmodel.OnBoardViewModel
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnBoardScreen(
     viewModel: OnBoardViewModel,
@@ -29,21 +33,28 @@ fun OnBoardScreen(
         OnBoardingPage.Second,
         OnBoardingPage.Third
     )
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState(
+        initialPage = COUNT_ZERO,
+        initialPageOffsetFraction = COUNT_ZERO_FLOAT
+    ) {
+        pages.size
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colors.primary)
+            .background(color = MaterialTheme.colorScheme.inverseOnSurface)
     ) {
         HorizontalPager(
-            modifier = Modifier.weight(MaterialTheme.dimens.weight10),
-            count = ONBOARD_PAGES_COUNT,
+            modifier = Modifier,
             state = pagerState,
-            verticalAlignment = Alignment.Top
-        ) { position ->
-            PagerScreen(onBoardingPage = pages[position])
-        }
+            pageNestedScrollConnection = PagerDefaults.pageNestedScrollConnection(
+                Orientation.Horizontal
+            ),
+            pageContent = { position ->
+                PagerScreen(onBoardingPage = pages[position])
+            }
+        )
 
         PagerIndicator(
             modifier = Modifier
@@ -55,7 +66,7 @@ fun OnBoardScreen(
 
         AnimatedCompleteButton(
             modifier = Modifier.weight(MaterialTheme.dimens.weight1),
-            pagerState = pagerState
+            currentPage = pagerState.currentPage
         ) {
             viewModel.completeOnBoard(completed = true)
             onComplete()

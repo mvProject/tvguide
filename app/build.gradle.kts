@@ -19,7 +19,7 @@ android {
         minSdk = 24
         targetSdk = 33
         versionCode = 1
-        versionName = "0.3.0"
+        versionName = "0.5.0"
         testInstrumentationRunner = libs.versions.androidTestInstrumentation.get()
 
         resourceConfigurations.addAll(listOf("en", "ru", "uk"))

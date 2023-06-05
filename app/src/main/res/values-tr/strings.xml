@@ -3,7 +3,7 @@
 
     <string name="title_all_channels">Hepsi</string>
     <string name="title_selected_channels">Seçildi</string>
-    <string name="title_custom_channels_list">Özel kanal listeleri</string>
+    <string name="title_custom_channels_list">Kanal listeleri</string>
 
     <string name="hint_search">Kanal ara</string>
 

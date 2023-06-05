@@ -1,14 +1,13 @@
 package com.mvproject.tvprogramguide.ui.settings.channels.view
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -61,11 +60,10 @@ private fun SelectedChannelsContent(
     LazyColumn(
         modifier = Modifier
             .dragContainer(dragDropState)
-            .fillMaxHeight()
-            .background(MaterialTheme.colors.background),
+            .fillMaxHeight(),
         state = listState,
         contentPadding = PaddingValues(MaterialTheme.dimens.size8),
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size8)
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size4)
     ) {
         itemsIndexed(channels, key = { _, chn -> chn }) { index, chn ->
             DraggableItem(dragDropState, index) { isDragging ->

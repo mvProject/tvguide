@@ -3,7 +3,7 @@
 
     <string name="title_all_channels">Wszyscy</string>
     <string name="title_selected_channels">Wybrany</string>
-    <string name="title_custom_channels_list">Listy kanałów niestandardowych</string>
+    <string name="title_custom_channels_list">Listy kanałów</string>
 
     <string name="hint_search">Wyszukaj kanały</string>
 
