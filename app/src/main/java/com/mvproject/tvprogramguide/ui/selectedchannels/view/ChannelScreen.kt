@@ -9,21 +9,24 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.work.WorkInfo
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
+import com.mvproject.tvprogramguide.data.utils.rememberLifecycleEvent
 import com.mvproject.tvprogramguide.domain.utils.CHANNEL_COUNT
 import com.mvproject.tvprogramguide.domain.utils.CHANNEL_INDEX
 import com.mvproject.tvprogramguide.navigation.AppRoutes
@@ -46,7 +49,9 @@ fun ChannelScreen(
 
     val listState = rememberLazyListState()
 
-    val programState by viewModel.selectedPrograms.collectAsState()
+    val lifecycleEvent = rememberLifecycleEvent()
+
+    val programState by viewModel.selectedPrograms.collectAsStateWithLifecycle()
 
     val alarmPermissionState = rememberPermissionState(
         Manifest.permission.SCHEDULE_EXACT_ALARM
@@ -72,8 +77,16 @@ fun ChannelScreen(
         }
     }
 
+    LaunchedEffect(lifecycleEvent) {
+        if (lifecycleEvent == Lifecycle.Event.ON_RESUME) {
+            Timber.d("testing LaunchedEffect ON_RESUME")
+            viewModel.reloadData()
+        }
+    }
+
     DisposableEffect(lifecycleOwner) {
         with(viewModel) {
+            Timber.d("testing DisposableEffect")
             checkForPartiallyUpdate()
             fullUpdateWorkInfo.observe(lifecycleOwner, updateObserver)
 

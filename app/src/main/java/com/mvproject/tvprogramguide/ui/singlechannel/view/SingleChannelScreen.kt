@@ -2,12 +2,15 @@ package com.mvproject.tvprogramguide.ui.singlechannel.view
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
 import com.mvproject.tvprogramguide.ui.singlechannel.components.SingleChannelList
 import com.mvproject.tvprogramguide.ui.singlechannel.viewmodel.SingleChannelViewModel
@@ -23,24 +26,33 @@ fun SingleChannelScreen(
         viewModel.loadPrograms(channelId = channelId)
     }
 
-    val programs by viewModel.selectedPrograms.collectAsState()
+    val programs by viewModel.selectedPrograms.collectAsStateWithLifecycle()
 
     val listState = rememberLazyListState()
 
-    Column(
+    Scaffold(
         modifier = Modifier
-            .fillMaxSize()
-    ) {
-        ToolbarWithBack(
-            title = channelName,
-            onBackClick = onBackClick
-        )
-
-        SingleChannelList(
-            singleChannelPrograms = programs,
-            listState = listState
-        ) { program ->
-            viewModel.toggleProgramSchedule(programForSchedule = program)
+            .fillMaxSize(),
+        containerColor = MaterialTheme.colorScheme.inverseOnSurface,
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        topBar = {
+            ToolbarWithBack(
+                title = channelName,
+                onBackClick = onBackClick
+            )
+        }
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxSize()
+        ) {
+            SingleChannelList(
+                singleChannelPrograms = programs,
+                listState = listState
+            ) { program ->
+                viewModel.toggleProgramSchedule(programForSchedule = program)
+            }
         }
     }
 }

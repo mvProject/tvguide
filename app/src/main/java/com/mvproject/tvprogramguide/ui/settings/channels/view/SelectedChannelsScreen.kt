@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
 import com.mvproject.tvprogramguide.theme.dimens
 import com.mvproject.tvprogramguide.ui.settings.channels.actions.SelectedChannelsAction
@@ -24,7 +25,7 @@ import com.mvproject.tvprogramguide.ui.settings.channels.viewmodel.SelectedChann
 fun SelectedChannelsScreen(
     selectedChannelsViewModel: SelectedChannelsViewModel = hiltViewModel()
 ) {
-    val channels by selectedChannelsViewModel.selectedChannels.collectAsState()
+    val channels by selectedChannelsViewModel.selectedChannels.collectAsStateWithLifecycle()
     SelectedChannelsContent(
         selectedChannels = channels,
         onAction = selectedChannelsViewModel::processAction

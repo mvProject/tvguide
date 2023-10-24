@@ -56,12 +56,6 @@ class ChannelViewModel @Inject constructor(
             }
         }
 
-        viewModelScope.launch(Dispatchers.IO) {
-            preferenceRepository.loadAppSettings().collect {
-                updatePrograms()
-            }
-        }
-
         preferenceRepository.loadDefaultUserList()
             .mapLatest { listName ->
                 _selectedPrograms.value =
@@ -78,6 +72,14 @@ class ChannelViewModel @Inject constructor(
                         requestForUpdate = buildFullUpdateRequest()
                     )
                 }
+            }
+        }
+    }
+
+    fun reloadData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            preferenceRepository.loadAppSettings().collect {
+                updatePrograms()
             }
         }
     }

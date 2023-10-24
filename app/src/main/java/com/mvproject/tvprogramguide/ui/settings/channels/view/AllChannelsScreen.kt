@@ -6,10 +6,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mvproject.tvprogramguide.data.model.domain.AvailableChannel
 import com.mvproject.tvprogramguide.theme.dimens
 import com.mvproject.tvprogramguide.ui.components.search.SearchView
@@ -21,7 +21,7 @@ import com.mvproject.tvprogramguide.ui.settings.channels.viewmodel.AllChannelVie
 fun AllChannelsScreen(
     allChannelViewModel: AllChannelViewModel = hiltViewModel()
 ) {
-    val channels by allChannelViewModel.availableChannels.collectAsState()
+    val channels by allChannelViewModel.availableChannels.collectAsStateWithLifecycle()
     AllChannelsContent(
         selectedChannels = channels,
         onAction = allChannelViewModel::processAction
