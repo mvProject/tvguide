@@ -1,40 +1,33 @@
 import java.util.Properties
-
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    kotlin("kapt")
-    // id("com.google.devtools.ksp")
-    id("dagger.hilt.android.plugin")
-    id("kotlin-parcelize")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.kotlin)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.firebase.crashlitycs)
+    alias(libs.plugins.gms.googleServices)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
-    namespace = libs.versions.applicationId.get()
-    compileSdk = 33
+    namespace = "com.mvproject.tvprogramguide"
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
-        versionName = "0.6.0"
-        testInstrumentationRunner = libs.versions.androidTestInstrumentation.get()
+        versionName = "0.7.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         resourceConfigurations.addAll(listOf("en", "ru", "uk"))
 
         vectorDrawables.useSupportLibrary = true
 
-        kapt {
-            arguments {
-                arg("room.schemaLocation", "$projectDir/schemas")
-            }
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
         }
-
-        // ksp {
-        //     arg("room.schemaLocation", "$projectDir/schemas")
-        // }
     }
 
     val projectProperties = readProperties(file("../keystore.properties"))
@@ -73,24 +66,27 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
-    viewBinding {
-        android.buildFeatures.viewBinding = true
-    }
+
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
+        kotlinCompilerExtensionVersion = "1.5.4"
     }
-    packagingOptions {
-        resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "**/attach_hotspot_windows.dll"
+            excludes += "META-INF/licenses/**"
+            excludes += "META-INF/**.md"
+        }
     }
     testOptions {
         unitTests.all {
@@ -113,10 +109,11 @@ dependencies {
 
     implementation(libs.bundles.network)
 
-    implementation(libs.bundles.coroutines)
+    implementation(libs.kotlinx.coroutines.core)
 
     implementation(libs.bundles.coil)
 
+    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.compose)
 
     implementation(libs.bundles.lifecycleCompose)
@@ -129,20 +126,21 @@ dependencies {
 
     implementation(libs.kotlinxDatetime)
 
+    implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
 
     implementation(libs.bundles.room)
-    kapt(libs.roomCompiler)
-    // ksp(libs.roomCompiler)
+    ksp(libs.roomCompiler)
 
     implementation(libs.accompanistPermissions)
 
     implementation(libs.hilt)
-    kapt(libs.bundles.hiltCompiler)
+    ksp(libs.bundles.hiltCompiler)
 
     testImplementation(libs.testJunit)
-    testImplementation(libs.kotestRunnerJunit5)
-    testImplementation(libs.kotestAssertionsCore)
+
+    implementation(libs.bundles.kotest)
+
     testImplementation(libs.mockk)
 
     implementation(libs.bundles.testAndroid)
