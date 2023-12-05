@@ -49,4 +49,6 @@ object AppConstants {
 
     const val ONBOARD_PAGES_COUNT = 3
     const val ONBOARD_LAST_PAGES_INDEX = 2
+
+    const val TIMEOUT_SECONDS = 15
 }

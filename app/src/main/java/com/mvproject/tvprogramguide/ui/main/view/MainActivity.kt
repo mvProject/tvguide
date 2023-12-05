@@ -9,19 +9,27 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.navigation.compose.rememberNavController
+import androidx.work.WorkInfo
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
+import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
+import com.mvproject.tvprogramguide.domain.utils.CHANNEL_COUNT
+import com.mvproject.tvprogramguide.domain.utils.CHANNEL_INDEX
 import com.mvproject.tvprogramguide.navigation.NavigationHost
 import com.mvproject.tvprogramguide.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.main.viewmodel.MainViewModel
@@ -50,12 +58,40 @@ class MainActivity : ComponentActivity() {
                 )
 
                 val isNotificationGranted = notificationPermissionState.status.isGranted
-                Timber.w("testing notificationPermissionState permission $isNotificationGranted")
+                Timber.i("testing notificationPermissionState permission $isNotificationGranted")
                 if (!isNotificationGranted) {
                     LaunchedEffect(key1 = notificationPermissionState) {
                         notificationPermissionState.launchPermissionRequest()
                     }
 
+                }
+            }
+
+            val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+
+            val updateObserver = remember {
+                Observer<List<WorkInfo>?> { listOfWorkInfo ->
+                    if (listOfWorkInfo.isNullOrEmpty()) {
+                        Timber.e("worker updateWorkInfo null")
+                    } else {
+                        val workInfo = listOfWorkInfo.first()
+                        viewModel.setUpdatingState(workInfo.state != WorkInfo.State.SUCCEEDED)
+                        if (workInfo.state == WorkInfo.State.RUNNING) {
+                            val progress = workInfo.progress
+                            val current = progress.getInt(CHANNEL_INDEX, COUNT_ZERO)
+                            val count = progress.getInt(CHANNEL_COUNT, COUNT_ZERO)
+                            Timber.i("testing worker channel update $current/$count")
+                        }
+                    }
+                }
+            }
+
+            DisposableEffect(lifecycleOwner) {
+                with(viewModel) {
+                    fullUpdateWorkInfo.observe(lifecycleOwner, updateObserver)
+                    onDispose {
+                        fullUpdateWorkInfo.removeObserver(updateObserver)
+                    }
                 }
             }
 

@@ -25,49 +25,46 @@ class AllChannelViewModel @Inject constructor(
     private var _availableChannels = MutableStateFlow<List<AvailableChannel>>(emptyList())
     val availableChannels = _availableChannels.asStateFlow()
 
-    private var _selectedChannels = MutableStateFlow<List<SelectedChannel>>(emptyList())
-    val selectedChannels = _selectedChannels.asStateFlow()
-
     private var queryText = NO_VALUE_STRING
 
     private var allChannels = emptyList<AvailableChannel>()
+    private var selectedChannels = emptyList<SelectedChannel>()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             selectedChannelUseCase.loadSelectedChannelsFlow()
                 .collect { channels ->
                     allChannels = allChannelRepository.loadChannels()
-                    _selectedChannels.emit(channels)
-                    reloadAllChannels()
+                    selectedChannels = channels
+                    updateChannelsData()
                 }
         }
-    }
-
-    private fun reloadAllChannels() = viewModelScope.launch {
-        updateChannelsData()
     }
 
     fun processAction(action: AvailableChannelsAction) {
         when (action) {
             is AvailableChannelsAction.ChannelAdd -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    selectedChannelUseCase
-                        .addChannelToSelected(
-                            selectedChannel = action.selectedChannel
-                        )
+                    selectedChannelUseCase.addChannelToSelected(
+                        selectedChannel = action.selectedChannel
+                    )
                 }
             }
+
             is AvailableChannelsAction.ChannelDelete -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    selectedChannelUseCase
-                        .deleteChannelFromSelected(
-                            channelId = action.selectedChannel.channelId
-                        )
+                    selectedChannelUseCase.deleteChannelFromSelected(
+                        channelId = action.selectedChannel.channelId
+                    )
                 }
             }
+
             is AvailableChannelsAction.ChannelFilter -> {
                 queryText = action.query
-                reloadAllChannels()
+                viewModelScope.launch(Dispatchers.IO) {
+                    updateChannelsData()
+                }
+
             }
         }
     }
@@ -75,21 +72,19 @@ class AllChannelViewModel @Inject constructor(
     private fun performQuery(data: List<AvailableChannel>): List<AvailableChannel> {
         if (queryText.length > COUNT_ONE) {
             return data.filter { channel ->
-                channel.channelName
-                    .contains(queryText, true)
+                channel.channelName.contains(queryText, true)
             }
         }
         return data
     }
 
     private suspend fun updateChannelsData() {
-        val alreadySelected = selectedChannels.value.map { channel ->
+        val alreadySelected = selectedChannels.map { channel ->
             channel.channelName
         }
-        val filtered = allChannels
-            .map { channel ->
-                channel.copy(isSelected = channel.channelName in alreadySelected)
-            }
+        val filtered = allChannels.map { channel ->
+            channel.copy(isSelected = channel.channelName in alreadySelected)
+        }
         _availableChannels.emit(performQuery(filtered))
     }
 }

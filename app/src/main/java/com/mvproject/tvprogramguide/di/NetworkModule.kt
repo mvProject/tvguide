@@ -2,6 +2,7 @@ package com.mvproject.tvprogramguide.di
 
 import com.mvproject.tvprogramguide.data.network.BASE_URL
 import com.mvproject.tvprogramguide.data.network.EpgService
+import com.mvproject.tvprogramguide.data.utils.AppConstants.TIMEOUT_SECONDS
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -10,7 +11,9 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+import kotlin.time.Duration.Companion.seconds
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -20,6 +23,8 @@ object NetworkModule {
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
+            .connectTimeout(TIMEOUT_SECONDS.seconds.inWholeMilliseconds, TimeUnit.SECONDS)
+            .readTimeout(TIMEOUT_SECONDS.seconds.inWholeMilliseconds, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor)
             .build()
     }

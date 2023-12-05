@@ -17,6 +17,9 @@ object Utils {
         get() = Clock.System.now()
             .minus(1.days)
             .toEpochMilliseconds()
+    val actualDate
+        get() = Clock.System.now()
+            .toEpochMilliseconds()
 
     fun calculateProgramProgress(startTime: Long, endTime: Long): Float {
         var progressValue = 0f

@@ -3,23 +3,26 @@ package com.mvproject.tvprogramguide.ui.main.viewmodel
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.data.utils.AppConstants.DEFAULT_DELAY
 import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.domain.helpers.NetworkHelper
-import com.mvproject.tvprogramguide.domain.utils.DOWNLOAD_CHANNELS
-import com.mvproject.tvprogramguide.domain.utils.createInputDataForUpdate
-import com.mvproject.tvprogramguide.domain.workers.UpdateChannelsWorker
+import com.mvproject.tvprogramguide.domain.usecases.UpdateChannelsInfoUseCase
+import com.mvproject.tvprogramguide.domain.utils.DOWNLOAD_PROGRAMS
+import com.mvproject.tvprogramguide.domain.utils.buildFullUpdateRequest
 import com.mvproject.tvprogramguide.navigation.AppRoutes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -29,8 +32,12 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val workManager: WorkManager,
     private val networkHelper: NetworkHelper,
-    private val preferenceRepository: PreferenceRepository
+    private val preferenceRepository: PreferenceRepository,
+    private val updateChannelsInfoUseCase: UpdateChannelsInfoUseCase
 ) : ViewModel() {
+
+    val fullUpdateWorkInfo: LiveData<List<WorkInfo>> =
+        workManager.getWorkInfosForUniqueWorkLiveData(DOWNLOAD_PROGRAMS)
 
     val currentTheme = preferenceRepository.loadAppSettings()
         .map { settings ->
@@ -43,15 +50,9 @@ class MainViewModel @Inject constructor(
     private val _startDestination: MutableState<String> = mutableStateOf(NO_VALUE_STRING)
     val startDestination: State<String> = _startDestination
 
+    private var isUpdating = false
+
     init {
-        viewModelScope.launch {
-            preferenceRepository.isNeedAvailableChannelsUpdate
-                .collectLatest { updateRequired ->
-                    if (updateRequired) {
-                        startChannelsUpdate()
-                    }
-                }
-        }
 
         viewModelScope.launch {
             preferenceRepository.loadOnBoardState().collect { completed ->
@@ -64,25 +65,39 @@ class MainViewModel @Inject constructor(
                 _isLoading.value = false
             }
         }
+
+        combine(
+            preferenceRepository.isNeedAvailableChannelsUpdate,
+            preferenceRepository.isNeedFullProgramsUpdate,
+            preferenceRepository.loadChannelsUpdateRequired()
+        ) { channelsUpdateRequired, plannedUpdateRequired, manualUpdateRequired ->
+
+            if (channelsUpdateRequired) {
+                updateChannelsInfoUseCase()
+            }
+
+            if (plannedUpdateRequired || manualUpdateRequired) {
+                startProgramsUpdate(requestForUpdate = buildFullUpdateRequest())
+            }
+
+        }.launchIn(viewModelScope)
     }
 
-    private fun startChannelsUpdate() {
-        if (networkHelper.isNetworkConnected()) {
-            val channelRequest = OneTimeWorkRequest.Builder(UpdateChannelsWorker::class.java)
-                .setInputData(createInputDataForUpdate())
-                .build()
+    private fun startProgramsUpdate(requestForUpdate: OneTimeWorkRequest) {
+        if (networkHelper.isNetworkConnected() && !isUpdating) {
             workManager.enqueueUniqueWork(
-                DOWNLOAD_CHANNELS,
+                DOWNLOAD_PROGRAMS,
                 ExistingWorkPolicy.KEEP,
-                channelRequest
+                requestForUpdate
             )
+
+            setUpdatingState(true)
         } else {
-            Timber.e("testing no connection")
+            Timber.e("startProgramsUpdate no connection")
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        Timber.i("testing MainViewModel onCleared")
+    fun setUpdatingState(state: Boolean) {
+        isUpdating = state
     }
 }
