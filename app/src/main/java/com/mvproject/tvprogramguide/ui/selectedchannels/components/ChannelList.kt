@@ -24,7 +24,10 @@ fun ChannelList(
     onChannelClick: (SelectedChannel) -> Unit,
     onScheduleClick: (ProgramSchedule) -> Unit
 ) {
-    Crossfade(targetState = singleChannelPrograms) { data ->
+    Crossfade(
+        targetState = singleChannelPrograms,
+        label = "ChannelList"
+    ) { data ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxHeight(),

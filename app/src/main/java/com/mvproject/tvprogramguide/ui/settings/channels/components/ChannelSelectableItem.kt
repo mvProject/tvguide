@@ -54,7 +54,8 @@ fun ChannelSelectableItem(
         animationSpec = tween(
             durationMillis = ANIM_DURATION_900,
             easing = LinearOutSlowInEasing
-        )
+        ),
+        label = "colorBackground"
     )
     Surface(
         modifier = Modifier

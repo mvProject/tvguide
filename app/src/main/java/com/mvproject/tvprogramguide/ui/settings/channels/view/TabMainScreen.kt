@@ -4,7 +4,8 @@ import androidx.compose.animation.Animatable
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.rememberPagerState
@@ -12,10 +13,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO_FLOAT
@@ -30,8 +35,13 @@ fun TabMainScreen(
     viewModel: CustomListViewModel,
     userListName: String
 ) {
-    SideEffect {
+
+    LifecycleResumeEffect(Unit) {
         viewModel.setSelectedList(name = userListName)
+
+        onPauseOrDispose {
+
+        }
     }
 
     val tabItems = listOf(
@@ -46,12 +56,14 @@ fun TabMainScreen(
     }
     val coroutineScope = rememberCoroutineScope()
 
-    val activeTabColor = MaterialTheme.colorScheme.inverseOnSurface
-    val inActiveTabColor = MaterialTheme.colorScheme.surface
-    val activeTextColor = MaterialTheme.colorScheme.onSurfaceVariant
-    val inActiveTextColor = MaterialTheme.colorScheme.inverseOnSurface
+    val inActiveTabColor = MaterialTheme.colorScheme.inverseOnSurface
+    val activeTabColor = MaterialTheme.colorScheme.onSurfaceVariant
+    val inActiveTextColor = MaterialTheme.colorScheme.onSurfaceVariant
+    val activeTextColor = MaterialTheme.colorScheme.inverseOnSurface
 
-    Column {
+    Column(
+        modifier = Modifier.background(MaterialTheme.colorScheme.surface)
+    ) {
         TabRow(
             selectedTabIndex = pagerState.currentPage,
             modifier = Modifier

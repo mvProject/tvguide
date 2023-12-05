@@ -6,6 +6,7 @@ import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
 import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelEntity
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
+import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ONE
 import com.mvproject.tvprogramguide.data.utils.Mappers.asSelectedChannelsEntitiesFromChannels
 import com.mvproject.tvprogramguide.data.utils.Mappers.asSelectedChannelsFromEntities
 import kotlinx.coroutines.flow.first
@@ -49,7 +50,7 @@ class SelectedChannelUseCase @Inject constructor(
     suspend fun addChannelToSelected(selectedChannel: AvailableChannel) {
         val currentCount = selectedChannelRepository
             .loadSelectedChannels(listName = targetList)
-            .count() + 1
+            .count() + COUNT_ONE
 
         val selected = SelectedChannelEntity(
             channelId = selectedChannel.channelId,
@@ -58,6 +59,7 @@ class SelectedChannelUseCase @Inject constructor(
             parentList = targetList
         )
         selectedChannelRepository.addChannel(selectedChannel = selected)
+        preferenceRepository.setChannelsCountChanged(true)
     }
 
     /**
