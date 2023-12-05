@@ -1,6 +1,6 @@
 package com.mvproject.tvprogramguide.ui.components.toolbars
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Settings
@@ -15,8 +15,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.mvproject.tvprogramguide.theme.TvGuideTheme
-import com.mvproject.tvprogramguide.theme.dimens
+import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
+import com.mvproject.tvprogramguide.ui.theme.dimens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -3,7 +3,7 @@ package com.mvproject.tvprogramguide.viewmodels
 import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
 import com.mvproject.tvprogramguide.domain.usecases.SortedProgramsUseCase
-import com.mvproject.tvprogramguide.ui.singlechannel.viewmodel.SingleChannelViewModel
+import com.mvproject.tvprogramguide.ui.screens.singlechannel.viewmodel.SingleChannelViewModel
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe

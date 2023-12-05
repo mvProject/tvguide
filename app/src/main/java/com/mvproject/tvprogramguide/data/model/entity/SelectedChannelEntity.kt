@@ -6,9 +6,9 @@ import com.mvproject.tvprogramguide.data.database.DbConstants.SELECTED_CHANNEL_K
 import com.mvproject.tvprogramguide.data.database.DbConstants.SELECTED_CHANNEL_KEY_PARENT_LIST
 import com.mvproject.tvprogramguide.data.database.DbConstants.TABLE_SELECTED_CHANNELS
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
-import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
-import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
-import com.mvproject.tvprogramguide.data.utils.parseChannelName
+import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.utils.parseChannelName
 
 @Entity(
     tableName = TABLE_SELECTED_CHANNELS,

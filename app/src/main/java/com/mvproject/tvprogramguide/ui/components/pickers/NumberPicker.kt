@@ -23,8 +23,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.theme.TvGuideTheme
-import com.mvproject.tvprogramguide.theme.dimens
+import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
+import com.mvproject.tvprogramguide.ui.theme.dimens
 
 @Composable
 fun NumberPicker(

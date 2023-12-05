@@ -2,7 +2,7 @@ package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.repository.AllChannelRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
-import com.mvproject.tvprogramguide.domain.utils.Utils.actualDate
+import com.mvproject.tvprogramguide.utils.TimeUtils.actualDate
 import javax.inject.Inject
 
 /**

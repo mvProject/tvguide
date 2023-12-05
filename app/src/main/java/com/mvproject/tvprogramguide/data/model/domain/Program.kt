@@ -2,8 +2,8 @@ package com.mvproject.tvprogramguide.data.model.domain
 
 import androidx.compose.runtime.Immutable
 import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
-import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
-import com.mvproject.tvprogramguide.domain.utils.Utils
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.utils.TimeUtils
 
 @Immutable
 data class Program(
@@ -16,7 +16,7 @@ data class Program(
     val scheduledId: Long? = null
 ) {
     val programProgress
-        get() = Utils.calculateProgramProgress(
+        get() = TimeUtils.calculateProgramProgress(
             startTime = dateTimeStart,
             endTime = dateTimeEnd
         )

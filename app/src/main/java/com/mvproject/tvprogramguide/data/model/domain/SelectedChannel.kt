@@ -2,8 +2,8 @@ package com.mvproject.tvprogramguide.data.model.domain
 
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
-import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
-import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import kotlinx.parcelize.Parcelize
 
 @Immutable

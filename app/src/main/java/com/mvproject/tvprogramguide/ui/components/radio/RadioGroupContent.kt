@@ -16,8 +16,8 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
-import com.mvproject.tvprogramguide.theme.TvGuideTheme
+import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
+import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 
 @Composable
 fun RadioGroupContent(

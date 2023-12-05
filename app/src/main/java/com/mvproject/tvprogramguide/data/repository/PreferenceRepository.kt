@@ -9,11 +9,11 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.mvproject.tvprogramguide.data.model.settings.AppSettingsModel
 import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
-import com.mvproject.tvprogramguide.data.utils.AppConstants.DEFAULT_CHANNELS_UPDATE_PERIOD
-import com.mvproject.tvprogramguide.data.utils.AppConstants.DEFAULT_PROGRAMS_UPDATE_PERIOD
-import com.mvproject.tvprogramguide.data.utils.AppConstants.DEFAULT_PROGRAMS_VISIBLE_COUNT
-import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_LONG
-import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_CHANNELS_UPDATE_PERIOD
+import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_PROGRAMS_UPDATE_PERIOD
+import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_PROGRAMS_VISIBLE_COUNT
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_LONG
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map

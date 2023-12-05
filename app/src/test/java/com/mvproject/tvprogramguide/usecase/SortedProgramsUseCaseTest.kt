@@ -10,9 +10,9 @@ import com.mvproject.tvprogramguide.data.model.settings.AppSettingsModel
 import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
-import com.mvproject.tvprogramguide.data.utils.convertDateToReadableFormat
 import com.mvproject.tvprogramguide.domain.helpers.ProgramSchedulerHelper
 import com.mvproject.tvprogramguide.domain.usecases.SortedProgramsUseCase
+import com.mvproject.tvprogramguide.utils.convertDateToReadableFormat
 import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
@@ -20,7 +20,12 @@ import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.shouldBeInstanceOf
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.coVerifySequence
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.runs
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest

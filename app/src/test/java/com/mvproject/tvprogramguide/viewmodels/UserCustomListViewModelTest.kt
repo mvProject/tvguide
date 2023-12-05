@@ -3,8 +3,8 @@ package com.mvproject.tvprogramguide.viewmodels
 import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
 import com.mvproject.tvprogramguide.data.repository.CustomListRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
-import com.mvproject.tvprogramguide.ui.usercustomlist.action.UserListAction
-import com.mvproject.tvprogramguide.ui.usercustomlist.viewmodel.UserCustomListViewModel
+import com.mvproject.tvprogramguide.ui.screens.usercustomlist.UserCustomListViewModel
+import com.mvproject.tvprogramguide.ui.screens.usercustomlist.action.UserListAction
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe

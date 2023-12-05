@@ -1,7 +1,7 @@
 package com.mvproject.tvprogramguide.data.model.schedule
 
-import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO_LONG
-import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO_LONG
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 
 data class ProgramSchedule(
     val channelId: String,

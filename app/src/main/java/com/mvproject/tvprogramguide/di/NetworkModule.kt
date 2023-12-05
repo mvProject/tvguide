@@ -2,7 +2,7 @@ package com.mvproject.tvprogramguide.di
 
 import com.mvproject.tvprogramguide.data.network.BASE_URL
 import com.mvproject.tvprogramguide.data.network.EpgService
-import com.mvproject.tvprogramguide.data.utils.AppConstants.TIMEOUT_SECONDS
+import com.mvproject.tvprogramguide.utils.AppConstants.TIMEOUT_SECONDS
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

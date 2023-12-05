@@ -2,7 +2,7 @@ package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.repository.CustomListRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
-import com.mvproject.tvprogramguide.data.utils.AppConstants
+import com.mvproject.tvprogramguide.utils.AppConstants
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
