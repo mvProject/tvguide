@@ -1,15 +1,15 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
+import com.mvproject.tvprogramguide.data.mappers.Mappers.asSelectedChannelsFromAltEntities
+import com.mvproject.tvprogramguide.data.mappers.Mappers.toSelectedChannelWithPrograms
+import com.mvproject.tvprogramguide.data.mappers.Mappers.toSingleChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
 import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
-import com.mvproject.tvprogramguide.data.utils.Mappers.asSelectedChannelsFromAltEntities
-import com.mvproject.tvprogramguide.data.utils.Mappers.toSelectedChannelWithPrograms
-import com.mvproject.tvprogramguide.data.utils.Mappers.toSingleChannelWithPrograms
-import com.mvproject.tvprogramguide.data.utils.parseChannelName
 import com.mvproject.tvprogramguide.domain.helpers.ProgramSchedulerHelper
+import com.mvproject.tvprogramguide.utils.parseChannelName
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber

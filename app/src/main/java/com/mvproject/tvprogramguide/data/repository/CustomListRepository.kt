@@ -1,9 +1,9 @@
 package com.mvproject.tvprogramguide.data.repository
 
 import com.mvproject.tvprogramguide.data.database.dao.UserChannelsListDao
+import com.mvproject.tvprogramguide.data.mappers.Mappers.asUserChannelsLists
 import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
 import com.mvproject.tvprogramguide.data.model.entity.UserChannelsListEntity
-import com.mvproject.tvprogramguide.data.utils.Mappers.asUserChannelsLists
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import kotlin.random.Random

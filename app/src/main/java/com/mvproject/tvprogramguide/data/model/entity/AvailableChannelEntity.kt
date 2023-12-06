@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.mvproject.tvprogramguide.data.database.DbConstants.TABLE_ALL_CHANNELS
 import com.mvproject.tvprogramguide.data.model.domain.AvailableChannel
-import com.mvproject.tvprogramguide.data.utils.parseChannelName
+import com.mvproject.tvprogramguide.utils.parseChannelName
 
 @Entity(tableName = TABLE_ALL_CHANNELS)
 data class AvailableChannelEntity(

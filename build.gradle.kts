@@ -1,7 +1,15 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("org.jlleitschuh.gradle.ktlint").version("10.3.0")
-    id("com.github.ben-manes.versions").version("0.42.0")
-    // id("com.google.devtools.ksp").version("1.7.0-1.0.6")
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.kotlin) apply false
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.kotlin.parcelize) apply false
+    alias(libs.plugins.firebase.crashlitycs) apply false
+    alias(libs.plugins.gms.googleServices) apply false
+    alias(libs.plugins.versions) apply false
+
 }
 
 buildscript {
@@ -10,12 +18,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:${libs.versions.androidGradle.get()}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:${libs.versions.daggerHilt.get()}")
         classpath("org.jlleitschuh.gradle:ktlint-gradle:${libs.versions.ktLint.get()}")
-        classpath("com.google.gms:google-services:${libs.versions.googleServices.get()}")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:${libs.versions.crashlyticsGradle.get()}")
     }
 }
 

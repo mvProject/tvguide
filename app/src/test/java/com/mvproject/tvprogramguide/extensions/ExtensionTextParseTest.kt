@@ -1,7 +1,7 @@
 package com.mvproject.tvprogramguide.extensions
 
-import com.mvproject.tvprogramguide.data.utils.manageLength
-import com.mvproject.tvprogramguide.data.utils.parseChannelName
+import com.mvproject.tvprogramguide.utils.manageLength
+import com.mvproject.tvprogramguide.utils.parseChannelName
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
