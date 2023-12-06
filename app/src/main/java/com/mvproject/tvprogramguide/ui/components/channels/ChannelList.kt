@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
+import com.mvproject.tvprogramguide.ui.components.views.ChannelItem
 import com.mvproject.tvprogramguide.ui.components.views.ProgramItem
 import com.mvproject.tvprogramguide.ui.theme.dimens
 

@@ -1,10 +1,9 @@
-package com.mvproject.tvprogramguide.ui.components.channels
+package com.mvproject.tvprogramguide.ui.components.views
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,7 +15,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -25,11 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -37,7 +34,6 @@ import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_900
-import com.mvproject.tvprogramguide.utils.forwardingPainter
 
 @Composable
 fun ChannelSelectableItem(
@@ -48,9 +44,12 @@ fun ChannelSelectableItem(
     onClickAction: () -> Unit
 ) {
     val colorBackground by animateColorAsState(
-        if (isDragged) MaterialTheme.colorScheme.inverseOnSurface
-            .copy(alpha = MaterialTheme.dimens.alpha30)
-        else MaterialTheme.colorScheme.surface,
+        if (isDragged)
+            MaterialTheme.colorScheme.inverseOnSurface.copy(
+                alpha = MaterialTheme.dimens.alpha30
+            )
+        else
+            MaterialTheme.colorScheme.surface,
         animationSpec = tween(
             durationMillis = ANIM_DURATION_900,
             easing = LinearOutSlowInEasing
@@ -66,24 +65,17 @@ fun ChannelSelectableItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(MaterialTheme.dimens.size4),
+                .padding(horizontal = MaterialTheme.dimens.size8),
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(channelLogo)
                     .crossfade(true)
+                    .placeholder(R.drawable.no_channel_logo)
+                    .error(R.drawable.no_channel_logo)
                     .build(),
-                placeholder = forwardingPainter(
-                    painter = painterResource(R.drawable.no_channel_logo),
-                    colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onSurface)
-                ),
-                error = forwardingPainter(
-                    painter = painterResource(R.drawable.no_channel_logo),
-                    colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onSurface)
-                ),
-                contentDescription = stringResource(R.string.app_name),
-                contentScale = ContentScale.Crop,
+                contentDescription = channelName,
                 modifier = Modifier
                     .size(MaterialTheme.dimens.size38)
                     .clip(RoundedCornerShape(MaterialTheme.dimens.size4))
@@ -91,7 +83,6 @@ fun ChannelSelectableItem(
                         color = MaterialTheme.colorScheme.onSurface
                             .copy(alpha = MaterialTheme.dimens.alpha20)
                     )
-
             )
 
             Spacer(modifier = Modifier.width(MaterialTheme.dimens.size8))
@@ -107,20 +98,36 @@ fun ChannelSelectableItem(
 
             Spacer(modifier = Modifier.width(MaterialTheme.dimens.size8))
 
-            Icon(
-                imageVector = if (isSelected) Icons.Outlined.Delete else Icons.Outlined.Add,
-                tint = if (isSelected)
-                    MaterialTheme.colorScheme.tertiary
-                else
-                    MaterialTheme.colorScheme.tertiaryContainer,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(MaterialTheme.dimens.size24)
-                    .align(Alignment.CenterVertically)
-                    .clickable {
-                        onClickAction()
-                    }
-            )
+            FilledIconButton(
+                onClick = onClickAction,
+                colors = IconButtonDefaults.filledIconButtonColors(
+                    containerColor = MaterialTheme.colorScheme.inverseOnSurface,
+                    contentColor = if (isSelected)
+                        MaterialTheme.colorScheme.tertiary
+                    else
+                        MaterialTheme.colorScheme.tertiaryContainer
+                )
+            ) {
+                Icon(
+                    imageVector = if (isSelected) Icons.Outlined.Delete else Icons.Outlined.Add,
+                    contentDescription = "Action"
+                )
+            }
+            /*
+                        Icon(
+                            imageVector = if (isSelected) Icons.Outlined.Delete else Icons.Outlined.Add,
+                            tint = if (isSelected)
+                                MaterialTheme.colorScheme.tertiary
+                            else
+                                MaterialTheme.colorScheme.tertiaryContainer,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(MaterialTheme.dimens.size24)
+                                .align(Alignment.CenterVertically)
+                                .clickable {
+                                    onClickAction()
+                                }
+                        )*/
         }
     }
 }

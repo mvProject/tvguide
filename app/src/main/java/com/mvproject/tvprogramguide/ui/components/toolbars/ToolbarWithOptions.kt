@@ -22,6 +22,7 @@ import com.mvproject.tvprogramguide.ui.theme.dimens
 @Composable
 fun ToolbarWithOptions(
     title: String,
+    isSelectEnabled: Boolean = false,
     onSelectClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {}
 ) {
@@ -34,18 +35,20 @@ fun ToolbarWithOptions(
             )
         },
         navigationIcon = {
-            FilledIconButton(
-                onClick = onSelectClick,
-                modifier = Modifier.padding(MaterialTheme.dimens.size8),
-                colors = IconButtonDefaults.filledIconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onSurface
-                )
-            ) {
-                Icon(
-                    imageVector = Icons.Default.ArrowDropDown,
-                    contentDescription = "Back",
-                )
+            if (isSelectEnabled) {
+                FilledIconButton(
+                    onClick = onSelectClick,
+                    modifier = Modifier.padding(MaterialTheme.dimens.size8),
+                    colors = IconButtonDefaults.filledIconButtonColors(
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        contentColor = MaterialTheme.colorScheme.onSurface
+                    )
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+                        contentDescription = "Back",
+                    )
+                }
             }
         },
         actions = {

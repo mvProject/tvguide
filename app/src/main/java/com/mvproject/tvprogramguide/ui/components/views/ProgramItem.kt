@@ -62,7 +62,8 @@ fun ProgramItem(
     val density = LocalDensity.current
 
     val rotationState by animateFloatAsState(
-        targetValue = if (expandedState) ROTATION_STATE_UP else ROTATION_STATE_DOWN
+        targetValue = if (expandedState) ROTATION_STATE_UP else ROTATION_STATE_DOWN,
+        label = "rotationState"
     )
 
     val cardAlpha =

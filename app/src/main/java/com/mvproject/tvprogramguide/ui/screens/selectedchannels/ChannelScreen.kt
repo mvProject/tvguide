@@ -50,6 +50,7 @@ fun ChannelScreen(
         topBar = {
             ToolbarWithOptions(
                 title = viewState.listName,
+                isSelectEnabled = viewState.isNotSinglePlaylist,
                 onSelectClick = {
                     isDialogOpen.value = true
                 },

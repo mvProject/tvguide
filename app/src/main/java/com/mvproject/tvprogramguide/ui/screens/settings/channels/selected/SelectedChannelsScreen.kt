@@ -18,10 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
-import com.mvproject.tvprogramguide.ui.components.channels.ChannelSelectableItem
 import com.mvproject.tvprogramguide.ui.components.composables.DraggableItem
 import com.mvproject.tvprogramguide.ui.components.composables.dragContainer
 import com.mvproject.tvprogramguide.ui.components.composables.rememberDragDropState
+import com.mvproject.tvprogramguide.ui.components.views.ChannelSelectableItem
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.selected.action.SelectedChannelsAction
 import com.mvproject.tvprogramguide.ui.theme.dimens
 
@@ -67,7 +67,10 @@ private fun SelectedChannelsContent(
             .dragContainer(dragDropState)
             .fillMaxHeight(),
         state = listState,
-        contentPadding = PaddingValues(MaterialTheme.dimens.size8),
+        contentPadding = PaddingValues(
+            vertical = MaterialTheme.dimens.size8,
+            horizontal = MaterialTheme.dimens.size4
+        ),
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size4)
     ) {
         itemsIndexed(channels, key = { _, chn -> chn }) { index, chn ->

@@ -1,6 +1,8 @@
 package com.mvproject.tvprogramguide.ui.screens.usercustomlist
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
@@ -94,7 +96,14 @@ private fun UserCustomListContent(
 
                 else -> {
                     LazyColumn(
-                        modifier = Modifier.fillMaxHeight()
+                        modifier = Modifier.fillMaxHeight(),
+                        verticalArrangement = Arrangement.spacedBy(
+                            MaterialTheme.dimens.size8
+                        ),
+                        contentPadding = PaddingValues(
+                            vertical = MaterialTheme.dimens.size8,
+                            horizontal = MaterialTheme.dimens.size4
+                        )
                     ) {
                         items(userLists) { item ->
                             UserCustomListItem(

@@ -3,6 +3,7 @@ package com.mvproject.tvprogramguide.ui.screens.selectedchannels.state
 import androidx.compose.runtime.Stable
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
+import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.utils.obtainIndexOrZero
 
@@ -19,6 +20,8 @@ data class ChannelsViewState(
 
     val selectedListIndex
         get() = listNames.obtainIndexOrZero(target = listName)
+
+    val isNotSinglePlaylist get() = allPlaylists.playlists.count() > COUNT_ONE
 }
 
 @Stable
