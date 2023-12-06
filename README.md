@@ -4,6 +4,7 @@
 
 * Provide epg information for tv channels
 * Allow creating different favorites user lists
+* Channels reordering with drag and drop
 * Scheduling updates
 * Allow set notifications for program
 * Dark/Light theme support
