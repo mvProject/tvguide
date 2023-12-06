@@ -2,9 +2,10 @@ package com.mvproject.tvprogramguide.viewmodels
 
 import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
 import com.mvproject.tvprogramguide.data.repository.CustomListRepository
-import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
-import com.mvproject.tvprogramguide.ui.usercustomlist.action.UserListAction
-import com.mvproject.tvprogramguide.ui.usercustomlist.viewmodel.UserCustomListViewModel
+import com.mvproject.tvprogramguide.domain.usecases.AddPlaylistUseCase
+import com.mvproject.tvprogramguide.domain.usecases.DeletePlaylistUseCase
+import com.mvproject.tvprogramguide.ui.screens.usercustomlist.UserCustomListViewModel
+import com.mvproject.tvprogramguide.ui.screens.usercustomlist.action.UserListAction
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
@@ -16,14 +17,16 @@ import kotlinx.coroutines.flow.flow
 
 class UserCustomListViewModelTest : StringSpec({
     lateinit var customListRepository: CustomListRepository
-    lateinit var preferenceRepository: PreferenceRepository
+    lateinit var addPlaylistUseCase: AddPlaylistUseCase
+    lateinit var deletePlaylistUseCase: DeletePlaylistUseCase
     lateinit var userCustomListViewModel: UserCustomListViewModel
 
     beforeTest {
         customListRepository = mockk<CustomListRepository>()
-        preferenceRepository = mockk<PreferenceRepository>()
+        addPlaylistUseCase = mockk<AddPlaylistUseCase>()
+        deletePlaylistUseCase = mockk<DeletePlaylistUseCase>()
         userCustomListViewModel =
-            UserCustomListViewModel(customListRepository, preferenceRepository)
+            UserCustomListViewModel(customListRepository, addPlaylistUseCase, deletePlaylistUseCase)
     }
 
     afterTest {

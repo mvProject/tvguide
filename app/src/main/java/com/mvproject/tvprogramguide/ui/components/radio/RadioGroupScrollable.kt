@@ -8,8 +8,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
-import com.mvproject.tvprogramguide.theme.dimens
+import com.mvproject.tvprogramguide.ui.theme.dimens
+import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 
 @Composable
 fun RadioGroupScrollable(

@@ -3,7 +3,7 @@ package com.mvproject.tvprogramguide.data.model.entity
 import androidx.room.Embedded
 import androidx.room.Relation
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
-import com.mvproject.tvprogramguide.data.utils.parseChannelName
+import com.mvproject.tvprogramguide.utils.parseChannelName
 
 data class SelectedChannelWithIconEntity(
     @Embedded val channel: SelectedChannelEntity,

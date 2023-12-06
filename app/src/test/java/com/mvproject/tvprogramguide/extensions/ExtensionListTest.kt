@@ -2,12 +2,12 @@ package com.mvproject.tvprogramguide.extensions
 
 import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
-import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_EPG_PROGRAM_TITLE
-import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
-import com.mvproject.tvprogramguide.data.utils.filterNoEpg
-import com.mvproject.tvprogramguide.data.utils.getNoProgramData
-import com.mvproject.tvprogramguide.data.utils.obtainIndexOrZero
-import com.mvproject.tvprogramguide.data.utils.takeIfCountNotEmpty
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_EPG_PROGRAM_TITLE
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.utils.filterNoEpg
+import com.mvproject.tvprogramguide.utils.getNoProgramData
+import com.mvproject.tvprogramguide.utils.obtainIndexOrZero
+import com.mvproject.tvprogramguide.utils.takeIfCountNotEmpty
 import io.kotest.assertions.assertSoftly
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields

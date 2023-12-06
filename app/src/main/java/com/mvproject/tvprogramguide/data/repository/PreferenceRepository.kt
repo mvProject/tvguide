@@ -9,11 +9,11 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.mvproject.tvprogramguide.data.model.settings.AppSettingsModel
 import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
-import com.mvproject.tvprogramguide.data.utils.AppConstants.DEFAULT_CHANNELS_UPDATE_PERIOD
-import com.mvproject.tvprogramguide.data.utils.AppConstants.DEFAULT_PROGRAMS_UPDATE_PERIOD
-import com.mvproject.tvprogramguide.data.utils.AppConstants.DEFAULT_PROGRAMS_VISIBLE_COUNT
-import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_LONG
-import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_CHANNELS_UPDATE_PERIOD
+import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_PROGRAMS_UPDATE_PERIOD
+import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_PROGRAMS_VISIBLE_COUNT
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_LONG
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -105,6 +105,26 @@ class PreferenceRepository @Inject constructor(
         preferences[LAST_UPDATE_PROGRAMS] ?: NO_VALUE_LONG
     }
 
+    suspend fun setChannelsUpdateRequired(state: Boolean) {
+        dataStore.edit { settings ->
+            settings[PROGRAM_UPDATE_REQUIRED] = state
+        }
+    }
+
+    fun loadChannelsUpdateRequired() = dataStore.data.map { preferences ->
+        preferences[PROGRAM_UPDATE_REQUIRED] ?: false
+    }
+
+    suspend fun setChannelsCountChanged(state: Boolean) {
+        dataStore.edit { settings ->
+            settings[CHANNELS_COUNT_CHANGED] = state
+        }
+    }
+
+    fun loadChannelsCountChanged() = dataStore.data.map { preferences ->
+        preferences[CHANNELS_COUNT_CHANGED] ?: false
+    }
+
     suspend fun setAppSettings(appSettings: AppSettingsModel) {
         dataStore.edit { settings ->
             settings[APP_THEME_OPTION] = appSettings.appTheme
@@ -143,5 +163,7 @@ class PreferenceRepository @Inject constructor(
         val LAST_UPDATE_PROGRAMS = longPreferencesKey("LastUpdatePrograms")
 
         val ON_BOARD_COMPLETE = booleanPreferencesKey("onBoardComplete")
+        val PROGRAM_UPDATE_REQUIRED = booleanPreferencesKey("programUpdateRequired")
+        val CHANNELS_COUNT_CHANGED = booleanPreferencesKey("channelsCountChanged")
     }
 }

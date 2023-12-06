@@ -1,8 +1,8 @@
 package com.mvproject.tvprogramguide.extensions
 
-import com.mvproject.tvprogramguide.data.utils.convertDateToReadableFormat
-import com.mvproject.tvprogramguide.data.utils.convertTimeToReadableFormat
-import com.mvproject.tvprogramguide.data.utils.toMillis
+import com.mvproject.tvprogramguide.utils.convertDateToReadableFormat
+import com.mvproject.tvprogramguide.utils.convertTimeToReadableFormat
+import com.mvproject.tvprogramguide.utils.toMillis
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.longs.shouldBeGreaterThan
