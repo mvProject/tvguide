@@ -24,9 +24,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
-import com.mvproject.tvprogramguide.data.utils.manageLength
-import com.mvproject.tvprogramguide.theme.dimens
+import com.mvproject.tvprogramguide.ui.theme.dimens
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.utils.manageLength
 
 @Composable
 fun ShowAddNewDialog(

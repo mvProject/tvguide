@@ -7,8 +7,8 @@ object NavConstants {
 
     const val ROUTE_ONBOARD = "onboard"
     const val ROUTE_CHANNELS = "channels"
-    const val ROUTE_SELECTED_CHANNELS = "selected_channel"
-    const val ROUTE_OPTION_SETTINGS = "option_settings"
+    const val ROUTE_SINGLE_CHANNEL = "single_channel"
+    const val ROUTE_SETTINGS_GENERAL = "settings_general"
     const val ROUTE_CHANNEL_SETTINGS = "channel_settings"
     const val ROUTE_APP_SETTINGS = "app_settings"
     const val ROUTE_USER_CUSTOM_LIST = "user_custom_list"

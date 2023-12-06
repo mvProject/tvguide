@@ -26,10 +26,10 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
-import com.mvproject.tvprogramguide.theme.TvGuideTheme
-import com.mvproject.tvprogramguide.theme.dimens
-import com.mvproject.tvprogramguide.theme.fonts
+import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
+import com.mvproject.tvprogramguide.ui.theme.dimens
+import com.mvproject.tvprogramguide.ui.theme.fonts
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import timber.log.Timber
 
 @Composable

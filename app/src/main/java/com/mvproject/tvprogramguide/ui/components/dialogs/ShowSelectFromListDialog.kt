@@ -21,10 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
-import com.mvproject.tvprogramguide.data.utils.AppConstants.NO_VALUE_STRING
-import com.mvproject.tvprogramguide.theme.dimens
 import com.mvproject.tvprogramguide.ui.components.radio.RadioGroupScrollable
+import com.mvproject.tvprogramguide.ui.theme.dimens
+import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 
 @Composable
 fun ShowSelectFromListDialog(

@@ -1,7 +1,7 @@
 package com.mvproject.tvprogramguide.viewmodels
 
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
-import com.mvproject.tvprogramguide.ui.onboard.viewmodel.OnBoardViewModel
+import com.mvproject.tvprogramguide.ui.screens.onboard.OnBoardViewModel
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.coEvery

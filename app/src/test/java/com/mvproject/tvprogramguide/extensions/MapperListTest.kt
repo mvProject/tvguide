@@ -1,12 +1,12 @@
 package com.mvproject.tvprogramguide.extensions
 
+import com.mvproject.tvprogramguide.data.mappers.Mappers.toSelectedChannelWithPrograms
+import com.mvproject.tvprogramguide.data.mappers.Mappers.toSingleChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
-import com.mvproject.tvprogramguide.data.utils.Mappers.toSelectedChannelWithPrograms
-import com.mvproject.tvprogramguide.data.utils.Mappers.toSingleChannelWithPrograms
-import com.mvproject.tvprogramguide.data.utils.convertDateToReadableFormat
+import com.mvproject.tvprogramguide.utils.convertDateToReadableFormat
 import io.kotest.assertions.assertSoftly
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields

@@ -1,55 +1,46 @@
 [versions]
 # plugins
-kotlin = "1.8.10"
-androidGradle = "7.4.1"
-crashlyticsGradle = "2.9.1"
+kotlin = "1.9.20"
+gradle = "8.1.2"
+ksp = "1.9.20-1.0.14"
+crashlyticsGradle = "2.9.9"
 ktLint = "10.3.0"
-googleServices = "4.3.13"
-androidTestInstrumentation = "androidx.test.runner.AndroidJUnitRunner"
-applicationId = "com.mvproject.tvprogramguide"
-
-# depUpdate = "0.42.0"
-# detekt                              = "1.21.0"
+googleServices = "4.4.0"
+versionsPlugin = "0.42.0"
 
 # production libraries
-coreKtx = "1.10.1"
-appCompat = "1.3.1"
-material = "1.4.0"
-annotation = "1.6.0"
+coreKtx = "1.12.0"
+annotation = "1.7.0"
 timber = "5.0.1"
-lifecycle = "2.3.1"
+lifecycle-viewmodel = "2.6.2"
 
 # preferences
 dataStore = "1.0.0"
 
 # datetime
-datetime = "0.4.0"
+datetime = "0.4.1"
 
 # Compose
-compose = "1.4.3"
-composeMaterial3 = "1.1.0"
-composeCompiler = "1.4.3"
-viewModelCompose = "2.6.1"
-composeActivity = "1.7.2"
+compose-activity = "1.8.1"
+compose-lifecycle-viewmodel = "2.6.2"
+compose-lifecycle-runtime = "2.7.0-rc01"
+compose-bom = "2023.10.01"
+firebase-bom = "32.6.0"
 
 # navigationCompose
-composeNavigationHilt = "1.0.0"
-composeNavigation = "2.5.3"
-accompanistNavigationAnimated = "0.31.3-beta"
+composeNavigationHilt = "1.1.0"
+composeNavigation = "2.7.5"
 
 # Accompanist Permissions
 accompanistPermissions = "0.31.3-beta"
 
 # di
-daggerHilt = "2.46.1"
-androidHilt = "1.0.0"
-
-firebaseAnalytics = "21.3.0"
-firebaseCrashlytics = "18.3.7"
+daggerHilt = "2.48"
+androidHilt = "1.1.0"
 
 # coroutines
-coroutinesCoreKtx = "1.7.1"
-coroutinesAndroid = "1.7.1"
+coroutines-core = "1.7.3"
+coroutines-android = "1.7.3"
 
 # retrofit
 retrofit = "2.9.0"
@@ -62,14 +53,14 @@ coil = "2.4.0"
 coilCompose = "2.4.0"
 
 # Database
-room = "2.5.1"
+room = "2.6.1"
 
 # WorkManager
 workRuntime = "2.8.1"
-workHilt = "1.0.0"
+workHilt = "1.1.0"
 
 # Splash API
-splash = "1.0.0"
+splash = "1.0.1"
 
 # StartUp API
 startUp = "1.1.1"
@@ -84,14 +75,24 @@ mockk = "1.13.5"
 testAndroidJunitExt = "1.1.5"
 testAndroidEspresso = "3.5.1"
 
+[plugins]
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "gradle" }
+android-application = { id = "com.android.application", version.ref = "gradle" }
+firebase-crashlitycs = { id = "com.google.firebase.crashlytics", version.ref = "crashlyticsGradle" }
+gms-googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+versions = { id = "com.github.ben-manes.versions", version.ref = "versionsPlugin" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLint" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+
 [libraries]
 # production libraries
 coreKtx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
-material = { module = "com.google.android.material:material", version.ref = "material" }
 annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
-lifecycleKtx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle-viewmodel" }
 
 # Preference
 dataStore = { module = "androidx.datastore:datastore-preferences", version.ref = "dataStore" }
@@ -100,19 +101,23 @@ dataStore = { module = "androidx.datastore:datastore-preferences", version.ref =
 kotlinxDatetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
 
 # Coroutine
-coroutinesCoreKtx = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutinesCoreKtx" }
-coroutinesAndroid = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutinesAndroid" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines-core" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines-android" }
 
-composeActivity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
-composeUi = { module = "androidx.compose.ui:ui", version.ref = "compose" }
-composeMaterial3 = { module = "androidx.compose.material3:material3", version.ref = "composeMaterial3" }
-composeMaterialIcons = { module = "androidx.compose.material:material-icons-core", version.ref = "compose" }
-composeMaterialIconsExtended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose" }
-composeFoundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
-composeToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+androidx-compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose-activity" }
 
-viewModelCompose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "viewModelCompose" }
-livedataCompose = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "compose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+androidx-compose-ui-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core" }
+androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
+androidx-compose-material3-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+
+androidx-compose-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "compose-lifecycle-runtime" }
+androidx-compose-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "compose-lifecycle-viewmodel" }
 
 composeNavigation = { module = "androidx.navigation:navigation-compose", version.ref = "composeNavigation" }
 composeNavigationHilt = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "composeNavigationHilt" }
@@ -146,7 +151,6 @@ accompanistPermissions = { module = "com.google.accompanist:accompanist-permissi
 # Navigation
 navComposeHilt = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "composeNavigationHilt" }
 navCompose = { module = "androidx.navigation:navigation-compose", version.ref = "composeNavigation" }
-accompanistNavigationAnimated = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanistNavigationAnimated" }
 
 # WorkManager
 workRuntimeKtx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntime" }
@@ -155,24 +159,21 @@ workHilt = { module = "androidx.hilt:hilt-work", version.ref = "workHilt" }
 # Splash API
 splashScreen = { module = "androidx.core:core-splashscreen", version.ref = "splash" }
 
-# Firebase
-firebaseAnalyticsKtx = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebaseAnalytics" }
-firebaseCrashlyticsKtx = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebaseCrashlytics" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
 
 # test libraries
 testJunit = { module = "junit:junit", version.ref = "testJunit" }
-kotestRunnerJunit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
-kotestAssertionsCore = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+# Kotest
+kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
 # android test libraries
 testAndroidJunitExt = { module = "androidx.test.ext:junit", version.ref = "testAndroidJunitExt" }
-testAndroidCompose = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 testAndroidEspresso = { module = "androidx.test.espresso:espresso-core", version.ref = "testAndroidEspresso" }
-
-# debug libraries
-debugComposeTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
-debugComposeManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 
 [bundles]
 
@@ -180,25 +181,22 @@ appLibraries = [
     "coreKtx",
     "timber",
     "annotation",
-    "splashScreen",
-    "material"
+    "splashScreen"
 ]
 
 compose = [
-    "composeUi",
-    "composeActivity",
-    "composeMaterial3",
-    "composeMaterialIcons",
-    "composeMaterialIconsExtended",
-    "composeFoundation",
-    "composeToolingPreview"
+    "androidx-compose-ui-ui",
+    "androidx-compose-activity",
+    "androidx-compose-material3-material3",
+    "androidx-compose-material-icons-core",
+    "androidx-compose-material-icons-extended",
+    "androidx-compose-ui-tooling-preview"
 ]
 
 
 navHiltCompose = [
     "composeNavigation",
-    "composeNavigationHilt",
-    "accompanistNavigationAnimated"
+    "composeNavigationHilt"
 ]
 
 coil = [
@@ -217,13 +215,9 @@ workManager = [
 ]
 
 lifecycleCompose = [
-    "viewModelCompose",
-    "livedataCompose"
-]
-
-coroutines = [
-    "coroutinesCoreKtx",
-    "coroutinesAndroid"
+    "lifecycle-viewmodel-ktx",
+    "androidx-compose-lifecycle-runtime",
+    "androidx-compose-lifecycle-viewmodel"
 ]
 
 network = [
@@ -240,16 +234,21 @@ hiltCompiler = [
 
 testAndroid = [
     "testAndroidJunitExt",
-    "testAndroidEspresso",
-    "testAndroidCompose"
+    "androidx-compose-ui-test-junit4",
+    "testAndroidEspresso"
 ]
 
 testDebugCompose = [
-    "debugComposeTooling",
-    "debugComposeManifest"
+    "androidx-compose-ui-tooling",
+    "androidx-compose-ui-test-manifest"
 ]
 
 firebase = [
-    "firebaseAnalyticsKtx",
-    "firebaseCrashlyticsKtx"
+    "firebase-analytics",
+    "firebase-crashlytics"
+]
+
+kotest = [
+    "kotest-runner-junit5",
+    "kotest-assertions-core"
 ]

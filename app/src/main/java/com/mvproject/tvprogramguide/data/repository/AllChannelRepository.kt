@@ -2,13 +2,13 @@ package com.mvproject.tvprogramguide.data.repository
 
 import androidx.room.Transaction
 import com.mvproject.tvprogramguide.data.database.dao.AllChannelDao
+import com.mvproject.tvprogramguide.data.mappers.Mappers.asChannelsFromEntities
+import com.mvproject.tvprogramguide.data.mappers.Mappers.toAvailableChannelEntities
 import com.mvproject.tvprogramguide.data.model.domain.AvailableChannel
 import com.mvproject.tvprogramguide.data.model.entity.AvailableChannelEntity
 import com.mvproject.tvprogramguide.data.network.EpgService
-import com.mvproject.tvprogramguide.data.utils.AppConstants.COUNT_ZERO
-import com.mvproject.tvprogramguide.data.utils.Mappers.asChannelsFromEntities
-import com.mvproject.tvprogramguide.data.utils.Mappers.toAvailableChannelEntities
-import com.mvproject.tvprogramguide.data.utils.filterNoEpg
+import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
+import com.mvproject.tvprogramguide.utils.filterNoEpg
 import javax.inject.Inject
 
 class AllChannelRepository @Inject constructor(

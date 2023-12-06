@@ -4,9 +4,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
-import com.mvproject.tvprogramguide.data.utils.cancelAlarm
-import com.mvproject.tvprogramguide.data.utils.setExactAlarm
 import com.mvproject.tvprogramguide.domain.receiver.ProgramReceiver
+import com.mvproject.tvprogramguide.utils.cancelAlarm
+import com.mvproject.tvprogramguide.utils.setExactAlarm
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
