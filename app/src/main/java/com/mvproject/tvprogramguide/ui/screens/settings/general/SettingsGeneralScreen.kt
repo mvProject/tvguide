@@ -21,22 +21,20 @@ import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 
 @Composable
-fun SettingsOptions(
-    onBackClick: () -> Unit = {},
-    onChannelSettings: () -> Unit = {},
-    onAppSettings: () -> Unit = {}
+fun SettingsGeneralScreen(
+    onNavigateBack: () -> Unit = {},
+    onNavigateChannelSettings: () -> Unit = {},
+    onNavigateAppSettings: () -> Unit = {}
 ) {
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         containerColor = MaterialTheme.colorScheme.inverseOnSurface,
         contentColor = MaterialTheme.colorScheme.onSurface,
         topBar = {
             ToolbarWithBack(
-                title = stringResource(id = R.string.settings_title)
-            ) {
-                onBackClick()
-            }
+                title = stringResource(id = R.string.settings_title),
+                onBackClick = onNavigateBack
+            )
         }
     ) { paddingValues ->
         Column(
@@ -50,7 +48,7 @@ fun SettingsOptions(
                     .fillMaxWidth()
                     .padding(horizontal = MaterialTheme.dimens.size8)
                     .clickable {
-                        onChannelSettings()
+                        onNavigateChannelSettings()
                     },
                 style = MaterialTheme.typography.bodyMedium,
             )
@@ -72,7 +70,7 @@ fun SettingsOptions(
                     .fillMaxWidth()
                     .padding(horizontal = MaterialTheme.dimens.size8)
                     .clickable {
-                        onAppSettings()
+                        onNavigateAppSettings()
                     },
                 style = MaterialTheme.typography.bodyMedium,
             )
@@ -93,7 +91,7 @@ fun SettingsOptions(
 @Composable
 fun SettingsOptionsViewDark() {
     TvGuideTheme(darkTheme = true) {
-        SettingsOptions()
+        SettingsGeneralScreen()
     }
 }
 
@@ -101,6 +99,6 @@ fun SettingsOptionsViewDark() {
 @Composable
 fun SettingsOptionsView() {
     TvGuideTheme() {
-        SettingsOptions()
+        SettingsGeneralScreen()
     }
 }

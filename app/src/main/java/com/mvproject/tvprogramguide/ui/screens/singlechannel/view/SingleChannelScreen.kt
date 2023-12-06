@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -18,27 +17,20 @@ import com.mvproject.tvprogramguide.ui.screens.singlechannel.viewmodel.SingleCha
 @Composable
 fun SingleChannelScreen(
     viewModel: SingleChannelViewModel,
-    channelId: String,
-    channelName: String,
-    onBackClick: () -> Unit
+    onNavigateBack: () -> Unit
 ) {
-    LaunchedEffect(key1 = Unit) {
-        viewModel.loadPrograms(channelId = channelId)
-    }
-
     val programs by viewModel.selectedPrograms.collectAsStateWithLifecycle()
 
     val listState = rememberLazyListState()
 
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         containerColor = MaterialTheme.colorScheme.inverseOnSurface,
         contentColor = MaterialTheme.colorScheme.onSurface,
         topBar = {
             ToolbarWithBack(
-                title = channelName,
-                onBackClick = onBackClick
+                title = viewModel.name,
+                onBackClick = onNavigateBack
             )
         }
     ) { padding ->

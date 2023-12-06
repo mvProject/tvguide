@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.components.customlist
+package com.mvproject.tvprogramguide.ui.components.views
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

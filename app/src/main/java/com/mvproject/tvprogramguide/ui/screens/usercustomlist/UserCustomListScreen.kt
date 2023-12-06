@@ -1,9 +1,12 @@
 package com.mvproject.tvprogramguide.ui.screens.usercustomlist
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.FabPosition
@@ -20,26 +23,26 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
-import com.mvproject.tvprogramguide.ui.components.customlist.UserCustomList
 import com.mvproject.tvprogramguide.ui.components.dialogs.ShowAddNewDialog
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
 import com.mvproject.tvprogramguide.ui.components.views.NoItemsScreen
+import com.mvproject.tvprogramguide.ui.components.views.UserCustomListItem
 import com.mvproject.tvprogramguide.ui.screens.usercustomlist.action.UserListAction
 import com.mvproject.tvprogramguide.ui.theme.dimens
 
 @Composable
 fun UserCustomListScreen(
     viewModel: UserCustomListViewModel,
-    onItemClick: (String) -> Unit,
-    onBackClick: () -> Unit
+    onNavigateItem: (String) -> Unit,
+    onNavigateBack: () -> Unit
 ) {
     val state by viewModel.customs.collectAsStateWithLifecycle()
 
     UserCustomListContent(
         userLists = state,
         onAction = viewModel::processAction,
-        onItemClick = onItemClick,
-        onBackClick = onBackClick
+        onItemClick = onNavigateItem,
+        onBackClick = onNavigateBack
     )
 }
 
@@ -88,16 +91,19 @@ private fun UserCustomListContent(
                         title = stringResource(id = R.string.msg_user_lists_empty)
                     )
                 }
+
                 else -> {
-                    UserCustomList(
-                        list = userLists,
-                        onItemClick = { item ->
-                            onItemClick(item.listName)
-                        },
-                        onDeleteClick = { item ->
-                            onAction(UserListAction.DeleteList(item))
+                    LazyColumn(
+                        modifier = Modifier.fillMaxHeight()
+                    ) {
+                        items(userLists) { item ->
+                            UserCustomListItem(
+                                listName = item.listName,
+                                onItemAction = { onItemClick(item.listName) },
+                                onDeleteAction = { onAction(UserListAction.DeleteList(item)) }
+                            )
                         }
-                    )
+                    }
                 }
             }
         }

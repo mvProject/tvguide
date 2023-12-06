@@ -15,7 +15,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.navigation.AppRoutes
 import com.mvproject.tvprogramguide.ui.components.channels.ChannelList
 import com.mvproject.tvprogramguide.ui.components.dialogs.ShowSelectFromListDialog
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithOptions
@@ -26,7 +25,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
 fun ChannelScreen(
     viewModel: ChannelViewModel,
-    onNavigate: (route: String) -> Unit
+    onNavigateSingleChannel: (String, String) -> Unit,
+    onNavigateSettings: () -> Unit,
+    onNavigateChannelsList: () -> Unit
 ) {
     val isDialogOpen = remember { mutableStateOf(false) }
 
@@ -52,7 +53,7 @@ fun ChannelScreen(
                 onSelectClick = {
                     isDialogOpen.value = true
                 },
-                onSettingsClick = { onNavigate(AppRoutes.OptionSettings.route) }
+                onSettingsClick = onNavigateSettings
             )
         }
     ) { padding ->
@@ -61,7 +62,7 @@ fun ChannelScreen(
                 NoItemsScreen(
                     title = stringResource(id = R.string.msg_user_filled_list_empty),
                     navigateTitle = stringResource(id = R.string.msg_tap_to_create_list),
-                    onNavigateClick = { onNavigate(AppRoutes.UserCustomList.route) }
+                    onNavigateClick = onNavigateChannelsList
                 )
             }
 
@@ -75,11 +76,9 @@ fun ChannelScreen(
                         singleChannelPrograms = viewState.programs,
                         listState = listState,
                         onChannelClick = { channel ->
-                            onNavigate(
-                                AppRoutes.SelectedChannel.applyArgs(
-                                    channelId = channel.channelId,
-                                    channelName = channel.channelName
-                                )
+                            onNavigateSingleChannel(
+                                channel.channelId,
+                                channel.channelName
                             )
                         },
                         onScheduleClick = viewModel::toggleProgramSchedule

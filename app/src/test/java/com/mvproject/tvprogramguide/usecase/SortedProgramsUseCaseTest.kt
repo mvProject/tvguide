@@ -4,7 +4,9 @@ import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
+import com.mvproject.tvprogramguide.data.model.entity.AvailableChannelEntity
 import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelEntity
+import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelWithIconEntity
 import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
 import com.mvproject.tvprogramguide.data.model.settings.AppSettingsModel
 import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
@@ -479,7 +481,7 @@ private fun createSelectedChannelMockRepository(): SelectedChannelRepository {
 
     coEvery {
         selectedChannelRepository.loadSelectedChannels("test")
-    } returns expectedResultDao
+    } returns expectedResultWithIconDao
 
     coEvery {
         selectedChannelRepository.loadChannelNameById(any())
@@ -490,10 +492,37 @@ private fun createSelectedChannelMockRepository(): SelectedChannelRepository {
 
 private val expectedResultDao
     get() = listOf(
-        SelectedChannelEntity("testId1", "testName1", "iconUrl", order = 1, parentList = "test"),
-        SelectedChannelEntity("testId2", "testName2", "iconUrl", order = 2, parentList = "test"),
-        SelectedChannelEntity("testId3", "testName3", "iconUrl", order = 3, parentList = "test"),
-        SelectedChannelEntity("testId4", "testName4", "iconUrl", order = 4, parentList = "test"),
-        SelectedChannelEntity("testId5", "testName5", "iconUrl", order = 5, parentList = "test"),
-        SelectedChannelEntity("testId6", "testName6", "iconUrl", order = 6, parentList = "test"),
+        SelectedChannelEntity("testId1", "testName1", order = 1, parentList = "test"),
+        SelectedChannelEntity("testId2", "testName2", order = 2, parentList = "test"),
+        SelectedChannelEntity("testId3", "testName3", order = 3, parentList = "test"),
+        SelectedChannelEntity("testId4", "testName4", order = 4, parentList = "test"),
+        SelectedChannelEntity("testId5", "testName5", order = 5, parentList = "test"),
+        SelectedChannelEntity("testId6", "testName6", order = 6, parentList = "test"),
+    )
+private val expectedResultWithIconDao
+    get() = listOf(
+        SelectedChannelWithIconEntity(
+            channel = SelectedChannelEntity("testId1", "testName1", order = 1, parentList = "test"),
+            allChannel = AvailableChannelEntity("testId1", "testName1", "iconUrl")
+        ),
+        SelectedChannelWithIconEntity(
+            channel = SelectedChannelEntity("testId2", "testName2", order = 2, parentList = "test"),
+            allChannel = AvailableChannelEntity("testId2", "testName2", "iconUrl")
+        ),
+        SelectedChannelWithIconEntity(
+            channel = SelectedChannelEntity("testId3", "testName3", order = 3, parentList = "test"),
+            allChannel = AvailableChannelEntity("testId3", "testName3", "iconUrl")
+        ),
+        SelectedChannelWithIconEntity(
+            channel = SelectedChannelEntity("testId4", "testName4", order = 4, parentList = "test"),
+            allChannel = AvailableChannelEntity("testId4", "testName4", "iconUrl")
+        ),
+        SelectedChannelWithIconEntity(
+            channel = SelectedChannelEntity("testId5", "testName5", order = 5, parentList = "test"),
+            allChannel = AvailableChannelEntity("testId5", "testName5", "iconUrl")
+        ),
+        SelectedChannelWithIconEntity(
+            channel = SelectedChannelEntity("testId6", "testName6", order = 6, parentList = "test"),
+            allChannel = AvailableChannelEntity("testId6", "testName6", "iconUrl")
+        )
     )

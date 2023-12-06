@@ -20,7 +20,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.available.AllChannelsScreen
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.selected.SelectedChannelsScreen
@@ -32,18 +31,9 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TabMainScreen(
-    viewModel: CustomListViewModel,
-    userListName: String
+fun ChannelSettingsScreen(
+    viewModel: ChannelSettingsViewModel
 ) {
-
-    LifecycleResumeEffect(Unit) {
-        viewModel.setSelectedList(name = userListName)
-
-        onPauseOrDispose {
-
-        }
-    }
 
     val tabItems = listOf(
         stringResource(id = R.string.title_all_channels),

@@ -20,23 +20,23 @@ import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
 import com.mvproject.tvprogramguide.ui.components.pickers.PickerItem
 import com.mvproject.tvprogramguide.ui.components.radio.RadioGroup
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
-import com.mvproject.tvprogramguide.ui.screens.settings.app.action.SettingAction
+import com.mvproject.tvprogramguide.ui.screens.settings.app.action.AppSettingsAction
 import com.mvproject.tvprogramguide.ui.theme.dimens
 
 @Composable
-fun SettingsScreen(
+fun AppSettingsScreen(
     viewModel: AppSettingsViewModel,
-    onBackClick: () -> Unit
+    onNavigateBack: () -> Unit
 ) {
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         containerColor = MaterialTheme.colorScheme.inverseOnSurface,
         contentColor = MaterialTheme.colorScheme.onSurface,
         topBar = {
-            ToolbarWithBack(title = stringResource(id = R.string.settings_title)) {
-                onBackClick()
-            }
+            ToolbarWithBack(
+                title = stringResource(id = R.string.settings_title),
+                onBackClick = onNavigateBack
+            )
         }
     ) { contentPadding ->
         Column(
@@ -66,7 +66,7 @@ fun SettingsScreen(
                 max = 6,
                 initialValue = settings.programsViewCount
             ) {
-                viewModel.processAction(SettingAction.ProgramVisibleCountChange(it))
+                viewModel.processAction(AppSettingsAction.ProgramVisibleCountChange(it))
             }
 
             Spacer(modifier = Modifier.height(MaterialTheme.dimens.size8))
@@ -91,7 +91,7 @@ fun SettingsScreen(
                 max = 7,
                 initialValue = settings.channelsUpdatePeriod
             ) {
-                viewModel.processAction(SettingAction.ChannelUpdatePeriodChange(it))
+                viewModel.processAction(AppSettingsAction.ChannelUpdatePeriodChange(it))
             }
 
             PickerItem(
@@ -100,7 +100,7 @@ fun SettingsScreen(
                 max = 7,
                 initialValue = settings.programsUpdatePeriod
             ) {
-                viewModel.processAction(SettingAction.ProgramUpdatePeriodChange(it))
+                viewModel.processAction(AppSettingsAction.ProgramUpdatePeriodChange(it))
             }
 
             val themeOptionsStrings =
@@ -127,7 +127,7 @@ fun SettingsScreen(
             ) { selectedTheme ->
                 val selected = themeOptionsStrings
                     .indexOfFirst { it == selectedTheme }
-                viewModel.processAction(SettingAction.ThemeChange(selected))
+                viewModel.processAction(AppSettingsAction.ThemeChange(selected))
             }
         }
     }
