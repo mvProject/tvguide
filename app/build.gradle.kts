@@ -57,7 +57,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            isDebuggable = false
             setProperty(
                 "archivesBaseName",
                 "${rootProject.name}_${project.android.defaultConfig.versionName}"
