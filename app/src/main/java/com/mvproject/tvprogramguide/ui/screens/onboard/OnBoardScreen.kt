@@ -48,7 +48,8 @@ fun OnBoardScreen(
             modifier = Modifier,
             state = pagerState,
             pageNestedScrollConnection = PagerDefaults.pageNestedScrollConnection(
-                Orientation.Horizontal
+                state = pagerState,
+                orientation = Orientation.Horizontal
             ),
             pageContent = { position ->
                 PagerScreen(onBoardingPage = pages[position])

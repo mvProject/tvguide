@@ -44,7 +44,7 @@ class ChannelViewModel @Inject constructor(
             _viewState.update { current ->
                 current.copy(
                     listName = defaultList,
-                    allPlaylists = AllPlaylists(allLists),
+                    allPlaylists = AllPlaylists(playlists = allLists),
                 )
             }
         }.launchIn(viewModelScope)
@@ -87,10 +87,7 @@ class ChannelViewModel @Inject constructor(
                             channels = programs.sortedBy { item ->
                                 item.selectedChannel.order
                             }
-                        ),
-                        programs = programs.sortedBy { item ->
-                            item.selectedChannel.order
-                        }
+                        )
                     )
                 }
             }

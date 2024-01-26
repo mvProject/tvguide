@@ -74,7 +74,7 @@ fun ChannelScreen(
                         .fillMaxSize()
                 ) {
                     ChannelList(
-                        singleChannelPrograms = viewState.programs,
+                        singleChannelPrograms = viewState.playlistContent.channels,
                         listState = listState,
                         onChannelClick = { channel ->
                             onNavigateSingleChannel(
