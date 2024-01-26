@@ -68,13 +68,14 @@ fun ChannelScreen(
             }
 
             else -> {
+
                 Column(
                     modifier = Modifier
                         .padding(padding)
                         .fillMaxSize()
                 ) {
                     ChannelList(
-                        singleChannelPrograms = viewState.programs,
+                        singleChannelPrograms = viewState.playlistContent.channels,
                         listState = listState,
                         onChannelClick = { channel ->
                             onNavigateSingleChannel(

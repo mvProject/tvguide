@@ -11,7 +11,6 @@ import com.mvproject.tvprogramguide.utils.obtainIndexOrZero
 data class ChannelsViewState(
     val listName: String = NO_VALUE_STRING,
     val isOnlineUpdating: Boolean = false,
-    val programs: List<SelectedChannelWithPrograms> = listOf(),
     val allPlaylists: AllPlaylists = AllPlaylists(),
     val playlistContent: PlaylistContent = PlaylistContent(),
 ) {

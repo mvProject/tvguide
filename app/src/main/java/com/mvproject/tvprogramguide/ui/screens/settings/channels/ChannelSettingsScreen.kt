@@ -107,7 +107,8 @@ fun ChannelSettingsScreen(
             modifier = Modifier,
             state = pagerState,
             pageNestedScrollConnection = PagerDefaults.pageNestedScrollConnection(
-                Orientation.Horizontal
+                state = pagerState,
+                orientation = Orientation.Horizontal
             ),
             pageContent = { page ->
                 when (page) {

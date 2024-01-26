@@ -20,7 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewDynamicColors
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
@@ -123,18 +124,11 @@ fun PickerButton(
         )*/
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
+@PreviewDynamicColors
 @Composable
 fun PreviewNumberPicker() {
     TvGuideTheme() {
-        NumberPicker()
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewDarkNumberPicker() {
-    TvGuideTheme(darkTheme = true) {
         NumberPicker()
     }
 }
