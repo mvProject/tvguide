@@ -68,6 +68,7 @@ fun ChannelScreen(
             }
 
             else -> {
+
                 Column(
                     modifier = Modifier
                         .padding(padding)

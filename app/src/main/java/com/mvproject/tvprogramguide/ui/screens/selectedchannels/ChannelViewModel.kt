@@ -39,14 +39,15 @@ class ChannelViewModel @Inject constructor(
             preferenceRepository.loadDefaultUserList(),
             preferenceRepository.loadChannelsUpdateRequired()
         ) { allLists, defaultList, _ ->
-            updatePrograms()
-
             _viewState.update { current ->
                 current.copy(
                     listName = defaultList,
                     allPlaylists = AllPlaylists(playlists = allLists),
                 )
             }
+
+            updatePrograms()
+
         }.launchIn(viewModelScope)
     }
 
