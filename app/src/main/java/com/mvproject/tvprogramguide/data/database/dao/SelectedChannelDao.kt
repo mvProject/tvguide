@@ -1,6 +1,10 @@
 package com.mvproject.tvprogramguide.data.database.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelEntity
 import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelWithIconEntity
 import kotlinx.coroutines.flow.Flow
@@ -24,7 +28,7 @@ interface SelectedChannelDao {
     suspend fun getChannelNameById(id: String): String
 
     @Query("SELECT * FROM selected_channels WHERE parentList = :listName")
-    fun getSelectedChannelsFlow(listName: String): Flow<List<SelectedChannelEntity>>
+    fun getSelectedChannelsFlow(listName: String): Flow<List<SelectedChannelWithIconEntity>>
 
     @Query("DELETE FROM selected_channels WHERE channel_id = :channelId")
     suspend fun deleteSelectedChannel(channelId: String)

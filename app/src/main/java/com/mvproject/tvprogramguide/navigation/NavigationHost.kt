@@ -1,5 +1,6 @@
 package com.mvproject.tvprogramguide.navigation
 
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -24,7 +25,9 @@ fun NavigationHost(navController: NavHostController, startScreen: String) {
     NavHost(
         navController = navController,
         startDestination = startScreen,
-        modifier = Modifier.systemBarsPadding()
+        modifier = Modifier
+            .systemBarsPadding()
+            .safeDrawingPadding()
     ) {
 
         onboardScreen(
