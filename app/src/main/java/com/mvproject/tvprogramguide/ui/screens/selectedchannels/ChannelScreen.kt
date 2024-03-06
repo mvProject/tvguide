@@ -33,6 +33,7 @@ import com.mvproject.tvprogramguide.ui.components.channels.ChannelList
 import com.mvproject.tvprogramguide.ui.components.dialogs.ShowSelectFromListDialog
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithOptions
 import com.mvproject.tvprogramguide.ui.components.views.NoItemsScreen
+import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.utils.AppConstants.REFRESH_DELAY
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -53,7 +54,9 @@ fun ChannelScreen(
 
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
-    val state = rememberPullToRefreshState()
+    val state = rememberPullToRefreshState(
+        positionalThreshold = MaterialTheme.dimens.size110
+    )
     if (state.isRefreshing) {
         LaunchedEffect(true) {
             viewModel.forceReloadData()
