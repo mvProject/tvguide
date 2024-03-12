@@ -12,6 +12,7 @@
 
     <string name="msg_user_filled_list_empty">Seçilen kanalların listesi bulunamadı</string>
     <string name="msg_no_items_found">hiç bir öğe bulunamadı</string>
+    <string name="msg_no_epg_found">TV programı bulunamadı</string>
     <string name="msg_user_lists_empty">Kullanıcı listesi yok</string>
     <string name="msg_tap_to_create_list">liste oluşturmak için tıklayın</string>
 

@@ -12,6 +12,7 @@
 
     <string name="msg_user_filled_list_empty">Nenhuma lista de canais selecionados encontrada</string>
     <string name="msg_no_items_found">Nenhum item encontrado</string>
+    <string name="msg_no_epg_found">Programa de TV não encontrado</string>
     <string name="msg_user_lists_empty">Nenhuma lista de usuários</string>
     <string name="msg_tap_to_create_list">clique para criar uma lista</string>
 

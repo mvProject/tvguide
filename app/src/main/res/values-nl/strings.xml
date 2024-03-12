@@ -12,6 +12,7 @@
 
     <string name="msg_user_filled_list_empty">Geen lijst met geselecteerde kanalen gevonden</string>
     <string name="msg_no_items_found">Geen items gevonden</string>
+    <string name="msg_no_epg_found">TV-programma niet gevonden</string>
     <string name="msg_user_lists_empty">Geen gebruikerslijsten</string>
     <string name="msg_tap_to_create_list">klik om een lijst te maken</string>
 

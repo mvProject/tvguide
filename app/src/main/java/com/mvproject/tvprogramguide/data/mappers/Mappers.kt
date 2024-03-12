@@ -20,6 +20,7 @@ import com.mvproject.tvprogramguide.utils.convertDateToReadableFormat
 import com.mvproject.tvprogramguide.utils.getLastItemEnding
 import com.mvproject.tvprogramguide.utils.takeIfCountNotEmpty
 import com.mvproject.tvprogramguide.utils.toMillis
+import com.mvproject.tvprogramguide.utils.toNoProgramData
 
 /**
  * Maps Data between models
@@ -70,6 +71,14 @@ object Mappers {
                             SelectedChannelWithPrograms(
                                 selectedChannel = chn,
                                 programs = prg.takeIfCountNotEmpty(count = itemsCount)
+                            )
+                        )
+                    } else {
+                        add(
+                            SelectedChannelWithPrograms(
+                                selectedChannel = chn,
+                                programs = chn.channelId.toNoProgramData()
+                                    .takeIfCountNotEmpty(count = itemsCount)
                             )
                         )
                     }

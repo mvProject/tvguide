@@ -45,9 +45,7 @@ fun ChannelList(
                     }
                 }
                 items(item.programs) { program ->
-                    ProgramItem(
-                        program = program
-                    ) {
+                    ProgramItem(program = program) {
                         val programSchedule = ProgramSchedule(
                             channelId = program.channel,
                             programTitle = program.title,
