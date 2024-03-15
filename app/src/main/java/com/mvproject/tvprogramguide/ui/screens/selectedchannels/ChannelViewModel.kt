@@ -59,6 +59,13 @@ class ChannelViewModel @Inject constructor(
         }
     }
 
+    fun forceReloadData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            preferenceRepository.setChannelsUpdateRequired(true)
+            updatePrograms()
+        }
+    }
+
     fun applyList(listName: String) {
         viewModelScope.launch {
             preferenceRepository.setDefaultUserList(listName = listName)

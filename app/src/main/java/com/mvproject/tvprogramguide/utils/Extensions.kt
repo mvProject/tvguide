@@ -1,5 +1,6 @@
 package com.mvproject.tvprogramguide.utils
 
+import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
 import com.mvproject.tvprogramguide.utils.AppConstants.CHANNEL_NAME_NO_EPG_FILTER
@@ -122,6 +123,27 @@ fun String.getNoProgramData(): List<ProgramEntity> {
                     dateTimeEnd = end,
                     title = NO_EPG_PROGRAM_TITLE,
                     channelId = this@getNoProgramData
+                )
+            )
+        }
+    }
+}
+
+fun String.toNoProgramData(): List<Program> {
+    return buildList {
+        val initTime = Clock.System.now()
+        for (i in NO_EPG_PROGRAM_RANGE_START..NO_EPG_PROGRAM_RANGE_END) {
+            val startDelta = i * NO_EPG_PROGRAM_DURATION
+            val start = (initTime + startDelta.hours)
+                .toEpochMilliseconds()
+            val end = (initTime + (startDelta + NO_EPG_PROGRAM_DURATION).hours)
+                .toEpochMilliseconds()
+            add(
+                Program(
+                    dateTimeStart = start,
+                    dateTimeEnd = end,
+                    title = NO_EPG_PROGRAM_TITLE,
+                    channel = this@toNoProgramData
                 )
             )
         }

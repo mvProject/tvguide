@@ -18,7 +18,7 @@ android {
         minSdk = 24
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0.0"
+        versionName = "0.1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         resourceConfigurations.addAll(listOf("en", "ru", "uk"))
@@ -45,7 +45,7 @@ android {
             isDebuggable = true
             setProperty(
                 "archivesBaseName",
-                "${rootProject.name}_${project.android.defaultConfig.versionName}"
+                "${rootProject.name}_${project.android.defaultConfig.versionName}",
             )
         }
 
@@ -55,11 +55,11 @@ android {
             signingConfig = signingConfigs.getByName("configRelease")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
             setProperty(
                 "archivesBaseName",
-                "${rootProject.name}_${project.android.defaultConfig.versionName}"
+                "${rootProject.name}_${project.android.defaultConfig.versionName}",
             )
         }
     }
@@ -94,11 +94,12 @@ android {
     }
 }
 
-fun readProperties(propertiesFile: File) = Properties().apply {
-    propertiesFile.inputStream().use { fis ->
-        load(fis)
+fun readProperties(propertiesFile: File) =
+    Properties().apply {
+        propertiesFile.inputStream().use { fis ->
+            load(fis)
+        }
     }
-}
 
 dependencies {
 

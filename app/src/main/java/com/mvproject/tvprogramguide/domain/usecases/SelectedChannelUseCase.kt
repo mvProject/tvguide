@@ -2,7 +2,7 @@ package com.mvproject.tvprogramguide.domain.usecases
 
 import androidx.room.Transaction
 import com.mvproject.tvprogramguide.data.mappers.Mappers.asSelectedChannelsEntitiesFromChannels
-import com.mvproject.tvprogramguide.data.mappers.Mappers.asSelectedChannelsFromEntities
+import com.mvproject.tvprogramguide.data.mappers.Mappers.asSelectedChannelsFromAltEntities
 import com.mvproject.tvprogramguide.data.model.domain.AvailableChannel
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
 import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelEntity
@@ -39,7 +39,7 @@ class SelectedChannelUseCase @Inject constructor(
     fun loadSelectedChannelsFlow() =
         selectedChannelRepository.loadSelectedChannelsFlow(listName = targetList)
             .map { entities ->
-                entities.asSelectedChannelsFromEntities()
+                entities.asSelectedChannelsFromAltEntities()
             }
 
     /**

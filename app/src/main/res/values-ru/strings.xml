@@ -12,6 +12,7 @@
 
     <string name="msg_user_filled_list_empty">Не найден список с выбранными каналами</string>
     <string name="msg_no_items_found">Ничего не найдено</string>
+    <string name="msg_no_epg_found">Телепрограмма не найдена</string>
     <string name="msg_user_lists_empty">Нет пользователских списков</string>
     <string name="msg_tap_to_create_list">нажмите, чтобы создать список</string>
 

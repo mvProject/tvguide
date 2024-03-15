@@ -45,6 +45,7 @@ import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_300
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO_FLOAT
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_EPG_PROGRAM_TITLE
 import com.mvproject.tvprogramguide.utils.AppConstants.PROGRESS_STATE_COMPLETE
 import com.mvproject.tvprogramguide.utils.AppConstants.ROTATION_STATE_DOWN
 import com.mvproject.tvprogramguide.utils.AppConstants.ROTATION_STATE_UP
@@ -107,11 +108,16 @@ fun ProgramItem(
                     .padding(horizontal = MaterialTheme.dimens.size4)
             )
 
+            val title = if (program.title == NO_EPG_PROGRAM_TITLE)
+                stringResource(id = R.string.msg_no_epg_found)
+            else
+                program.title
+
             Text(
                 modifier = Modifier
                     .weight(MaterialTheme.dimens.weight6)
                     .alpha(cardAlpha),
-                text = program.title,
+                text = title,
                 style = MaterialTheme.typography.bodyMedium,
                 overflow = TextOverflow.Ellipsis
             )
@@ -136,7 +142,7 @@ fun ProgramItem(
 
         if (program.programProgress > COUNT_ZERO_FLOAT && program.programProgress <= PROGRESS_STATE_COMPLETE) {
             LinearProgressIndicator(
-                progress = program.programProgress,
+                progress = { program.programProgress },
                 modifier = Modifier
                     .fillMaxWidth(),
                 trackColor = MaterialTheme.colorScheme.inverseOnSurface,
