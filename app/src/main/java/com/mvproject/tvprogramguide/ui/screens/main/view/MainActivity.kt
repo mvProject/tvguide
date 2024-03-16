@@ -150,7 +150,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun showFeedback() {
-        val reviewManager = ReviewManagerFactory.create(applicationContext)
+        val reviewManager = ReviewManagerFactory.create(this)
         reviewManager.requestReviewFlow()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
