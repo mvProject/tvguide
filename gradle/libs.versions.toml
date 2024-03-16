@@ -71,6 +71,8 @@ testJunit = "4.13.2"
 kotest = "5.6.2"
 mockk = "1.13.5"
 
+review = "2.0.1"
+
 # android test libraries
 testAndroidJunitExt = "1.1.5"
 testAndroidEspresso = "3.5.1"
@@ -159,6 +161,9 @@ workHilt = { module = "androidx.hilt:hilt-work", version.ref = "workHilt" }
 # Splash API
 splashScreen = { module = "androidx.core:core-splashscreen", version.ref = "splash" }
 
+review = { module = "com.google.android.play:review", version.ref = "review" }
+review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "review" }
+
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
@@ -212,6 +217,11 @@ room = [
 workManager = [
     "workRuntimeKtx",
     "workHilt"
+]
+
+playReview = [
+    "review",
+    "review-ktx"
 ]
 
 lifecycleCompose = [

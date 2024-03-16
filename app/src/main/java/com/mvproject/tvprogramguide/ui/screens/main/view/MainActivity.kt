@@ -26,6 +26,7 @@ import androidx.work.WorkInfo
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
 import com.mvproject.tvprogramguide.navigation.NavigationHost
 import com.mvproject.tvprogramguide.ui.screens.main.viewmodel.MainViewModel
@@ -51,11 +52,14 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        showFeedback()
+
         setContent {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                val notificationPermissionState = rememberPermissionState(
-                    Manifest.permission.POST_NOTIFICATIONS
-                )
+                val notificationPermissionState =
+                    rememberPermissionState(
+                        Manifest.permission.POST_NOTIFICATIONS,
+                    )
 
                 val isNotificationGranted = notificationPermissionState.status.isGranted
                 Timber.i("testing notificationPermissionState permission $isNotificationGranted")
@@ -63,28 +67,28 @@ class MainActivity : ComponentActivity() {
                     LaunchedEffect(key1 = notificationPermissionState) {
                         notificationPermissionState.launchPermissionRequest()
                     }
-
                 }
             }
 
             val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 
-            val updateObserver = remember {
-                Observer<List<WorkInfo>?> { listOfWorkInfo ->
-                    if (listOfWorkInfo.isNullOrEmpty()) {
-                        Timber.e("worker updateWorkInfo null")
-                    } else {
-                        val workInfo = listOfWorkInfo.first()
-                        viewModel.setUpdatingState(workInfo.state != WorkInfo.State.SUCCEEDED)
-                        if (workInfo.state == WorkInfo.State.RUNNING) {
-                            val progress = workInfo.progress
-                            val current = progress.getInt(CHANNEL_INDEX, COUNT_ZERO)
-                            val count = progress.getInt(CHANNEL_COUNT, COUNT_ZERO)
-                            Timber.i("testing worker channel update $current/$count")
+            val updateObserver =
+                remember {
+                    Observer<List<WorkInfo>?> { listOfWorkInfo ->
+                        if (listOfWorkInfo.isNullOrEmpty()) {
+                            Timber.e("worker updateWorkInfo null")
+                        } else {
+                            val workInfo = listOfWorkInfo.first()
+                            viewModel.setUpdatingState(workInfo.state != WorkInfo.State.SUCCEEDED)
+                            if (workInfo.state == WorkInfo.State.RUNNING) {
+                                val progress = workInfo.progress
+                                val current = progress.getInt(CHANNEL_INDEX, COUNT_ZERO)
+                                val count = progress.getInt(CHANNEL_COUNT, COUNT_ZERO)
+                                Timber.i("testing worker channel update $current/$count")
+                            }
                         }
                     }
                 }
-            }
 
             DisposableEffect(lifecycleOwner) {
                 with(viewModel) {
@@ -100,7 +104,7 @@ class MainActivity : ComponentActivity() {
             TvGuideTheme(isDarkTheme) {
                 updateTheme(
                     darkTheme = isDarkTheme,
-                    targetColor = MaterialTheme.colorScheme.inverseOnSurface.toArgb()
+                    targetColor = MaterialTheme.colorScheme.inverseOnSurface.toArgb(),
                 )
 
                 val navController = rememberNavController()
@@ -109,14 +113,17 @@ class MainActivity : ComponentActivity() {
                 if (screen.isNotEmpty()) {
                     NavigationHost(
                         navController = navController,
-                        startScreen = screen
+                        startScreen = screen,
                     )
                 }
             }
         }
     }
 
-    private fun updateTheme(darkTheme: Boolean, targetColor: Int) {
+    private fun updateTheme(
+        darkTheme: Boolean,
+        targetColor: Int,
+    ) {
         window.apply {
             statusBarColor = targetColor
             navigationBarColor = targetColor
@@ -133,11 +140,22 @@ class MainActivity : ComponentActivity() {
             viewModel.currentTheme
         }.collectAsState(initial = AppThemeOptions.SYSTEM)
 
-        val isDarkTheme = when (theme) {
-            AppThemeOptions.LIGHT -> false
-            AppThemeOptions.DARK -> true
-            AppThemeOptions.SYSTEM -> isSystemDarkTheme
-        }
+        val isDarkTheme =
+            when (theme) {
+                AppThemeOptions.LIGHT -> false
+                AppThemeOptions.DARK -> true
+                AppThemeOptions.SYSTEM -> isSystemDarkTheme
+            }
         return isDarkTheme
+    }
+
+    private fun showFeedback() {
+        val reviewManager = ReviewManagerFactory.create(applicationContext)
+        reviewManager.requestReviewFlow()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    reviewManager.launchReviewFlow(this, task.result)
+                }
+            }
     }
 }

@@ -16,6 +16,7 @@ android {
 
     defaultConfig {
         minSdk = 24
+        applicationId = "com.mvproject.tvprogramguide"
         targetSdk = 34
         versionCode = 1
         versionName = "0.1.0"
@@ -42,7 +43,6 @@ android {
 
     buildTypes {
         debug {
-            isDebuggable = true
             setProperty(
                 "archivesBaseName",
                 "${rootProject.name}_${project.android.defaultConfig.versionName}",
@@ -50,6 +50,7 @@ android {
         }
 
         release {
+            isDebuggable = true
             isMinifyEnabled = true
             isShrinkResources = true
             signingConfig = signingConfigs.getByName("configRelease")
@@ -125,6 +126,8 @@ dependencies {
     implementation(libs.bundles.workManager)
 
     implementation(libs.kotlinxDatetime)
+
+    implementation(libs.bundles.playReview)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
