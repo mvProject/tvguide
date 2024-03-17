@@ -5,7 +5,7 @@ gradle = "8.1.2"
 ksp = "1.9.22-1.0.17"
 crashlyticsGradle = "2.9.9"
 ktLint = "10.3.0"
-googleServices = "4.4.0"
+googleServices = "4.4.1"
 versionsPlugin = "0.42.0"
 
 # production libraries
@@ -24,8 +24,8 @@ datetime = "0.5.0"
 compose-activity = "1.8.2"
 compose-lifecycle-viewmodel = "2.7.0"
 compose-lifecycle-runtime = "2.7.0"
-compose-bom = "2024.02.01"
-firebase-bom = "32.7.1"
+compose-bom = "2024.02.02"
+firebase-bom = "32.7.4"
 
 # navigationCompose
 composeNavigationHilt = "1.1.0"
@@ -165,8 +165,8 @@ review = { module = "com.google.android.play:review", version.ref = "review" }
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "review" }
 
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
 
 # test libraries
 testJunit = { module = "junit:junit", version.ref = "testJunit" }

@@ -18,8 +18,8 @@ android {
     defaultConfig {
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "0.2.0"
+        versionCode = 5
+        versionName = "0.2.3"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         resourceConfigurations.addAll(
@@ -69,8 +69,8 @@ android {
         }
 
         release {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
+            isShrinkResources = false
             signingConfig = signingConfigs.getByName("configRelease")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -96,7 +96,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.8"
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
     packaging {
         resources {
@@ -121,6 +121,7 @@ fun readProperties(propertiesFile: File) =
     }
 
 dependencies {
+    implementation("com.google.android.material:material:1.11.0")
 
     implementation(libs.bundles.appLibraries)
 
