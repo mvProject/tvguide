@@ -26,7 +26,6 @@ import androidx.work.WorkInfo
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
-import com.google.android.play.core.review.ReviewManagerFactory
 import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
 import com.mvproject.tvprogramguide.navigation.NavigationHost
 import com.mvproject.tvprogramguide.ui.screens.main.viewmodel.MainViewModel
@@ -51,8 +50,6 @@ class MainActivity : ComponentActivity() {
                 viewModel.isLoading.value
             }
         }
-
-        showFeedback()
 
         setContent {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -147,15 +144,5 @@ class MainActivity : ComponentActivity() {
                 AppThemeOptions.SYSTEM -> isSystemDarkTheme
             }
         return isDarkTheme
-    }
-
-    private fun showFeedback() {
-        val reviewManager = ReviewManagerFactory.create(this)
-        reviewManager.requestReviewFlow()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    reviewManager.launchReviewFlow(this, task.result)
-                }
-            }
     }
 }

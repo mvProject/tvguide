@@ -25,9 +25,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.ui.components.channels.ChannelList
 import com.mvproject.tvprogramguide.ui.components.dialogs.ShowSelectFromListDialog
@@ -36,6 +38,7 @@ import com.mvproject.tvprogramguide.ui.components.views.NoItemsScreen
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.utils.AppConstants.REFRESH_DELAY
+import com.mvproject.tvprogramguide.utils.findActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -46,7 +49,7 @@ fun ChannelScreen(
     viewModel: ChannelViewModel,
     onNavigateSingleChannel: (String, String) -> Unit,
     onNavigateSettings: () -> Unit,
-    onNavigateChannelsList: () -> Unit
+    onNavigateChannelsList: () -> Unit,
 ) {
     val isDialogOpen = remember { mutableStateOf(false) }
 
@@ -54,9 +57,10 @@ fun ChannelScreen(
 
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
-    val state = rememberPullToRefreshState(
-        positionalThreshold = MaterialTheme.dimens.size110
-    )
+    val state =
+        rememberPullToRefreshState(
+            positionalThreshold = MaterialTheme.dimens.size110,
+        )
     if (state.isRefreshing) {
         LaunchedEffect(true) {
             viewModel.forceReloadData()
@@ -69,7 +73,6 @@ fun ChannelScreen(
         viewModel.reloadData()
 
         onPauseOrDispose {
-
         }
     }
 
@@ -84,9 +87,10 @@ fun ChannelScreen(
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
         containerColor = MaterialTheme.colorScheme.inverseOnSurface,
         contentColor = MaterialTheme.colorScheme.onSurface,
         topBar = {
@@ -97,7 +101,7 @@ fun ChannelScreen(
                 onSelectClick = {
                     isDialogOpen.value = true
                 },
-                onSettingsClick = onNavigateSettings
+                onSettingsClick = onNavigateSettings,
             )
         },
         floatingActionButton = {
@@ -109,29 +113,28 @@ fun ChannelScreen(
                 }) {
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowUp,
-                        contentDescription = null
+                        contentDescription = null,
                     )
                 }
             }
-        }
-
+        },
     ) { padding ->
         when {
             viewState.listName.isEmpty() -> {
                 NoItemsScreen(
                     title = stringResource(id = R.string.msg_user_filled_list_empty),
                     navigateTitle = stringResource(id = R.string.msg_tap_to_create_list),
-                    onNavigateClick = onNavigateChannelsList
+                    onNavigateClick = onNavigateChannelsList,
                 )
             }
 
             else -> {
-
                 Box(Modifier.nestedScroll(state.nestedScrollConnection)) {
                     Column(
-                        modifier = Modifier
-                            .padding(padding)
-                            .fillMaxSize()
+                        modifier =
+                            Modifier
+                                .padding(padding)
+                                .fillMaxSize(),
                     ) {
                         ChannelList(
                             singleChannelPrograms = viewState.playlistContent.channels,
@@ -139,10 +142,10 @@ fun ChannelScreen(
                             onChannelClick = { channel ->
                                 onNavigateSingleChannel(
                                     channel.channelId,
-                                    channel.channelName
+                                    channel.channelName,
                                 )
                             },
-                            onScheduleClick = viewModel::toggleProgramSchedule
+                            onScheduleClick = viewModel::toggleProgramSchedule,
                         )
                     }
                     PullToRefreshContainer(
@@ -150,6 +153,8 @@ fun ChannelScreen(
                         state = state,
                     )
                 }
+
+                ShowFeedback()
             }
         }
 
@@ -157,7 +162,20 @@ fun ChannelScreen(
             isDialogOpen = isDialogOpen,
             radioOptions = viewState.listNames,
             defaultSelection = viewState.selectedListIndex,
-            onSelected = viewModel::applyList
+            onSelected = viewModel::applyList,
         )
     }
+}
+
+@Composable
+private fun ShowFeedback() {
+    val context = LocalContext.current
+    val activity = context.findActivity()
+    val reviewManager = ReviewManagerFactory.create(context)
+    reviewManager.requestReviewFlow()
+        .addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                reviewManager.launchReviewFlow(activity, task.result)
+            }
+        }
 }

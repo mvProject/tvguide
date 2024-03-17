@@ -42,13 +42,11 @@ data class Dimens(
     val size110: Dp = 110.dp,
     val size180: Dp = 180.dp,
     val size250: Dp = 250.dp,
-
     val font12: TextUnit = 12.sp,
     val font14: TextUnit = 14.sp,
     val font16: TextUnit = 16.sp,
     val font18: TextUnit = 18.sp,
     val font20: TextUnit = 20.sp,
-
     val weight1: Float = 1f,
     val weight2: Float = 2f,
     val weight3: Float = 3f,
@@ -56,11 +54,10 @@ data class Dimens(
     val weight5: Float = 5f,
     val weight6: Float = 6f,
     val weight10: Float = 10f,
-
     val fraction50: Float = 0.5f,
+    val fraction60: Float = 0.6f,
     val fraction70: Float = 0.7f,
     val fraction80: Float = 0.8f,
-
     val alpha10: Float = 0.1f,
     val alpha20: Float = 0.2f,
     val alpha30: Float = 0.3f,
@@ -68,8 +65,7 @@ data class Dimens(
     val alpha60: Float = 0.6f,
     val alpha70: Float = 0.7f,
     val alpha80: Float = 0.8f,
-    val alphaDefault: Float = 1f
-
+    val alphaDefault: Float = 1f,
 )
 
 internal val LocalDimens = staticCompositionLocalOf { Dimens() }

@@ -1,4 +1,5 @@
 import java.util.Properties
+
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application)
@@ -16,13 +17,31 @@ android {
 
     defaultConfig {
         minSdk = 24
-        applicationId = "com.mvproject.tvprogramguide"
         targetSdk = 34
         versionCode = 1
         versionName = "0.1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        resourceConfigurations.addAll(listOf("en", "ru", "uk"))
+        resourceConfigurations.addAll(
+            listOf(
+                "en",
+                "cs",
+                "de",
+                "es",
+                "fr",
+                "hr",
+                "it",
+                "lt",
+                "lv",
+                "nl",
+                "pl",
+                "pt",
+                "ro",
+                "ru",
+                "tr",
+                "uk",
+            ),
+        )
 
         vectorDrawables.useSupportLibrary = true
 

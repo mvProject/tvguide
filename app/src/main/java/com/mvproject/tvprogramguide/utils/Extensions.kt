@@ -1,5 +1,8 @@
 package com.mvproject.tvprogramguide.utils
 
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
@@ -58,7 +61,7 @@ fun String.toMillis(): Long {
 fun Long.convertDateToReadableFormat(): String {
     return SimpleDateFormat(
         TARGET_DATE_FORMAT,
-        Locale.getDefault()
+        Locale.getDefault(),
     ).format(this)
 }
 
@@ -99,7 +102,7 @@ fun List<String>.obtainIndexOrZero(target: String): Int {
 fun List<AvailableChannelResponse>.filterNoEpg() =
     this.filterNot {
         it.channelNames.contains(CHANNEL_NAME_NO_EPG_FILTER, true) ||
-                it.channelNames.contains(CHANNEL_NAME_PLUG_FILTER, true)
+            it.channelNames.contains(CHANNEL_NAME_PLUG_FILTER, true)
     }
 
 /**
@@ -113,17 +116,19 @@ fun String.getNoProgramData(): List<ProgramEntity> {
         val initTime = Clock.System.now()
         for (i in NO_EPG_PROGRAM_RANGE_START..NO_EPG_PROGRAM_RANGE_END) {
             val startDelta = i * NO_EPG_PROGRAM_DURATION
-            val start = (initTime + startDelta.hours)
-                .toEpochMilliseconds()
-            val end = (initTime + (startDelta + NO_EPG_PROGRAM_DURATION).hours)
-                .toEpochMilliseconds()
+            val start =
+                (initTime + startDelta.hours)
+                    .toEpochMilliseconds()
+            val end =
+                (initTime + (startDelta + NO_EPG_PROGRAM_DURATION).hours)
+                    .toEpochMilliseconds()
             add(
                 ProgramEntity(
                     dateTimeStart = start,
                     dateTimeEnd = end,
                     title = NO_EPG_PROGRAM_TITLE,
-                    channelId = this@getNoProgramData
-                )
+                    channelId = this@getNoProgramData,
+                ),
             )
         }
     }
@@ -134,17 +139,19 @@ fun String.toNoProgramData(): List<Program> {
         val initTime = Clock.System.now()
         for (i in NO_EPG_PROGRAM_RANGE_START..NO_EPG_PROGRAM_RANGE_END) {
             val startDelta = i * NO_EPG_PROGRAM_DURATION
-            val start = (initTime + startDelta.hours)
-                .toEpochMilliseconds()
-            val end = (initTime + (startDelta + NO_EPG_PROGRAM_DURATION).hours)
-                .toEpochMilliseconds()
+            val start =
+                (initTime + startDelta.hours)
+                    .toEpochMilliseconds()
+            val end =
+                (initTime + (startDelta + NO_EPG_PROGRAM_DURATION).hours)
+                    .toEpochMilliseconds()
             add(
                 Program(
                     dateTimeStart = start,
                     dateTimeEnd = end,
                     title = NO_EPG_PROGRAM_TITLE,
-                    channel = this@toNoProgramData
-                )
+                    channel = this@toNoProgramData,
+                ),
             )
         }
     }
@@ -181,12 +188,25 @@ fun Long.getLastItemEnding() =
  * @return list of elements
  */
 fun <T> List<T>.takeIfCountNotEmpty(count: Int): List<T> {
-    return if (count > COUNT_ZERO)
+    return if (count > COUNT_ZERO) {
         this.take(count)
-    else this
+    } else {
+        this
+    }
 }
 
-fun String.manageLength() = if (this.length > USER_LIST_MAX_LENGTH)
-    this.substring(COUNT_ZERO until USER_LIST_MAX_LENGTH)
-else
-    this
+fun String.manageLength() =
+    if (this.length > USER_LIST_MAX_LENGTH) {
+        this.substring(COUNT_ZERO until USER_LIST_MAX_LENGTH)
+    } else {
+        this
+    }
+
+fun Context.findActivity(): Activity {
+    var ctx = this
+    while (ctx is ContextWrapper) {
+        if (ctx is Activity) return ctx
+        ctx = ctx.baseContext
+    }
+    throw IllegalStateException("no activity")
+}

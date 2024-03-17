@@ -3,11 +3,9 @@ package com.mvproject.tvprogramguide.ui.components.onboard
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,37 +23,31 @@ import com.mvproject.tvprogramguide.ui.theme.dimens
 @Composable
 fun PagerScreen(onBoardingPage: OnBoardingPage) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size12),
     ) {
-        Spacer(
-            modifier = Modifier.height(MaterialTheme.dimens.size24)
-        )
         Image(
-            modifier = Modifier
-                .fillMaxWidth(MaterialTheme.dimens.fraction80)
-                .fillMaxHeight(MaterialTheme.dimens.fraction70)
-                .padding(top = MaterialTheme.dimens.size16),
+            modifier =
+                Modifier
+                    .fillMaxWidth(MaterialTheme.dimens.fraction80)
+                    .fillMaxHeight(MaterialTheme.dimens.fraction60),
             painter = painterResource(id = onBoardingPage.image),
-            contentDescription = "Pager Image"
+            contentDescription = "Pager Image",
         )
         Text(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             text = stringResource(id = onBoardingPage.title),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleMedium,
         )
         Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = MaterialTheme.dimens.size40)
-                .padding(top = MaterialTheme.dimens.size20),
+            modifier =
+                Modifier.fillMaxWidth()
+                    .padding(horizontal = MaterialTheme.dimens.size40),
             text = stringResource(id = onBoardingPage.description),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
         )
     }
 }
@@ -63,7 +55,7 @@ fun PagerScreen(onBoardingPage: OnBoardingPage) {
 @Composable
 @Preview(showBackground = true)
 fun FirstOnBoardingScreenPreview() {
-    TvGuideTheme() {
+    TvGuideTheme {
         Column(modifier = Modifier.fillMaxSize()) {
             PagerScreen(onBoardingPage = OnBoardingPage.First)
         }
@@ -73,7 +65,7 @@ fun FirstOnBoardingScreenPreview() {
 @Composable
 @Preview(showBackground = true)
 fun SecondOnBoardingScreenPreview() {
-    TvGuideTheme() {
+    TvGuideTheme {
         Column(modifier = Modifier.fillMaxSize()) {
             PagerScreen(onBoardingPage = OnBoardingPage.Second)
         }
@@ -83,7 +75,7 @@ fun SecondOnBoardingScreenPreview() {
 @Composable
 @Preview(showBackground = true)
 fun ThirdOnBoardingScreenPreview() {
-    TvGuideTheme() {
+    TvGuideTheme {
         Column(modifier = Modifier.fillMaxSize()) {
             PagerScreen(onBoardingPage = OnBoardingPage.Third)
         }
