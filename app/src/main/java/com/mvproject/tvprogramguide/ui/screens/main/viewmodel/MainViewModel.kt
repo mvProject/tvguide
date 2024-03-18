@@ -49,9 +49,6 @@ class MainViewModel
                     AppThemeOptions.getThemeById(settings.appTheme)
                 }
 
-        private val _isLoading: MutableState<Boolean> = mutableStateOf(true)
-        val isLoading: State<Boolean> = _isLoading
-
         private val _startDestination: MutableState<String> = mutableStateOf(NO_VALUE_STRING)
         val startDestination: State<String> = _startDestination
 
@@ -67,7 +64,6 @@ class MainViewModel
                         _startDestination.value = AppRoutes.OnBoard.route
                     }
                     delay(DEFAULT_DELAY)
-                    _isLoading.value = false
                 }
             }
 
@@ -116,7 +112,7 @@ class MainViewModel
             }
         }
 
-        fun setUpdatingState(state: Boolean) {
+        private fun setUpdatingState(state: Boolean) {
             isUpdating = state
         }
     }

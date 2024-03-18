@@ -59,9 +59,6 @@ room = "2.6.1"
 workRuntime = "2.9.0"
 workHilt = "1.2.0"
 
-# Splash API
-splash = "1.0.1"
-
 # StartUp API
 startUp = "1.1.1"
 
@@ -158,9 +155,6 @@ navCompose = { module = "androidx.navigation:navigation-compose", version.ref = 
 workRuntimeKtx = { module = "androidx.work:work-runtime", version.ref = "workRuntime" }
 workHilt = { module = "androidx.hilt:hilt-work", version.ref = "workHilt" }
 
-# Splash API
-splashScreen = { module = "androidx.core:core-splashscreen", version.ref = "splash" }
-
 review = { module = "com.google.android.play:review", version.ref = "review" }
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "review" }
 
@@ -185,8 +179,7 @@ testAndroidEspresso = { module = "androidx.test.espresso:espresso-core", version
 appLibraries = [
     "coreKtx",
     "timber",
-    "annotation",
-    "splashScreen"
+    "annotation"
 ]
 
 compose = [
