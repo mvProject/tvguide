@@ -48,29 +48,35 @@ class ChannelViewModel
                         allPlaylists = AllPlaylists(playlists = allLists),
                     )
                 }
-
-                updatePrograms()
             }.launchIn(viewModelScope)
         }
 
         fun reloadData() {
             viewModelScope.launch(Dispatchers.IO) {
                 val isChannelsChanged = preferenceRepository.loadChannelsCountChanged().first()
-                preferenceRepository.setChannelsUpdateRequired(isChannelsChanged)
-                updatePrograms()
+                requestUpdate(isOnlineRequested = isChannelsChanged)
             }
         }
 
         fun forceReloadData() {
             viewModelScope.launch(Dispatchers.IO) {
-                preferenceRepository.setChannelsUpdateRequired(true)
-                updatePrograms()
+                requestUpdate()
             }
         }
 
+        private suspend fun requestUpdate(isOnlineRequested: Boolean = true) {
+            _viewState.update { state ->
+                state.copy(isUpdating = true)
+            }
+            preferenceRepository.setChannelsUpdateRequired(isOnlineRequested)
+            updatePrograms()
+        }
+
         fun applyList(listName: String) {
-            viewModelScope.launch {
-                preferenceRepository.setDefaultUserList(listName = listName)
+            if (listName.isNotBlank()) {
+                viewModelScope.launch {
+                    preferenceRepository.setDefaultUserList(listName = listName)
+                }
             }
         }
 
@@ -87,19 +93,22 @@ class ChannelViewModel
             if (viewState.value.listName.isEmpty()) {
                 Timber.e("testing no current saved list")
             } else {
+                Timber.e("testing updatePrograms launched")
                 viewModelScope.launch(Dispatchers.IO) {
                     val programs = selectedChannelsWithPrograms()
 
+                    val playlistContent =
+                        PlaylistContent(
+                            channels =
+                                programs.sortedBy { item ->
+                                    item.selectedChannel.order
+                                },
+                        )
+
                     _viewState.update { current ->
                         current.copy(
-                            isOnlineUpdating = false,
-                            playlistContent =
-                                PlaylistContent(
-                                    channels =
-                                        programs.sortedBy { item ->
-                                            item.selectedChannel.order
-                                        },
-                                ),
+                            isUpdating = false,
+                            playlistContent = playlistContent,
                         )
                     }
                 }

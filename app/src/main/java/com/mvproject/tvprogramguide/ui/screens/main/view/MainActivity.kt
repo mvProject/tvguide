@@ -17,9 +17,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
-import androidx.work.WorkInfo
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -27,9 +25,6 @@ import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
 import com.mvproject.tvprogramguide.navigation.NavigationHost
 import com.mvproject.tvprogramguide.ui.screens.main.viewmodel.MainViewModel
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
-import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
-import com.mvproject.tvprogramguide.utils.CHANNEL_COUNT
-import com.mvproject.tvprogramguide.utils.CHANNEL_INDEX
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -46,6 +41,10 @@ class MainActivity : ComponentActivity() {
             setKeepOnScreenCondition {
                 viewModel.isLoading.value
             }
+            setOnExitAnimationListener { splashScreen ->
+                // to remove splashscreen with no animation
+                splashScreen.remove()
+            }
         }
 
         setContent {
@@ -56,27 +55,11 @@ class MainActivity : ComponentActivity() {
                     )
 
                 val isNotificationGranted = notificationPermissionState.status.isGranted
-                Timber.i("testing notificationPermissionState permission $isNotificationGranted")
+                Timber.i("notificationPermissionState permission $isNotificationGranted")
                 if (!isNotificationGranted) {
                     LaunchedEffect(key1 = notificationPermissionState) {
                         notificationPermissionState.launchPermissionRequest()
                     }
-                }
-            }
-
-            val updateState by viewModel.fullUpdateWorkInfoFlow.collectAsStateWithLifecycle(
-                emptyList(),
-            )
-            if (updateState.isNullOrEmpty()) {
-                Timber.e("worker updateWorkInfo null")
-            } else {
-                val workInfo = updateState.first()
-                viewModel.setUpdatingState(workInfo.state != WorkInfo.State.SUCCEEDED)
-                if (workInfo.state == WorkInfo.State.RUNNING) {
-                    val progress = workInfo.progress
-                    val current = progress.getInt(CHANNEL_INDEX, COUNT_ZERO)
-                    val count = progress.getInt(CHANNEL_COUNT, COUNT_ZERO)
-                    Timber.i("testing worker channel update $current/$count")
                 }
             }
 

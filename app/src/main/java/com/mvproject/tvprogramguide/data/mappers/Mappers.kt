@@ -20,7 +20,6 @@ import com.mvproject.tvprogramguide.utils.convertDateToReadableFormat
 import com.mvproject.tvprogramguide.utils.getLastItemEnding
 import com.mvproject.tvprogramguide.utils.takeIfCountNotEmpty
 import com.mvproject.tvprogramguide.utils.toMillis
-import com.mvproject.tvprogramguide.utils.toNoProgramData
 
 /**
  * Maps Data between models
@@ -74,8 +73,10 @@ object Mappers {
                     if (currentPrograms != null && currentPrograms.count() > COUNT_ZERO) {
                         currentPrograms.takeIfCountNotEmpty(count = itemsCount)
                     } else {
-                        chn.channelId.toNoProgramData()
-                            .takeIfCountNotEmpty(count = itemsCount)
+                        // chn.channelId.toNoProgramData()
+                        //    .takeIfCountNotEmpty(count = itemsCount)
+
+                        emptyList()
                     }
 
                 add(

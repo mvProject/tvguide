@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -42,6 +43,7 @@ import com.mvproject.tvprogramguide.utils.findActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @OptIn(ExperimentalCoroutinesApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -69,18 +71,20 @@ fun ChannelScreen(
         }
     }
 
-    LifecycleResumeEffect(Unit) {
-        viewModel.reloadData()
+    LifecycleResumeEffect(viewState.listName) {
+        if (viewState.listName.isNotBlank()) {
+            viewModel.reloadData()
+        }
 
         onPauseOrDispose {
         }
     }
 
     val scope = rememberCoroutineScope()
-
+    Timber.e("testing listState.firstVisibleItemIndex ${listState.firstVisibleItemIndex}")
     val showScrollToTopButton by remember {
         derivedStateOf {
-            listState.firstVisibleItemIndex >= 5
+            listState.firstVisibleItemIndex >= 10
         }
     }
 
@@ -148,6 +152,14 @@ fun ChannelScreen(
                             onScheduleClick = viewModel::toggleProgramSchedule,
                         )
                     }
+
+                    if (viewState.isUpdating) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center),
+                            color = MaterialTheme.colorScheme.tertiary,
+                        )
+                    }
+
                     PullToRefreshContainer(
                         modifier = Modifier.align(Alignment.TopCenter),
                         state = state,
