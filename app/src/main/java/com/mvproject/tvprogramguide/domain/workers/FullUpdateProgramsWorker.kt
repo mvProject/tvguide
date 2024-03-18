@@ -3,69 +3,39 @@ package com.mvproject.tvprogramguide.domain.workers
 import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
-import androidx.work.Data
 import androidx.work.WorkerParameters
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
-import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
-import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.domain.helpers.NotificationHelper
-import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
-import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
-import com.mvproject.tvprogramguide.utils.CHANNEL_COUNT
-import com.mvproject.tvprogramguide.utils.CHANNEL_INDEX
+import com.mvproject.tvprogramguide.domain.usecases.UpdateProgramsUseCase
 import com.mvproject.tvprogramguide.utils.NOTIFICATION_CONDITION
-import com.mvproject.tvprogramguide.utils.TimeUtils.actualDate
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import timber.log.Timber
 
 @HiltWorker
-class FullUpdateProgramsWorker @AssistedInject constructor(
-    @Assisted context: Context,
-    @Assisted params: WorkerParameters,
-    private val selectedChannelRepository: SelectedChannelRepository,
-    private val channelProgramRepository: ChannelProgramRepository,
-    private val preferenceRepository: PreferenceRepository,
-    private val notificationHelper: NotificationHelper
-) : CoroutineWorker(context, params) {
-    override suspend fun doWork(): Result {
-        val applicationContext = applicationContext
+class FullUpdateProgramsWorker
+    @AssistedInject
+    constructor(
+        @Assisted context: Context,
+        @Assisted params: WorkerParameters,
+        private val updateProgramsUseCase: UpdateProgramsUseCase,
+        private val notificationHelper: NotificationHelper,
+    ) : CoroutineWorker(context, params) {
+        override suspend fun doWork(): Result {
+            val applicationContext = applicationContext
 
-        val isNotificationOn = inputData.getBoolean(NOTIFICATION_CONDITION, false)
-        if (isNotificationOn) {
-            notificationHelper.makeStatusNotification(
-                message = applicationContext.getString(R.string.notification_programs_download)
-            )
-        }
-
-        val selectedChannels = selectedChannelRepository.loadSelectedChannelsIds()
-
-        val channelsCount = selectedChannels.count()
-        if (channelsCount > COUNT_ZERO) {
-            selectedChannels.forEachIndexed { ind, chn ->
-                channelProgramRepository.loadProgram(channelId = chn)
-                val channelNumber = ind + COUNT_ONE
-                setProgressAsync(
-                    Data.Builder()
-                        .putInt(CHANNEL_INDEX, channelNumber)
-                        .putInt(CHANNEL_COUNT, channelsCount)
-                        .build()
+            val isNotificationOn = inputData.getBoolean(NOTIFICATION_CONDITION, false)
+            if (isNotificationOn) {
+                notificationHelper.makeStatusNotification(
+                    message = applicationContext.getString(R.string.notification_programs_download),
                 )
             }
-            preferenceRepository.apply {
-                setProgramsUpdateLastTime(timeInMillis = actualDate)
-                setChannelsCountChanged(false)
-                setChannelsUpdateRequired(false)
+
+            updateProgramsUseCase()
+
+            if (isNotificationOn) {
+                notificationHelper.hideStatusNotification()
             }
-        } else {
-            Timber.e("FullUpdateProgramsWorker update count zero")
-        }
 
-        if (isNotificationOn) {
-            notificationHelper.hideStatusNotification()
+            return Result.success()
         }
-
-        return Result.success()
     }
-}

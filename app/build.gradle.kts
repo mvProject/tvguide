@@ -62,6 +62,7 @@ android {
 
     buildTypes {
         debug {
+            isDebuggable = true
             setProperty(
                 "archivesBaseName",
                 "${rootProject.name}_${project.android.defaultConfig.versionName}",
