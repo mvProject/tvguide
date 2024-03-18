@@ -13,6 +13,7 @@ import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.domain.helpers.ProgramSchedulerHelper
+import com.mvproject.tvprogramguide.domain.usecases.SelectedChannelsWithPrograms
 import com.mvproject.tvprogramguide.domain.usecases.SortedProgramsUseCase
 import com.mvproject.tvprogramguide.utils.convertDateToReadableFormat
 import io.kotest.assertions.assertSoftly
@@ -43,6 +44,7 @@ class SortedProgramsUseCaseTest : StringSpec({
     lateinit var programSchedulerHelper: ProgramSchedulerHelper
 
     lateinit var sortedProgramUseCase: SortedProgramsUseCase
+    lateinit var selectedChannelsWithPrograms: SelectedChannelsWithPrograms
 
     beforeTest {
         preferenceRepository = createPreferenceMockRepository()
@@ -50,12 +52,20 @@ class SortedProgramsUseCaseTest : StringSpec({
         channelProgramRepository = createChannelProgramMockRepository()
         programSchedulerHelper = createProgramSchedulerHelper()
 
-        sortedProgramUseCase = SortedProgramsUseCase(
-            selectedChannelRepository,
-            channelProgramRepository,
-            preferenceRepository,
-            programSchedulerHelper
-        )
+        sortedProgramUseCase =
+            SortedProgramsUseCase(
+                selectedChannelRepository,
+                channelProgramRepository,
+                preferenceRepository,
+                programSchedulerHelper,
+            )
+
+        selectedChannelsWithPrograms =
+            SelectedChannelsWithPrograms(
+                selectedChannelRepository,
+                channelProgramRepository,
+                preferenceRepository,
+            )
     }
 
     afterTest {
@@ -66,81 +76,87 @@ class SortedProgramsUseCaseTest : StringSpec({
         "get sorted programs for single channel" {
             val time = Clock.System.now()
 
-            val expectedPrograms = listOf(
-                Program(
-                    time.toEpochMilliseconds(),
-                    (time + 1.hours).toEpochMilliseconds(),
-                    "title 1",
-                    channel = "testId1"
-                ),
-                Program(
-                    (time + 1.hours).toEpochMilliseconds(),
-                    (time + 2.hours).toEpochMilliseconds(),
-                    "title 2",
-                    channel = "testId1"
-                ),
-                Program(
-                    (time + 2.hours).toEpochMilliseconds(),
-                    (time + 3.hours).toEpochMilliseconds(),
-                    "title 3",
-                    channel = "testId1"
-                ),
-                Program(
-                    (time + 25.hours).toEpochMilliseconds(),
-                    (time + 26.hours).toEpochMilliseconds(),
-                    "title 4",
-                    channel = "testId1"
-                ),
-                Program(
-                    (time + 26.hours).toEpochMilliseconds(),
-                    (time + 27.hours).toEpochMilliseconds(),
-                    "title 5",
-                    channel = "testId1"
+            val expectedPrograms =
+                listOf(
+                    Program(
+                        time.toEpochMilliseconds(),
+                        (time + 1.hours).toEpochMilliseconds(),
+                        "title 1",
+                        channel = "testId1",
+                    ),
+                    Program(
+                        (time + 1.hours).toEpochMilliseconds(),
+                        (time + 2.hours).toEpochMilliseconds(),
+                        "title 2",
+                        channel = "testId1",
+                    ),
+                    Program(
+                        (time + 2.hours).toEpochMilliseconds(),
+                        (time + 3.hours).toEpochMilliseconds(),
+                        "title 3",
+                        channel = "testId1",
+                    ),
+                    Program(
+                        (time + 25.hours).toEpochMilliseconds(),
+                        (time + 26.hours).toEpochMilliseconds(),
+                        "title 4",
+                        channel = "testId1",
+                    ),
+                    Program(
+                        (time + 26.hours).toEpochMilliseconds(),
+                        (time + 27.hours).toEpochMilliseconds(),
+                        "title 5",
+                        channel = "testId1",
+                    ),
                 )
-            )
 
-            val expectedResult = listOf(
-                SingleChannelWithPrograms(
-                    date = time.toEpochMilliseconds().convertDateToReadableFormat(),
-                    programs = listOf(
-                        Program(
-                            time.toEpochMilliseconds(),
-                            (time + 1.hours).toEpochMilliseconds(),
-                            "title 1",
-                            channel = "testId1"
-                        ),
-                        Program(
-                            (time + 1.hours).toEpochMilliseconds(),
-                            (time + 2.hours).toEpochMilliseconds(),
-                            "title 2",
-                            channel = "testId1"
-                        ),
-                        Program(
-                            (time + 2.hours).toEpochMilliseconds(),
-                            (time + 3.hours).toEpochMilliseconds(),
-                            "title 3",
-                            channel = "testId1"
-                        )
-                    )
-                ),
-                SingleChannelWithPrograms(
-                    date = (time + 25.hours).toEpochMilliseconds().convertDateToReadableFormat(),
-                    programs = listOf(
-                        Program(
-                            (time + 25.hours).toEpochMilliseconds(),
-                            (time + 26.hours).toEpochMilliseconds(),
-                            "title 4",
-                            channel = "testId1"
-                        ),
-                        Program(
-                            (time + 26.hours).toEpochMilliseconds(),
-                            (time + 27.hours).toEpochMilliseconds(),
-                            "title 5",
-                            channel = "testId1"
-                        ),
-                    )
-                ),
-            )
+            val expectedResult =
+                listOf(
+                    SingleChannelWithPrograms(
+                        date = time.toEpochMilliseconds().convertDateToReadableFormat(),
+                        programs =
+                            listOf(
+                                Program(
+                                    time.toEpochMilliseconds(),
+                                    (time + 1.hours).toEpochMilliseconds(),
+                                    "title 1",
+                                    channel = "testId1",
+                                ),
+                                Program(
+                                    (time + 1.hours).toEpochMilliseconds(),
+                                    (time + 2.hours).toEpochMilliseconds(),
+                                    "title 2",
+                                    channel = "testId1",
+                                ),
+                                Program(
+                                    (time + 2.hours).toEpochMilliseconds(),
+                                    (time + 3.hours).toEpochMilliseconds(),
+                                    "title 3",
+                                    channel = "testId1",
+                                ),
+                            ),
+                    ),
+                    SingleChannelWithPrograms(
+                        date =
+                            (time + 25.hours).toEpochMilliseconds()
+                                .convertDateToReadableFormat(),
+                        programs =
+                            listOf(
+                                Program(
+                                    (time + 25.hours).toEpochMilliseconds(),
+                                    (time + 26.hours).toEpochMilliseconds(),
+                                    "title 4",
+                                    channel = "testId1",
+                                ),
+                                Program(
+                                    (time + 26.hours).toEpochMilliseconds(),
+                                    (time + 27.hours).toEpochMilliseconds(),
+                                    "title 5",
+                                    channel = "testId1",
+                                ),
+                            ),
+                    ),
+                )
 
             coEvery {
                 channelProgramRepository.loadProgramsForChannel("testId1")
@@ -212,123 +228,130 @@ class SortedProgramsUseCaseTest : StringSpec({
         "get sorted programs for selected channels" {
             val time = Clock.System.now()
 
-            val expectedPrograms = listOf(
-                Program(
-                    time.toEpochMilliseconds(),
-                    (time + 1.hours).toEpochMilliseconds(),
-                    "title 1",
-                    channel = "testId1"
-                ),
-                Program(
-                    (time + 1.hours).toEpochMilliseconds(),
-                    (time + 2.hours).toEpochMilliseconds(),
-                    "title 2",
-                    channel = "testId1"
-                ),
-                Program(
-                    (time + 2.hours).toEpochMilliseconds(),
-                    (time + 3.hours).toEpochMilliseconds(),
-                    "title 3",
-                    channel = "testId2"
-                ),
-                Program(
-                    (time + 3.hours).toEpochMilliseconds(),
-                    (time + 4.hours).toEpochMilliseconds(),
-                    "title 4",
-                    channel = "testId2"
-                ),
-                Program(
-                    (time + 25.hours).toEpochMilliseconds(),
-                    (time + 26.hours).toEpochMilliseconds(),
-                    "title 5",
-                    channel = "testId1"
-                ),
-                Program(
-                    (time + 25.hours).toEpochMilliseconds(),
-                    (time + 26.hours).toEpochMilliseconds(),
-                    "title 6",
-                    channel = "testId2"
-                ),
-                Program(
-                    (time + 26.hours).toEpochMilliseconds(),
-                    (time + 27.hours).toEpochMilliseconds(),
-                    "title 7",
-                    channel = "testId1"
+            val expectedPrograms =
+                listOf(
+                    Program(
+                        time.toEpochMilliseconds(),
+                        (time + 1.hours).toEpochMilliseconds(),
+                        "title 1",
+                        channel = "testId1",
+                    ),
+                    Program(
+                        (time + 1.hours).toEpochMilliseconds(),
+                        (time + 2.hours).toEpochMilliseconds(),
+                        "title 2",
+                        channel = "testId1",
+                    ),
+                    Program(
+                        (time + 2.hours).toEpochMilliseconds(),
+                        (time + 3.hours).toEpochMilliseconds(),
+                        "title 3",
+                        channel = "testId2",
+                    ),
+                    Program(
+                        (time + 3.hours).toEpochMilliseconds(),
+                        (time + 4.hours).toEpochMilliseconds(),
+                        "title 4",
+                        channel = "testId2",
+                    ),
+                    Program(
+                        (time + 25.hours).toEpochMilliseconds(),
+                        (time + 26.hours).toEpochMilliseconds(),
+                        "title 5",
+                        channel = "testId1",
+                    ),
+                    Program(
+                        (time + 25.hours).toEpochMilliseconds(),
+                        (time + 26.hours).toEpochMilliseconds(),
+                        "title 6",
+                        channel = "testId2",
+                    ),
+                    Program(
+                        (time + 26.hours).toEpochMilliseconds(),
+                        (time + 27.hours).toEpochMilliseconds(),
+                        "title 7",
+                        channel = "testId1",
+                    ),
                 )
-            )
 
-            val expectedResult = listOf(
-                SelectedChannelWithPrograms(
-                    selectedChannel = SelectedChannel(
-                        "testId1",
-                        "testName1",
-                        "iconUrl",
-                        order = 1,
-                        parentList = "test"
+            val expectedResult =
+                listOf(
+                    SelectedChannelWithPrograms(
+                        selectedChannel =
+                            SelectedChannel(
+                                "testId1",
+                                "testName1",
+                                "iconUrl",
+                                order = 1,
+                                parentList = "test",
+                            ),
+                        programs =
+                            listOf(
+                                Program(
+                                    time.toEpochMilliseconds(),
+                                    (time + 1.hours).toEpochMilliseconds(),
+                                    "title 1",
+                                    channel = "testId1",
+                                ),
+                                Program(
+                                    (time + 1.hours).toEpochMilliseconds(),
+                                    (time + 2.hours).toEpochMilliseconds(),
+                                    "title 2",
+                                    channel = "testId1",
+                                ),
+                                Program(
+                                    (time + 25.hours).toEpochMilliseconds(),
+                                    (time + 26.hours).toEpochMilliseconds(),
+                                    "title 5",
+                                    channel = "testId1",
+                                ),
+                            ),
                     ),
-                    programs = listOf(
-                        Program(
-                            time.toEpochMilliseconds(),
-                            (time + 1.hours).toEpochMilliseconds(),
-                            "title 1",
-                            channel = "testId1"
-                        ),
-                        Program(
-                            (time + 1.hours).toEpochMilliseconds(),
-                            (time + 2.hours).toEpochMilliseconds(),
-                            "title 2",
-                            channel = "testId1"
-                        ),
-                        Program(
-                            (time + 25.hours).toEpochMilliseconds(),
-                            (time + 26.hours).toEpochMilliseconds(),
-                            "title 5",
-                            channel = "testId1"
-                        )
-                    )
-                ),
-                SelectedChannelWithPrograms(
-                    selectedChannel = SelectedChannel(
-                        "testId2",
-                        "testName2",
-                        "iconUrl",
-                        order = 2,
-                        parentList = "test"
+                    SelectedChannelWithPrograms(
+                        selectedChannel =
+                            SelectedChannel(
+                                "testId2",
+                                "testName2",
+                                "iconUrl",
+                                order = 2,
+                                parentList = "test",
+                            ),
+                        programs =
+                            listOf(
+                                Program(
+                                    (time + 2.hours).toEpochMilliseconds(),
+                                    (time + 3.hours).toEpochMilliseconds(),
+                                    "title 3",
+                                    channel = "testId2",
+                                ),
+                                Program(
+                                    (time + 3.hours).toEpochMilliseconds(),
+                                    (time + 4.hours).toEpochMilliseconds(),
+                                    "title 4",
+                                    channel = "testId2",
+                                ),
+                                Program(
+                                    (time + 25.hours).toEpochMilliseconds(),
+                                    (time + 26.hours).toEpochMilliseconds(),
+                                    "title 6",
+                                    channel = "testId2",
+                                ),
+                            ),
                     ),
-                    programs = listOf(
-                        Program(
-                            (time + 2.hours).toEpochMilliseconds(),
-                            (time + 3.hours).toEpochMilliseconds(),
-                            "title 3",
-                            channel = "testId2"
-                        ),
-                        Program(
-                            (time + 3.hours).toEpochMilliseconds(),
-                            (time + 4.hours).toEpochMilliseconds(),
-                            "title 4",
-                            channel = "testId2"
-                        ),
-                        Program(
-                            (time + 25.hours).toEpochMilliseconds(),
-                            (time + 26.hours).toEpochMilliseconds(),
-                            "title 6",
-                            channel = "testId2"
-                        )
-                    )
                 )
-            )
 
             coEvery {
                 preferenceRepository.loadAppSettings()
-            } returns flow {
-                emit(AppSettingsModel())
-            }
+            } returns
+                flow {
+                    emit(AppSettingsModel())
+                }
 
             coEvery {
                 channelProgramRepository.loadProgramsForChannels(any())
             } returns expectedPrograms
 
-            val retrievedResult = sortedProgramUseCase.retrieveSelectedChannelWithPrograms()
+            val retrievedResult = selectedChannelsWithPrograms()
 
             withClue("result is list of selected channels and programs value") {
                 retrievedResult.shouldBeInstanceOf<List<SelectedChannelWithPrograms>>()
@@ -357,20 +380,22 @@ class SortedProgramsUseCaseTest : StringSpec({
         }
 
         "update program schedule" {
-            val programSchedule = ProgramSchedule(
-                channelId = "channelId",
-                programTitle = "testTitle",
-            )
+            val programSchedule =
+                ProgramSchedule(
+                    channelId = "channelId",
+                    programTitle = "testTitle",
+                )
 
             coEvery {
                 channelProgramRepository.loadProgramsForChannel(any())
-            } returns listOf(
-                Program(
-                    Clock.System.now().toEpochMilliseconds(),
-                    (Clock.System.now() + 2.hours).toEpochMilliseconds(),
-                    "testTitle",
+            } returns
+                listOf(
+                    Program(
+                        Clock.System.now().toEpochMilliseconds(),
+                        (Clock.System.now() + 2.hours).toEpochMilliseconds(),
+                        "testTitle",
+                    ),
                 )
-            )
 
             sortedProgramUseCase.updateProgramScheduleWithAlarm(programSchedule)
 
@@ -383,21 +408,23 @@ class SortedProgramsUseCaseTest : StringSpec({
         }
 
         "cancel program schedule" {
-            val programSchedule = ProgramSchedule(
-                channelId = "channelId",
-                programTitle = "testTitle",
-            )
+            val programSchedule =
+                ProgramSchedule(
+                    channelId = "channelId",
+                    programTitle = "testTitle",
+                )
 
             coEvery {
                 channelProgramRepository.loadProgramsForChannel(any())
-            } returns listOf(
-                Program(
-                    Clock.System.now().toEpochMilliseconds(),
-                    (Clock.System.now() + 2.hours).toEpochMilliseconds(),
-                    "testTitle",
-                    scheduledId = 1111L
+            } returns
+                listOf(
+                    Program(
+                        Clock.System.now().toEpochMilliseconds(),
+                        (Clock.System.now() + 2.hours).toEpochMilliseconds(),
+                        "testTitle",
+                        scheduledId = 1111L,
+                    ),
                 )
-            )
 
             sortedProgramUseCase.updateProgramScheduleWithAlarm(programSchedule)
 
@@ -410,21 +437,23 @@ class SortedProgramsUseCaseTest : StringSpec({
         }
 
         "no match channel" {
-            val programSchedule = ProgramSchedule(
-                channelId = "channelId",
-                programTitle = "testTitle",
-            )
+            val programSchedule =
+                ProgramSchedule(
+                    channelId = "channelId",
+                    programTitle = "testTitle",
+                )
 
             coEvery {
                 channelProgramRepository.loadProgramsForChannel(any())
-            } returns listOf(
-                Program(
-                    Clock.System.now().toEpochMilliseconds(),
-                    (Clock.System.now() + 2.hours).toEpochMilliseconds(),
-                    "anotherTitle",
-                    scheduledId = 1111L
+            } returns
+                listOf(
+                    Program(
+                        Clock.System.now().toEpochMilliseconds(),
+                        (Clock.System.now() + 2.hours).toEpochMilliseconds(),
+                        "anotherTitle",
+                        scheduledId = 1111L,
+                    ),
                 )
-            )
 
             sortedProgramUseCase.updateProgramScheduleWithAlarm(programSchedule)
 
@@ -450,9 +479,10 @@ private fun createPreferenceMockRepository(): PreferenceRepository {
 
     coEvery {
         preferenceRepository.loadDefaultUserList()
-    } returns flow {
-        emit("test")
-    }
+    } returns
+        flow {
+            emit("test")
+        }
     return preferenceRepository
 }
 
@@ -475,9 +505,10 @@ private fun createSelectedChannelMockRepository(): SelectedChannelRepository {
 
     coEvery {
         selectedChannelRepository.loadSelectedChannelsFlow("test")
-    } returns flow {
-        emit(expectedResultDao)
-    }
+    } returns
+        flow {
+            emit(expectedResultDao)
+        }
 
     coEvery {
         selectedChannelRepository.loadSelectedChannels("test")
@@ -491,38 +522,76 @@ private fun createSelectedChannelMockRepository(): SelectedChannelRepository {
 }
 
 private val expectedResultDao
-    get() = listOf(
-        SelectedChannelEntity("testId1", "testName1", order = 1, parentList = "test"),
-        SelectedChannelEntity("testId2", "testName2", order = 2, parentList = "test"),
-        SelectedChannelEntity("testId3", "testName3", order = 3, parentList = "test"),
-        SelectedChannelEntity("testId4", "testName4", order = 4, parentList = "test"),
-        SelectedChannelEntity("testId5", "testName5", order = 5, parentList = "test"),
-        SelectedChannelEntity("testId6", "testName6", order = 6, parentList = "test"),
-    )
-private val expectedResultWithIconDao
-    get() = listOf(
-        SelectedChannelWithIconEntity(
-            channel = SelectedChannelEntity("testId1", "testName1", order = 1, parentList = "test"),
-            allChannel = AvailableChannelEntity("testId1", "testName1", "iconUrl")
-        ),
-        SelectedChannelWithIconEntity(
-            channel = SelectedChannelEntity("testId2", "testName2", order = 2, parentList = "test"),
-            allChannel = AvailableChannelEntity("testId2", "testName2", "iconUrl")
-        ),
-        SelectedChannelWithIconEntity(
-            channel = SelectedChannelEntity("testId3", "testName3", order = 3, parentList = "test"),
-            allChannel = AvailableChannelEntity("testId3", "testName3", "iconUrl")
-        ),
-        SelectedChannelWithIconEntity(
-            channel = SelectedChannelEntity("testId4", "testName4", order = 4, parentList = "test"),
-            allChannel = AvailableChannelEntity("testId4", "testName4", "iconUrl")
-        ),
-        SelectedChannelWithIconEntity(
-            channel = SelectedChannelEntity("testId5", "testName5", order = 5, parentList = "test"),
-            allChannel = AvailableChannelEntity("testId5", "testName5", "iconUrl")
-        ),
-        SelectedChannelWithIconEntity(
-            channel = SelectedChannelEntity("testId6", "testName6", order = 6, parentList = "test"),
-            allChannel = AvailableChannelEntity("testId6", "testName6", "iconUrl")
+    get() =
+        listOf(
+            SelectedChannelEntity("testId1", "testName1", order = 1, parentList = "test"),
+            SelectedChannelEntity("testId2", "testName2", order = 2, parentList = "test"),
+            SelectedChannelEntity("testId3", "testName3", order = 3, parentList = "test"),
+            SelectedChannelEntity("testId4", "testName4", order = 4, parentList = "test"),
+            SelectedChannelEntity("testId5", "testName5", order = 5, parentList = "test"),
+            SelectedChannelEntity("testId6", "testName6", order = 6, parentList = "test"),
         )
-    )
+private val expectedResultWithIconDao
+    get() =
+        listOf(
+            SelectedChannelWithIconEntity(
+                channel =
+                    SelectedChannelEntity(
+                        "testId1",
+                        "testName1",
+                        order = 1,
+                        parentList = "test",
+                    ),
+                allChannel = AvailableChannelEntity("testId1", "testName1", "iconUrl"),
+            ),
+            SelectedChannelWithIconEntity(
+                channel =
+                    SelectedChannelEntity(
+                        "testId2",
+                        "testName2",
+                        order = 2,
+                        parentList = "test",
+                    ),
+                allChannel = AvailableChannelEntity("testId2", "testName2", "iconUrl"),
+            ),
+            SelectedChannelWithIconEntity(
+                channel =
+                    SelectedChannelEntity(
+                        "testId3",
+                        "testName3",
+                        order = 3,
+                        parentList = "test",
+                    ),
+                allChannel = AvailableChannelEntity("testId3", "testName3", "iconUrl"),
+            ),
+            SelectedChannelWithIconEntity(
+                channel =
+                    SelectedChannelEntity(
+                        "testId4",
+                        "testName4",
+                        order = 4,
+                        parentList = "test",
+                    ),
+                allChannel = AvailableChannelEntity("testId4", "testName4", "iconUrl"),
+            ),
+            SelectedChannelWithIconEntity(
+                channel =
+                    SelectedChannelEntity(
+                        "testId5",
+                        "testName5",
+                        order = 5,
+                        parentList = "test",
+                    ),
+                allChannel = AvailableChannelEntity("testId5", "testName5", "iconUrl"),
+            ),
+            SelectedChannelWithIconEntity(
+                channel =
+                    SelectedChannelEntity(
+                        "testId6",
+                        "testName6",
+                        order = 6,
+                        parentList = "test",
+                    ),
+                allChannel = AvailableChannelEntity("testId6", "testName6", "iconUrl"),
+            ),
+        )

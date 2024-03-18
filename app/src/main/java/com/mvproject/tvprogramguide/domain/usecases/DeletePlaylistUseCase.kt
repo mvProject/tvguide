@@ -12,25 +12,28 @@ import javax.inject.Inject
  * @property customListRepository the CustomListRepository repository
  * @property preferenceRepository the preferences repository
  */
-class DeletePlaylistUseCase @Inject constructor(
-    private val customListRepository: CustomListRepository,
-    private val preferenceRepository: PreferenceRepository
-) {
-    suspend operator fun invoke(list: UserChannelsList) {
-        customListRepository.deleteList(item = list)
-        val defaultChannelList = preferenceRepository.loadDefaultUserList().first()
-        if (defaultChannelList == list.listName) {
-            checkForDefaultAfterDelete()
+class DeletePlaylistUseCase
+    @Inject
+    constructor(
+        private val customListRepository: CustomListRepository,
+        private val preferenceRepository: PreferenceRepository,
+    ) {
+        suspend operator fun invoke(list: UserChannelsList) {
+            customListRepository.deleteList(item = list)
+            val defaultChannelList = preferenceRepository.loadDefaultUserList().first()
+            if (defaultChannelList == list.listName) {
+                checkForDefaultAfterDelete()
+            }
         }
-    }
 
-    private suspend fun checkForDefaultAfterDelete() {
-        val playlists = customListRepository.loadChannelsLists().first()
-        val listName = if (playlists.isNotEmpty()) {
-            playlists.first().listName
-        } else {
-            AppConstants.NO_VALUE_STRING
+        private suspend fun checkForDefaultAfterDelete() {
+            val playlists = customListRepository.loadChannelsLists().first()
+            val listName =
+                if (playlists.isNotEmpty()) {
+                    playlists.first().listName
+                } else {
+                    AppConstants.NO_VALUE_STRING
+                }
+            preferenceRepository.setDefaultUserList(listName = listName)
         }
-        preferenceRepository.setDefaultUserList(listName = listName)
     }
-}

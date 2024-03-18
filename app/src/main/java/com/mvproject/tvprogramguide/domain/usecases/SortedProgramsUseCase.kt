@@ -1,9 +1,6 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
-import com.mvproject.tvprogramguide.data.mappers.Mappers.asSelectedChannelsFromAltEntities
-import com.mvproject.tvprogramguide.data.mappers.Mappers.toSelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.mappers.Mappers.toSingleChannelWithPrograms
-import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
 import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
@@ -11,7 +8,6 @@ import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.domain.helpers.ProgramSchedulerHelper
 import com.mvproject.tvprogramguide.utils.parseChannelName
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.random.Random
@@ -31,45 +27,6 @@ class SortedProgramsUseCase
         private val preferenceRepository: PreferenceRepository,
         private val programSchedulerHelper: ProgramSchedulerHelper,
     ) {
-        private val currentChannelList
-            get() = runBlocking { preferenceRepository.loadDefaultUserList().first() }
-
-        /**
-         * Obtain list of programs for selected channels and sorted by channels and view count
-         *
-         * @return sorted list of programs
-         */
-        suspend fun retrieveSelectedChannelWithPrograms(): List<SelectedChannelWithPrograms> {
-            val currentChannelList = preferenceRepository.loadDefaultUserList().first()
-
-            val selectedChannels =
-                selectedChannelRepository
-                    .loadSelectedChannels(listName = currentChannelList)
-                    .asSelectedChannelsFromAltEntities()
-
-            val selectedChannelIds =
-                selectedChannels.map { channel ->
-                    channel.channelId
-                }
-
-            Timber.w("testing selectedChannelIds $selectedChannelIds")
-
-            val programsWithChannels =
-                channelProgramRepository.loadProgramsForChannels(channelsIds = selectedChannelIds)
-
-            Timber.w("testing programsWithChannels $programsWithChannels")
-
-            return programsWithChannels
-                .toSelectedChannelWithPrograms(
-                    alreadySelected = selectedChannels,
-                    itemsCount =
-                        preferenceRepository
-                            .loadAppSettings()
-                            .first()
-                            .programsViewCount,
-                )
-        }
-
         /**
          * Obtain list of programs for selected channel and sorted by date
          *

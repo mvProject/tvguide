@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
 import com.mvproject.tvprogramguide.data.repository.CustomListRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
+import com.mvproject.tvprogramguide.domain.usecases.SelectedChannelsWithPrograms
 import com.mvproject.tvprogramguide.domain.usecases.SortedProgramsUseCase
 import com.mvproject.tvprogramguide.ui.screens.selectedchannels.state.AllPlaylists
 import com.mvproject.tvprogramguide.ui.screens.selectedchannels.state.ChannelsViewState
@@ -24,81 +25,84 @@ import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @HiltViewModel
-class ChannelViewModel @Inject constructor(
-    private val customListRepository: CustomListRepository,
-    private val sortedProgramsUseCase: SortedProgramsUseCase,
-    private val preferenceRepository: PreferenceRepository
-) : ViewModel() {
+class ChannelViewModel
+    @Inject
+    constructor(
+        private val customListRepository: CustomListRepository,
+        private val sortedProgramsUseCase: SortedProgramsUseCase,
+        private val selectedChannelsWithPrograms: SelectedChannelsWithPrograms,
+        private val preferenceRepository: PreferenceRepository,
+    ) : ViewModel() {
+        private var _viewState = MutableStateFlow(ChannelsViewState())
+        val viewState = _viewState.asStateFlow()
 
-    private var _viewState = MutableStateFlow(ChannelsViewState())
-    val viewState = _viewState.asStateFlow()
-
-    init {
-        combine(
-            customListRepository.loadChannelsLists(),
-            preferenceRepository.loadDefaultUserList(),
-            preferenceRepository.loadChannelsUpdateRequired()
-        ) { allLists, defaultList, _ ->
-            _viewState.update { current ->
-                current.copy(
-                    listName = defaultList,
-                    allPlaylists = AllPlaylists(playlists = allLists),
-                )
-            }
-
-            updatePrograms()
-
-        }.launchIn(viewModelScope)
-    }
-
-    fun reloadData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val isChannelsChanged = preferenceRepository.loadChannelsCountChanged().first()
-            preferenceRepository.setChannelsUpdateRequired(isChannelsChanged)
-            updatePrograms()
-        }
-    }
-
-    fun forceReloadData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            preferenceRepository.setChannelsUpdateRequired(true)
-            updatePrograms()
-        }
-    }
-
-    fun applyList(listName: String) {
-        viewModelScope.launch {
-            preferenceRepository.setDefaultUserList(listName = listName)
-        }
-    }
-
-    fun toggleProgramSchedule(programForSchedule: ProgramSchedule) {
-        viewModelScope.launch(Dispatchers.IO) {
-            sortedProgramsUseCase.updateProgramScheduleWithAlarm(
-                programSchedule = programForSchedule
-            )
-            updatePrograms()
-        }
-    }
-
-    private fun updatePrograms() {
-        if (viewState.value.listName.isEmpty()) {
-            Timber.e("testing no current saved list")
-        } else {
-            viewModelScope.launch(Dispatchers.IO) {
-                val programs = sortedProgramsUseCase.retrieveSelectedChannelWithPrograms()
-
+        init {
+            combine(
+                customListRepository.loadChannelsLists(),
+                preferenceRepository.loadDefaultUserList(),
+                preferenceRepository.loadChannelsUpdateRequired(),
+            ) { allLists, defaultList, _ ->
                 _viewState.update { current ->
                     current.copy(
-                        isOnlineUpdating = false,
-                        playlistContent = PlaylistContent(
-                            channels = programs.sortedBy { item ->
-                                item.selectedChannel.order
-                            }
-                        )
+                        listName = defaultList,
+                        allPlaylists = AllPlaylists(playlists = allLists),
                     )
+                }
+
+                updatePrograms()
+            }.launchIn(viewModelScope)
+        }
+
+        fun reloadData() {
+            viewModelScope.launch(Dispatchers.IO) {
+                val isChannelsChanged = preferenceRepository.loadChannelsCountChanged().first()
+                preferenceRepository.setChannelsUpdateRequired(isChannelsChanged)
+                updatePrograms()
+            }
+        }
+
+        fun forceReloadData() {
+            viewModelScope.launch(Dispatchers.IO) {
+                preferenceRepository.setChannelsUpdateRequired(true)
+                updatePrograms()
+            }
+        }
+
+        fun applyList(listName: String) {
+            viewModelScope.launch {
+                preferenceRepository.setDefaultUserList(listName = listName)
+            }
+        }
+
+        fun toggleProgramSchedule(programForSchedule: ProgramSchedule) {
+            viewModelScope.launch(Dispatchers.IO) {
+                sortedProgramsUseCase.updateProgramScheduleWithAlarm(
+                    programSchedule = programForSchedule,
+                )
+                updatePrograms()
+            }
+        }
+
+        private fun updatePrograms() {
+            if (viewState.value.listName.isEmpty()) {
+                Timber.e("testing no current saved list")
+            } else {
+                viewModelScope.launch(Dispatchers.IO) {
+                    val programs = selectedChannelsWithPrograms()
+
+                    _viewState.update { current ->
+                        current.copy(
+                            isOnlineUpdating = false,
+                            playlistContent =
+                                PlaylistContent(
+                                    channels =
+                                        programs.sortedBy { item ->
+                                            item.selectedChannel.order
+                                        },
+                                ),
+                        )
+                    }
                 }
             }
         }
     }
-}

@@ -10,12 +10,14 @@ import javax.inject.Inject
  * @property allChannelRepository the AllChannelRepository repository
  * @property preferenceRepository the PreferenceRepository repository
  */
-class UpdateChannelsInfoUseCase @Inject constructor(
-    private val allChannelRepository: AllChannelRepository,
-    private val preferenceRepository: PreferenceRepository
-) {
-    suspend operator fun invoke() {
-        allChannelRepository.loadProgramFromSource()
-        preferenceRepository.setChannelsUpdateLastTime(timeInMillis = actualDate)
+class UpdateChannelsInfoUseCase
+    @Inject
+    constructor(
+        private val allChannelRepository: AllChannelRepository,
+        private val preferenceRepository: PreferenceRepository,
+    ) {
+        suspend operator fun invoke() {
+            allChannelRepository.loadProgramFromSource()
+            preferenceRepository.setChannelsUpdateLastTime(timeInMillis = actualDate)
+        }
     }
-}
