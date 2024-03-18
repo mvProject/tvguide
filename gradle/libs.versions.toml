@@ -28,15 +28,15 @@ compose-bom = "2024.02.02"
 firebase-bom = "32.7.4"
 
 # navigationCompose
-composeNavigationHilt = "1.1.0"
-composeNavigation = "2.7.6"
+composeNavigationHilt = "1.2.0"
+composeNavigation = "2.7.7"
 
 # Accompanist Permissions
 accompanistPermissions = "0.32.0"
 
 # di
 daggerHilt = "2.49"
-androidHilt = "1.1.0"
+androidHilt = "1.2.0"
 
 # coroutines
 coroutines-core = "1.7.3"
@@ -56,8 +56,8 @@ coilCompose = "2.5.0"
 room = "2.6.1"
 
 # WorkManager
-workRuntime = "2.8.1"
-workHilt = "1.1.0"
+workRuntime = "2.9.0"
+workHilt = "1.2.0"
 
 # Splash API
 splash = "1.0.1"
@@ -155,7 +155,7 @@ navComposeHilt = { module = "androidx.hilt:hilt-navigation-compose", version.ref
 navCompose = { module = "androidx.navigation:navigation-compose", version.ref = "composeNavigation" }
 
 # WorkManager
-workRuntimeKtx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntime" }
+workRuntimeKtx = { module = "androidx.work:work-runtime", version.ref = "workRuntime" }
 workHilt = { module = "androidx.hilt:hilt-work", version.ref = "workHilt" }
 
 # Splash API
