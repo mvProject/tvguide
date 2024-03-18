@@ -91,9 +91,9 @@ fun ChannelScreen(
 
     Scaffold(
         modifier =
-        Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+            Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
         containerColor = MaterialTheme.colorScheme.inverseOnSurface,
         contentColor = MaterialTheme.colorScheme.onSurface,
         topBar = {
