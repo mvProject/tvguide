@@ -1,8 +1,11 @@
 package com.mvproject.tvprogramguide.ui.screens.main.view
 
 import android.Manifest
+import android.animation.ObjectAnimator
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.animation.DecelerateInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -14,6 +17,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -43,7 +47,44 @@ class MainActivity : ComponentActivity() {
             }
             setOnExitAnimationListener { splashScreen ->
                 // to remove splashscreen with no animation
-                splashScreen.remove()
+                // splashScreen.remove()
+                /*                ObjectAnimator.ofFloat(
+                                    splashScreen.view,
+                                    "scaleX",
+                                    0.5f,
+                                    0f,
+                                ).apply {
+                                    interpolator = OvershootInterpolator()
+                                    duration = 300
+                                    doOnEnd { splashScreen.remove() }
+                                    start()
+                                }
+                                ObjectAnimator.ofFloat(
+                                    splashScreen.view,
+                                    "scaleY",
+                                    0.5f,
+                                    0f,
+                                ).apply {
+                                    interpolator = OvershootInterpolator()
+                                    duration = 300
+                                    doOnEnd { splashScreen.remove() }
+                                    start()
+                                }*/
+
+                ObjectAnimator.ofFloat(
+                    splashScreen.view,
+                    View.TRANSLATION_Y,
+                    // from top to down
+                    0f,
+                    splashScreen.view.height.toFloat(),
+                ).apply {
+                    // deceleration interpolaror, duration
+                    interpolator = DecelerateInterpolator()
+                    duration = 500L
+                    // do not forget to remove the splash screen
+                    doOnEnd { splashScreen.remove() }
+                    start()
+                }
             }
         }
 

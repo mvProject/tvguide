@@ -43,7 +43,6 @@ import com.mvproject.tvprogramguide.utils.findActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @OptIn(ExperimentalCoroutinesApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -81,7 +80,7 @@ fun ChannelScreen(
     }
 
     val scope = rememberCoroutineScope()
-    Timber.e("testing listState.firstVisibleItemIndex ${listState.firstVisibleItemIndex}")
+
     val showScrollToTopButton by remember {
         derivedStateOf {
             listState.firstVisibleItemIndex >= 10
@@ -92,9 +91,9 @@ fun ChannelScreen(
 
     Scaffold(
         modifier =
-            Modifier
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
+        Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         containerColor = MaterialTheme.colorScheme.inverseOnSurface,
         contentColor = MaterialTheme.colorScheme.onSurface,
         topBar = {

@@ -93,7 +93,6 @@ class ChannelViewModel
             if (viewState.value.listName.isEmpty()) {
                 Timber.e("testing no current saved list")
             } else {
-                Timber.e("testing updatePrograms launched")
                 viewModelScope.launch(Dispatchers.IO) {
                     val programs = selectedChannelsWithPrograms()
 

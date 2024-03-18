@@ -25,13 +25,12 @@ import com.mvproject.tvprogramguide.ui.screens.settings.channels.available.actio
 import com.mvproject.tvprogramguide.ui.theme.dimens
 
 @Composable
-fun AllChannelsScreen(
-    allChannelViewModel: AllChannelViewModel = hiltViewModel()
-) {
+fun AllChannelsScreen(allChannelViewModel: AllChannelViewModel = hiltViewModel()) {
     val channels by allChannelViewModel.availableChannels.collectAsStateWithLifecycle()
+
     AllChannelsContent(
         selectedChannels = channels,
-        onAction = allChannelViewModel::processAction
+        onAction = allChannelViewModel::processAction,
     )
 }
 
@@ -39,43 +38,46 @@ fun AllChannelsScreen(
 @Composable
 private fun AllChannelsContent(
     selectedChannels: List<AvailableChannel>,
-    onAction: (action: AvailableChannelsAction) -> Unit
+    onAction: (action: AvailableChannelsAction) -> Unit,
 ) {
     val listState = rememberLazyListState()
 
     Column {
         SearchView(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(MaterialTheme.dimens.size8)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(MaterialTheme.dimens.size8),
         ) { selectedQuery ->
             onAction(AvailableChannelsAction.ChannelFilter(query = selectedQuery))
         }
 
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .imePadding()
-                .imeNestedScroll(),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .imePadding()
+                    .imeNestedScroll(),
             state = listState,
-            contentPadding = PaddingValues(
-                vertical = MaterialTheme.dimens.size8,
-                horizontal = MaterialTheme.dimens.size4
-            ),
-            verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size4)
+            contentPadding =
+                PaddingValues(
+                    vertical = MaterialTheme.dimens.size8,
+                    horizontal = MaterialTheme.dimens.size4,
+                ),
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size4),
         ) {
             items(selectedChannels) { chn ->
                 ChannelSelectableItem(
                     channelLogo = chn.channelIcon,
                     channelName = chn.channelName,
-                    isSelected = chn.isSelected
+                    isSelected = chn.isSelected,
                 ) {
                     onAction(
                         if (chn.isSelected) {
                             AvailableChannelsAction.ChannelDelete(selectedChannel = chn)
                         } else {
                             AvailableChannelsAction.ChannelAdd(selectedChannel = chn)
-                        }
+                        },
                     )
                 }
             }
