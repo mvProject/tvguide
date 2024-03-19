@@ -12,6 +12,7 @@
 
     <string name="msg_user_filled_list_empty">Nije pronađen popis odabranih kanala</string>
     <string name="msg_no_items_found">Nema pronađenih stavki</string>
+    <string name="msg_no_epg_found">TV program nije pronađen</string>
     <string name="msg_user_lists_empty">Nema popisa korisnika</string>
     <string name="msg_tap_to_create_list">kliknite za izradu popisa</string>
 

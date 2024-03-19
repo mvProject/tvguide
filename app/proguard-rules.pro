@@ -111,3 +111,5 @@
     public ** component1();
     <fields>;
 }
+
+-keep,allowobfuscation,allowshrinking @dagger.hilt.EntryPoint class *

@@ -1,28 +1,24 @@
 package com.mvproject.tvprogramguide.ui.screens.main.view
 
 import android.Manifest
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.WindowCompat
+import androidx.compose.ui.Modifier
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.navigation.compose.rememberNavController
-import androidx.work.WorkInfo
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -30,9 +26,6 @@ import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
 import com.mvproject.tvprogramguide.navigation.NavigationHost
 import com.mvproject.tvprogramguide.ui.screens.main.viewmodel.MainViewModel
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
-import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
-import com.mvproject.tvprogramguide.utils.CHANNEL_COUNT
-import com.mvproject.tvprogramguide.utils.CHANNEL_INDEX
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -42,86 +35,56 @@ class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        enableEdgeToEdge(
+            statusBarStyle =
+                SystemBarStyle.light(
+                    Color.TRANSPARENT,
+                    Color.TRANSPARENT,
+                ),
+            navigationBarStyle =
+                SystemBarStyle.light(
+                    Color.TRANSPARENT,
+                    Color.TRANSPARENT,
+                ),
+        )
         super.onCreate(savedInstanceState)
 
-        installSplashScreen().apply {
-            setKeepOnScreenCondition {
-                viewModel.isLoading.value
-            }
-        }
+        val windowInsetsController = WindowInsetsControllerCompat(window, window.decorView)
 
         setContent {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                val notificationPermissionState = rememberPermissionState(
-                    Manifest.permission.POST_NOTIFICATIONS
-                )
+                val notificationPermissionState =
+                    rememberPermissionState(
+                        Manifest.permission.POST_NOTIFICATIONS,
+                    )
 
                 val isNotificationGranted = notificationPermissionState.status.isGranted
-                Timber.i("testing notificationPermissionState permission $isNotificationGranted")
+                Timber.i("notificationPermissionState permission $isNotificationGranted")
                 if (!isNotificationGranted) {
                     LaunchedEffect(key1 = notificationPermissionState) {
                         notificationPermissionState.launchPermissionRequest()
-                    }
-
-                }
-            }
-
-            val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
-
-            val updateObserver = remember {
-                Observer<List<WorkInfo>?> { listOfWorkInfo ->
-                    if (listOfWorkInfo.isNullOrEmpty()) {
-                        Timber.e("worker updateWorkInfo null")
-                    } else {
-                        val workInfo = listOfWorkInfo.first()
-                        viewModel.setUpdatingState(workInfo.state != WorkInfo.State.SUCCEEDED)
-                        if (workInfo.state == WorkInfo.State.RUNNING) {
-                            val progress = workInfo.progress
-                            val current = progress.getInt(CHANNEL_INDEX, COUNT_ZERO)
-                            val count = progress.getInt(CHANNEL_COUNT, COUNT_ZERO)
-                            Timber.i("testing worker channel update $current/$count")
-                        }
-                    }
-                }
-            }
-
-            DisposableEffect(lifecycleOwner) {
-                with(viewModel) {
-                    fullUpdateWorkInfo.observe(lifecycleOwner, updateObserver)
-                    onDispose {
-                        fullUpdateWorkInfo.removeObserver(updateObserver)
                     }
                 }
             }
 
             val isDarkTheme = rememberIsDarkTheme()
 
-            TvGuideTheme(isDarkTheme) {
-                updateTheme(
-                    darkTheme = isDarkTheme,
-                    targetColor = MaterialTheme.colorScheme.inverseOnSurface.toArgb()
-                )
+            windowInsetsController.isAppearanceLightStatusBars = !isDarkTheme
 
+            TvGuideTheme(
+                darkTheme = isDarkTheme,
+            ) {
                 val navController = rememberNavController()
                 val screen by viewModel.startDestination
-
-                if (screen.isNotEmpty()) {
-                    NavigationHost(
-                        navController = navController,
-                        startScreen = screen
-                    )
+                Box(modifier = Modifier) {
+                    if (screen.isNotEmpty()) {
+                        NavigationHost(
+                            navController = navController,
+                            startScreen = screen,
+                        )
+                    }
                 }
             }
-        }
-    }
-
-    private fun updateTheme(darkTheme: Boolean, targetColor: Int) {
-        window.apply {
-            statusBarColor = targetColor
-            navigationBarColor = targetColor
-            WindowInsetsControllerCompat(this, this.decorView)
-                .isAppearanceLightStatusBars = !darkTheme
         }
     }
 
@@ -133,11 +96,12 @@ class MainActivity : ComponentActivity() {
             viewModel.currentTheme
         }.collectAsState(initial = AppThemeOptions.SYSTEM)
 
-        val isDarkTheme = when (theme) {
-            AppThemeOptions.LIGHT -> false
-            AppThemeOptions.DARK -> true
-            AppThemeOptions.SYSTEM -> isSystemDarkTheme
-        }
+        val isDarkTheme =
+            when (theme) {
+                AppThemeOptions.LIGHT -> false
+                AppThemeOptions.DARK -> true
+                AppThemeOptions.SYSTEM -> isSystemDarkTheme
+            }
         return isDarkTheme
     }
 }

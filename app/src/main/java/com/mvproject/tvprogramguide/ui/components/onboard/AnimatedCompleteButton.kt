@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
@@ -19,34 +20,39 @@ import com.mvproject.tvprogramguide.utils.AppConstants
 
 @Composable
 fun AnimatedCompleteButton(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     currentPage: Int = AppConstants.ONBOARD_LAST_PAGES_INDEX,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
 ) {
     Row(
-        modifier = modifier
-            .padding(horizontal = MaterialTheme.dimens.size40),
+        modifier =
+            modifier
+                .padding(horizontal = MaterialTheme.dimens.size40)
+                .fillMaxWidth()
+                .wrapContentHeight(),
         verticalAlignment = Alignment.Top,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.Center,
     ) {
         AnimatedVisibility(
             modifier = Modifier.fillMaxWidth(),
-            visible = currentPage == AppConstants.ONBOARD_LAST_PAGES_INDEX
+            visible = currentPage == AppConstants.ONBOARD_LAST_PAGES_INDEX,
         ) {
             ElevatedButton(
                 onClick = onClick,
-                modifier = Modifier
-                    .padding(MaterialTheme.dimens.size8)
-                    .fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.tertiary
-                ),
-                shape = MaterialTheme.shapes.small
+                modifier =
+                    Modifier
+                        .padding(MaterialTheme.dimens.size8)
+                        .fillMaxWidth(),
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.tertiary,
+                    ),
+                shape = MaterialTheme.shapes.small,
             ) {
                 Text(
                     text = stringResource(id = R.string.onboard_btn_complete),
                     color = MaterialTheme.colorScheme.onTertiary,
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
                 )
             }
         }

@@ -12,6 +12,7 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,6 +24,7 @@ import com.mvproject.tvprogramguide.ui.theme.dimens
 fun ToolbarWithOptions(
     title: String,
     isSelectEnabled: Boolean = false,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
     onSelectClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {}
 ) {
@@ -51,6 +53,7 @@ fun ToolbarWithOptions(
                 }
             }
         },
+        scrollBehavior = scrollBehavior,
         actions = {
             FilledIconButton(
                 onClick = onSettingsClick,
@@ -72,6 +75,7 @@ fun ToolbarWithOptions(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun ToolbarWithOptionsView() {
@@ -80,6 +84,7 @@ fun ToolbarWithOptionsView() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun ToolbarWithOptionsDarkView() {

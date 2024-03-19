@@ -21,29 +21,30 @@ fun NavController.navigateToSettingsChannel(userListName: String) {
 
 internal class SettingsChannelArgs(val userListName: String) {
     constructor(savedStateHandle: SavedStateHandle) :
-            this(userListName = checkNotNull(savedStateHandle[ARGUMENT_USER_LIST_NAME]) as String)
+        this(userListName = checkNotNull(savedStateHandle[ARGUMENT_USER_LIST_NAME]) as String)
 }
 
-fun NavGraphBuilder.settingsChannelScreen() {
+fun NavGraphBuilder.settingsChannelScreen(onNavigateBack: () -> Unit) {
     composable(
         "${AppRoutes.ChannelSettings.route}/{$ARGUMENT_USER_LIST_NAME}",
         enterTransition = {
             slideIntoContainer(
                 AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(AppConstants.ANIM_DURATION_600)
+                animationSpec = tween(AppConstants.ANIM_DURATION_600),
             ) + fadeIn(animationSpec = tween(AppConstants.ANIM_DURATION_600))
         },
         exitTransition = {
             slideOutOfContainer(
                 AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(AppConstants.ANIM_DURATION_600)
+                animationSpec = tween(AppConstants.ANIM_DURATION_600),
             ) + fadeOut(animationSpec = tween(AppConstants.ANIM_DURATION_600))
-        }
+        },
     ) {
         val channelSettingsViewModel = hiltViewModel<ChannelSettingsViewModel>()
 
         ChannelSettingsScreen(
-            viewModel = channelSettingsViewModel
+            viewModel = channelSettingsViewModel,
+            onNavigateBack = onNavigateBack,
         )
     }
 }

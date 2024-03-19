@@ -31,42 +31,48 @@ fun ShowSelectFromListDialog(
     radioOptions: List<String> = listOf(),
     defaultSelection: Int = COUNT_ZERO,
     isDialogOpen: MutableState<Boolean>,
-    onSelected: (String) -> Unit
+    onSelected: (String) -> Unit,
 ) {
-    val def = if (radioOptions.isEmpty()) NO_VALUE_STRING
-    else radioOptions[defaultSelection]
+    val def =
+        if (radioOptions.isEmpty()) {
+            NO_VALUE_STRING
+        } else {
+            radioOptions[defaultSelection]
+        }
 
     val name = remember { mutableStateOf(def) }
-
     if (isDialogOpen.value) {
         Dialog(
-            onDismissRequest = { isDialogOpen.value = false }
+            onDismissRequest = { isDialogOpen.value = false },
         ) {
             Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .padding(MaterialTheme.dimens.size6),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(MaterialTheme.dimens.size6),
                 shape = RoundedCornerShape(MaterialTheme.dimens.size16),
-                shadowElevation = MaterialTheme.dimens.size8
+                shadowElevation = MaterialTheme.dimens.size8,
             ) {
                 Column(
-                    modifier = Modifier
-                        .padding(MaterialTheme.dimens.size6),
+                    modifier =
+                        Modifier
+                            .padding(MaterialTheme.dimens.size6),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+                    verticalArrangement = Arrangement.Center,
                 ) {
-
                     Text(
                         text = stringResource(id = R.string.dlg_title_select_custom_user_list),
-                        modifier = Modifier
-                            .padding(horizontal = MaterialTheme.dimens.size4),
+                        modifier =
+                            Modifier
+                                .padding(horizontal = MaterialTheme.dimens.size4),
                         color = MaterialTheme.colorScheme.onSurface,
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
                     )
                     Spacer(
-                        modifier = Modifier
-                            .padding(MaterialTheme.dimens.size4)
+                        modifier =
+                            Modifier
+                                .padding(MaterialTheme.dimens.size4),
                     )
 
                     RadioGroupScrollable(
@@ -77,8 +83,9 @@ fun ShowSelectFromListDialog(
                     }
 
                     Spacer(
-                        modifier = Modifier
-                            .padding(MaterialTheme.dimens.size8)
+                        modifier =
+                            Modifier
+                                .padding(MaterialTheme.dimens.size8),
                     )
 
                     ElevatedButton(
@@ -86,18 +93,20 @@ fun ShowSelectFromListDialog(
                             onSelected(name.value)
                             isDialogOpen.value = false
                         },
-                        modifier = Modifier
-                            .fillMaxWidth(MaterialTheme.dimens.fraction50)
-                            .padding(MaterialTheme.dimens.size4),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.tertiary
-                        ),
-                        shape = MaterialTheme.shapes.small
+                        modifier =
+                            Modifier
+                                .fillMaxWidth(MaterialTheme.dimens.fraction50)
+                                .padding(MaterialTheme.dimens.size4),
+                        colors =
+                            ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.tertiary,
+                            ),
+                        shape = MaterialTheme.shapes.small,
                     ) {
                         Text(
                             text = stringResource(id = R.string.dlg_btn_close),
                             color = MaterialTheme.colorScheme.onTertiary,
-                            style = MaterialTheme.typography.titleMedium
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     }
                 }

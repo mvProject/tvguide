@@ -1,9 +1,6 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
-import com.mvproject.tvprogramguide.data.mappers.Mappers.asSelectedChannelsFromAltEntities
-import com.mvproject.tvprogramguide.data.mappers.Mappers.toSelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.mappers.Mappers.toSingleChannelWithPrograms
-import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
 import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
@@ -11,7 +8,6 @@ import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.domain.helpers.ProgramSchedulerHelper
 import com.mvproject.tvprogramguide.utils.parseChannelName
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.random.Random
@@ -23,117 +19,90 @@ import kotlin.random.Random
  * @property preferenceRepository the preferences repository
  * @property programSchedulerHelper the scheduler helper
  */
-class SortedProgramsUseCase @Inject constructor(
-    private val selectedChannelRepository: SelectedChannelRepository,
-    private val channelProgramRepository: ChannelProgramRepository,
-    private val preferenceRepository: PreferenceRepository,
-    private val programSchedulerHelper: ProgramSchedulerHelper,
-) {
-
-    private val currentChannelList
-        get() = runBlocking { preferenceRepository.loadDefaultUserList().first() }
-
-    /**
-     * Obtain list of programs for selected channels and sorted by channels and view count
-     *
-     * @return sorted list of programs
-     */
-    suspend fun retrieveSelectedChannelWithPrograms(): List<SelectedChannelWithPrograms> {
-        val currentChannelList = preferenceRepository.loadDefaultUserList().first()
-
-        val selectedChannels =
-            selectedChannelRepository
-                .loadSelectedChannels(listName = currentChannelList)
-                .asSelectedChannelsFromAltEntities()
-
-        val selectedChannelIds = selectedChannels.map { channel ->
-            channel.channelId
-        }
-
-        val programsWithChannels =
-            channelProgramRepository.loadProgramsForChannels(channelsIds = selectedChannelIds)
-
-        return programsWithChannels
-            .toSelectedChannelWithPrograms(
-                alreadySelected = selectedChannels,
-                itemsCount = preferenceRepository
-                    .loadAppSettings()
-                    .first()
-                    .programsViewCount
-            )
-    }
-
-    /**
-     * Obtain list of programs for selected channel and sorted by date
-     *
-     * @param channelId the alarm id
-     * @return sorted list of programs
-     */
-    suspend fun retrieveProgramsForChannel(channelId: String) =
-        channelProgramRepository
-            .loadProgramsForChannel(channelId = channelId)
-            .toSingleChannelWithPrograms()
-
-    /**
-     * Update selected channel for mark as scheduled or cancel (if already was scheduled)
-     *
-     * @param programSchedule data object with channel info
-     */
-    suspend fun updateProgramScheduleWithAlarm(programSchedule: ProgramSchedule) {
-        val scheduleProgram = channelProgramRepository
-            .loadProgramsForChannel(channelId = programSchedule.channelId)
-            .firstOrNull { program ->
-                program.title == programSchedule.programTitle
-            }
-
-        scheduleProgram?.let { selected ->
-            val channelName = selectedChannelRepository
-                .loadChannelNameById(selectedId = programSchedule.channelId)
-                .parseChannelName()
-
-            val program = if (selected.scheduledId == null) {
-                val id = Random.nextLong()
-                programSchedulerHelper.scheduleProgramAlarm(
-                    programSchedule = programSchedule.copy(
-                        scheduleId = id,
-                        channelTitle = channelName,
-                        triggerTime = selected.dateTimeStart
-                    )
-                )
-                selected.copy(scheduledId = id)
-            } else {
-                // cancel alert
-                val idForCancel = selected.scheduledId
-                programSchedulerHelper.cancelProgramAlarm(schedulerId = idForCancel)
-                selected.copy(scheduledId = null)
-            }
-            channelProgramRepository.updateProgram(program = program)
-        } ?: Timber.e("scheduleProgram is null")
-    }
-
-    /**
-     * Check if update needed for channels in current user list
-     * when new channel add for example
-     *
-     * @param obtainedChannelsIds id list of current channels with loaded programs
-     * @return id list of channels for update or null if no updates
-     */
-    suspend fun checkProgramsUpdateRequired(obtainedChannelsIds: List<String>): Array<String>? {
-        val currentChannelList = preferenceRepository.loadDefaultUserList().first()
-
-        val selectedChannelIds = selectedChannelRepository
-            .loadSelectedChannels(listName = currentChannelList)
-            .map { entity ->
-                entity.channel.channelId
-            }
-
-        val obtainedChannelsIdsCount =
+class SortedProgramsUseCase
+    @Inject
+    constructor(
+        private val selectedChannelRepository: SelectedChannelRepository,
+        private val channelProgramRepository: ChannelProgramRepository,
+        private val preferenceRepository: PreferenceRepository,
+        private val programSchedulerHelper: ProgramSchedulerHelper,
+    ) {
+        /**
+         * Obtain list of programs for selected channel and sorted by date
+         *
+         * @param channelId the alarm id
+         * @return sorted list of programs
+         */
+        suspend fun retrieveProgramsForChannel(channelId: String) =
             channelProgramRepository
-                .loadProgramsCount(channelsIds = selectedChannelIds)
+                .loadProgramsForChannel(channelId = channelId)
+                .toSingleChannelWithPrograms()
 
-        if (selectedChannelIds.count() > obtainedChannelsIdsCount) {
-            return selectedChannelIds.minus(obtainedChannelsIds.toSet()).toTypedArray()
+        /**
+         * Update selected channel for mark as scheduled or cancel (if already was scheduled)
+         *
+         * @param programSchedule data object with channel info
+         */
+        suspend fun updateProgramScheduleWithAlarm(programSchedule: ProgramSchedule) {
+            val scheduleProgram =
+                channelProgramRepository
+                    .loadProgramsForChannel(channelId = programSchedule.channelId)
+                    .firstOrNull { program ->
+                        program.title == programSchedule.programTitle
+                    }
+
+            scheduleProgram?.let { selected ->
+                val channelName =
+                    selectedChannelRepository
+                        .loadChannelNameById(selectedId = programSchedule.channelId)
+                        .parseChannelName()
+
+                val program =
+                    if (selected.scheduledId == null) {
+                        val id = Random.nextLong()
+                        programSchedulerHelper.scheduleProgramAlarm(
+                            programSchedule =
+                                programSchedule.copy(
+                                    scheduleId = id,
+                                    channelTitle = channelName,
+                                    triggerTime = selected.dateTimeStart,
+                                ),
+                        )
+                        selected.copy(scheduledId = id)
+                    } else {
+                        // cancel alert
+                        val idForCancel = selected.scheduledId
+                        programSchedulerHelper.cancelProgramAlarm(schedulerId = idForCancel)
+                        selected.copy(scheduledId = null)
+                    }
+                channelProgramRepository.updateProgram(program = program)
+            } ?: Timber.e("scheduleProgram is null")
         }
-        return null
+
+        /**
+         * Check if update needed for channels in current user list
+         * when new channel add for example
+         *
+         * @param obtainedChannelsIds id list of current channels with loaded programs
+         * @return id list of channels for update or null if no updates
+         */
+        suspend fun checkProgramsUpdateRequired(obtainedChannelsIds: List<String>): Array<String>? {
+            val currentChannelList = preferenceRepository.loadDefaultUserList().first()
+
+            val selectedChannelIds =
+                selectedChannelRepository
+                    .loadSelectedChannels(listName = currentChannelList)
+                    .map { entity ->
+                        entity.channel.channelId
+                    }
+
+            val obtainedChannelsIdsCount =
+                channelProgramRepository
+                    .loadProgramsCount(channelsIds = selectedChannelIds)
+
+            if (selectedChannelIds.count() > obtainedChannelsIdsCount) {
+                return selectedChannelIds.minus(obtainedChannelsIds.toSet()).toTypedArray()
+            }
+            return null
+        }
     }
-}

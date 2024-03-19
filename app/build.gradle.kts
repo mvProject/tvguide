@@ -1,4 +1,5 @@
 import java.util.Properties
+
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application)
@@ -17,11 +18,30 @@ android {
     defaultConfig {
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 10
+        versionName = "0.2.10"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        resourceConfigurations.addAll(listOf("en", "ru", "uk"))
+        resourceConfigurations.addAll(
+            listOf(
+                "en",
+                "cs",
+                "de",
+                "es",
+                "fr",
+                "hr",
+                "it",
+                "lt",
+                "lv",
+                "nl",
+                "pl",
+                "pt",
+                "ro",
+                "ru",
+                "tr",
+                "uk",
+            ),
+        )
 
         vectorDrawables.useSupportLibrary = true
 
@@ -45,7 +65,7 @@ android {
             isDebuggable = true
             setProperty(
                 "archivesBaseName",
-                "${rootProject.name}_${project.android.defaultConfig.versionName}"
+                "${rootProject.name}_${project.android.defaultConfig.versionName}",
             )
         }
 
@@ -55,11 +75,11 @@ android {
             signingConfig = signingConfigs.getByName("configRelease")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
             setProperty(
                 "archivesBaseName",
-                "${rootProject.name}_${project.android.defaultConfig.versionName}"
+                "${rootProject.name}_${project.android.defaultConfig.versionName}",
             )
         }
     }
@@ -77,7 +97,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.8"
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
     packaging {
         resources {
@@ -94,13 +114,15 @@ android {
     }
 }
 
-fun readProperties(propertiesFile: File) = Properties().apply {
-    propertiesFile.inputStream().use { fis ->
-        load(fis)
+fun readProperties(propertiesFile: File) =
+    Properties().apply {
+        propertiesFile.inputStream().use { fis ->
+            load(fis)
+        }
     }
-}
 
 dependencies {
+    implementation("com.google.android.material:material:1.11.0")
 
     implementation(libs.bundles.appLibraries)
 
@@ -124,6 +146,8 @@ dependencies {
     implementation(libs.bundles.workManager)
 
     implementation(libs.kotlinxDatetime)
+
+    implementation(libs.bundles.playReview)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
