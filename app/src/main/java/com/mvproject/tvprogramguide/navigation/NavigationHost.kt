@@ -1,8 +1,6 @@
 package com.mvproject.tvprogramguide.navigation
 
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.mvproject.tvprogramguide.ui.screens.onboard.navigation.onboardScreen
@@ -27,9 +25,6 @@ fun NavigationHost(
     NavHost(
         navController = navController,
         startDestination = startScreen,
-        modifier =
-            Modifier
-                .systemBarsPadding(),
     ) {
         onboardScreen(
             onComplete = navController::navigateToSelectedChannels,
@@ -60,6 +55,8 @@ fun NavigationHost(
             onNavigateItem = navController::navigateToSettingsChannel,
         )
 
-        settingsChannelScreen()
+        settingsChannelScreen(
+            onNavigateBack = navController::popBackStack,
+        )
     }
 }

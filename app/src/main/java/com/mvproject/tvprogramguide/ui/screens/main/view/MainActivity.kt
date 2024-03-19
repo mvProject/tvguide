@@ -10,11 +10,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -47,10 +49,9 @@ class MainActivity : ComponentActivity() {
         )
         super.onCreate(savedInstanceState)
 
-        setContent {
-            WindowInsetsControllerCompat(window, window.decorView)
-                .isAppearanceLightStatusBars = false
+        val windowInsetsController = WindowInsetsControllerCompat(window, window.decorView)
 
+        setContent {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 val notificationPermissionState =
                     rememberPermissionState(
@@ -68,15 +69,20 @@ class MainActivity : ComponentActivity() {
 
             val isDarkTheme = rememberIsDarkTheme()
 
-            TvGuideTheme(isDarkTheme) {
+            windowInsetsController.isAppearanceLightStatusBars = !isDarkTheme
+
+            TvGuideTheme(
+                darkTheme = isDarkTheme,
+            ) {
                 val navController = rememberNavController()
                 val screen by viewModel.startDestination
-
-                if (screen.isNotEmpty()) {
-                    NavigationHost(
-                        navController = navController,
-                        startScreen = screen,
-                    )
+                Box(modifier = Modifier) {
+                    if (screen.isNotEmpty()) {
+                        NavigationHost(
+                            navController = navController,
+                            startScreen = screen,
+                        )
+                    }
                 }
             }
         }
