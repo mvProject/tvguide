@@ -63,7 +63,6 @@ class SelectedChannelUseCase
                     parentList = targetList,
                 )
             selectedChannelRepository.addChannel(selectedChannel = selected)
-            // preferenceRepository.setChannelsCountChanged(true)
         }
 
         /**
