@@ -188,10 +188,10 @@ fun Long.getLastItemEnding() =
  * @return list of elements
  */
 fun <T> List<T>.takeIfCountNotEmpty(count: Int): List<T> {
-    return if (count > COUNT_ZERO) {
-        this.take(count)
-    } else {
+    return if (count <= COUNT_ZERO || count >= size) {
         this
+    } else {
+        take(count)
     }
 }
 

@@ -33,11 +33,12 @@ class SelectedChannelRepositoryTest : StringSpec({
 
     assertSoftly {
         "retrieve selected channels entities" {
-            val expectedResult = listOf(
-                SelectedChannelEntity("testId1", "testName1", "iconUrl"),
-                SelectedChannelEntity("testId2", "testName2", "iconUrl"),
-                SelectedChannelEntity("testId3", "testName3", "iconUrl"),
-            )
+            val expectedResult =
+                listOf(
+                    SelectedChannelEntity("testId1", "testName1", 1),
+                    SelectedChannelEntity("testId2", "testName2", 2),
+                    SelectedChannelEntity("testId3", "testName3", 3),
+                )
             coEvery {
                 dao.getSelectedChannels("test")
             } returns expectedResult
@@ -72,11 +73,12 @@ class SelectedChannelRepositoryTest : StringSpec({
         }
 
         "retrieve selected channels ids" {
-            val expectedResult = listOf(
-                "testId1",
-                "testId2",
-                "testId3"
-            )
+            val expectedResult =
+                listOf(
+                    "testId1",
+                    "testId2",
+                    "testId3",
+                )
             coEvery {
                 dao.getSelectedChannelsIds()
             } returns expectedResult
@@ -170,17 +172,19 @@ class SelectedChannelRepositoryTest : StringSpec({
         }
 
         "retrieve selected channels entities flow" {
-            val expectedResultDao = listOf(
-                SelectedChannelEntity("testId1", "testName1", "iconUrl"),
-                SelectedChannelEntity("testId2", "testName2", "iconUrl"),
-                SelectedChannelEntity("testId3", "testName3", "iconUrl"),
-            )
+            val expectedResultDao =
+                listOf(
+                    SelectedChannelEntity("testId1", "testName1", "iconUrl"),
+                    SelectedChannelEntity("testId2", "testName2", "iconUrl"),
+                    SelectedChannelEntity("testId3", "testName3", "iconUrl"),
+                )
 
             coEvery {
                 dao.getSelectedChannelsFlow("test")
-            } returns flow {
-                emit(expectedResultDao)
-            }
+            } returns
+                flow {
+                    emit(expectedResultDao)
+                }
 
             withClue("single call from dao execute") {
                 repository.loadSelectedChannelsFlow("test")
