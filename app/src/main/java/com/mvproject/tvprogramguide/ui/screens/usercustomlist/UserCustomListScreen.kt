@@ -6,11 +6,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -36,7 +35,7 @@ import com.mvproject.tvprogramguide.ui.theme.dimens
 fun UserCustomListScreen(
     viewModel: UserCustomListViewModel,
     onNavigateItem: (String) -> Unit,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
 ) {
     val state by viewModel.customs.collectAsStateWithLifecycle()
 
@@ -44,7 +43,7 @@ fun UserCustomListScreen(
         userLists = state,
         onAction = viewModel::processAction,
         onItemClick = onNavigateItem,
-        onBackClick = onNavigateBack
+        onBackClick = onNavigateBack,
     )
 }
 
@@ -53,7 +52,7 @@ private fun UserCustomListContent(
     userLists: List<UserChannelsList>,
     onAction: (action: UserListAction) -> Unit,
     onItemClick: (item: String) -> Unit,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
 ) {
     val isDialogOpen = remember { mutableStateOf(false) }
 
@@ -61,7 +60,7 @@ private fun UserCustomListContent(
         topBar = {
             ToolbarWithBack(
                 title = stringResource(id = R.string.title_custom_channels_list),
-                onBackClick = onBackClick
+                onBackClick = onBackClick,
             )
         },
         floatingActionButtonPosition = FabPosition.End,
@@ -70,46 +69,47 @@ private fun UserCustomListContent(
                 containerColor = MaterialTheme.colorScheme.secondary,
                 onClick = {
                     isDialogOpen.value = true
-                }
+                },
             ) {
                 Icon(
-                    Icons.Outlined.Add,
+                    imageVector = Icons.Default.Add,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSecondary,
-                    modifier = Modifier
-                        .size(MaterialTheme.dimens.size32)
                 )
             }
         },
     ) { inner ->
         Column(
-            modifier = Modifier
-                .padding(inner)
-                .imePadding()
+            modifier =
+                Modifier
+                    .padding(inner)
+                    .imePadding(),
         ) {
             when {
                 userLists.isEmpty() -> {
                     NoItemsScreen(
-                        title = stringResource(id = R.string.msg_user_lists_empty)
+                        title = stringResource(id = R.string.msg_user_lists_empty),
                     )
                 }
 
                 else -> {
                     LazyColumn(
                         modifier = Modifier.fillMaxHeight(),
-                        verticalArrangement = Arrangement.spacedBy(
-                            MaterialTheme.dimens.size8
-                        ),
-                        contentPadding = PaddingValues(
-                            vertical = MaterialTheme.dimens.size8,
-                            horizontal = MaterialTheme.dimens.size4
-                        )
+                        verticalArrangement =
+                            Arrangement.spacedBy(
+                                MaterialTheme.dimens.size8,
+                            ),
+                        contentPadding =
+                            PaddingValues(
+                                vertical = MaterialTheme.dimens.size8,
+                                horizontal = MaterialTheme.dimens.size4,
+                            ),
                     ) {
                         items(userLists) { item ->
                             UserCustomListItem(
                                 listName = item.listName,
                                 onItemAction = { onItemClick(item.listName) },
-                                onDeleteAction = { onAction(UserListAction.DeleteList(item)) }
+                                onDeleteAction = { onAction(UserListAction.DeleteList(item)) },
                             )
                         }
                     }

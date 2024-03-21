@@ -109,14 +109,18 @@ fun ChannelScreen(
         },
         floatingActionButton = {
             if (showScrollToTopButton) {
-                FloatingActionButton(onClick = {
-                    scope.launch {
-                        listState.animateScrollToItem(COUNT_ZERO)
-                    }
-                }) {
+                FloatingActionButton(
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    onClick = {
+                        scope.launch {
+                            listState.animateScrollToItem(COUNT_ZERO)
+                        }
+                    },
+                ) {
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowUp,
                         contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSecondary,
                     )
                 }
             }

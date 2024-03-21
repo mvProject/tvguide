@@ -2,7 +2,9 @@ package com.mvproject.tvprogramguide.usecase
 
 import com.mvproject.tvprogramguide.data.model.domain.AvailableChannel
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
+import com.mvproject.tvprogramguide.data.model.entity.AvailableChannelEntity
 import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelEntity
+import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelWithIconEntity
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.domain.usecases.SelectedChannelUseCase
@@ -12,7 +14,13 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.runs
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
@@ -29,10 +37,11 @@ class SelectedChannelUseCaseTest : StringSpec({
         preferenceRepository = createPreferenceMockRepository()
         selectedChannelRepository = createSelectedChannelMockRepository()
 
-        selectedChannelUseCase = SelectedChannelUseCase(
-            selectedChannelRepository,
-            preferenceRepository,
-        )
+        selectedChannelUseCase =
+            SelectedChannelUseCase(
+                selectedChannelRepository,
+                preferenceRepository,
+            )
     }
 
     afterTest {
@@ -41,11 +50,30 @@ class SelectedChannelUseCaseTest : StringSpec({
 
     assertSoftly {
         "load selected channels with flow" {
-            val expectedResult = listOf(
-                SelectedChannel("testId1", "testName1", "iconUrl", order = 1, parentList = "test"),
-                SelectedChannel("testId2", "testName2", "iconUrl", order = 2, parentList = "test"),
-                SelectedChannel("testId3", "testName3", "iconUrl", order = 3, parentList = "test"),
-            )
+            val expectedResult =
+                listOf(
+                    SelectedChannel(
+                        "testId1",
+                        "testName1",
+                        "iconUrl",
+                        order = 1,
+                        parentList = "test",
+                    ),
+                    SelectedChannel(
+                        "testId2",
+                        "testName2",
+                        "iconUrl",
+                        order = 2,
+                        parentList = "test",
+                    ),
+                    SelectedChannel(
+                        "testId3",
+                        "testName3",
+                        "iconUrl",
+                        order = 3,
+                        parentList = "test",
+                    ),
+                )
 
             withClue("single call from selectedChannelRepository execute") {
                 selectedChannelUseCase.loadSelectedChannelsFlow()
@@ -86,13 +114,13 @@ class SelectedChannelUseCaseTest : StringSpec({
 
         "add channel item to selected" {
             val availableChannel = AvailableChannel("testId1", "testName1", "iconUrl")
-            val channelToAdd = SelectedChannelEntity(
-                "testId1",
-                "testName1",
-                "iconUrl",
-                order = 4,
-                parentList = "test"
-            )
+            val channelToAdd =
+                SelectedChannelEntity(
+                    "testId1",
+                    "testName1",
+                    order = 4,
+                    parentList = "test",
+                )
 
             coEvery {
                 selectedChannelRepository.addChannel(channelToAdd)
@@ -112,7 +140,7 @@ class SelectedChannelUseCaseTest : StringSpec({
 
         "delete channel item from selected" {
             coEvery {
-                selectedChannelRepository.updateChannels(expectedResultDao)
+                selectedChannelRepository.updateChannels(expectedInsertDao)
             } just runs
 
             coEvery {
@@ -126,21 +154,40 @@ class SelectedChannelUseCaseTest : StringSpec({
                     coVerifySequence {
                         selectedChannelRepository.deleteChannel("testId1")
                         selectedChannelRepository.loadSelectedChannels("test")
-                        selectedChannelRepository.updateChannels(expectedResultDao)
+                        selectedChannelRepository.updateChannels(expectedInsertDao)
                     }
                 }
             }
         }
 
         "update channels order" {
-            val notOrdered = listOf(
-                SelectedChannel("testId1", "testName1", "iconUrl", order = 3, parentList = "test"),
-                SelectedChannel("testId2", "testName2", "iconUrl", order = 4, parentList = "test"),
-                SelectedChannel("testId3", "testName3", "iconUrl", order = 2, parentList = "test")
-            )
+            val notOrdered =
+                listOf(
+                    SelectedChannel(
+                        "testId1",
+                        "testName1",
+                        "iconUrl",
+                        order = 3,
+                        parentList = "test",
+                    ),
+                    SelectedChannel(
+                        "testId2",
+                        "testName2",
+                        "iconUrl",
+                        order = 4,
+                        parentList = "test",
+                    ),
+                    SelectedChannel(
+                        "testId3",
+                        "testName3",
+                        "iconUrl",
+                        order = 2,
+                        parentList = "test",
+                    ),
+                )
 
             coEvery {
-                selectedChannelRepository.updateChannels(expectedResultDao)
+                selectedChannelRepository.updateChannels(expectedInsertDao)
             } just runs
 
             withClue("single call from selectedChannelRepository execute") {
@@ -148,7 +195,7 @@ class SelectedChannelUseCaseTest : StringSpec({
                     selectedChannelUseCase.updateChannelsOrdersAfterReorder(notOrdered)
 
                     coVerify(exactly = 1) {
-                        selectedChannelRepository.updateChannels(expectedResultDao)
+                        selectedChannelRepository.updateChannels(expectedInsertDao)
                     }
 
                     confirmVerified(selectedChannelRepository)
@@ -162,9 +209,10 @@ private fun createPreferenceMockRepository(): PreferenceRepository {
     val preferenceRepository = mockk<PreferenceRepository>()
     coEvery {
         preferenceRepository.targetList
-    } returns flow {
-        emit("test")
-    }
+    } returns
+        flow {
+            emit("test")
+        }
     return preferenceRepository
 }
 
@@ -172,9 +220,10 @@ private fun createSelectedChannelMockRepository(): SelectedChannelRepository {
     val selectedChannelRepository = mockk<SelectedChannelRepository>()
     coEvery {
         selectedChannelRepository.loadSelectedChannelsFlow("test")
-    } returns flow {
-        emit(expectedResultDao)
-    }
+    } returns
+        flow {
+            emit(expectedResultDao)
+        }
 
     coEvery {
         selectedChannelRepository.loadSelectedChannels("test")
@@ -184,8 +233,44 @@ private fun createSelectedChannelMockRepository(): SelectedChannelRepository {
 }
 
 private val expectedResultDao
-    get() = listOf(
-        SelectedChannelEntity("testId1", "testName1", "iconUrl", order = 1, parentList = "test"),
-        SelectedChannelEntity("testId2", "testName2", "iconUrl", order = 2, parentList = "test"),
-        SelectedChannelEntity("testId3", "testName3", "iconUrl", order = 3, parentList = "test"),
-    )
+    get() =
+        listOf(
+            SelectedChannelWithIconEntity(
+                channel =
+                    SelectedChannelEntity(
+                        "testId1",
+                        "testName1",
+                        order = 1,
+                        parentList = "test",
+                    ),
+                allChannel = AvailableChannelEntity("testId1", "testName1", "testIcon1"),
+            ),
+            SelectedChannelWithIconEntity(
+                channel =
+                    SelectedChannelEntity(
+                        "testId2",
+                        "testName2",
+                        order = 2,
+                        parentList = "test",
+                    ),
+                allChannel = AvailableChannelEntity("testId2", "testName2", "testIcon2"),
+            ),
+            SelectedChannelWithIconEntity(
+                channel =
+                    SelectedChannelEntity(
+                        "testId3",
+                        "testName3",
+                        order = 3,
+                        parentList = "test",
+                    ),
+                allChannel = AvailableChannelEntity("testId3", "testName3", "testIcon3"),
+            ),
+        )
+
+private val expectedInsertDao
+    get() =
+        listOf(
+            SelectedChannelEntity("testId1", "testName1", order = 1, parentList = "test"),
+            SelectedChannelEntity("testId2", "testName2", order = 2, parentList = "test"),
+            SelectedChannelEntity("testId3", "testName3", order = 3, parentList = "test"),
+        )
