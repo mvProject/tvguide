@@ -27,7 +27,7 @@ class ToggleProgramSchedule
         suspend operator fun invoke(
             channelName: String,
             program: Program,
-        ) {
+        ): Long? {
             val selectedProgram =
                 if (program.scheduledId == null) {
                     val id = Random.nextLong()
@@ -44,5 +44,6 @@ class ToggleProgramSchedule
                     program.copy(scheduledId = null)
                 }
             channelProgramRepository.updateProgram(program = selectedProgram)
+            return selectedProgram.scheduledId
         }
     }

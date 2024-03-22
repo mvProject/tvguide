@@ -134,7 +134,7 @@ fun ChannelScreen(
                         .fillMaxSize(),
             ) {
                 ChannelList(
-                    singleChannelPrograms = viewState.playlistContent.channels,
+                    singleChannelPrograms = viewModel.selectedPrograms,
                     listState = listState,
                     onChannelClick = { channel ->
                         onNavigateSingleChannel(
@@ -146,7 +146,7 @@ fun ChannelScreen(
                 )
             }
 
-            if (viewState.isUpdating) {
+            if (viewState.isLoading) {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center),
                     color = MaterialTheme.colorScheme.tertiary,

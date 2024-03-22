@@ -12,9 +12,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
 import com.mvproject.tvprogramguide.ui.components.views.DateItem
 import com.mvproject.tvprogramguide.ui.components.views.ProgramItem
@@ -27,7 +25,7 @@ fun SingleChannelScreen(
     viewModel: SingleChannelViewModel,
     onNavigateBack: () -> Unit,
 ) {
-    val programs by viewModel.selectedPrograms.collectAsStateWithLifecycle()
+    //  val programs by viewModel.selectedPrograms.collectAsStateWithLifecycle()
 
     val listState = rememberLazyListState()
 
@@ -56,7 +54,7 @@ fun SingleChannelScreen(
                     ),
                 state = listState,
             ) {
-                programs.forEach { item ->
+                viewModel.selectedPrograms.forEach { item ->
                     stickyHeader {
                         DateItem(date = item.date)
                     }
@@ -72,6 +70,22 @@ fun SingleChannelScreen(
                         }
                     }
                 }
+                /*                programs.forEach { item ->
+                                    stickyHeader {
+                                        DateItem(date = item.date)
+                                    }
+                                    items(
+                                        items = item.programs,
+                                        key = { program -> program.hashCode() },
+                                    ) { program ->
+                                        ProgramItem(program = program) {
+                                            viewModel.toggleSchedule(
+                                                channelName = viewModel.name,
+                                                program = program,
+                                            )
+                                        }
+                                    }
+                                }*/
             }
         }
     }
