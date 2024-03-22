@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
 import com.mvproject.tvprogramguide.ui.components.views.DateItem
 import com.mvproject.tvprogramguide.ui.components.views.ProgramItem
@@ -61,15 +60,13 @@ fun SingleChannelScreen(
                     stickyHeader {
                         DateItem(date = item.date)
                     }
-                    items(item.programs) { program ->
+                    items(
+                        items = item.programs,
+                        key = { program -> program.hashCode() },
+                    ) { program ->
                         ProgramItem(program = program) {
-                            val programSchedule =
-                                ProgramSchedule(
-                                    programTitle = program.title,
-                                    channelId = program.channel,
-                                )
-                            viewModel.toggleProgramSchedule(
-                                programForSchedule = programSchedule,
+                            viewModel.toggleSchedule(
+                                channelName = viewModel.name,
                                 program = program,
                             )
                         }

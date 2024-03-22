@@ -1,15 +1,12 @@
 package com.mvproject.tvprogramguide.ui.screens.selectedchannels
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mvproject.tvprogramguide.data.model.domain.Program
-import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
-import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
 import com.mvproject.tvprogramguide.data.repository.CustomListRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.domain.usecases.SelectedChannelsWithPrograms
-import com.mvproject.tvprogramguide.domain.usecases.SortedProgramsUseCase
+import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramSchedule
 import com.mvproject.tvprogramguide.ui.screens.selectedchannels.state.AllPlaylists
 import com.mvproject.tvprogramguide.ui.screens.selectedchannels.state.ChannelsViewState
 import com.mvproject.tvprogramguide.ui.screens.selectedchannels.state.PlaylistContent
@@ -32,14 +29,12 @@ class ChannelViewModel
     @Inject
     constructor(
         private val customListRepository: CustomListRepository,
-        private val sortedProgramsUseCase: SortedProgramsUseCase,
         private val selectedChannelsWithPrograms: SelectedChannelsWithPrograms,
         private val preferenceRepository: PreferenceRepository,
+        private val toggleProgramSchedule: ToggleProgramSchedule,
     ) : ViewModel() {
         private var _viewState = MutableStateFlow(ChannelsViewState())
         val viewState = _viewState.asStateFlow()
-
-        val allChannels = mutableStateListOf<SelectedChannelWithPrograms>()
 
         init {
             combine(
@@ -86,13 +81,13 @@ class ChannelViewModel
             }
         }
 
-        fun toggleProgramSchedule(
-            programForSchedule: ProgramSchedule,
+        fun toggleSchedule(
+            channelName: String,
             program: Program,
         ) {
             viewModelScope.launch(Dispatchers.IO) {
-                sortedProgramsUseCase.updateProgramScheduleWithAlarm(
-                    programSchedule = programForSchedule,
+                toggleProgramSchedule(
+                    channelName = channelName,
                     program = program,
                 )
                 updatePrograms()
@@ -119,11 +114,6 @@ class ChannelViewModel
                             isUpdating = false,
                             playlistContent = playlistContent,
                         )
-                    }
-
-                    allChannels.apply {
-                        clear()
-                        addAll(programs)
                     }
                 }
             }

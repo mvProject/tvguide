@@ -7,21 +7,20 @@ import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.entity.AvailableChannelEntity
 import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelEntity
 import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelWithIconEntity
-import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
 import com.mvproject.tvprogramguide.data.model.settings.AppSettingsModel
 import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.domain.helpers.ProgramSchedulerHelper
+import com.mvproject.tvprogramguide.domain.usecases.GetProgramsByChannel
 import com.mvproject.tvprogramguide.domain.usecases.SelectedChannelsWithPrograms
-import com.mvproject.tvprogramguide.domain.usecases.SortedProgramsUseCase
+import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramSchedule
 import com.mvproject.tvprogramguide.utils.convertDateToReadableFormat
 import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -29,13 +28,11 @@ import io.mockk.coVerifySequence
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Clock
 import kotlin.time.Duration.Companion.hours
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class SortedProgramsUseCaseTest : StringSpec({
 
     lateinit var preferenceRepository: PreferenceRepository
@@ -43,7 +40,8 @@ class SortedProgramsUseCaseTest : StringSpec({
     lateinit var channelProgramRepository: ChannelProgramRepository
     lateinit var programSchedulerHelper: ProgramSchedulerHelper
 
-    lateinit var sortedProgramUseCase: SortedProgramsUseCase
+    lateinit var getProgramsByChannel: GetProgramsByChannel
+    lateinit var toggleProgramSchedule: ToggleProgramSchedule
     lateinit var selectedChannelsWithPrograms: SelectedChannelsWithPrograms
 
     beforeTest {
@@ -52,12 +50,15 @@ class SortedProgramsUseCaseTest : StringSpec({
         channelProgramRepository = createChannelProgramMockRepository()
         programSchedulerHelper = createProgramSchedulerHelper()
 
-        sortedProgramUseCase =
-            SortedProgramsUseCase(
-                selectedChannelRepository,
+        toggleProgramSchedule =
+            ToggleProgramSchedule(
                 channelProgramRepository,
-                preferenceRepository,
                 programSchedulerHelper,
+            )
+
+        getProgramsByChannel =
+            GetProgramsByChannel(
+                channelProgramRepository,
             )
 
         selectedChannelsWithPrograms =
@@ -164,7 +165,7 @@ class SortedProgramsUseCaseTest : StringSpec({
 
             withClue("call sequence from selectedChannelRepository execute") {
                 runTest {
-                    sortedProgramUseCase.retrieveProgramsForChannel("testId1")
+                    getProgramsByChannel.invoke("testId1")
 
                     coVerify(exactly = 1) {
                         channelProgramRepository.loadProgramsForChannel("testId1")
@@ -173,7 +174,7 @@ class SortedProgramsUseCaseTest : StringSpec({
             }
 
             withClue("result from selectedChannelRepository validate") {
-                val retrievedResult = sortedProgramUseCase.retrieveProgramsForChannel("testId1")
+                val retrievedResult = getProgramsByChannel.invoke("testId1")
 
                 withClue("result is list of string value") {
                     retrievedResult.shouldBeInstanceOf<List<SingleChannelWithPrograms>>()
@@ -196,32 +197,6 @@ class SortedProgramsUseCaseTest : StringSpec({
                     retrievedResult.last().programs.first().title shouldBe "title 4"
                     retrievedResult.last().programs.last().title shouldBe "title 5"
                 }
-            }
-        }
-
-        "check programs update required" {
-            withClue("programs update is required") {
-                coEvery {
-                    channelProgramRepository.loadProgramsCount(expectedResultDao.map { it.channelId })
-                } returns 4
-
-                val obtainedIds = expectedResultDao.take(4).map { it.channelId }
-                val retrievedResult = sortedProgramUseCase.checkProgramsUpdateRequired(obtainedIds)
-
-                retrievedResult shouldNotBe null
-                retrievedResult?.count() shouldBe 2
-                retrievedResult?.last() shouldBe "testId6"
-            }
-
-            withClue("programs update is noy required") {
-                coEvery {
-                    channelProgramRepository.loadProgramsCount(expectedResultDao.map { it.channelId })
-                } returns 6
-
-                val obtainedIds = expectedResultDao.map { it.channelId }
-                val retrievedResult = sortedProgramUseCase.checkProgramsUpdateRequired(obtainedIds)
-
-                retrievedResult shouldBe null
             }
         }
 
@@ -380,11 +355,8 @@ class SortedProgramsUseCaseTest : StringSpec({
         }
 
         "update program schedule" {
-            val programSchedule =
-                ProgramSchedule(
-                    channelId = "channelId",
-                    programTitle = "testTitle",
-                )
+            val channelName = "channelName"
+            val program = Program(0, 0, "test", "titleProgram")
 
             coEvery {
                 channelProgramRepository.loadProgramsForChannel(any())
@@ -397,22 +369,19 @@ class SortedProgramsUseCaseTest : StringSpec({
                     ),
                 )
 
-            sortedProgramUseCase.updateProgramScheduleWithAlarm(programSchedule)
+            toggleProgramSchedule.invoke(channelName, program)
 
             coVerifySequence {
-                channelProgramRepository.loadProgramsForChannel(programSchedule.channelId)
-                selectedChannelRepository.loadChannelNameById(programSchedule.channelId)
-                programSchedulerHelper.scheduleProgramAlarm(any())
+                channelProgramRepository.loadProgramsForChannel(program.channel)
+                selectedChannelRepository.loadChannelNameById(program.channel)
+                programSchedulerHelper.scheduleProgramAlarm(any(), any())
                 channelProgramRepository.updateProgram(any())
             }
         }
 
         "cancel program schedule" {
-            val programSchedule =
-                ProgramSchedule(
-                    channelId = "channelId",
-                    programTitle = "testTitle",
-                )
+            val channelName = "channelName"
+            val program = Program(0, 0, "test", "titleProgram")
 
             coEvery {
                 channelProgramRepository.loadProgramsForChannel(any())
@@ -426,22 +395,19 @@ class SortedProgramsUseCaseTest : StringSpec({
                     ),
                 )
 
-            sortedProgramUseCase.updateProgramScheduleWithAlarm(programSchedule)
+            toggleProgramSchedule.invoke(channelName, program)
 
             coVerifySequence {
-                channelProgramRepository.loadProgramsForChannel(programSchedule.channelId)
-                selectedChannelRepository.loadChannelNameById(programSchedule.channelId)
+                channelProgramRepository.loadProgramsForChannel(program.channel)
+                selectedChannelRepository.loadChannelNameById(program.channel)
                 programSchedulerHelper.cancelProgramAlarm(any())
                 channelProgramRepository.updateProgram(any())
             }
         }
 
         "no match channel" {
-            val programSchedule =
-                ProgramSchedule(
-                    channelId = "channelId",
-                    programTitle = "testTitle",
-                )
+            val channelName = "channelName"
+            val program = Program(0, 0, "test", "titleProgram")
 
             coEvery {
                 channelProgramRepository.loadProgramsForChannel(any())
@@ -455,10 +421,10 @@ class SortedProgramsUseCaseTest : StringSpec({
                     ),
                 )
 
-            sortedProgramUseCase.updateProgramScheduleWithAlarm(programSchedule)
+            toggleProgramSchedule.invoke(channelName, program)
 
             coVerifySequence {
-                channelProgramRepository.loadProgramsForChannel(programSchedule.channelId)
+                channelProgramRepository.loadProgramsForChannel(program.channel)
             }
         }
     }
@@ -490,7 +456,7 @@ private fun createProgramSchedulerHelper(): ProgramSchedulerHelper {
     val programSchedulerHelper = mockk<ProgramSchedulerHelper>()
 
     coEvery {
-        programSchedulerHelper.scheduleProgramAlarm(any())
+        programSchedulerHelper.scheduleProgramAlarm(any(), any())
     } just runs
 
     coEvery {
@@ -507,7 +473,7 @@ private fun createSelectedChannelMockRepository(): SelectedChannelRepository {
         selectedChannelRepository.loadSelectedChannelsFlow("test")
     } returns
         flow {
-            emit(expectedResultDao)
+            emit(expectedResultWithIconDao)
         }
 
     coEvery {

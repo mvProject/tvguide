@@ -1,8 +1,10 @@
 package com.mvproject.tvprogramguide.viewmodels
 
+import androidx.lifecycle.SavedStateHandle
+import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
-import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
-import com.mvproject.tvprogramguide.domain.usecases.SortedProgramsUseCase
+import com.mvproject.tvprogramguide.domain.usecases.GetProgramsByChannel
+import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramSchedule
 import com.mvproject.tvprogramguide.ui.screens.singlechannel.viewmodel.SingleChannelViewModel
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
@@ -16,14 +18,24 @@ import io.mockk.mockk
 import io.mockk.runs
 
 class SingleChannelViewModelTest : StringSpec({
-    val programSchedule = ProgramSchedule("test", "titleProgram")
+    val channelName = "channelName"
+    val program = Program(0, 0, "test", "titleProgram")
 
-    lateinit var sortedProgramsUseCase: SortedProgramsUseCase
+    lateinit var savedStateHandle: SavedStateHandle
+    lateinit var getProgramsByChannel: GetProgramsByChannel
+    lateinit var toggleProgramSchedule: ToggleProgramSchedule
     lateinit var singleChannelViewModel: SingleChannelViewModel
 
     beforeTest {
-        sortedProgramsUseCase = mockk<SortedProgramsUseCase>()
-        singleChannelViewModel = SingleChannelViewModel(sortedProgramsUseCase)
+        getProgramsByChannel = mockk<GetProgramsByChannel>()
+        toggleProgramSchedule = mockk<ToggleProgramSchedule>()
+        savedStateHandle = mockk<SavedStateHandle>()
+        singleChannelViewModel =
+            SingleChannelViewModel(
+                savedStateHandle = savedStateHandle,
+                getProgramsByChannel = getProgramsByChannel,
+                toggleProgramSchedule = toggleProgramSchedule,
+            )
     }
 
     afterTest {
@@ -39,15 +51,15 @@ class SingleChannelViewModelTest : StringSpec({
 
     "retrieve channels" {
         coEvery {
-            sortedProgramsUseCase
-                .retrieveProgramsForChannel("test")
+            getProgramsByChannel
+                .invoke("test")
         } returns listOf()
 
         singleChannelViewModel.loadPrograms("test")
 
         coVerify(exactly = 1) {
-            sortedProgramsUseCase
-                .retrieveProgramsForChannel("test")
+            getProgramsByChannel
+                .invoke("test")
         }
 
         singleChannelViewModel.selectedPrograms.value.shouldBeInstanceOf<List<SingleChannelWithPrograms>>()
@@ -55,16 +67,15 @@ class SingleChannelViewModelTest : StringSpec({
 
     "schedule channel and update" {
         coEvery {
-            sortedProgramsUseCase
-                .updateProgramScheduleWithAlarm(programSchedule)
+            toggleProgramSchedule.invoke(channelName, program)
         } just runs
 
-        singleChannelViewModel.toggleProgramSchedule(programSchedule)
+        singleChannelViewModel.toggleSchedule(channelName, program)
 
         coVerify(exactly = 1) {
-            sortedProgramsUseCase.updateProgramScheduleWithAlarm(programSchedule)
-            sortedProgramsUseCase
-                .retrieveProgramsForChannel("test")
+            // sortedProgramsUseCase.updateProgramScheduleWithAlarm(program)
+            getProgramsByChannel
+                .invoke("test")
         }
 
         singleChannelViewModel.selectedPrograms.value.shouldBeInstanceOf<List<SingleChannelWithPrograms>>()

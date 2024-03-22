@@ -52,21 +52,24 @@ fun ChannelScreen(
     onNavigateSettings: () -> Unit,
     onNavigateChannelsList: () -> Unit,
 ) {
-    val isDialogOpen = remember { mutableStateOf(false) }
-
-    val listState = rememberLazyListState()
-
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
-    val state =
+    val isDialogOpen = remember { mutableStateOf(false) }
+
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
+    val listState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+
+    val refreshState =
         rememberPullToRefreshState(
             positionalThreshold = MaterialTheme.dimens.size110,
         )
-    if (state.isRefreshing) {
+    if (refreshState.isRefreshing) {
         LaunchedEffect(true) {
             viewModel.forceReloadData()
             delay(REFRESH_DELAY)
-            state.endRefresh()
+            refreshState.endRefresh()
         }
     }
 
@@ -79,15 +82,11 @@ fun ChannelScreen(
         }
     }
 
-    val scope = rememberCoroutineScope()
-
     val showScrollToTopButton by remember {
         derivedStateOf {
             listState.firstVisibleItemIndex >= 10
         }
     }
-
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     Scaffold(
         modifier =
@@ -127,7 +126,7 @@ fun ChannelScreen(
         },
     ) { padding ->
 
-        Box(Modifier.nestedScroll(state.nestedScrollConnection)) {
+        Box(Modifier.nestedScroll(refreshState.nestedScrollConnection)) {
             Column(
                 modifier =
                     Modifier
@@ -143,7 +142,7 @@ fun ChannelScreen(
                             channel.channelName,
                         )
                     },
-                    onScheduleClick = viewModel::toggleProgramSchedule,
+                    onScheduleClick = viewModel::toggleSchedule,
                 )
             }
 
@@ -164,7 +163,7 @@ fun ChannelScreen(
 
             PullToRefreshContainer(
                 modifier = Modifier.align(Alignment.TopCenter),
-                state = state,
+                state = refreshState,
             )
         }
 

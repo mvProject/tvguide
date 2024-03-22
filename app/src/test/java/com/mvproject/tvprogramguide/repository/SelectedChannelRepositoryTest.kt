@@ -1,7 +1,9 @@
 package com.mvproject.tvprogramguide.repository
 
 import com.mvproject.tvprogramguide.data.database.dao.SelectedChannelDao
+import com.mvproject.tvprogramguide.data.model.entity.AvailableChannelEntity
 import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelEntity
+import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelWithIconEntity
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
 import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.withClue
@@ -13,11 +15,9 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class SelectedChannelRepositoryTest : StringSpec({
     lateinit var dao: SelectedChannelDao
     lateinit var repository: SelectedChannelRepository
@@ -33,15 +33,42 @@ class SelectedChannelRepositoryTest : StringSpec({
 
     assertSoftly {
         "retrieve selected channels entities" {
-            val expectedResult =
+            val expectedResultDao =
                 listOf(
-                    SelectedChannelEntity("testId1", "testName1", 1),
-                    SelectedChannelEntity("testId2", "testName2", 2),
-                    SelectedChannelEntity("testId3", "testName3", 3),
+                    SelectedChannelWithIconEntity(
+                        channel =
+                            SelectedChannelEntity(
+                                "testId1",
+                                "testName1",
+                                order = 1,
+                                parentList = "test",
+                            ),
+                        allChannel = AvailableChannelEntity("testId1", "testName1", "iconUrl1"),
+                    ),
+                    SelectedChannelWithIconEntity(
+                        channel =
+                            SelectedChannelEntity(
+                                "testId2",
+                                "testName2",
+                                order = 2,
+                                parentList = "test",
+                            ),
+                        allChannel = AvailableChannelEntity("testId2", "testName2", "iconUrl2"),
+                    ),
+                    SelectedChannelWithIconEntity(
+                        channel =
+                            SelectedChannelEntity(
+                                "testId3",
+                                "testName3",
+                                order = 3,
+                                parentList = "test",
+                            ),
+                        allChannel = AvailableChannelEntity("testId3", "testName3", "iconUrl3"),
+                    ),
                 )
             coEvery {
                 dao.getSelectedChannels("test")
-            } returns expectedResult
+            } returns expectedResultDao
 
             val retrievedResult = repository.loadSelectedChannels("test")
 
@@ -53,22 +80,22 @@ class SelectedChannelRepositoryTest : StringSpec({
             }
 
             withClue("result is list of entity value") {
-                retrievedResult.shouldBeInstanceOf<List<SelectedChannelEntity>>()
-                retrievedResult.first() shouldBeEqualToComparingFields expectedResult.first()
+                retrievedResult.shouldBeInstanceOf<List<SelectedChannelWithIconEntity>>()
+                retrievedResult.first() shouldBeEqualToComparingFields expectedResultDao.first()
             }
 
             withClue("result elements proper count") {
-                retrievedResult.count() shouldBe expectedResult.count()
+                retrievedResult.count() shouldBe expectedResultDao.count()
             }
 
             withClue("result fields values match expected values first item") {
-                retrievedResult.first().channelId shouldBe expectedResult.first().channelId
-                retrievedResult.first().channelName shouldBe expectedResult.first().channelName
+                retrievedResult.first().channel.channelId shouldBe expectedResultDao.first().channel.channelId
+                retrievedResult.first().channel.channelName shouldBe expectedResultDao.first().channel.channelName
             }
 
             withClue("result fields values match expected values last item") {
-                retrievedResult.last().channelId shouldBe "testId3"
-                retrievedResult.last().channelName shouldBe "testName3"
+                retrievedResult.last().channel.channelId shouldBe "testId3"
+                retrievedResult.last().channel.channelName shouldBe "testName3"
             }
         }
 
@@ -133,7 +160,7 @@ class SelectedChannelRepositoryTest : StringSpec({
         }
 
         "add selected channel" {
-            val testChannel = SelectedChannelEntity("testId", "testName", "iconUrl")
+            val testChannel = SelectedChannelEntity("testId", "testName", 1, "test")
 
             withClue("single call from dao execute") {
                 repository.addChannel(testChannel)
@@ -146,7 +173,7 @@ class SelectedChannelRepositoryTest : StringSpec({
         }
 
         "delete selected channel" {
-            val testChannel = SelectedChannelEntity("testId", "testName", "iconUrl")
+            val testChannel = SelectedChannelEntity("testId", "testName", 1, "test")
 
             withClue("single call from dao execute") {
                 repository.deleteChannel(testChannel.channelId)
@@ -159,7 +186,7 @@ class SelectedChannelRepositoryTest : StringSpec({
         }
 
         "update selected channels" {
-            val testChannel = SelectedChannelEntity("testId", "testName", "iconUrl")
+            val testChannel = SelectedChannelEntity("testId", "testName", 1, "test")
 
             withClue("single call from dao execute") {
                 repository.updateChannels(listOf(testChannel))
@@ -174,9 +201,36 @@ class SelectedChannelRepositoryTest : StringSpec({
         "retrieve selected channels entities flow" {
             val expectedResultDao =
                 listOf(
-                    SelectedChannelEntity("testId1", "testName1", "iconUrl"),
-                    SelectedChannelEntity("testId2", "testName2", "iconUrl"),
-                    SelectedChannelEntity("testId3", "testName3", "iconUrl"),
+                    SelectedChannelWithIconEntity(
+                        channel =
+                            SelectedChannelEntity(
+                                "testId1",
+                                "testName1",
+                                order = 1,
+                                parentList = "test",
+                            ),
+                        allChannel = AvailableChannelEntity("testId1", "testName1", "iconUrl1"),
+                    ),
+                    SelectedChannelWithIconEntity(
+                        channel =
+                            SelectedChannelEntity(
+                                "testId2",
+                                "testName2",
+                                order = 2,
+                                parentList = "test",
+                            ),
+                        allChannel = AvailableChannelEntity("testId2", "testName2", "iconUrl2"),
+                    ),
+                    SelectedChannelWithIconEntity(
+                        channel =
+                            SelectedChannelEntity(
+                                "testId3",
+                                "testName3",
+                                order = 3,
+                                parentList = "test",
+                            ),
+                        allChannel = AvailableChannelEntity("testId3", "testName3", "iconUrl3"),
+                    ),
                 )
 
             coEvery {
@@ -199,7 +253,7 @@ class SelectedChannelRepositoryTest : StringSpec({
                 runTest {
                     repository.loadSelectedChannelsFlow("test").collect { list ->
                         withClue("result is list of string value") {
-                            list.shouldBeInstanceOf<List<SelectedChannelEntity>>()
+                            list.shouldBeInstanceOf<List<SelectedChannelWithIconEntity>>()
                             list.first() shouldBeEqualToComparingFields expectedResultDao.first()
                         }
 
@@ -208,13 +262,13 @@ class SelectedChannelRepositoryTest : StringSpec({
                         }
 
                         withClue("result fields values match expected values first item") {
-                            list.first().channelId shouldBe "testId1"
-                            list.first().channelName shouldBe "testName1"
+                            list.first().channel.channelId shouldBe "testId1"
+                            list.first().channel.channelName shouldBe "testName1"
                         }
 
                         withClue("result fields values match expected values last item") {
-                            list.last().channelId shouldBe "testId3"
-                            list.last().channelName shouldBe "testName3"
+                            list.last().channel.channelId shouldBe "testId3"
+                            list.last().channel.channelName shouldBe "testName3"
                         }
                     }
                 }

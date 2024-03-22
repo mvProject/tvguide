@@ -5,7 +5,6 @@ import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
-import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
 import com.mvproject.tvprogramguide.data.model.entity.AvailableChannelEntity
 import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
@@ -19,7 +18,6 @@ import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO_LONG
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.utils.TimeUtils
 import com.mvproject.tvprogramguide.utils.calculateEndings
-import com.mvproject.tvprogramguide.utils.convertDateToReadableFormat
 import com.mvproject.tvprogramguide.utils.getLastItemEnding
 import com.mvproject.tvprogramguide.utils.parseChannelName
 import com.mvproject.tvprogramguide.utils.takeIfCountNotEmpty
@@ -30,28 +28,6 @@ import com.mvproject.tvprogramguide.utils.toNoProgramData
  * Maps Data between models
  */
 object Mappers {
-    /**
-     * Maps List of [Program] from Domain to grouped list [SingleChannelWithPrograms].
-     *
-     * @return the converted object
-     */
-    fun List<Program>.toSingleChannelWithPrograms(): List<SingleChannelWithPrograms> {
-        val programs =
-            this.groupBy { program ->
-                program.dateTimeStart.convertDateToReadableFormat()
-            }
-        return buildList {
-            programs.forEach { (date, list) ->
-                add(
-                    SingleChannelWithPrograms(
-                        date = date,
-                        programs = list,
-                    ),
-                )
-            }
-        }
-    }
-
     /**
      * Maps List of [Program] from Domain to grouped list [SelectedChannelWithPrograms].
      * with itemsCount

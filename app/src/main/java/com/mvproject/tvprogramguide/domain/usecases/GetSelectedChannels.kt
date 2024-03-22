@@ -3,7 +3,6 @@ package com.mvproject.tvprogramguide.domain.usecases
 import com.mvproject.tvprogramguide.data.mappers.Mappers.asSelectionChannels
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -23,7 +22,6 @@ class GetSelectedChannels
                     .sortedBy { chn ->
                         chn.order
                     }
-            Timber.w("testing GetSelectedChannels count ${favoriteChannels.count()}")
             return favoriteChannels
         }
     }
