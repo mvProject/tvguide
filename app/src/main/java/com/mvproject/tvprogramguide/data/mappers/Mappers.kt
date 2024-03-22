@@ -1,8 +1,10 @@
 package com.mvproject.tvprogramguide.data.mappers
 
+import com.mvproject.tvprogramguide.data.model.domain.AvailableChannel
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
+import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
 import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
 import com.mvproject.tvprogramguide.data.model.entity.AvailableChannelEntity
@@ -14,10 +16,12 @@ import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
 import com.mvproject.tvprogramguide.data.model.response.ProgramResponse
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO_LONG
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.utils.TimeUtils
 import com.mvproject.tvprogramguide.utils.calculateEndings
 import com.mvproject.tvprogramguide.utils.convertDateToReadableFormat
 import com.mvproject.tvprogramguide.utils.getLastItemEnding
+import com.mvproject.tvprogramguide.utils.parseChannelName
 import com.mvproject.tvprogramguide.utils.takeIfCountNotEmpty
 import com.mvproject.tvprogramguide.utils.toMillis
 import com.mvproject.tvprogramguide.utils.toNoProgramData
@@ -74,6 +78,7 @@ object Mappers {
                     if (currentPrograms != null && currentPrograms.count() > COUNT_ZERO) {
                         currentPrograms.takeIfCountNotEmpty(count = itemsCount)
                     } else {
+                        // todo modify cause not update if new added
                         chn.channelId.toNoProgramData()
                             .takeIfCountNotEmpty(count = itemsCount)
                     }
@@ -196,12 +201,52 @@ object Mappers {
             item.toSelectedChannel()
         }
 
+    private fun AvailableChannel.asSelectionFromAvailable() =
+        with(this) {
+            SelectionChannel(
+                channelId = channelId,
+                channelName = channelName.parseChannelName(),
+                channelIcon = channelIcon,
+            )
+        }
+
+    private fun SelectedChannelWithIconEntity.asSelectionFromSelected() =
+        with(this) {
+            SelectionChannel(
+                channelId = channel.channelId,
+                channelName = allChannel?.channelName?.parseChannelName() ?: NO_VALUE_STRING,
+                channelIcon = allChannel?.channelIcon ?: NO_VALUE_STRING,
+                order = channel.order,
+                parentList = channel.parentList,
+            )
+        }
+
+    fun List<AvailableChannel>.asAvailableSelectionChannels() =
+        this.map { item ->
+            item.asSelectionFromAvailable()
+        }
+
+    fun List<SelectedChannelWithIconEntity>.asSelectionChannels() =
+        this.map { item ->
+            item.asSelectionFromSelected()
+        }
+
     /**
      * Maps List of [SelectedChannel] from Domain to Entity.
      *
      * @return the converted object
      */
     fun List<SelectedChannel>.asSelectedChannelsEntitiesFromChannels() =
+        this.map { item ->
+            SelectedChannelEntity(
+                channelId = item.channelId,
+                channelName = item.channelName,
+                order = item.order,
+                parentList = item.parentList,
+            )
+        }
+
+    fun List<SelectionChannel>.asSelectionChannelToEntity() =
         this.map { item ->
             SelectedChannelEntity(
                 channelId = item.channelId,

@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.screens.settings.channels.available
+package com.mvproject.tvprogramguide.ui.screens.settings.channels.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -14,31 +14,18 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.mvproject.tvprogramguide.data.model.domain.AvailableChannel
+import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
 import com.mvproject.tvprogramguide.ui.components.search.SearchView
 import com.mvproject.tvprogramguide.ui.components.views.ChannelSelectableItem
-import com.mvproject.tvprogramguide.ui.screens.settings.channels.available.action.AvailableChannelsAction
+import com.mvproject.tvprogramguide.ui.screens.settings.channels.action.ChannelsAction
 import com.mvproject.tvprogramguide.ui.theme.dimens
-
-@Composable
-fun AllChannelsScreen(allChannelViewModel: AllChannelViewModel = hiltViewModel()) {
-    val channels by allChannelViewModel.availableChannels.collectAsStateWithLifecycle()
-
-    AllChannelsContent(
-        selectedChannels = channels,
-        onAction = allChannelViewModel::processAction,
-    )
-}
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun AllChannelsContent(
-    selectedChannels: List<AvailableChannel>,
-    onAction: (action: AvailableChannelsAction) -> Unit,
+fun AvailableChannelsPage(
+    selectedChannels: List<SelectionChannel>,
+    onAction: (action: ChannelsAction) -> Unit,
 ) {
     val listState = rememberLazyListState()
 
@@ -55,7 +42,7 @@ private fun AllChannelsContent(
                         .fillMaxWidth()
                         .padding(MaterialTheme.dimens.size8),
             ) { selectedQuery ->
-                onAction(AvailableChannelsAction.ChannelFilter(query = selectedQuery))
+                onAction(ChannelsAction.ChannelFilter(query = selectedQuery))
             }
         },
     ) { padding ->
@@ -81,13 +68,7 @@ private fun AllChannelsContent(
                     channelName = chn.channelName,
                     isSelected = chn.isSelected,
                 ) {
-                    onAction(
-                        if (chn.isSelected) {
-                            AvailableChannelsAction.ChannelDelete(selectedChannel = chn)
-                        } else {
-                            AvailableChannelsAction.ChannelAdd(selectedChannel = chn)
-                        },
-                    )
+                    onAction(ChannelsAction.ToggleSelection(channel = chn))
                 }
             }
         }

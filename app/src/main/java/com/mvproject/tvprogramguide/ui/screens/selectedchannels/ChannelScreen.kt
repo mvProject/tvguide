@@ -109,65 +109,66 @@ fun ChannelScreen(
         },
         floatingActionButton = {
             if (showScrollToTopButton) {
-                FloatingActionButton(onClick = {
-                    scope.launch {
-                        listState.animateScrollToItem(COUNT_ZERO)
-                    }
-                }) {
+                FloatingActionButton(
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    onClick = {
+                        scope.launch {
+                            listState.animateScrollToItem(COUNT_ZERO)
+                        }
+                    },
+                ) {
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowUp,
                         contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSecondary,
                     )
                 }
             }
         },
     ) { padding ->
-        when {
-            viewState.listName.isEmpty() -> {
-                NoItemsScreen(
-                    title = stringResource(id = R.string.msg_user_filled_list_empty),
-                    navigateTitle = stringResource(id = R.string.msg_tap_to_create_list),
-                    onNavigateClick = onNavigateChannelsList,
+
+        Box(Modifier.nestedScroll(state.nestedScrollConnection)) {
+            Column(
+                modifier =
+                    Modifier
+                        .padding(padding)
+                        .fillMaxSize(),
+            ) {
+                ChannelList(
+                    singleChannelPrograms = viewState.playlistContent.channels,
+                    listState = listState,
+                    onChannelClick = { channel ->
+                        onNavigateSingleChannel(
+                            channel.channelId,
+                            channel.channelName,
+                        )
+                    },
+                    onScheduleClick = viewModel::toggleProgramSchedule,
                 )
             }
 
-            else -> {
-                Box(Modifier.nestedScroll(state.nestedScrollConnection)) {
-                    Column(
-                        modifier =
-                            Modifier
-                                .padding(padding)
-                                .fillMaxSize(),
-                    ) {
-                        ChannelList(
-                            singleChannelPrograms = viewState.playlistContent.channels,
-                            listState = listState,
-                            onChannelClick = { channel ->
-                                onNavigateSingleChannel(
-                                    channel.channelId,
-                                    channel.channelName,
-                                )
-                            },
-                            onScheduleClick = viewModel::toggleProgramSchedule,
-                        )
-                    }
-
-                    if (viewState.isUpdating) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.align(Alignment.Center),
-                            color = MaterialTheme.colorScheme.tertiary,
-                        )
-                    }
-
-                    PullToRefreshContainer(
-                        modifier = Modifier.align(Alignment.TopCenter),
-                        state = state,
+            if (viewState.isUpdating) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                    color = MaterialTheme.colorScheme.tertiary,
+                )
+            } else {
+                if (viewState.listName.isEmpty()) {
+                    NoItemsScreen(
+                        title = stringResource(id = R.string.msg_user_filled_list_empty),
+                        navigateTitle = stringResource(id = R.string.msg_tap_to_create_list),
+                        onNavigateClick = onNavigateChannelsList,
                     )
                 }
-
-                ShowFeedback()
             }
+
+            PullToRefreshContainer(
+                modifier = Modifier.align(Alignment.TopCenter),
+                state = state,
+            )
         }
+
+        ShowFeedback()
 
         ShowSelectFromListDialog(
             isDialogOpen = isDialogOpen,

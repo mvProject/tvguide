@@ -12,9 +12,11 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SelectedChannelDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertChannel(channel: SelectedChannelEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertChannels(channel: List<SelectedChannelEntity>)
 
     @Update
     suspend fun updateChannels(channelsForUpdate: List<SelectedChannelEntity>)
@@ -35,4 +37,7 @@ interface SelectedChannelDao {
 
     @Query("DELETE FROM selected_channels WHERE channel_id = :channelId")
     suspend fun deleteSelectedChannel(channelId: String)
+
+    @Query("DELETE FROM selected_channels WHERE parentList = :list")
+    suspend fun deleteChannels(list: String)
 }

@@ -7,11 +7,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -57,14 +57,12 @@ fun OnBoardScreenView(onComplete: (Boolean) -> Unit = {}) {
             pages.size
         }
 
-    val scrollState = rememberScrollState()
-
     Column(
         modifier =
             Modifier
+                .safeDrawingPadding()
                 .fillMaxSize()
                 .background(color = MaterialTheme.colorScheme.inverseOnSurface),
-        //  .verticalScroll(scrollState),
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size12),
     ) {
         HorizontalPager(
