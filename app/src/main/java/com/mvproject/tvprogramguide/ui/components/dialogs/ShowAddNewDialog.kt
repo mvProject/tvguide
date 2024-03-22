@@ -2,9 +2,11 @@ package com.mvproject.tvprogramguide.ui.components.dialogs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
@@ -22,8 +24,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.window.Dialog
 import com.mvproject.tvprogramguide.R
+import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.utils.manageLength
@@ -45,7 +50,8 @@ fun ShowAddNewDialog(
             Surface(
                 modifier =
                     Modifier
-                        .wrapContentSize()
+                        .height(MaterialTheme.dimens.size220)
+                        .wrapContentWidth()
                         .padding(MaterialTheme.dimens.size8),
                 shape = MaterialTheme.shapes.small,
                 shadowElevation = MaterialTheme.dimens.size8,
@@ -53,12 +59,13 @@ fun ShowAddNewDialog(
                 Column(
                     modifier =
                         Modifier
+                            .fillMaxSize()
                             .padding(
-                                horizontal = MaterialTheme.dimens.size32,
-                                vertical = MaterialTheme.dimens.size16,
+                                horizontal = MaterialTheme.dimens.size16,
+                                vertical = MaterialTheme.dimens.size12,
                             ),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size8),
+                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size12),
                 ) {
                     Text(
                         text = stringResource(id = R.string.dlg_title_add_new_custom_user_list),
@@ -71,9 +78,7 @@ fun ShowAddNewDialog(
                         onValueChange = { typed ->
                             name.value = typed.manageLength()
                         },
-                        modifier =
-                            Modifier
-                                .fillMaxWidth(MaterialTheme.dimens.fraction80),
+                        modifier = Modifier.fillMaxWidth(),
                         textStyle = MaterialTheme.typography.bodyMedium,
                         placeholder = {
                             Text(text = stringResource(id = R.string.dlg_hint_new_custom_user_list))
@@ -102,7 +107,7 @@ fun ShowAddNewDialog(
                         },
                         modifier =
                             Modifier
-                                .fillMaxWidth(MaterialTheme.dimens.fraction50)
+                                .fillMaxWidth()
                                 .padding(MaterialTheme.dimens.size4),
                         colors =
                             ButtonDefaults.buttonColors(
@@ -119,5 +124,21 @@ fun ShowAddNewDialog(
                 }
             }
         }
+    }
+}
+
+@PreviewLightDark
+@PreviewScreenSizes
+@Composable
+fun ShowAddNewDialogPreview() {
+    val open =
+        remember {
+            mutableStateOf(true)
+        }
+    TvGuideTheme {
+        ShowAddNewDialog(
+            isDialogOpen = open,
+            onSelected = {},
+        )
     }
 }

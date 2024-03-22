@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
@@ -23,17 +24,18 @@ fun ChannelList(
     listState: LazyListState,
     singleChannelPrograms: List<SelectedChannelWithPrograms>,
     onChannelClick: (SelectedChannel) -> Unit,
-    onScheduleClick: (ProgramSchedule) -> Unit
+    onScheduleClick: (ProgramSchedule, Program) -> Unit,
 ) {
     Crossfade(
         targetState = singleChannelPrograms,
-        label = "ChannelList"
+        label = "ChannelList",
     ) { data ->
         LazyColumn(
-            modifier = Modifier
-                .fillMaxHeight(),
+            modifier =
+                Modifier
+                    .fillMaxHeight(),
             contentPadding = PaddingValues(horizontal = MaterialTheme.dimens.size4),
-            state = listState
+            state = listState,
         ) {
             data.forEach { item ->
                 stickyHeader {
@@ -46,11 +48,12 @@ fun ChannelList(
                 }
                 items(item.programs) { program ->
                     ProgramItem(program = program) {
-                        val programSchedule = ProgramSchedule(
-                            channelId = program.channel,
-                            programTitle = program.title,
-                        )
-                        onScheduleClick(programSchedule)
+                        val programSchedule =
+                            ProgramSchedule(
+                                channelId = program.channel,
+                                programTitle = program.title,
+                            )
+                        onScheduleClick(programSchedule, program)
                     }
                 }
             }

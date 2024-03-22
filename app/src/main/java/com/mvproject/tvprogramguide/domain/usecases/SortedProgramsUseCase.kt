@@ -1,6 +1,7 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.mappers.Mappers.toSingleChannelWithPrograms
+import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
 import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
@@ -43,13 +44,19 @@ class SortedProgramsUseCase
          *
          * @param programSchedule data object with channel info
          */
-        suspend fun updateProgramScheduleWithAlarm(programSchedule: ProgramSchedule) {
+        suspend fun updateProgramScheduleWithAlarm(
+            programSchedule: ProgramSchedule,
+            program: Program,
+        ) {
             val scheduleProgram =
                 channelProgramRepository
                     .loadProgramsForChannel(channelId = programSchedule.channelId)
-                    .firstOrNull { program ->
+                    .firstOrNull { prg ->
                         program.title == programSchedule.programTitle
                     }
+
+            // Timber.d("testing scheduleProgram $scheduleProgram")
+            // Timber.w("testing program $program")
 
             scheduleProgram?.let { selected ->
                 val channelName =
@@ -57,7 +64,7 @@ class SortedProgramsUseCase
                         .loadChannelNameById(selectedId = programSchedule.channelId)
                         .parseChannelName()
 
-                val program =
+                val selectedProgram =
                     if (selected.scheduledId == null) {
                         val id = Random.nextLong()
                         programSchedulerHelper.scheduleProgramAlarm(
@@ -75,7 +82,8 @@ class SortedProgramsUseCase
                         programSchedulerHelper.cancelProgramAlarm(schedulerId = idForCancel)
                         selected.copy(scheduledId = null)
                     }
-                channelProgramRepository.updateProgram(program = program)
+
+                channelProgramRepository.updateProgram(program = selectedProgram)
             } ?: Timber.e("scheduleProgram is null")
         }
 

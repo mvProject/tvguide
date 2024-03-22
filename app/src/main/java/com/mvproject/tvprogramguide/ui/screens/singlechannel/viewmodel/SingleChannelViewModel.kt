@@ -3,6 +3,7 @@ package com.mvproject.tvprogramguide.ui.screens.singlechannel.viewmodel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
 import com.mvproject.tvprogramguide.domain.usecases.SortedProgramsUseCase
@@ -15,35 +16,44 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SingleChannelViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    private val sortedProgramsUseCase: SortedProgramsUseCase,
-) : ViewModel() {
-    private val singleChannelArgs = SingleChannelArgs(savedStateHandle)
+class SingleChannelViewModel
+    @Inject
+    constructor(
+        savedStateHandle: SavedStateHandle,
+        private val sortedProgramsUseCase: SortedProgramsUseCase,
+    ) : ViewModel() {
+        private val singleChannelArgs = SingleChannelArgs(savedStateHandle)
 
-    private var _selectedPrograms = MutableStateFlow<List<SingleChannelWithPrograms>>(emptyList())
-    val selectedPrograms = _selectedPrograms.asStateFlow()
+        private var _selectedPrograms = MutableStateFlow<List<SingleChannelWithPrograms>>(emptyList())
+        val selectedPrograms = _selectedPrograms.asStateFlow()
 
-    val name get() = singleChannelArgs.channelName
+        val name get() = singleChannelArgs.channelName
 
-    init {
-        loadPrograms(channelId = singleChannelArgs.channelId)
-    }
+        init {
+            loadPrograms(channelId = singleChannelArgs.channelId)
+        }
 
-    fun loadPrograms(channelId: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val programsWithChannels = sortedProgramsUseCase
-                .retrieveProgramsForChannel(channelId = channelId)
+        fun loadPrograms(channelId: String) {
+            viewModelScope.launch(Dispatchers.IO) {
+                val programsWithChannels =
+                    sortedProgramsUseCase
+                        .retrieveProgramsForChannel(channelId = channelId)
 
-            _selectedPrograms.emit(programsWithChannels)
+                _selectedPrograms.emit(programsWithChannels)
+            }
+        }
+
+        fun toggleProgramSchedule(
+            programForSchedule: ProgramSchedule,
+            program: Program,
+        ) {
+            viewModelScope.launch(Dispatchers.IO) {
+                sortedProgramsUseCase
+                    .updateProgramScheduleWithAlarm(
+                        programSchedule = programForSchedule,
+                        program = program,
+                    )
+                loadPrograms(channelId = programForSchedule.channelId)
+            }
         }
     }
-
-    fun toggleProgramSchedule(programForSchedule: ProgramSchedule) {
-        viewModelScope.launch(Dispatchers.IO) {
-            sortedProgramsUseCase
-                .updateProgramScheduleWithAlarm(programSchedule = programForSchedule)
-            loadPrograms(channelId = programForSchedule.channelId)
-        }
-    }
-}

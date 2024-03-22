@@ -1,7 +1,10 @@
 package com.mvproject.tvprogramguide.ui.screens.selectedchannels
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mvproject.tvprogramguide.data.model.domain.Program
+import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
 import com.mvproject.tvprogramguide.data.repository.CustomListRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
@@ -36,6 +39,8 @@ class ChannelViewModel
         private var _viewState = MutableStateFlow(ChannelsViewState())
         val viewState = _viewState.asStateFlow()
 
+        val allChannels = mutableStateListOf<SelectedChannelWithPrograms>()
+
         init {
             combine(
                 customListRepository.loadChannelsLists(),
@@ -45,6 +50,7 @@ class ChannelViewModel
                 _viewState.update { current ->
                     current.copy(
                         listName = defaultList,
+                        isUpdating = false,
                         allPlaylists = AllPlaylists(playlists = allLists),
                     )
                 }
@@ -80,10 +86,14 @@ class ChannelViewModel
             }
         }
 
-        fun toggleProgramSchedule(programForSchedule: ProgramSchedule) {
+        fun toggleProgramSchedule(
+            programForSchedule: ProgramSchedule,
+            program: Program,
+        ) {
             viewModelScope.launch(Dispatchers.IO) {
                 sortedProgramsUseCase.updateProgramScheduleWithAlarm(
                     programSchedule = programForSchedule,
+                    program = program,
                 )
                 updatePrograms()
             }
@@ -109,6 +119,11 @@ class ChannelViewModel
                             isUpdating = false,
                             playlistContent = playlistContent,
                         )
+                    }
+
+                    allChannels.apply {
+                        clear()
+                        addAll(programs)
                     }
                 }
             }

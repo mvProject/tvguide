@@ -26,7 +26,7 @@ import com.mvproject.tvprogramguide.ui.theme.dimens
 @Composable
 fun SingleChannelScreen(
     viewModel: SingleChannelViewModel,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
 ) {
     val programs by viewModel.selectedPrograms.collectAsStateWithLifecycle()
 
@@ -39,21 +39,23 @@ fun SingleChannelScreen(
         topBar = {
             ToolbarWithBack(
                 title = viewModel.name,
-                onBackClick = onNavigateBack
+                onBackClick = onNavigateBack,
             )
-        }
+        },
     ) { padding ->
         Column(
-            modifier = Modifier
-                .padding(padding)
-                .fillMaxSize()
+            modifier =
+                Modifier
+                    .padding(padding)
+                    .fillMaxSize(),
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxHeight(),
-                contentPadding = PaddingValues(
-                    horizontal = MaterialTheme.dimens.size4
-                ),
-                state = listState
+                contentPadding =
+                    PaddingValues(
+                        horizontal = MaterialTheme.dimens.size4,
+                    ),
+                state = listState,
             ) {
                 programs.forEach { item ->
                     stickyHeader {
@@ -61,11 +63,15 @@ fun SingleChannelScreen(
                     }
                     items(item.programs) { program ->
                         ProgramItem(program = program) {
-                            val programSchedule = ProgramSchedule(
-                                programTitle = program.title,
-                                channelId = program.channel
+                            val programSchedule =
+                                ProgramSchedule(
+                                    programTitle = program.title,
+                                    channelId = program.channel,
+                                )
+                            viewModel.toggleProgramSchedule(
+                                programForSchedule = programSchedule,
+                                program = program,
                             )
-                            viewModel.toggleProgramSchedule(programForSchedule = programSchedule)
                         }
                     }
                 }
