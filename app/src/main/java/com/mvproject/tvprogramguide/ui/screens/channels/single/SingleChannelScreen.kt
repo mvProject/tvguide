@@ -39,9 +39,9 @@ fun SingleChannelScreen(
     ) { padding ->
         Column(
             modifier =
-            Modifier
-                .padding(padding)
-                .fillMaxSize(),
+                Modifier
+                    .padding(padding)
+                    .fillMaxSize(),
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxHeight(),

@@ -90,9 +90,9 @@ fun ChannelScreen(
 
     Scaffold(
         modifier =
-        Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+            Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
         containerColor = MaterialTheme.colorScheme.inverseOnSurface,
         contentColor = MaterialTheme.colorScheme.onSurface,
         topBar = {
@@ -129,9 +129,9 @@ fun ChannelScreen(
         Box(Modifier.nestedScroll(refreshState.nestedScrollConnection)) {
             Column(
                 modifier =
-                Modifier
-                    .padding(padding)
-                    .fillMaxSize(),
+                    Modifier
+                        .padding(padding)
+                        .fillMaxSize(),
             ) {
                 ChannelList(
                     singleChannelPrograms = viewModel.selectedPrograms,

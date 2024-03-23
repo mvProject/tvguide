@@ -82,9 +82,9 @@ private fun UserCustomListContent(
     ) { inner ->
         Column(
             modifier =
-            Modifier
-                .padding(inner)
-                .imePadding(),
+                Modifier
+                    .padding(inner)
+                    .imePadding(),
         ) {
             when {
                 userLists.isEmpty() -> {
