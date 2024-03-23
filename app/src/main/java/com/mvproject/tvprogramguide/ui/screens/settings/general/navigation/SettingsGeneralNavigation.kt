@@ -8,37 +8,40 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.mvproject.tvprogramguide.navigation.AppRoutes
+import com.mvproject.tvprogramguide.navigation.canNavigate
 import com.mvproject.tvprogramguide.ui.screens.settings.general.SettingsGeneralScreen
 import com.mvproject.tvprogramguide.utils.AppConstants
 
 fun NavController.navigateToSettingsGeneral() {
-    this.navigate(AppRoutes.SettingsGeneral.route)
+    if (canNavigate) {
+        this.navigate(AppRoutes.SettingsGeneral.route)
+    }
 }
 
 fun NavGraphBuilder.settingsGeneralScreen(
     onNavigateBack: () -> Unit,
     onNavigateAppSettings: () -> Unit,
-    onNavigateChannelSettings: () -> Unit
+    onNavigateChannelSettings: () -> Unit,
 ) {
     composable(
         AppRoutes.SettingsGeneral.route,
         enterTransition = {
             slideIntoContainer(
                 AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(AppConstants.ANIM_DURATION_600)
+                animationSpec = tween(AppConstants.ANIM_DURATION_600),
             ) + fadeIn(animationSpec = tween(AppConstants.ANIM_DURATION_600))
         },
         exitTransition = {
             slideOutOfContainer(
                 AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(AppConstants.ANIM_DURATION_600)
+                animationSpec = tween(AppConstants.ANIM_DURATION_600),
             ) + fadeOut(animationSpec = tween(AppConstants.ANIM_DURATION_600))
-        }
+        },
     ) {
         SettingsGeneralScreen(
             onNavigateBack = onNavigateBack,
             onNavigateAppSettings = onNavigateAppSettings,
-            onNavigateChannelSettings = onNavigateChannelSettings
+            onNavigateChannelSettings = onNavigateChannelSettings,
         )
     }
 }

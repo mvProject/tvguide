@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.screens.selectedchannels
+package com.mvproject.tvprogramguide.ui.screens.channels.selected
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
@@ -11,7 +11,7 @@ import com.mvproject.tvprogramguide.data.repository.CustomListRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.domain.usecases.SelectedChannelsWithPrograms
 import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramSchedule
-import com.mvproject.tvprogramguide.ui.screens.selectedchannels.state.ChannelsViewState
+import com.mvproject.tvprogramguide.ui.screens.channels.selected.state.ChannelsViewState
 import com.mvproject.tvprogramguide.utils.DOWNLOAD_PROGRAMS
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

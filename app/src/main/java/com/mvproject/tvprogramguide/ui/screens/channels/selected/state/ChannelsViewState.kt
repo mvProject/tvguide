@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.screens.selectedchannels.state
+package com.mvproject.tvprogramguide.ui.screens.channels.selected.state
 
 import androidx.compose.runtime.Stable
 import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList

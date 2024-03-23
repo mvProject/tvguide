@@ -9,7 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
 import com.mvproject.tvprogramguide.ui.components.views.SettingsMenu
@@ -20,7 +20,7 @@ import com.mvproject.tvprogramguide.ui.theme.dimens
 fun SettingsGeneralScreen(
     onNavigateBack: () -> Unit = {},
     onNavigateChannelSettings: () -> Unit = {},
-    onNavigateAppSettings: () -> Unit = {}
+    onNavigateAppSettings: () -> Unit = {},
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -29,43 +29,35 @@ fun SettingsGeneralScreen(
         topBar = {
             ToolbarWithBack(
                 title = stringResource(id = R.string.settings_title),
-                onBackClick = onNavigateBack
+                onBackClick = onNavigateBack,
             )
-        }
+        },
     ) { paddingValues ->
         Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-                .padding(vertical = MaterialTheme.dimens.size8),
-            verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size4)
+            modifier =
+                Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize()
+                    .padding(vertical = MaterialTheme.dimens.size8),
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size8),
         ) {
-
             SettingsMenu(
                 title = stringResource(id = R.string.settings_channels_settings_title),
-                onAction = onNavigateChannelSettings
+                onAction = onNavigateChannelSettings,
             )
 
             SettingsMenu(
                 title = stringResource(id = R.string.settings_app_settings_title),
-                onAction = onNavigateAppSettings
+                onAction = onNavigateAppSettings,
             )
         }
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 fun SettingsOptionsViewDark() {
-    TvGuideTheme(darkTheme = true) {
-        SettingsGeneralScreen()
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SettingsOptionsView() {
-    TvGuideTheme() {
+    TvGuideTheme {
         SettingsGeneralScreen()
     }
 }

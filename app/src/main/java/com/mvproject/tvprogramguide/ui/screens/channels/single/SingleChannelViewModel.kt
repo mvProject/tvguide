@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.screens.singlechannel.viewmodel
+package com.mvproject.tvprogramguide.ui.screens.channels.single
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.SavedStateHandle
@@ -8,7 +8,7 @@ import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
 import com.mvproject.tvprogramguide.domain.usecases.GetProgramsByChannel
 import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramSchedule
-import com.mvproject.tvprogramguide.ui.screens.singlechannel.navigation.SingleChannelArgs
+import com.mvproject.tvprogramguide.ui.screens.channels.single.navigation.SingleChannelArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,9 +24,6 @@ class SingleChannelViewModel
     ) : ViewModel() {
         private val singleChannelArgs = SingleChannelArgs(savedStateHandle)
 
-        // private var _selectedPrograms = MutableStateFlow<List<SingleChannelWithPrograms>>(emptyList())
-        // val selectedPrograms = _selectedPrograms.asStateFlow()
-
         val selectedPrograms = mutableStateListOf<SingleChannelWithPrograms>()
 
         val name get() = singleChannelArgs.channelName
@@ -35,7 +32,7 @@ class SingleChannelViewModel
         init {
             viewModelScope.launch(Dispatchers.IO) {
                 val programsWithChannels = getProgramsByChannel(channelId = channelId)
-                //    _selectedPrograms.emit(programsWithChannels)
+
                 selectedPrograms.apply {
                     clear()
                     addAll(programsWithChannels)

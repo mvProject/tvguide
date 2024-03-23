@@ -1,74 +1,50 @@
 package com.mvproject.tvprogramguide.ui.components.views
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DateRange
-import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
-import com.mvproject.tvprogramguide.ui.theme.dimens
 
 @Composable
 fun DateItem(date: String) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-        shape = MaterialTheme.shapes.small,
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentSize()
-                .padding(MaterialTheme.dimens.size8),
-
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
+    ListItem(
+        modifier = Modifier.clip(MaterialTheme.shapes.extraSmall),
+        colors =
+            ListItemDefaults.colors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                leadingIconColor = MaterialTheme.colorScheme.tertiary,
+            ),
+        leadingContent = {
             Icon(
-                Icons.Outlined.DateRange,
+                imageVector = Icons.Outlined.DateRange,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.tertiary
             )
-
-            Spacer(modifier = Modifier.width(MaterialTheme.dimens.size8))
-
+        },
+        headlineContent = {
             Text(
+                modifier = Modifier.fillMaxWidth(),
                 text = date,
-                modifier = Modifier
-                    .weight(MaterialTheme.dimens.weight1),
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
-        }
-    }
+        },
+    )
 }
 
-@Preview
+@PreviewLightDark
 @Composable
-fun DateItemView() {
-    TvGuideTheme() {
-        DateItem("22.03.2012")
-    }
-}
-
-@Preview
-@Composable
-fun DateItemViewDark() {
-    TvGuideTheme(darkTheme = true) {
+fun DateItemPreview() {
+    TvGuideTheme {
         DateItem("22.03.2012")
     }
 }

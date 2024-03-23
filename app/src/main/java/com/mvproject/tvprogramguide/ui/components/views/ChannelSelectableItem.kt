@@ -1,33 +1,29 @@
 package com.mvproject.tvprogramguide.ui.components.views
 
+import androidx.compose.animation.animateColor
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.mvproject.tvprogramguide.R
@@ -44,13 +40,29 @@ fun ChannelSelectableItem(
     isDragged: Boolean = false,
     onClickAction: () -> Unit,
 ) {
+    val transition = updateTransition(targetState = isSelected, label = "transition")
+
+    val iconColor by transition.animateColor(label = "textColor") { state ->
+        if (state) {
+            MaterialTheme.colorScheme.inverseOnSurface
+        } else {
+            MaterialTheme.colorScheme.onSurface
+        }
+    }
+
+    val iconColorBackground by transition.animateColor(label = "iconColorBackground") { state ->
+        if (state) {
+            MaterialTheme.colorScheme.outline
+        } else {
+            MaterialTheme.colorScheme.surfaceVariant
+        }
+    }
+
     val colorBackground by animateColorAsState(
         if (isDragged) {
-            MaterialTheme.colorScheme.inverseOnSurface.copy(
-                alpha = MaterialTheme.dimens.alpha30,
-            )
+            MaterialTheme.colorScheme.secondary
         } else {
-            MaterialTheme.colorScheme.surface
+            MaterialTheme.colorScheme.surfaceVariant
         },
         animationSpec =
             tween(
@@ -59,20 +71,14 @@ fun ChannelSelectableItem(
             ),
         label = "colorBackground",
     )
-    Surface(
-        modifier =
-            modifier
-                .fillMaxWidth()
-                .clip(MaterialTheme.shapes.small),
-        color = colorBackground,
-    ) {
-        Row(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MaterialTheme.dimens.size8),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
+
+    ListItem(
+        modifier = modifier.clip(MaterialTheme.shapes.extraSmall),
+        colors =
+            ListItemDefaults.colors(
+                containerColor = colorBackground,
+            ),
+        leadingContent = {
             AsyncImage(
                 model =
                     ImageRequest.Builder(LocalContext.current)
@@ -85,39 +91,26 @@ fun ChannelSelectableItem(
                 modifier =
                     Modifier
                         .size(MaterialTheme.dimens.size38)
-                        .clip(RoundedCornerShape(MaterialTheme.dimens.size4))
                         .background(
                             color =
-                                MaterialTheme.colorScheme.onSurface
-                                    .copy(alpha = MaterialTheme.dimens.alpha20),
+                                MaterialTheme.colorScheme.outline,
+                            shape = MaterialTheme.shapes.extraSmall,
                         ),
             )
-
-            Spacer(modifier = Modifier.width(MaterialTheme.dimens.size8))
-
+        },
+        headlineContent = {
             Text(
                 text = channelName,
                 style = MaterialTheme.typography.titleMedium,
-                modifier =
-                    Modifier
-                        .weight(MaterialTheme.dimens.weight1)
-                        .align(Alignment.CenterVertically),
-                color = MaterialTheme.colorScheme.onSurface,
             )
-
-            Spacer(modifier = Modifier.width(MaterialTheme.dimens.size8))
-
+        },
+        trailingContent = {
             FilledIconButton(
                 onClick = onClickAction,
                 colors =
                     IconButtonDefaults.filledIconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.inverseOnSurface,
-                        contentColor =
-                            if (isSelected) {
-                                MaterialTheme.colorScheme.tertiary
-                            } else {
-                                MaterialTheme.colorScheme.tertiaryContainer
-                            },
+                        containerColor = iconColorBackground,
+                        contentColor = iconColor,
                     ),
             ) {
                 Icon(
@@ -125,12 +118,12 @@ fun ChannelSelectableItem(
                     contentDescription = "Action",
                 )
             }
-        }
-    }
+        },
+    )
 }
 
 @Composable
-@Preview(showBackground = true)
+@PreviewLightDark
 fun ChannelSelectableItemPreview() {
     TvGuideTheme {
         Column {
@@ -143,26 +136,7 @@ fun ChannelSelectableItemPreview() {
             ChannelSelectableItem(
                 channelName = "Channel2",
                 channelLogo = "Logo2",
-                onClickAction = {},
-            )
-        }
-    }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun ChannelSelectableItemPreviewDark() {
-    TvGuideTheme(true) {
-        Column {
-            ChannelSelectableItem(
-                channelName = "Channel1",
-                channelLogo = "Logo1",
-                isSelected = true,
-                onClickAction = {},
-            )
-            ChannelSelectableItem(
-                channelName = "Channel2",
-                channelLogo = "Logo2",
+                isSelected = false,
                 onClickAction = {},
             )
         }

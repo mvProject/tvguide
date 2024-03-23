@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.screens.singlechannel.view
+package com.mvproject.tvprogramguide.ui.screens.channels.single
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
 import com.mvproject.tvprogramguide.ui.components.views.DateItem
 import com.mvproject.tvprogramguide.ui.components.views.ProgramItem
-import com.mvproject.tvprogramguide.ui.screens.singlechannel.viewmodel.SingleChannelViewModel
 import com.mvproject.tvprogramguide.ui.theme.dimens
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -25,8 +24,6 @@ fun SingleChannelScreen(
     viewModel: SingleChannelViewModel,
     onNavigateBack: () -> Unit,
 ) {
-    //  val programs by viewModel.selectedPrograms.collectAsStateWithLifecycle()
-
     val listState = rememberLazyListState()
 
     Scaffold(
@@ -42,9 +39,9 @@ fun SingleChannelScreen(
     ) { padding ->
         Column(
             modifier =
-                Modifier
-                    .padding(padding)
-                    .fillMaxSize(),
+            Modifier
+                .padding(padding)
+                .fillMaxSize(),
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxHeight(),
@@ -70,22 +67,6 @@ fun SingleChannelScreen(
                         }
                     }
                 }
-                /*                programs.forEach { item ->
-                                    stickyHeader {
-                                        DateItem(date = item.date)
-                                    }
-                                    items(
-                                        items = item.programs,
-                                        key = { program -> program.hashCode() },
-                                    ) { program ->
-                                        ProgramItem(program = program) {
-                                            viewModel.toggleSchedule(
-                                                channelName = viewModel.name,
-                                                program = program,
-                                            )
-                                        }
-                                    }
-                                }*/
             }
         }
     }

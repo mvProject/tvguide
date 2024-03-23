@@ -3,7 +3,6 @@ package com.mvproject.tvprogramguide.ui.screens.settings.channels
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Animatable
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mvproject.tvprogramguide.R
@@ -109,6 +109,7 @@ fun ChannelSettingsScreen(
                             } else {
                                 inActiveTabColor
                             }
+
                         tabColor.animateTo(selectedTabColor)
 
                         val selectedTextColor =
@@ -124,7 +125,10 @@ fun ChannelSettingsScreen(
                         modifier =
                             Modifier
                                 .clip(MaterialTheme.shapes.medium)
-                                .background(tabColor.value),
+                                // .background(tabColor.value)
+                                .drawBehind {
+                                    drawRect(color = tabColor.value)
+                                },
                         selected = pagerState.currentPage == index,
                         onClick = {
                             coroutineScope.launch {

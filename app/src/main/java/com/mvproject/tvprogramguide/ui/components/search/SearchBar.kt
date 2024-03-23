@@ -26,7 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.ui.theme.fonts
@@ -41,6 +41,7 @@ fun SearchView(
     var text by remember {
         mutableStateOf(NO_VALUE_STRING)
     }
+
     Surface(
         modifier = modifier,
         shape = MaterialTheme.shapes.small,
@@ -115,27 +116,10 @@ fun SearchView(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
-fun Preview() {
+private fun Preview() {
     TvGuideTheme {
-        Column {
-            SearchView(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(MaterialTheme.dimens.size16),
-            ) {
-                Timber.d("testing search 2 val $it")
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun PreviewDark() {
-    TvGuideTheme(true) {
         Column {
             SearchView(
                 modifier =

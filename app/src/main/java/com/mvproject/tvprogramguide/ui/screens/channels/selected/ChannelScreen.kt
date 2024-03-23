@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.screens.selectedchannels
+package com.mvproject.tvprogramguide.ui.screens.channels.selected
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -90,9 +90,9 @@ fun ChannelScreen(
 
     Scaffold(
         modifier =
-            Modifier
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
+        Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         containerColor = MaterialTheme.colorScheme.inverseOnSurface,
         contentColor = MaterialTheme.colorScheme.onSurface,
         topBar = {
@@ -129,9 +129,9 @@ fun ChannelScreen(
         Box(Modifier.nestedScroll(refreshState.nestedScrollConnection)) {
             Column(
                 modifier =
-                    Modifier
-                        .padding(padding)
-                        .fillMaxSize(),
+                Modifier
+                    .padding(padding)
+                    .fillMaxSize(),
             ) {
                 ChannelList(
                     singleChannelPrograms = viewModel.selectedPrograms,

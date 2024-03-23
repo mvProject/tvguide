@@ -5,7 +5,7 @@ import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
 import com.mvproject.tvprogramguide.domain.usecases.GetProgramsByChannel
 import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramSchedule
-import com.mvproject.tvprogramguide.ui.screens.singlechannel.viewmodel.SingleChannelViewModel
+import com.mvproject.tvprogramguide.ui.screens.channels.single.SingleChannelViewModel
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
