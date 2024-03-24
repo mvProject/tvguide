@@ -1,6 +1,7 @@
 package com.mvproject.tvprogramguide.ui.components.views
 
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,23 +36,23 @@ fun TimeItem(
             .split(PROGRAM_TIME_MEASURE_DELIMITER)
             .take(PROGRAM_TIME_MEASURE_COUNT)
 
-    val timeColor by animateColorAsState(
-        if (isSelected) {
+    val transition = updateTransition(targetState = isSelected, label = "transition")
+
+    val timeColor by transition.animateColor(label = "textColor") { state ->
+        if (state) {
             MaterialTheme.colorScheme.onTertiaryContainer
         } else {
             MaterialTheme.colorScheme.onSurface
-        },
-        label = "textColor",
-    )
+        }
+    }
 
-    val backColor by animateColorAsState(
-        if (isSelected) {
+    val backColor by transition.animateColor(label = "backColor") { state ->
+        if (state) {
             MaterialTheme.colorScheme.tertiaryContainer
         } else {
             MaterialTheme.colorScheme.inverseOnSurface
-        },
-        label = "backColor",
-    )
+        }
+    }
 
     Row(
         modifier =
@@ -64,10 +65,7 @@ fun TimeItem(
                 .drawBehind {
                     drawRect(color = backColor)
                 }
-                .padding(
-                    horizontal = MaterialTheme.dimens.size8,
-                    vertical = MaterialTheme.dimens.size4,
-                ),
+                .padding(MaterialTheme.dimens.size8),
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically,
     ) {

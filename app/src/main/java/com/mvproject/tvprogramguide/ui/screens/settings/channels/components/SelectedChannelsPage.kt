@@ -45,9 +45,10 @@ fun SelectedChannelsPage(
             },
             onMove = { fromIndex, toIndex ->
                 channels =
-                    channels.toMutableList().apply {
-                        add(toIndex, removeAt(fromIndex))
-                    }
+                    channels.toMutableList()
+                        .apply {
+                            add(toIndex, removeAt(fromIndex))
+                        }
             },
         )
 
@@ -57,15 +58,17 @@ fun SelectedChannelsPage(
                 .dragContainer(dragDropState)
                 .fillMaxHeight(),
         state = listState,
-        contentPadding =
-            PaddingValues(
-                vertical = MaterialTheme.dimens.size8,
-                horizontal = MaterialTheme.dimens.size4,
-            ),
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size4),
+        contentPadding = PaddingValues(MaterialTheme.dimens.size8),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size6),
     ) {
-        itemsIndexed(channels, key = { _, chn -> chn.channelId }) { index, chn ->
-            DraggableItem(dragDropState, index) { isDragging ->
+        itemsIndexed(
+            items = channels,
+            key = { _, chn -> chn.channelId },
+        ) { index, chn ->
+            DraggableItem(
+                dragDropState = dragDropState,
+                index = index,
+            ) { isDragging ->
                 ChannelSelectableItem(
                     channelLogo = chn.channelIcon,
                     channelName = chn.channelName,
