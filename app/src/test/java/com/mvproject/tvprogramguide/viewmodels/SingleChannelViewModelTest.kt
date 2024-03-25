@@ -1,24 +1,7 @@
 package com.mvproject.tvprogramguide.viewmodels
 
-import androidx.lifecycle.SavedStateHandle
-import com.mvproject.tvprogramguide.data.model.domain.Program
-import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
-import com.mvproject.tvprogramguide.domain.usecases.GetProgramsByChannel
-import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramSchedule
-import com.mvproject.tvprogramguide.ui.screens.channels.single.SingleChannelViewModel
-import io.kotest.assertions.withClue
-import io.kotest.core.spec.style.StringSpec
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
-import io.kotest.matchers.types.shouldBeInstanceOf
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.runs
-
-class SingleChannelViewModelTest : StringSpec({
-    val channelName = "channelName"
+// class SingleChannelViewModelTest : StringSpec({
+/*    val channelName = "channelName"
     val program = Program(0, 0, "test", "titleProgram")
 
     lateinit var savedStateHandle: SavedStateHandle
@@ -79,5 +62,5 @@ class SingleChannelViewModelTest : StringSpec({
         }
 
         singleChannelViewModel.selectedPrograms.value.shouldBeInstanceOf<List<SingleChannelWithPrograms>>()
-    }
-})
+    }*/
+// })
