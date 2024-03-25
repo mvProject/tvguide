@@ -54,6 +54,7 @@ class ChannelViewModel
                     current.copy(
                         listName = defaultList,
                         playlists = allLists,
+                        isLoading = false,
                     )
                 }
             }.launchIn(viewModelScope)

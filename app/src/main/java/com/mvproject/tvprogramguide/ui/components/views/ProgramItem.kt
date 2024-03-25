@@ -122,7 +122,6 @@ fun ProgramItem(
                     IconButton(
                         modifier =
                             Modifier
-                                .weight(MaterialTheme.dimens.weight1)
                                 .alpha(cardAlpha)
                                 .rotate(rotationState),
                         onClick = {

@@ -126,12 +126,13 @@ fun ChannelScreen(
         },
     ) { padding ->
 
-        Box(Modifier.nestedScroll(refreshState.nestedScrollConnection)) {
+        Box(
+            Modifier
+                .padding(padding)
+                .nestedScroll(refreshState.nestedScrollConnection),
+        ) {
             Column(
-                modifier =
-                    Modifier
-                        .padding(padding)
-                        .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
             ) {
                 ChannelList(
                     singleChannelPrograms = viewModel.selectedPrograms,
