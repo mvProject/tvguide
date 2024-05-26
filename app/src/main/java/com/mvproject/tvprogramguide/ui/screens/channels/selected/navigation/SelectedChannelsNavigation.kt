@@ -17,7 +17,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 fun NavController.navigateToSelectedChannels() {
     if (canNavigate) {
         this.popBackStack()
-        this.navigate(AppRoutes.Channels.route)
+        this.navigate(AppRoutes.Channels)
     }
 }
 
@@ -27,8 +27,7 @@ fun NavGraphBuilder.selectedChannelsScreen(
     onNavigateSettings: () -> Unit,
     onNavigateChannelsList: () -> Unit,
 ) {
-    composable(
-        AppRoutes.Channels.route,
+    composable<AppRoutes.Channels>(
         enterTransition = {
             fadeIn(animationSpec = tween(AppConstants.ANIM_DURATION_600))
         },
