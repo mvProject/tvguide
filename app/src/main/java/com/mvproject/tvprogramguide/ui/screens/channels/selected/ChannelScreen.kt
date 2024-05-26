@@ -52,7 +52,9 @@ fun ChannelScreen(
     onNavigateSettings: () -> Unit,
     onNavigateChannelsList: () -> Unit,
 ) {
-    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle(
+        lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current,
+    )
 
     val isDialogOpen = remember { mutableStateOf(false) }
 
@@ -73,7 +75,10 @@ fun ChannelScreen(
         }
     }
 
-    LifecycleResumeEffect(viewState.listName) {
+    LifecycleResumeEffect(
+        key1 = viewState.listName,
+        lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current,
+    ) {
         if (viewState.listName.isNotBlank()) {
             viewModel.reloadData()
         }

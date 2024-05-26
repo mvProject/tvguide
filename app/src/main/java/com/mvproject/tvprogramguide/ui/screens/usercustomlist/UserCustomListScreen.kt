@@ -37,7 +37,9 @@ fun UserCustomListScreen(
     onNavigateItem: (String) -> Unit,
     onNavigateBack: () -> Unit,
 ) {
-    val state by viewModel.customs.collectAsStateWithLifecycle()
+    val state by viewModel.customs.collectAsStateWithLifecycle(
+        lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current,
+    )
 
     UserCustomListContent(
         userLists = state,

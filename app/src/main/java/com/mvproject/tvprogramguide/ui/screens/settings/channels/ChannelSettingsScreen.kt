@@ -44,8 +44,12 @@ fun ChannelSettingsScreen(
     onNavigateBack: () -> Unit = {},
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
-    val selected by viewModel.selected.collectAsStateWithLifecycle()
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle(
+        lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current,
+    )
+    val selected by viewModel.selected.collectAsStateWithLifecycle(
+        lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current,
+    )
 
     BackHandler {
         viewModel.applyChanges()
