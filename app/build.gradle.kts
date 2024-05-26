@@ -18,8 +18,8 @@ android {
     defaultConfig {
         minSdk = 24
         targetSdk = 34
-        versionCode = 18
-        versionName = "0.8.0"
+        versionCode = 86
+        versionName = "0.8.6"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         resourceConfigurations.addAll(
@@ -148,6 +148,8 @@ dependencies {
     implementation(libs.kotlinxDatetime)
 
     implementation(libs.bundles.playReview)
+
+    implementation(libs.bundles.playUpdate)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
