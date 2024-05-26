@@ -69,6 +69,7 @@ kotest = "5.6.2"
 mockk = "1.13.5"
 
 review = "2.0.1"
+app-update = "2.1.0"
 
 # android test libraries
 testAndroidJunitExt = "1.1.5"
@@ -158,6 +159,9 @@ workHilt = { module = "androidx.hilt:hilt-work", version.ref = "workHilt" }
 review = { module = "com.google.android.play:review", version.ref = "review" }
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "review" }
 
+app-update = { module = "com.google.android.play:app-update", version.ref = "app-update" }
+app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "app-update" }
+
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
@@ -215,6 +219,11 @@ workManager = [
 playReview = [
     "review",
     "review-ktx"
+]
+
+playUpdate = [
+    "app-update",
+    "app-update-ktx"
 ]
 
 lifecycleCompose = [
