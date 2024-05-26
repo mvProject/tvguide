@@ -1,31 +1,31 @@
 [versions]
 # plugins
-kotlin = "1.9.22"
-gradle = "8.1.2"
-ksp = "1.9.22-1.0.17"
-crashlyticsGradle = "2.9.9"
+kotlin = "1.9.24"
+gradle = "8.1.4"
+ksp = "1.9.24-1.0.20"
+crashlyticsGradle = "3.0.1"
 ktLint = "10.3.0"
 googleServices = "4.4.1"
 versionsPlugin = "0.42.0"
 
 # production libraries
-coreKtx = "1.12.0"
-annotation = "1.7.1"
+coreKtx = "1.13.1"
+annotation = "1.8.0"
 timber = "5.0.1"
-lifecycle-viewmodel = "2.7.0"
+lifecycle-viewmodel = "2.8.0"
 
 # preferences
-dataStore = "1.0.0"
+dataStore = "1.1.1"
 
 # datetime
 datetime = "0.5.0"
 
 # Compose
-compose-activity = "1.8.2"
-compose-lifecycle-viewmodel = "2.7.0"
-compose-lifecycle-runtime = "2.7.0"
-compose-bom = "2024.02.02"
-firebase-bom = "32.7.4"
+compose-activity = "1.9.0"
+compose-lifecycle-viewmodel = "2.8.0"
+compose-lifecycle-runtime = "2.8.0"
+compose-bom = "2024.05.00"
+firebase-bom = "33.0.0"
 
 # navigationCompose
 composeNavigationHilt = "1.2.0"
@@ -39,8 +39,8 @@ daggerHilt = "2.49"
 androidHilt = "1.2.0"
 
 # coroutines
-coroutines-core = "1.7.3"
-coroutines-android = "1.7.3"
+coroutines-core = "1.8.0"
+coroutines-android = "1.8.0"
 
 # retrofit
 retrofit = "2.9.0"
