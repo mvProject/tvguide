@@ -62,7 +62,6 @@ android {
 
     buildTypes {
         debug {
-            isDebuggable = true
             setProperty(
                 "archivesBaseName",
                 "${rootProject.name}_${project.android.defaultConfig.versionName}",
@@ -122,8 +121,6 @@ fun readProperties(propertiesFile: File) =
     }
 
 dependencies {
-    implementation("com.google.android.material:material:1.11.0")
-
     implementation(libs.bundles.appLibraries)
 
     implementation(libs.dataStore)
