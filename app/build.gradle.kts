@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.firebase.crashlitycs)
     alias(libs.plugins.gms.googleServices)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlinx.serialization.plugin)
 }
 
 android {
@@ -124,6 +125,8 @@ dependencies {
     implementation(libs.bundles.appLibraries)
 
     implementation(libs.dataStore)
+
+    implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.bundles.network)
 
