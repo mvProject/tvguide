@@ -15,23 +15,23 @@ import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 fun RadioGroupScrollable(
     radioOptions: List<String> = listOf(),
     defaultSelection: Int = COUNT_ZERO,
-    onItemClick: (String) -> Unit
+    onItemClick: (String) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
     Column(
         Modifier
             .fillMaxWidth()
-            .height(MaterialTheme.dimens.size180)
+            .height(MaterialTheme.dimens.size220)
             .verticalScroll(
                 state = scrollState,
                 enabled = true,
-            )
+            ),
     ) {
         RadioGroupContent(
             radioOptions = radioOptions,
             defaultSelection = defaultSelection,
-            onItemClick = { item -> onItemClick(item) }
+            onItemClick = { item -> onItemClick(item) },
         )
     }
 }

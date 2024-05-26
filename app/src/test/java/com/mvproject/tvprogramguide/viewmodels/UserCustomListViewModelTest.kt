@@ -41,10 +41,18 @@ class UserCustomListViewModelTest : StringSpec({
     }
 
     "action add called" {
+        //  coEvery {
+        //      customListRepository.loadChannelsLists()
+        //  } answers {
+        //      flow {
+        //          emit(listOf())
+        //      }
+        //  }
+
         userCustomListViewModel.processAction(UserListAction.AddList("test"))
 
         coVerify(exactly = 1) {
-            customListRepository.addCustomList("test")
+            addPlaylistUseCase.invoke("test")
         }
     }
 
@@ -61,13 +69,13 @@ class UserCustomListViewModelTest : StringSpec({
             UserListAction.DeleteList(
                 UserChannelsList(
                     1,
-                    "test"
-                )
-            )
+                    "test",
+                ),
+            ),
         )
 
         coVerify(exactly = 1) {
-            customListRepository.deleteList(UserChannelsList(1, "test"))
+            deletePlaylistUseCase.invoke(UserChannelsList(1, "test"))
             customListRepository.loadChannelsLists()
         }
     }

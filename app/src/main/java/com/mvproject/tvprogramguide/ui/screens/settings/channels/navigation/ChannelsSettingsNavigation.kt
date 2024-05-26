@@ -11,12 +11,15 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.mvproject.tvprogramguide.navigation.AppRoutes
 import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_USER_LIST_NAME
+import com.mvproject.tvprogramguide.navigation.canNavigate
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.ChannelSettingsScreen
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.ChannelSettingsViewModel
 import com.mvproject.tvprogramguide.utils.AppConstants
 
 fun NavController.navigateToSettingsChannel(userListName: String) {
-    this.navigate("${AppRoutes.ChannelSettings.route}/$userListName")
+    if (canNavigate) {
+        this.navigate("${AppRoutes.ChannelSettings.route}/$userListName")
+    }
 }
 
 internal class SettingsChannelArgs(val userListName: String) {

@@ -2,10 +2,9 @@ package com.mvproject.tvprogramguide.ui.components.pickers
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.FilledIconButton
@@ -20,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.PreviewDynamicColors
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import com.mvproject.tvprogramguide.R
@@ -34,15 +32,16 @@ fun NumberPicker(
     min: Int = 0,
     max: Int = 10,
     default: Int = min,
-    onValueChange: (Int) -> Unit = {}
+    onValueChange: (Int) -> Unit = {},
 ) {
     val number = remember { mutableIntStateOf(default) }
 
     Row(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier =
+            modifier
+                .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         PickerButton(
             size = height,
@@ -51,14 +50,16 @@ fun NumberPicker(
             onClick = {
                 if (number.intValue > min) number.intValue--
                 onValueChange(number.intValue)
-            }
+            },
         )
 
         Text(
             text = number.intValue.toString(),
-            modifier = Modifier
-                .padding(MaterialTheme.dimens.size8)
-                .height(IntrinsicSize.Max),
+            modifier =
+                Modifier
+                    .padding(MaterialTheme.dimens.size8),
+            fontSize = MaterialTheme.dimens.font18,
+            color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.headlineMedium,
         )
 
@@ -69,7 +70,7 @@ fun NumberPicker(
             onClick = {
                 if (number.intValue < max) number.intValue++
                 onValueChange(number.intValue)
-            }
+            },
         )
     }
 }
@@ -79,27 +80,25 @@ fun PickerButton(
     size: Dp = MaterialTheme.dimens.size24,
     @DrawableRes drawable: Int = R.drawable.ic_minus,
     enabled: Boolean = true,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
 ) {
     val contentDesc = LocalContext.current.resources.getResourceName(drawable)
 
-    val backgroundColor = if (enabled)
-        MaterialTheme.colorScheme.tertiary
-    else
-        MaterialTheme.colorScheme.tertiaryContainer
-
-    val textColor = if (enabled)
-        MaterialTheme.colorScheme.onTertiary
-    else
-        MaterialTheme.colorScheme.onTertiaryContainer
+    val textColor =
+        if (enabled) {
+            MaterialTheme.colorScheme.onTertiary
+        } else {
+            MaterialTheme.colorScheme.onTertiaryContainer
+        }
 
     FilledIconButton(
         onClick = onClick,
         enabled = enabled,
-        colors = IconButtonDefaults.filledIconButtonColors(
-            containerColor = backgroundColor,
-            contentColor = textColor
-        )
+        colors =
+            IconButtonDefaults.filledIconButtonColors(
+                containerColor = MaterialTheme.colorScheme.tertiary,
+                contentColor = textColor,
+            ),
     ) {
         Icon(
             painterResource(id = drawable),
@@ -107,28 +106,23 @@ fun PickerButton(
             contentDescription = contentDesc,
         )
     }
-
-    /*    Image(
-            painter = painterResource(id = drawable),
-            contentDescription = contentDesc,
-            modifier = Modifier
-                .padding(MaterialTheme.dimens.size8)
-                .background(backgroundColor, CircleShape)
-                .clip(CircleShape)
-                .size(size = size)
-                .clickable(
-                    enabled = enabled,
-                    onClick = { onClick() }
-                ),
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSecondary)
-        )*/
 }
 
 @PreviewLightDark
-@PreviewDynamicColors
 @Composable
 fun PreviewNumberPicker() {
-    TvGuideTheme() {
+    TvGuideTheme {
         NumberPicker()
+    }
+}
+
+@PreviewLightDark
+@Composable
+fun PreviewPickerButton() {
+    TvGuideTheme {
+        Column {
+            PickerButton()
+            PickerButton(enabled = false)
+        }
     }
 }

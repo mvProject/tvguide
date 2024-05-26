@@ -1,12 +1,11 @@
 package com.mvproject.tvprogramguide.ui.screens.settings.app
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -26,70 +25,67 @@ import com.mvproject.tvprogramguide.ui.theme.dimens
 @Composable
 fun AppSettingsScreen(
     viewModel: AppSettingsViewModel,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = MaterialTheme.colorScheme.inverseOnSurface,
-        contentColor = MaterialTheme.colorScheme.onSurface,
         topBar = {
             ToolbarWithBack(
                 title = stringResource(id = R.string.settings_title),
-                onBackClick = onNavigateBack
+                onBackClick = onNavigateBack,
             )
-        }
+        },
     ) { contentPadding ->
         Column(
-            modifier = Modifier
-                .padding(contentPadding)
-                .fillMaxSize()
+            modifier =
+                Modifier
+                    .padding(contentPadding)
+                    .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size8),
         ) {
             val settings by viewModel.settingsState.collectAsState()
 
-            Card(
-                modifier = Modifier
-                    .padding(vertical = MaterialTheme.dimens.size6)
-                    .fillMaxWidth(),
-                shape = MaterialTheme.shapes.extraSmall
-            ) {
-                Text(
-                    text = stringResource(id = R.string.settings_ui_title),
-                    modifier = Modifier
-                        .padding(all = MaterialTheme.dimens.size6),
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
+            ListItem(
+                colors =
+                    ListItemDefaults.colors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    ),
+                headlineContent = {
+                    Text(
+                        text = stringResource(id = R.string.settings_ui_title),
+                        style = MaterialTheme.typography.titleSmall,
+                    )
+                },
+            )
 
             PickerItem(
                 title = stringResource(id = R.string.settings_programs_count_title),
                 min = 2,
                 max = 6,
-                initialValue = settings.programsViewCount
+                initialValue = settings.programsViewCount,
             ) {
                 viewModel.processAction(AppSettingsAction.ProgramVisibleCountChange(it))
             }
 
-            Spacer(modifier = Modifier.height(MaterialTheme.dimens.size8))
-
-            Card(
-                modifier = Modifier
-                    .padding(vertical = MaterialTheme.dimens.size6)
-                    .fillMaxWidth(),
-                shape = MaterialTheme.shapes.extraSmall
-            ) {
-                Text(
-                    text = stringResource(id = R.string.settings_updates_title),
-                    modifier = Modifier
-                        .padding(all = MaterialTheme.dimens.size6),
-                    style = MaterialTheme.typography.titleSmall
-                )
-            }
+            ListItem(
+                colors =
+                    ListItemDefaults.colors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    ),
+                headlineContent = {
+                    Text(
+                        text = stringResource(id = R.string.settings_updates_title),
+                        style = MaterialTheme.typography.titleSmall,
+                    )
+                },
+            )
 
             PickerItem(
                 title = stringResource(id = R.string.settings_channels_update_title),
                 min = 1,
                 max = 7,
-                initialValue = settings.channelsUpdatePeriod
+                initialValue = settings.channelsUpdatePeriod,
             ) {
                 viewModel.processAction(AppSettingsAction.ChannelUpdatePeriodChange(it))
             }
@@ -98,35 +94,34 @@ fun AppSettingsScreen(
                 title = stringResource(id = R.string.settings_programs_update_title),
                 min = 1,
                 max = 7,
-                initialValue = settings.programsUpdatePeriod
+                initialValue = settings.programsUpdatePeriod,
             ) {
                 viewModel.processAction(AppSettingsAction.ProgramUpdatePeriodChange(it))
             }
 
             val themeOptionsStrings =
-                AppThemeOptions.values().map { stringResource(id = it.titleRes) }
+                AppThemeOptions.entries.map { stringResource(id = it.titleRes) }
 
-            Spacer(modifier = Modifier.height(MaterialTheme.dimens.size12))
+            ListItem(
+                colors =
+                    ListItemDefaults.colors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    ),
+                headlineContent = {
+                    Text(
+                        text = stringResource(id = R.string.settings_theme_title),
+                        style = MaterialTheme.typography.titleSmall,
+                    )
+                },
+            )
 
-            Card(
-                modifier = Modifier
-                    .padding(vertical = MaterialTheme.dimens.size6)
-                    .fillMaxWidth(),
-                shape = MaterialTheme.shapes.extraSmall
-            ) {
-                Text(
-                    text = stringResource(id = R.string.settings_theme_title),
-                    modifier = Modifier
-                        .padding(all = MaterialTheme.dimens.size6),
-                    style = MaterialTheme.typography.titleLarge
-                )
-            }
             RadioGroup(
                 radioOptions = themeOptionsStrings,
-                defaultSelection = viewModel.getThemeDefaultSelectedIndex
+                defaultSelection = viewModel.getThemeDefaultSelectedIndex,
             ) { selectedTheme ->
-                val selected = themeOptionsStrings
-                    .indexOfFirst { it == selectedTheme }
+                val selected =
+                    themeOptionsStrings
+                        .indexOfFirst { it == selectedTheme }
                 viewModel.processAction(AppSettingsAction.ThemeChange(selected))
             }
         }

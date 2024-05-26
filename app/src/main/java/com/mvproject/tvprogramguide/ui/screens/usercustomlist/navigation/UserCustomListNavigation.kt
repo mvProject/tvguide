@@ -9,12 +9,15 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.mvproject.tvprogramguide.navigation.AppRoutes
+import com.mvproject.tvprogramguide.navigation.canNavigate
 import com.mvproject.tvprogramguide.ui.screens.usercustomlist.UserCustomListScreen
 import com.mvproject.tvprogramguide.ui.screens.usercustomlist.UserCustomListViewModel
 import com.mvproject.tvprogramguide.utils.AppConstants
 
 fun NavController.navigateToUserCustomList() {
-    this.navigate(AppRoutes.UserCustomList.route)
+    if (canNavigate) {
+        this.navigate(AppRoutes.UserCustomList.route)
+    }
 }
 
 fun NavGraphBuilder.userCustomListScreen(
@@ -26,22 +29,22 @@ fun NavGraphBuilder.userCustomListScreen(
         enterTransition = {
             slideIntoContainer(
                 AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(AppConstants.ANIM_DURATION_600)
+                animationSpec = tween(AppConstants.ANIM_DURATION_600),
             ) + fadeIn(animationSpec = tween(AppConstants.ANIM_DURATION_600))
         },
         exitTransition = {
             slideOutOfContainer(
                 AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(AppConstants.ANIM_DURATION_600)
+                animationSpec = tween(AppConstants.ANIM_DURATION_600),
             ) + fadeOut(animationSpec = tween(AppConstants.ANIM_DURATION_600))
-        }
+        },
     ) {
         val userCustomListViewModel = hiltViewModel<UserCustomListViewModel>()
 
         UserCustomListScreen(
             viewModel = userCustomListViewModel,
             onNavigateItem = onNavigateItem,
-            onNavigateBack = onNavigateBack
+            onNavigateBack = onNavigateBack,
         )
     }
 }

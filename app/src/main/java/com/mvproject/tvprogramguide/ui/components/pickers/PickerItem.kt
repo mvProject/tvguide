@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 
@@ -20,30 +20,33 @@ fun PickerItem(
     initialValue: Int = 0,
     min: Int = 0,
     max: Int = 10,
-    onValueSelected: (Int) -> Unit
+    onValueSelected: (Int) -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-        // .background(MaterialTheme.colorScheme.primary),
-        verticalArrangement = Arrangement.Center
+        modifier =
+            Modifier
+                .fillMaxWidth(),
+        verticalArrangement = Arrangement.Center,
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                modifier = Modifier
-                    .weight(MaterialTheme.dimens.weight4)
-                    .padding(MaterialTheme.dimens.size8),
+                modifier =
+                    Modifier
+                        .weight(MaterialTheme.dimens.weight4)
+                        .padding(MaterialTheme.dimens.size8),
                 text = title,
-                style = MaterialTheme.typography.bodyMedium
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.bodyMedium,
             )
 
             NumberPicker(
-                modifier = Modifier
-                    .weight(MaterialTheme.dimens.weight2),
+                modifier =
+                    Modifier
+                        .weight(MaterialTheme.dimens.weight2),
                 default = initialValue,
                 min = min,
                 max = max,
@@ -55,23 +58,10 @@ fun PickerItem(
 }
 
 @Composable
-@Preview(showBackground = true)
+@PreviewLightDark
 fun PickerItemPreview() {
-    TvGuideTheme() {
-        Column() {
-            PickerItem("Available channels update period", 1, onValueSelected = {})
-            PickerItem("Available channels update period", 5, onValueSelected = {})
-            PickerItem("Available channels update period", 7, onValueSelected = {})
-            PickerItem("Available channels update period", 10, onValueSelected = {})
-        }
-    }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun PickerItemDarkPreview() {
-    TvGuideTheme(darkTheme = true) {
-        Column() {
+    TvGuideTheme {
+        Column {
             PickerItem("Available channels update period", 1, onValueSelected = {})
             PickerItem("Available channels update period", 5, onValueSelected = {})
             PickerItem("Available channels update period", 7, onValueSelected = {})

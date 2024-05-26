@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
-import com.mvproject.tvprogramguide.data.model.schedule.ProgramSchedule
 import com.mvproject.tvprogramguide.ui.components.views.ChannelItem
 import com.mvproject.tvprogramguide.ui.components.views.ProgramItem
 import com.mvproject.tvprogramguide.ui.theme.dimens
@@ -24,7 +23,7 @@ fun ChannelList(
     listState: LazyListState,
     singleChannelPrograms: List<SelectedChannelWithPrograms>,
     onChannelClick: (SelectedChannel) -> Unit,
-    onScheduleClick: (ProgramSchedule, Program) -> Unit,
+    onScheduleClick: (String, Program) -> Unit,
 ) {
     Crossfade(
         targetState = singleChannelPrograms,
@@ -46,14 +45,12 @@ fun ChannelList(
                         onChannelClick(item.selectedChannel)
                     }
                 }
-                items(item.programs) { program ->
+                items(
+                    items = item.programs,
+                    key = { program -> program.hashCode() },
+                ) { program ->
                     ProgramItem(program = program) {
-                        val programSchedule =
-                            ProgramSchedule(
-                                channelId = program.channel,
-                                programTitle = program.title,
-                            )
-                        onScheduleClick(programSchedule, program)
+                        onScheduleClick(item.selectedChannel.channelName, program)
                     }
                 }
             }

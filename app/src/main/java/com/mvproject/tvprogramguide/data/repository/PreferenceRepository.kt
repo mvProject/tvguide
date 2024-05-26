@@ -16,6 +16,7 @@ import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_LONG
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -133,10 +134,10 @@ class PreferenceRepository
             }
         }
 
-        fun loadChannelsCountChanged() =
+        suspend fun loadChannelsCountChanged() =
             dataStore.data.map { preferences ->
                 preferences[CHANNELS_COUNT_CHANGED] ?: false
-            }
+            }.first()
 
         suspend fun setAppSettings(appSettings: AppSettingsModel) {
             dataStore.edit { settings ->

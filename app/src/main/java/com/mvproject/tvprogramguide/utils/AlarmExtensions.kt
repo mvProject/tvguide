@@ -13,8 +13,7 @@ import java.util.Calendar
  *
  * @return the [AlarmManager] system service
  */
-fun Context.getAlarmManager() =
-    getSystemService(Context.ALARM_SERVICE) as? AlarmManager
+fun Context.getAlarmManager() = getSystemService(Context.ALARM_SERVICE) as? AlarmManager
 
 /**
  * Sets a alarm using [AlarmManagerCompat] to be triggered based on the given parameter.
@@ -32,7 +31,7 @@ fun Context.getAlarmManager() =
 fun Context.setExactAlarm(
     triggerAtMillis: Long,
     operation: PendingIntent?,
-    type: Int = AlarmManager.RTC_WAKEUP
+    type: Int = AlarmManager.RTC_WAKEUP,
 ) {
     val currentTime = Calendar.getInstance().timeInMillis
     if (triggerAtMillis <= currentTime) {
@@ -46,17 +45,18 @@ fun Context.setExactAlarm(
     }
 
     getAlarmManager()?.let { manager ->
-        val isSucceed = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            manager.canScheduleExactAlarms()
-        } else {
-            true
-        }
+        val isSucceed =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                manager.canScheduleExactAlarms()
+            } else {
+                true
+            }
         if (isSucceed) {
-            Timber.d("setExactAlarm to $triggerAtMillis, (${triggerAtMillis.convertTimeToReadableFormat()})")
+            Timber.d("testing setExactAlarm to $triggerAtMillis, (${triggerAtMillis.convertTimeToReadableFormat()})")
             AlarmManagerCompat
                 .setExactAndAllowWhileIdle(manager, type, triggerAtMillis, operation)
         } else {
-            Timber.e("setExactAlarm is not succeed")
+            Timber.e("testing setExactAlarm is not succeed")
         }
     }
 }

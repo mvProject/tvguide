@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.screens.selectedchannels
+package com.mvproject.tvprogramguide.ui.screens.channels.selected
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -52,21 +52,24 @@ fun ChannelScreen(
     onNavigateSettings: () -> Unit,
     onNavigateChannelsList: () -> Unit,
 ) {
-    val isDialogOpen = remember { mutableStateOf(false) }
-
-    val listState = rememberLazyListState()
-
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
-    val state =
+    val isDialogOpen = remember { mutableStateOf(false) }
+
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
+    val listState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+
+    val refreshState =
         rememberPullToRefreshState(
             positionalThreshold = MaterialTheme.dimens.size110,
         )
-    if (state.isRefreshing) {
+    if (refreshState.isRefreshing) {
         LaunchedEffect(true) {
             viewModel.forceReloadData()
             delay(REFRESH_DELAY)
-            state.endRefresh()
+            refreshState.endRefresh()
         }
     }
 
@@ -79,15 +82,11 @@ fun ChannelScreen(
         }
     }
 
-    val scope = rememberCoroutineScope()
-
     val showScrollToTopButton by remember {
         derivedStateOf {
             listState.firstVisibleItemIndex >= 10
         }
     }
-
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     Scaffold(
         modifier =
@@ -127,15 +126,16 @@ fun ChannelScreen(
         },
     ) { padding ->
 
-        Box(Modifier.nestedScroll(state.nestedScrollConnection)) {
+        Box(
+            Modifier
+                .padding(padding)
+                .nestedScroll(refreshState.nestedScrollConnection),
+        ) {
             Column(
-                modifier =
-                    Modifier
-                        .padding(padding)
-                        .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
             ) {
                 ChannelList(
-                    singleChannelPrograms = viewState.playlistContent.channels,
+                    singleChannelPrograms = viewModel.selectedPrograms,
                     listState = listState,
                     onChannelClick = { channel ->
                         onNavigateSingleChannel(
@@ -143,11 +143,11 @@ fun ChannelScreen(
                             channel.channelName,
                         )
                     },
-                    onScheduleClick = viewModel::toggleProgramSchedule,
+                    onScheduleClick = viewModel::toggleSchedule,
                 )
             }
 
-            if (viewState.isUpdating) {
+            if (viewState.isLoading) {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center),
                     color = MaterialTheme.colorScheme.tertiary,
@@ -164,7 +164,7 @@ fun ChannelScreen(
 
             PullToRefreshContainer(
                 modifier = Modifier.align(Alignment.TopCenter),
-                state = state,
+                state = refreshState,
             )
         }
 

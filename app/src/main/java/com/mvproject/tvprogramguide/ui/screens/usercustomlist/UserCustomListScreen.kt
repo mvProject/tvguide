@@ -63,6 +63,7 @@ private fun UserCustomListContent(
                 onBackClick = onBackClick,
             )
         },
+        containerColor = MaterialTheme.colorScheme.inverseOnSurface,
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
             FloatingActionButton(
