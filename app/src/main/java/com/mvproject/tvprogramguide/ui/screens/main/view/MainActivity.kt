@@ -113,10 +113,10 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val screen by viewModel.startDestination
                 Box(modifier = Modifier) {
-                    if (screen.isNotEmpty()) {
+                    screen?.let { route ->
                         NavigationHost(
                             navController = navController,
-                            startScreen = screen,
+                            startScreen = route,
                         )
                     }
                 }

@@ -15,6 +15,8 @@ timber = "5.0.1"
 lifecycle-viewmodel = "2.8.0"
 material = "1.12.0"
 
+serialization-json = "1.6.3"
+
 # preferences
 dataStore = "1.1.1"
 
@@ -30,7 +32,7 @@ firebase-bom = "33.0.0"
 
 # navigationCompose
 composeNavigationHilt = "1.2.0"
-composeNavigation = "2.7.7"
+composeNavigation = "2.8.0-beta01"
 
 # Accompanist Permissions
 accompanistPermissions = "0.32.0"
@@ -87,6 +89,7 @@ gms-googleServices = { id = "com.google.gms.google-services", version.ref = "goo
 versions = { id = "com.github.ben-manes.versions", version.ref = "versionsPlugin" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLint" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+kotlinx-serialization-plugin = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 [libraries]
 # production libraries
@@ -179,6 +182,9 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 # android test libraries
 testAndroidJunitExt = { module = "androidx.test.ext:junit", version.ref = "testAndroidJunitExt" }
 testAndroidEspresso = { module = "androidx.test.espresso:espresso-core", version.ref = "testAndroidEspresso" }
+
+# Serialization
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization-json" }
 
 [bundles]
 

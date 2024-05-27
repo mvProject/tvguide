@@ -12,6 +12,7 @@ import com.mvproject.tvprogramguide.ui.screens.channels.single.navigation.Single
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,6 +31,8 @@ class SingleChannelViewModel
         private val channelId get() = singleChannelArgs.channelId
 
         init {
+            Timber.e("testing SingleChannelViewModel channelId ${singleChannelArgs.channelId}")
+            Timber.e("testing SingleChannelViewModel channelName ${singleChannelArgs.channelName}")
             viewModelScope.launch(Dispatchers.IO) {
                 val programsWithChannels = getProgramsByChannel(channelId = channelId)
 

@@ -7,17 +7,13 @@ import com.mvproject.tvprogramguide.navigation.AppRoutes
 import com.mvproject.tvprogramguide.ui.screens.onboard.OnBoardScreen
 import com.mvproject.tvprogramguide.ui.screens.onboard.OnBoardViewModel
 
-fun NavGraphBuilder.onboardScreen(
-    onComplete: () -> Unit
-) {
-    composable(
-        AppRoutes.OnBoard.route,
-    ) {
+fun NavGraphBuilder.onboardScreen(onComplete: () -> Unit) {
+    composable<AppRoutes.OnBoard> {
         val onBoardViewModel = hiltViewModel<OnBoardViewModel>()
 
         OnBoardScreen(
             viewModel = onBoardViewModel,
-            onComplete = onComplete
+            onComplete = onComplete,
         )
     }
 }

@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.firebase.crashlitycs)
     alias(libs.plugins.gms.googleServices)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlinx.serialization.plugin)
 }
 
 android {
@@ -18,8 +19,8 @@ android {
     defaultConfig {
         minSdk = 24
         targetSdk = 34
-        versionCode = 86
-        versionName = "0.8.6"
+        versionCode = 87
+        versionName = "0.8.7"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         resourceConfigurations.addAll(
@@ -124,6 +125,8 @@ dependencies {
     implementation(libs.bundles.appLibraries)
 
     implementation(libs.dataStore)
+
+    implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.bundles.network)
 

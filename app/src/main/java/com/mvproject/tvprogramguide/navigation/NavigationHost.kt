@@ -22,7 +22,7 @@ import com.mvproject.tvprogramguide.ui.screens.usercustomlist.navigation.userCus
 @Composable
 fun NavigationHost(
     navController: NavHostController,
-    startScreen: String,
+    startScreen: AppRoutes,
 ) {
     NavHost(
         navController = navController,

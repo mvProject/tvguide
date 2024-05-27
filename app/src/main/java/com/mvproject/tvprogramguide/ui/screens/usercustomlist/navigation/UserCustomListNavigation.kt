@@ -16,7 +16,7 @@ import com.mvproject.tvprogramguide.utils.AppConstants
 
 fun NavController.navigateToUserCustomList() {
     if (canNavigate) {
-        this.navigate(AppRoutes.UserCustomList.route)
+        this.navigate(AppRoutes.UserCustomList)
     }
 }
 
@@ -24,8 +24,7 @@ fun NavGraphBuilder.userCustomListScreen(
     onNavigateBack: () -> Unit,
     onNavigateItem: (String) -> Unit,
 ) {
-    composable(
-        AppRoutes.UserCustomList.route,
+    composable<AppRoutes.UserCustomList>(
         enterTransition = {
             slideIntoContainer(
                 AnimatedContentTransitionScope.SlideDirection.Left,

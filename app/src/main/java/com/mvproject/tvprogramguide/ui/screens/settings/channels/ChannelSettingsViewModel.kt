@@ -45,6 +45,8 @@ class ChannelSettingsViewModel
         private var isRefreshRequired = false
 
         init {
+            Timber.e("testing ChannelSettingsViewModel name $name")
+
             viewModelScope.launch {
                 _selected.value = getSelectedChannels(listName = name)
             }

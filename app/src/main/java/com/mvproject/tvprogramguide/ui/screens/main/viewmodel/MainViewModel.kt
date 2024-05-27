@@ -16,7 +16,6 @@ import com.mvproject.tvprogramguide.domain.usecases.UpdateChannelsInfoUseCase
 import com.mvproject.tvprogramguide.navigation.AppRoutes
 import com.mvproject.tvprogramguide.utils.AppConstants
 import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_DELAY
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.utils.CHANNEL_COUNT
 import com.mvproject.tvprogramguide.utils.CHANNEL_INDEX
 import com.mvproject.tvprogramguide.utils.DOWNLOAD_PROGRAMS
@@ -49,8 +48,8 @@ class MainViewModel
                     AppThemeOptions.getThemeById(settings.appTheme)
                 }
 
-        private val _startDestination: MutableState<String> = mutableStateOf(NO_VALUE_STRING)
-        val startDestination: State<String> = _startDestination
+        private val _startDestination: MutableState<AppRoutes?> = mutableStateOf<AppRoutes?>(null)
+        val startDestination: State<AppRoutes?> = _startDestination
 
         private var isUpdating = false
 
@@ -59,9 +58,9 @@ class MainViewModel
             viewModelScope.launch {
                 preferenceRepository.loadOnBoardState().collect { completed ->
                     if (completed) {
-                        _startDestination.value = AppRoutes.Channels.route
+                        _startDestination.value = AppRoutes.Channels
                     } else {
-                        _startDestination.value = AppRoutes.OnBoard.route
+                        _startDestination.value = AppRoutes.OnBoard
                     }
                     delay(DEFAULT_DELAY)
                 }

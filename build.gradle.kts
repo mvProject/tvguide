@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.firebase.crashlitycs) apply false
     alias(libs.plugins.gms.googleServices) apply false
     alias(libs.plugins.versions) apply false
-
+    alias(libs.plugins.kotlinx.serialization.plugin) apply false
 }
 
 buildscript {

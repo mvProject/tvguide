@@ -14,7 +14,7 @@ import com.mvproject.tvprogramguide.utils.AppConstants
 
 fun NavController.navigateToSettingsGeneral() {
     if (canNavigate) {
-        this.navigate(AppRoutes.SettingsGeneral.route)
+        this.navigate(AppRoutes.SettingsGeneral)
     }
 }
 
@@ -23,8 +23,7 @@ fun NavGraphBuilder.settingsGeneralScreen(
     onNavigateAppSettings: () -> Unit,
     onNavigateChannelSettings: () -> Unit,
 ) {
-    composable(
-        AppRoutes.SettingsGeneral.route,
+    composable<AppRoutes.SettingsGeneral>(
         enterTransition = {
             slideIntoContainer(
                 AnimatedContentTransitionScope.SlideDirection.Left,
