@@ -1,8 +1,10 @@
 [versions]
 # plugins
-kotlin = "1.9.24"
+# kotlin = "1.9.24"
+kotlin = "2.0.0"
 gradle = "8.1.4"
-ksp = "1.9.24-1.0.20"
+# ksp = "1.9.24-1.0.20"
+ksp = "2.0.0-1.0.21"
 crashlyticsGradle = "3.0.1"
 ktLint = "10.3.0"
 googleServices = "4.4.1"
@@ -90,6 +92,7 @@ versions = { id = "com.github.ben-manes.versions", version.ref = "versionsPlugin
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLint" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlinx-serialization-plugin = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 [libraries]
 # production libraries
