@@ -42,9 +42,7 @@ fun UserCustomListScreen(
 ) {
     ShowFeedback()
 
-    val state by viewModel.customs.collectAsStateWithLifecycle(
-        lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current,
-    )
+    val state by viewModel.customs.collectAsStateWithLifecycle()
 
     UserCustomListContent(
         userLists = state,
@@ -89,9 +87,9 @@ private fun UserCustomListContent(
     ) { inner ->
         Column(
             modifier =
-            Modifier
-                .padding(inner)
-                .imePadding(),
+                Modifier
+                    .padding(inner)
+                    .imePadding(),
         ) {
             when {
                 userLists.isEmpty() -> {

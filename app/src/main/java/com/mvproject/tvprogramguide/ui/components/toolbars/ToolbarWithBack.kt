@@ -2,7 +2,7 @@ package com.mvproject.tvprogramguide.ui.components.toolbars
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.NavigateBefore
+import androidx.compose.material.icons.automirrored.filled.NavigateBefore
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
@@ -41,7 +41,7 @@ fun ToolbarWithBack(
                 )
             ) {
                 Icon(
-                    imageVector = Icons.Default.NavigateBefore,
+                    imageVector = Icons.AutoMirrored.Filled.NavigateBefore,
                     contentDescription = "Back",
                 )
             }

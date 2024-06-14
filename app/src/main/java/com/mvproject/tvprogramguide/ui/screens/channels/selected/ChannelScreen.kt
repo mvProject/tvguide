@@ -49,9 +49,7 @@ fun ChannelScreen(
     onNavigateSettings: () -> Unit,
     onNavigateChannelsList: () -> Unit,
 ) {
-    val viewState by viewModel.viewState.collectAsStateWithLifecycle(
-        lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current,
-    )
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
     val isDialogOpen = remember { mutableStateOf(false) }
 
@@ -73,10 +71,7 @@ fun ChannelScreen(
         }
     }
 
-    LifecycleResumeEffect(
-        key1 = viewState.listName,
-        lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current,
-    ) {
+    LifecycleResumeEffect(viewState.listName) {
         if (viewState.listName.isNotBlank()) {
             viewModel.reloadData()
         }
@@ -93,9 +88,9 @@ fun ChannelScreen(
 
     Scaffold(
         modifier =
-            Modifier
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
+        Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         containerColor = MaterialTheme.colorScheme.inverseOnSurface,
         contentColor = MaterialTheme.colorScheme.onSurface,
         topBar = {
