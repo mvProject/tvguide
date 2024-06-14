@@ -21,24 +21,25 @@ import com.mvproject.tvprogramguide.ui.theme.dimens
 @Composable
 fun ToolbarWithBack(
     title: String,
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
         title = {
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         },
         navigationIcon = {
             FilledIconButton(
                 onClick = onBackClick,
                 modifier = Modifier.padding(MaterialTheme.dimens.size8),
-                colors = IconButtonDefaults.filledIconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onSurface
-                )
+                colors =
+                    IconButtonDefaults.filledIconButtonColors(
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        contentColor = MaterialTheme.colorScheme.onSurface,
+                    ),
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.NavigateBefore,
@@ -46,9 +47,10 @@ fun ToolbarWithBack(
                 )
             }
         },
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.inverseOnSurface
-        )
+        colors =
+            TopAppBarDefaults.centerAlignedTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.inverseOnSurface,
+        ),
     )
 }
 

@@ -91,9 +91,9 @@ fun ChannelSettingsScreen(
             TabRow(
                 selectedTabIndex = pagerState.currentPage,
                 modifier =
-                Modifier
-                    .padding(MaterialTheme.dimens.size4)
-                    .clip(MaterialTheme.shapes.medium),
+                    Modifier
+                        .padding(MaterialTheme.dimens.size4)
+                        .clip(MaterialTheme.shapes.medium),
                 containerColor = MaterialTheme.colorScheme.inverseOnSurface,
                 indicator = {},
                 divider = {},
@@ -123,12 +123,12 @@ fun ChannelSettingsScreen(
 
                     Tab(
                         modifier =
-                        Modifier
-                            .clip(MaterialTheme.shapes.medium)
-                            // .background(tabColor.value)
-                            .drawBehind {
-                                drawRect(color = tabColor.value)
-                            },
+                            Modifier
+                                .clip(MaterialTheme.shapes.medium)
+                                // .background(tabColor.value)
+                                .drawBehind {
+                                    drawRect(color = tabColor.value)
+                                },
                         selected = pagerState.currentPage == index,
                         onClick = {
                             coroutineScope.launch {
