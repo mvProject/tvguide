@@ -1,6 +1,5 @@
-package com.mvproject.tvprogramguide.ui.screens.onboard
+package com.mvproject.tvprogramguide.ui.screens.channels.selected
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
@@ -20,27 +19,11 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.mvproject.tvprogramguide.ui.components.onboard.AnimatedCompleteButton
 import com.mvproject.tvprogramguide.ui.components.onboard.PagerIndicator
 import com.mvproject.tvprogramguide.ui.components.onboard.PagerScreen
-import com.mvproject.tvprogramguide.ui.screens.onboard.state.OnBoardingPage
+import com.mvproject.tvprogramguide.ui.screens.channels.selected.components.OnBoardingPage
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.utils.AppConstants
-import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO_FLOAT
-import com.mvproject.tvprogramguide.utils.AppConstants.ONBOARD_PAGES_COUNT
 
-@Composable
-fun OnBoardScreen(
-    viewModel: OnBoardViewModel,
-    onComplete: () -> Unit,
-) {
-    OnBoardScreenView(
-        onComplete = { state ->
-            viewModel.completeOnBoard(completed = state)
-            onComplete()
-        },
-    )
-}
-
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnBoardScreenView(onComplete: (Boolean) -> Unit = {}) {
     val pages =
@@ -52,7 +35,7 @@ fun OnBoardScreenView(onComplete: (Boolean) -> Unit = {}) {
     val pagerState =
         rememberPagerState(
             initialPage = AppConstants.COUNT_ZERO,
-            initialPageOffsetFraction = COUNT_ZERO_FLOAT,
+            initialPageOffsetFraction = AppConstants.COUNT_ZERO_FLOAT,
         ) {
             pages.size
         }
@@ -84,7 +67,7 @@ fun OnBoardScreenView(onComplete: (Boolean) -> Unit = {}) {
                 Modifier
                     .align(Alignment.CenterHorizontally)
                     .wrapContentHeight(),
-            size = ONBOARD_PAGES_COUNT,
+            size = AppConstants.ONBOARD_PAGES_COUNT,
             currentPage = pagerState.currentPage,
         )
 
@@ -98,7 +81,7 @@ fun OnBoardScreenView(onComplete: (Boolean) -> Unit = {}) {
 
 @Composable
 @PreviewLightDark
-fun OnBoardScreenViewPreview() {
+private fun OnBoardScreenViewPreview() {
     TvGuideTheme {
         OnBoardScreenView()
     }

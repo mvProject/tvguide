@@ -2,7 +2,7 @@ package com.mvproject.tvprogramguide.ui.components.toolbars
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.NavigateBefore
+import androidx.compose.material.icons.automirrored.filled.NavigateBefore
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
@@ -21,34 +21,36 @@ import com.mvproject.tvprogramguide.ui.theme.dimens
 @Composable
 fun ToolbarWithBack(
     title: String,
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
         title = {
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         },
         navigationIcon = {
             FilledIconButton(
                 onClick = onBackClick,
                 modifier = Modifier.padding(MaterialTheme.dimens.size8),
-                colors = IconButtonDefaults.filledIconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onSurface
-                )
+                colors =
+                    IconButtonDefaults.filledIconButtonColors(
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        contentColor = MaterialTheme.colorScheme.onSurface,
+                    ),
             ) {
                 Icon(
-                    imageVector = Icons.Default.NavigateBefore,
+                    imageVector = Icons.AutoMirrored.Filled.NavigateBefore,
                     contentDescription = "Back",
                 )
             }
         },
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.inverseOnSurface
-        )
+        colors =
+            TopAppBarDefaults.centerAlignedTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.inverseOnSurface,
+        ),
     )
 }
 

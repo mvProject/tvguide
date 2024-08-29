@@ -46,29 +46,37 @@ class ChannelViewModel
             workManager.getWorkInfosForUniqueWorkFlow(DOWNLOAD_PROGRAMS)
 
         init {
+            // viewModelScope.launch {
+            //     _viewState.update { state ->
+            //         state.copy(isOnboard = preferenceRepository.loadOnBoardState())
+            //     }
+            // }
             combine(
                 customListRepository.loadChannelsLists(),
                 preferenceRepository.loadDefaultUserList(),
-            ) { allLists, defaultList ->
+                preferenceRepository.loadOnBoardState(),
+            ) { allLists, defaultList, onboard ->
                 _viewState.update { current ->
                     current.copy(
                         listName = defaultList,
                         playlists = allLists,
+                        isOnboard = onboard,
                         isLoading = false,
                     )
                 }
             }.launchIn(viewModelScope)
 
-            fullUpdateWorkInfoFlow.onEach { state ->
-                if (!state.isNullOrEmpty()) {
-                    val workInfo = state.first()
-                    if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                        if (viewState.value.listName.isNotBlank()) {
-                            updatePrograms()
+            fullUpdateWorkInfoFlow
+                .onEach { state ->
+                    if (!state.isNullOrEmpty()) {
+                        val workInfo = state.first()
+                        if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+                            if (viewState.value.listName.isNotBlank()) {
+                                updatePrograms()
+                            }
                         }
                     }
-                }
-            }.launchIn(viewModelScope)
+                }.launchIn(viewModelScope)
         }
 
         fun reloadData() {
@@ -77,6 +85,15 @@ class ChannelViewModel
                 requestUpdate(isOnlineRequested = isChannelsChanged)
             }
         }
+
+        fun completeOnBoard() {
+            viewModelScope.launch(Dispatchers.IO) {
+                preferenceRepository.setOnBoardState(onBoardState = false)
+                _viewState.update { state ->
+                    state.copy(isOnboard = false)
+                }
+            }
+    }
 
         fun forceReloadData() {
             viewModelScope.launch(Dispatchers.IO) {

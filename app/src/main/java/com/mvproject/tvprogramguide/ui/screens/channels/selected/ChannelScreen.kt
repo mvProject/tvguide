@@ -26,11 +26,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.android.play.core.review.ReviewManagerFactory
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.ui.components.channels.ChannelList
 import com.mvproject.tvprogramguide.ui.components.dialogs.ShowSelectFromListDialog
@@ -39,7 +37,6 @@ import com.mvproject.tvprogramguide.ui.components.views.NoItemsScreen
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.utils.AppConstants.REFRESH_DELAY
-import com.mvproject.tvprogramguide.utils.findActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -52,9 +49,7 @@ fun ChannelScreen(
     onNavigateSettings: () -> Unit,
     onNavigateChannelsList: () -> Unit,
 ) {
-    val viewState by viewModel.viewState.collectAsStateWithLifecycle(
-        lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current,
-    )
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
     val isDialogOpen = remember { mutableStateOf(false) }
 
@@ -67,6 +62,7 @@ fun ChannelScreen(
         rememberPullToRefreshState(
             positionalThreshold = MaterialTheme.dimens.size110,
         )
+
     if (refreshState.isRefreshing) {
         LaunchedEffect(true) {
             viewModel.forceReloadData()
@@ -75,10 +71,7 @@ fun ChannelScreen(
         }
     }
 
-    LifecycleResumeEffect(
-        key1 = viewState.listName,
-        lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current,
-    ) {
+    LifecycleResumeEffect(viewState.listName) {
         if (viewState.listName.isNotBlank()) {
             viewModel.reloadData()
         }
@@ -95,9 +88,9 @@ fun ChannelScreen(
 
     Scaffold(
         modifier =
-            Modifier
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
+        Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         containerColor = MaterialTheme.colorScheme.inverseOnSurface,
         contentColor = MaterialTheme.colorScheme.onSurface,
         topBar = {
@@ -131,68 +124,61 @@ fun ChannelScreen(
         },
     ) { padding ->
 
-        Box(
-            Modifier
-                .padding(padding)
-                .nestedScroll(refreshState.nestedScrollConnection),
-        ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
+        if (viewState.isOnboard) {
+            OnBoardScreenView(
+                onComplete = {
+                    viewModel.completeOnBoard()
+                },
+            )
+        } else {
+            Box(
+                Modifier
+                    .padding(padding)
+                    .nestedScroll(refreshState.nestedScrollConnection),
             ) {
-                ChannelList(
-                    singleChannelPrograms = viewModel.selectedPrograms,
-                    listState = listState,
-                    onChannelClick = { channel ->
-                        onNavigateSingleChannel(
-                            channel.channelId,
-                            channel.channelName,
-                        )
-                    },
-                    onScheduleClick = viewModel::toggleSchedule,
-                )
-            }
-
-            if (viewState.isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                    color = MaterialTheme.colorScheme.tertiary,
-                )
-            } else {
-                if (viewState.listName.isEmpty()) {
-                    NoItemsScreen(
-                        title = stringResource(id = R.string.msg_user_filled_list_empty),
-                        navigateTitle = stringResource(id = R.string.msg_tap_to_create_list),
-                        onNavigateClick = onNavigateChannelsList,
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+                    ChannelList(
+                        singleChannelPrograms = viewModel.selectedPrograms,
+                        listState = listState,
+                        onChannelClick = { channel ->
+                            onNavigateSingleChannel(
+                                channel.channelId,
+                                channel.channelName,
+                            )
+                        },
+                        onScheduleClick = viewModel::toggleSchedule,
                     )
                 }
+
+                if (viewState.isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = MaterialTheme.colorScheme.tertiary,
+                    )
+                } else {
+                    if (viewState.listName.isEmpty()) {
+                        NoItemsScreen(
+                            title = stringResource(id = R.string.msg_user_filled_list_empty),
+                            navigateTitle = stringResource(id = R.string.msg_tap_to_create_list),
+                            onNavigateClick = onNavigateChannelsList,
+                        )
+                    }
+                }
+
+                PullToRefreshContainer(
+                    modifier = Modifier.align(Alignment.TopCenter),
+                    state = refreshState,
+                )
             }
 
-            PullToRefreshContainer(
-                modifier = Modifier.align(Alignment.TopCenter),
-                state = refreshState,
+            ShowSelectFromListDialog(
+                isDialogOpen = isDialogOpen,
+                radioOptions = viewState.listNames,
+                defaultSelection = viewState.selectedListIndex,
+                onSelected = viewModel::applyList,
             )
         }
-
-        ShowFeedback()
-
-        ShowSelectFromListDialog(
-            isDialogOpen = isDialogOpen,
-            radioOptions = viewState.listNames,
-            defaultSelection = viewState.selectedListIndex,
-            onSelected = viewModel::applyList,
-        )
     }
-}
-
-@Composable
-private fun ShowFeedback() {
-    val context = LocalContext.current
-    val activity = context.findActivity()
-    val reviewManager = ReviewManagerFactory.create(context)
-    reviewManager.requestReviewFlow()
-        .addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                reviewManager.launchReviewFlow(activity, task.result)
-            }
-        }
 }

@@ -20,8 +20,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
 import com.mvproject.tvprogramguide.ui.components.dialogs.ShowAddNewDialog
@@ -30,6 +32,7 @@ import com.mvproject.tvprogramguide.ui.components.views.NoItemsScreen
 import com.mvproject.tvprogramguide.ui.components.views.UserCustomListItem
 import com.mvproject.tvprogramguide.ui.screens.usercustomlist.action.UserListAction
 import com.mvproject.tvprogramguide.ui.theme.dimens
+import com.mvproject.tvprogramguide.utils.findActivity
 
 @Composable
 fun UserCustomListScreen(
@@ -37,9 +40,9 @@ fun UserCustomListScreen(
     onNavigateItem: (String) -> Unit,
     onNavigateBack: () -> Unit,
 ) {
-    val state by viewModel.customs.collectAsStateWithLifecycle(
-        lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current,
-    )
+    ShowFeedback()
+
+    val state by viewModel.customs.collectAsStateWithLifecycle()
 
     UserCustomListContent(
         userLists = state,
@@ -119,8 +122,23 @@ private fun UserCustomListContent(
                 }
             }
         }
+
         ShowAddNewDialog(isDialogOpen) { name ->
             onAction(UserListAction.AddList(name))
         }
     }
+}
+
+@Composable
+private fun ShowFeedback() {
+    val context = LocalContext.current
+    val activity = context.findActivity()
+    val reviewManager = ReviewManagerFactory.create(context)
+    reviewManager
+        .requestReviewFlow()
+        .addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                reviewManager.launchReviewFlow(activity, task.result)
+            }
+        }
 }

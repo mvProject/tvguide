@@ -5,11 +5,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.mvproject.tvprogramguide.ui.screens.channels.selected.navigation.navigateToSelectedChannels
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.navigation.selectedChannelsScreen
 import com.mvproject.tvprogramguide.ui.screens.channels.single.navigation.navigateToSingleChannel
 import com.mvproject.tvprogramguide.ui.screens.channels.single.navigation.singleChannelScreen
-import com.mvproject.tvprogramguide.ui.screens.onboard.navigation.onboardScreen
 import com.mvproject.tvprogramguide.ui.screens.settings.app.navigation.navigateToSettingsApp
 import com.mvproject.tvprogramguide.ui.screens.settings.app.navigation.settingsAppScreen
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.navigation.navigateToSettingsChannel
@@ -28,10 +26,6 @@ fun NavigationHost(
         navController = navController,
         startDestination = startScreen,
     ) {
-        onboardScreen(
-            onComplete = navController::navigateToSelectedChannels,
-        )
-
         selectedChannelsScreen(
             onNavigateSingleChannel = navController::navigateToSingleChannel,
             onNavigateSettings = navController::navigateToSettingsGeneral,

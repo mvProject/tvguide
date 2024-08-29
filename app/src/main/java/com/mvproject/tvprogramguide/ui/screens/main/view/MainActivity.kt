@@ -34,6 +34,7 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.isFlexibleUpdateAllowed
 import com.google.android.play.core.ktx.isImmediateUpdateAllowed
 import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
+import com.mvproject.tvprogramguide.navigation.AppRoutes
 import com.mvproject.tvprogramguide.navigation.NavigationHost
 import com.mvproject.tvprogramguide.ui.screens.main.viewmodel.MainViewModel
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
@@ -111,14 +112,11 @@ class MainActivity : ComponentActivity() {
                 darkTheme = isDarkTheme,
             ) {
                 val navController = rememberNavController()
-                val screen by viewModel.startDestination
                 Box(modifier = Modifier) {
-                    screen?.let { route ->
-                        NavigationHost(
-                            navController = navController,
-                            startScreen = route,
-                        )
-                    }
+                    NavigationHost(
+                        navController = navController,
+                        startScreen = AppRoutes.Channels,
+                    )
                 }
             }
         }

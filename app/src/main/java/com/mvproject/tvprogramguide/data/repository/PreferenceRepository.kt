@@ -36,10 +36,17 @@ class PreferenceRepository
         }
 
         fun loadOnBoardState() =
-            dataStore.data.map { preferences ->
-                preferences[ON_BOARD_COMPLETE] ?: false
-            }.distinctUntilChanged()
+            dataStore.data
+                .map { preferences ->
+                    preferences[ON_BOARD_COMPLETE] ?: true
+                }
 
+        //  suspend fun loadOnBoardState() =
+        //      dataStore.data
+        //          .map { preferences ->
+        //              preferences[ON_BOARD_COMPLETE] ?: true
+        //          }.first()
+//
         suspend fun setCurrentUserList(listName: String) {
             dataStore.edit { settings ->
                 settings[CURRENT_CHANNEL_LIST] = listName
@@ -58,9 +65,10 @@ class PreferenceRepository
         }
 
         fun loadDefaultUserList() =
-            dataStore.data.map { preferences ->
-                preferences[DEFAULT_CHANNEL_LIST] ?: NO_VALUE_STRING
-            }.distinctUntilChanged()
+            dataStore.data
+                .map { preferences ->
+                    preferences[DEFAULT_CHANNEL_LIST] ?: NO_VALUE_STRING
+                }.distinctUntilChanged()
 
         val targetList =
             combine(
@@ -135,9 +143,10 @@ class PreferenceRepository
         }
 
         suspend fun loadChannelsCountChanged() =
-            dataStore.data.map { preferences ->
-                preferences[CHANNELS_COUNT_CHANGED] ?: false
-            }.first()
+            dataStore.data
+                .map { preferences ->
+                    preferences[CHANNELS_COUNT_CHANGED] ?: false
+                }.first()
 
         suspend fun setAppSettings(appSettings: AppSettingsModel) {
             dataStore.edit { settings ->
