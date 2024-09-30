@@ -48,7 +48,8 @@ class FullUpdateProgramsWorker
                     channelProgramRepository.loadProgram(channelId = chn)
                     val channelNumber = ind + AppConstants.COUNT_ONE
                     setProgressAsync(
-                        Data.Builder()
+                        Data
+                            .Builder()
                             .putInt(CHANNEL_INDEX, channelNumber)
                             .putInt(CHANNEL_COUNT, channelsCount)
                             .build(),

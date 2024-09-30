@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "eda634fdcd974e237c83e6aa5088f975",
+    "identityHash": "c0b7d6d79c79569bc365ed927cb4c6ed",
     "entities": [
       {
         "tableName": "all_channels",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`channel_id` TEXT NOT NULL, `channel_name` TEXT NOT NULL, `channel_icon` TEXT NOT NULL, PRIMARY KEY(`channel_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`channel_id` TEXT NOT NULL, `channel_name` TEXT NOT NULL, `channel_icon` TEXT NOT NULL, PRIMARY KEY(`channel_id`, `channel_name`))",
         "fields": [
           {
             "fieldPath": "channelId",
@@ -28,10 +28,11 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": false,
           "columnNames": [
-            "channel_id"
-          ],
-          "autoGenerate": false
+            "channel_id",
+            "channel_name"
+          ]
         },
         "indices": [],
         "foreignKeys": []
@@ -84,11 +85,11 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": false,
           "columnNames": [
             "dateTimeStart",
             "title"
-          ],
-          "autoGenerate": false
+          ]
         },
         "indices": [],
         "foreignKeys": []
@@ -123,11 +124,11 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": false,
           "columnNames": [
             "channel_id",
             "parentList"
-          ],
-          "autoGenerate": false
+          ]
         },
         "indices": [],
         "foreignKeys": []
@@ -150,10 +151,10 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": false,
           "columnNames": [
             "id"
-          ],
-          "autoGenerate": false
+          ]
         },
         "indices": [],
         "foreignKeys": []
@@ -162,7 +163,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'eda634fdcd974e237c83e6aa5088f975')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c0b7d6d79c79569bc365ed927cb4c6ed')"
     ]
   }
 }

@@ -3,12 +3,13 @@ package com.mvproject.tvprogramguide.ui.components.views
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -33,6 +34,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.IntSize
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
@@ -151,8 +153,15 @@ fun ProgramItem(
 
         AnimatedVisibility(
             visible = expandedState,
-            enter = slideInVertically() + fadeIn(),
-            exit = fadeOut() + slideOutVertically(),
+            //enter = slideInVertically() + fadeIn(),
+            //exit = fadeOut() + slideOutVertically(),
+            enter = expandVertically(
+                spring(
+                    stiffness = Spring.StiffnessMediumLow,
+                    visibilityThreshold = IntSize.VisibilityThreshold
+                )
+            ),
+            exit = shrinkVertically()
         ) {
             Text(
                 text = program.description,

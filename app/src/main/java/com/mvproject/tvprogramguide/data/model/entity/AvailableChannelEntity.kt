@@ -2,23 +2,22 @@ package com.mvproject.tvprogramguide.data.model.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.mvproject.tvprogramguide.data.database.DbConstants.TABLE_ALL_CHANNELS
 import com.mvproject.tvprogramguide.data.model.domain.AvailableChannel
 import com.mvproject.tvprogramguide.utils.parseChannelName
 
-@Entity(tableName = TABLE_ALL_CHANNELS)
+@Entity(tableName = TABLE_ALL_CHANNELS, primaryKeys = ["channel_id", "channel_name"])
 data class AvailableChannelEntity(
-    @PrimaryKey
     @ColumnInfo(name = "channel_id") val channelId: String,
     @ColumnInfo(name = "channel_name") val channelName: String,
-    @ColumnInfo(name = "channel_icon") val channelIcon: String
+    @ColumnInfo(name = "channel_icon") val channelIcon: String,
 ) {
-    fun toAvailableChannel() = with(this) {
-        AvailableChannel(
-            channelId = channelId,
-            channelName = channelName.parseChannelName(),
-            channelIcon = channelIcon
-        )
-    }
+    fun toAvailableChannel() =
+        with(this) {
+            AvailableChannel(
+                channelId = channelId,
+                channelName = channelName.parseChannelName(),
+                channelIcon = channelIcon,
+            )
+        }
 }

@@ -45,7 +45,8 @@ fun SelectedChannelsPage(
             },
             onMove = { fromIndex, toIndex ->
                 channels =
-                    channels.toMutableList()
+                    channels
+                        .toMutableList()
                         .apply {
                             add(toIndex, removeAt(fromIndex))
                         }
@@ -54,16 +55,16 @@ fun SelectedChannelsPage(
 
     LazyColumn(
         modifier =
-            Modifier
-                .dragContainer(dragDropState)
-                .fillMaxHeight(),
+        Modifier
+            .dragContainer(dragDropState)
+            .fillMaxHeight(),
         state = listState,
         contentPadding = PaddingValues(MaterialTheme.dimens.size8),
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size6),
     ) {
         itemsIndexed(
             items = channels,
-            key = { _, chn -> chn.channelId },
+            key = { _, chn -> chn.channelId + chn.channelName },
         ) { index, chn ->
             DraggableItem(
                 dragDropState = dragDropState,

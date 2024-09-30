@@ -97,14 +97,6 @@ android {
     buildFeatures {
         compose = true
     }
-    // composeOptions {
-    //    kotlinCompilerExtensionVersion = "1.5.14"
-    // }
-
-    composeCompiler {
-        enableStrongSkippingMode.set(true)
-        // reportsDestination = layout.buildDirectory.dir("compose_compiler")
-    }
 
     packaging {
         resources {
@@ -112,11 +104,6 @@ android {
             excludes += "**/attach_hotspot_windows.dll"
             excludes += "META-INF/licenses/**"
             excludes += "META-INF/**.md"
-        }
-    }
-    testOptions {
-        unitTests.all {
-            it.useJUnitPlatform()
         }
     }
 }
@@ -157,6 +144,8 @@ dependencies {
     implementation(libs.bundles.playReview)
 
     implementation(libs.bundles.playUpdate)
+
+    implementation(libs.bundles.ksoup)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
