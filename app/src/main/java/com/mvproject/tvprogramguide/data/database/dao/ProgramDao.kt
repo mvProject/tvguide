@@ -9,7 +9,6 @@ import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
 
 @Dao
 interface ProgramDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPrograms(channels: List<ProgramEntity>)
 

@@ -153,15 +153,16 @@ fun ProgramItem(
 
         AnimatedVisibility(
             visible = expandedState,
-            //enter = slideInVertically() + fadeIn(),
-            //exit = fadeOut() + slideOutVertically(),
-            enter = expandVertically(
-                spring(
-                    stiffness = Spring.StiffnessMediumLow,
-                    visibilityThreshold = IntSize.VisibilityThreshold
-                )
-            ),
-            exit = shrinkVertically()
+            // enter = slideInVertically() + fadeIn(),
+            // exit = fadeOut() + slideOutVertically(),
+            enter =
+                expandVertically(
+                    spring(
+                        stiffness = Spring.StiffnessMediumLow,
+                        visibilityThreshold = IntSize.VisibilityThreshold,
+                    ),
+                ),
+            exit = shrinkVertically(),
         ) {
             Text(
                 text = program.description,

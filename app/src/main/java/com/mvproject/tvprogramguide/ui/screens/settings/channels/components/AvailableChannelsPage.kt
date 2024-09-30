@@ -29,9 +29,9 @@ fun AvailableChannelsPage(
 
     Column(
         modifier =
-        Modifier
-            .fillMaxSize()
-            .padding(MaterialTheme.dimens.size8),
+            Modifier
+                .fillMaxSize()
+                .padding(MaterialTheme.dimens.size8),
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size10),
     ) {
         SearchView(
@@ -42,9 +42,9 @@ fun AvailableChannelsPage(
 
         LazyColumn(
             modifier =
-            Modifier
-                .fillMaxSize()
-                .imeNestedScroll(),
+                Modifier
+                    .fillMaxSize()
+                    .imeNestedScroll(),
             state = listState,
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size6),
         ) {
