@@ -1,6 +1,5 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
-import com.mvproject.tvprogramguide.data.mappers.Mappers.asSelectionChannels
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
 import javax.inject.Inject
@@ -18,10 +17,7 @@ class GetSelectedChannels
             val favoriteChannels =
                 selectedChannelRepository
                     .loadSelectedChannels(listName = listName)
-                    .asSelectionChannels()
-                    .sortedBy { chn ->
-                        chn.order
-                    }
+                    .sortedBy { item -> item.order }
             return favoriteChannels
         }
     }

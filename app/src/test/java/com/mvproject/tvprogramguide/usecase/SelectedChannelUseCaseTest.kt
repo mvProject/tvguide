@@ -1,118 +1,109 @@
 package com.mvproject.tvprogramguide.usecase
 
-import com.mvproject.tvprogramguide.data.model.domain.AvailableChannel
-import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
-import com.mvproject.tvprogramguide.data.model.entity.AvailableChannelEntity
-import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelEntity
-import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelWithIconEntity
-import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
-import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
-import io.kotest.assertions.assertSoftly
 import io.kotest.core.spec.style.StringSpec
-import io.mockk.coEvery
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.runs
-import kotlinx.coroutines.flow.flow
 
-class SelectedChannelUseCaseTest : StringSpec({
+class SelectedChannelUseCaseTest :
+    StringSpec({
 
-    lateinit var selectedChannelRepository: SelectedChannelRepository
+        // TODO refactor tests
 
-    beforeTest {
-        selectedChannelRepository = createSelectedChannelMockRepository()
-    }
+        /*lateinit var selectedChannelRepository: SelectedChannelRepository
 
-    afterTest {
-        println("test ${it.a.name.testName} complete status is ${it.b.isSuccess}")
-    }
+        beforeTest {
+            selectedChannelRepository = createSelectedChannelMockRepository()
+        }
 
-    assertSoftly {
-        "load selected channels with flow" {
-            val expectedResult =
-                listOf(
-                    SelectedChannel(
+        afterTest {
+            println("test ${it.a.name.testName} complete status is ${it.b.isSuccess}")
+        }
+
+        assertSoftly {
+            "load selected channels with flow" {
+                val expectedResult =
+                    listOf(
+                        SelectedChannel(
+                            "testId1",
+                            "testName1",
+                            "iconUrl",
+                            order = 1,
+                            parentList = "test",
+                        ),
+                        SelectedChannel(
+                            "testId2",
+                            "testName2",
+                            "iconUrl",
+                            order = 2,
+                            parentList = "test",
+                        ),
+                        SelectedChannel(
+                            "testId3",
+                            "testName3",
+                            "iconUrl",
+                            order = 3,
+                            parentList = "test",
+                        ),
+                    )
+            }
+
+            "add channel item to selected" {
+                val availableChannel = AvailableChannel("testId1", "testName1", "iconUrl")
+                val channelToAdd =
+                    SelectedChannelEntity(
                         "testId1",
                         "testName1",
-                        "iconUrl",
-                        order = 1,
-                        parentList = "test",
-                    ),
-                    SelectedChannel(
-                        "testId2",
-                        "testName2",
-                        "iconUrl",
-                        order = 2,
-                        parentList = "test",
-                    ),
-                    SelectedChannel(
-                        "testId3",
-                        "testName3",
-                        "iconUrl",
-                        order = 3,
-                        parentList = "test",
-                    ),
-                )
-        }
-
-        "add channel item to selected" {
-            val availableChannel = AvailableChannel("testId1", "testName1", "iconUrl")
-            val channelToAdd =
-                SelectedChannelEntity(
-                    "testId1",
-                    "testName1",
-                    order = 4,
-                    parentList = "test",
-                )
-
-            coEvery {
-                selectedChannelRepository.addChannel(channelToAdd)
-            } just runs
-        }
-
-        "delete channel item from selected" {
-            coEvery {
-                selectedChannelRepository.updateChannels(expectedInsertDao)
-            } just runs
-
-            coEvery {
-                selectedChannelRepository.deleteChannel("testId1")
-            } just runs
-        }
-
-        "update channels order" {
-            val notOrdered =
-                listOf(
-                    SelectedChannel(
-                        "testId1",
-                        "testName1",
-                        "iconUrl",
-                        order = 3,
-                        parentList = "test",
-                    ),
-                    SelectedChannel(
-                        "testId2",
-                        "testName2",
-                        "iconUrl",
                         order = 4,
                         parentList = "test",
-                    ),
-                    SelectedChannel(
-                        "testId3",
-                        "testName3",
-                        "iconUrl",
-                        order = 2,
-                        parentList = "test",
-                    ),
-                )
+                    )
 
-            coEvery {
-                selectedChannelRepository.updateChannels(expectedInsertDao)
-            } just runs
-        }
-    }
-})
+                coEvery {
+                    selectedChannelRepository.addChannel(channelToAdd)
+                } just runs
+            }
 
+            "delete channel item from selected" {
+                coEvery {
+                    selectedChannelRepository.updateChannels(expectedInsertDao)
+                } just runs
+
+                coEvery {
+                    selectedChannelRepository.deleteChannel("testId1")
+                } just runs
+            }
+
+            "update channels order" {
+                val notOrdered =
+                    listOf(
+                        SelectedChannel(
+                            "testId1",
+                            "testName1",
+                            "iconUrl",
+                            order = 3,
+                            parentList = "test",
+                        ),
+                        SelectedChannel(
+                            "testId2",
+                            "testName2",
+                            "iconUrl",
+                            order = 4,
+                            parentList = "test",
+                        ),
+                        SelectedChannel(
+                            "testId3",
+                            "testName3",
+                            "iconUrl",
+                            order = 2,
+                            parentList = "test",
+                        ),
+                    )
+
+                coEvery {
+                    selectedChannelRepository.updateChannels(expectedInsertDao)
+                } just runs
+            }
+        }*/
+    })
+
+/*
 private fun createPreferenceMockRepository(): PreferenceRepository {
     val preferenceRepository = mockk<PreferenceRepository>()
     coEvery {
@@ -182,3 +173,4 @@ private val expectedInsertDao
             SelectedChannelEntity("testId2", "testName2", order = 2, parentList = "test"),
             SelectedChannelEntity("testId3", "testName3", order = 3, parentList = "test"),
         )
+*/

@@ -55,16 +55,16 @@ fun SelectedChannelsPage(
 
     LazyColumn(
         modifier =
-        Modifier
-            .dragContainer(dragDropState)
-            .fillMaxHeight(),
+            Modifier
+                .dragContainer(dragDropState)
+                .fillMaxHeight(),
         state = listState,
         contentPadding = PaddingValues(MaterialTheme.dimens.size8),
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size6),
     ) {
         itemsIndexed(
             items = channels,
-            key = { _, chn -> chn.channelId + chn.channelName },
+            key = { _, item -> item.channelId },
         ) { index, chn ->
             DraggableItem(
                 dragDropState = dragDropState,

@@ -2,7 +2,6 @@ package com.mvproject.tvprogramguide.ui.screens.settings.channels
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Animatable
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,7 +36,6 @@ import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO_FLOAT
 import com.mvproject.tvprogramguide.utils.AppConstants.SELECTED_CHANNELS_PAGE
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ChannelSettingsScreen(
     viewModel: ChannelSettingsViewModel,

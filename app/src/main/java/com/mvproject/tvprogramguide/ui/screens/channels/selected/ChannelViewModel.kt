@@ -93,7 +93,7 @@ class ChannelViewModel
                     state.copy(isOnboard = false)
                 }
             }
-    }
+        }
 
         fun forceReloadData() {
             viewModelScope.launch(Dispatchers.IO) {
@@ -148,9 +148,7 @@ class ChannelViewModel
                 viewModelScope.launch(Dispatchers.IO) {
                     val programs =
                         selectedChannelsWithPrograms()
-                            .sortedBy { item ->
-                                item.selectedChannel.order
-                            }
+                            .sortedBy { item -> item.selectedChannel.order }
 
                     selectedPrograms.apply {
                         clear()

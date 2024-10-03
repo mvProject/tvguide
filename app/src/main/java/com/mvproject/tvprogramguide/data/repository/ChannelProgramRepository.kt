@@ -1,19 +1,14 @@
 package com.mvproject.tvprogramguide.data.repository
 
 import androidx.room.Transaction
-import com.fleeksoft.ksoup.Ksoup
-import com.fleeksoft.ksoup.network.parseGetRequest
-import com.fleeksoft.ksoup.nodes.Document
 import com.mvproject.tvprogramguide.data.database.dao.ProgramDao
-import com.mvproject.tvprogramguide.data.mappers.Mappers.asProgramEntities
+import com.mvproject.tvprogramguide.data.mappers.Mappers.asProgramEntity
 import com.mvproject.tvprogramguide.data.mappers.Mappers.asProgramFromEntities
 import com.mvproject.tvprogramguide.data.model.domain.Program
-import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
+import com.mvproject.tvprogramguide.data.model.response.ProgramResponse2
 import com.mvproject.tvprogramguide.data.network.EpgService
-import com.mvproject.tvprogramguide.ui.screens.main.viewmodel.parseDateTime
 import com.mvproject.tvprogramguide.utils.TimeUtils.correctTimeZone
 import kotlinx.datetime.Clock
-import timber.log.Timber
 import javax.inject.Inject
 
 class ChannelProgramRepository
@@ -48,19 +43,16 @@ class ChannelProgramRepository
                 }.keys
                 .count()
 
-        suspend fun loadProgram2(channelId: String) {
-            val url = "https://epg.ott-play.com/php/show_prog.php?f=edem/epg/$channelId.json"
-            Timber.d("testing loadProgram2 for $channelId url $url")
-            val doc: Document = Ksoup.parseGetRequest(url = url)
-            val parsedTable = doc.select("tr").drop(1)
+    /*    suspend fun loadProgram2(channelId: String) {
+            val parsedTable =
+                loadElements(
+                    sourceUrl = "https://epg.ott-play.com/php/show_prog.php?f=edem/epg/$channelId.json",
+                )
 
             val programs =
                 buildList {
                     parsedTable.forEach { element ->
-                        val selected = element.select("td")
-                        val date = "${selected[0].text()} ${selected[1].text()}"
-                        val title = selected[2].text()
-                        val description = selected[3].text()
+                        val (date, title, description) = element.parseElementDataAsProgram()
 
                         val (start, end) = parseDateTime(input = date)
 
@@ -79,13 +71,7 @@ class ChannelProgramRepository
             if (programs.isNotEmpty()) {
                 programDao.apply {
                     deletePrograms(channelId = channelId)
-                    insertPrograms(
-                        channels =
-                            programs
-                                .map {
-                                    it.correctTimeZone()
-                                },
-                    )
+                    insertPrograms(channels = programs.map { it.correctTimeZone() })
                 }
             }
         }
@@ -108,13 +94,21 @@ class ChannelProgramRepository
             if (entities.isNotEmpty()) {
                 programDao.apply {
                     deletePrograms(channelId = channelId)
-                    insertPrograms(
-                        channels =
-                            entities.map {
-                                it.correctTimeZone()
-                            },
-                    )
+                    insertPrograms(channels = entities.map { it.correctTimeZone() })
                 }
+            }
+        }*/
+
+        @Transaction
+        suspend fun refreshPrograms(
+            channelId: String,
+            programs: List<ProgramResponse2>,
+        ) {
+            val entities = programs.map { item -> item.asProgramEntity(id = channelId) }
+
+            programDao.apply {
+                deletePrograms(channelId = channelId)
+                insertPrograms(channels = entities.map { it.correctTimeZone() })
             }
         }
 

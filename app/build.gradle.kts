@@ -106,6 +106,12 @@ android {
             excludes += "META-INF/**.md"
         }
     }
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 fun readProperties(propertiesFile: File) =

@@ -1,8 +1,8 @@
 package com.mvproject.tvprogramguide.repository
 
 import com.mvproject.tvprogramguide.data.database.dao.UserChannelsListDao
+import com.mvproject.tvprogramguide.data.database.entity.UserChannelsListEntity
 import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
-import com.mvproject.tvprogramguide.data.model.entity.UserChannelsListEntity
 import com.mvproject.tvprogramguide.data.repository.CustomListRepository
 import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.withClue

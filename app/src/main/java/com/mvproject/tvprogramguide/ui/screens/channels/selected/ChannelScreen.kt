@@ -67,14 +67,6 @@ fun ChannelScreen(
         }
     }
 
-    // if (refreshState.isRefreshing) {
-    //     LaunchedEffect(true) {
-    //         viewModel.forceReloadData()
-    //         delay(REFRESH_DELAY)
-    //         refreshState.endRefresh()
-    //     }
-    // }
-
     LifecycleResumeEffect(viewState.listName) {
         if (viewState.listName.isNotBlank()) {
             viewModel.reloadData()
@@ -149,7 +141,7 @@ fun ChannelScreen(
                         listState = listState,
                         onChannelClick = { channel ->
                             onNavigateSingleChannel(
-                                channel.channelId,
+                                channel.programId,
                                 channel.channelName,
                             )
                         },
@@ -172,81 +164,6 @@ fun ChannelScreen(
                     }
                 }
             }
-
-          /*  Box(
-                Modifier
-                    .padding(padding)
-                    .nestedScroll(refreshState.nestedScrollConnection),
-            ) {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    ChannelList(
-                        singleChannelPrograms = viewModel.selectedPrograms,
-                        listState = listState,
-                        onChannelClick = { channel ->
-                            onNavigateSingleChannel(
-                                channel.channelId,
-                                channel.channelName,
-                            )
-                        },
-                        onScheduleClick = viewModel::toggleSchedule,
-                    )
-                }
-
-                if (viewState.isLoading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center),
-                        color = MaterialTheme.colorScheme.tertiary,
-                    )
-                } else {
-                    if (viewState.listName.isEmpty()) {
-                        NoItemsScreen(
-                            title = stringResource(id = R.string.msg_user_filled_list_empty),
-                            navigateTitle = stringResource(id = R.string.msg_tap_to_create_list),
-                            onNavigateClick = onNavigateChannelsList,
-                        )
-                    }
-                }
-
-                PullToRefreshBox(
-                    modifier = Modifier.align(Alignment.TopCenter),
-                    state = refreshState,
-                    isRefreshing = isRefreshing,
-                    onRefresh = onRefresh,
-                ){
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                    ) {
-                        ChannelList(
-                            singleChannelPrograms = viewModel.selectedPrograms,
-                            listState = listState,
-                            onChannelClick = { channel ->
-                                onNavigateSingleChannel(
-                                    channel.channelId,
-                                    channel.channelName,
-                                )
-                            },
-                            onScheduleClick = viewModel::toggleSchedule,
-                        )
-                    }
-
-                    if (viewState.isLoading) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.align(Alignment.Center),
-                            color = MaterialTheme.colorScheme.tertiary,
-                        )
-                    } else {
-                        if (viewState.listName.isEmpty()) {
-                            NoItemsScreen(
-                                title = stringResource(id = R.string.msg_user_filled_list_empty),
-                                navigateTitle = stringResource(id = R.string.msg_tap_to_create_list),
-                                onNavigateClick = onNavigateChannelsList,
-                            )
-                        }
-                    }
-                }
-            }*/
 
             ShowSelectFromListDialog(
                 isDialogOpen = isDialogOpen,

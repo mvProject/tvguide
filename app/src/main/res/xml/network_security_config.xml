@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-    <base-config cleartextTrafficPermitted="false">
-        <trust-anchors>
-            <certificates src="system" />
-        </trust-anchors>
-    </base-config>
-    <debug-overrides>
-        <trust-anchors>
-            <certificates src="system" />
-            <certificates
-                overridePins="true"
-                src="user" />
-        </trust-anchors>
-    </debug-overrides>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">epg.one</domain>
+    </domain-config>
 </network-security-config>
-

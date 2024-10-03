@@ -4,6 +4,6 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class SelectedChannelWithPrograms(
-    val selectedChannel: SelectedChannel,
-    val programs: List<Program>
+    val selectedChannel: SelectionChannel,
+    val programs: List<Program>,
 )

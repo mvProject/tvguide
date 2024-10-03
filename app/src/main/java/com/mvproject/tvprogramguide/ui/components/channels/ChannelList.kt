@@ -11,8 +11,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.mvproject.tvprogramguide.data.model.domain.Program
-import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
+import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
 import com.mvproject.tvprogramguide.ui.components.views.ChannelItem
 import com.mvproject.tvprogramguide.ui.components.views.ProgramItem
 import com.mvproject.tvprogramguide.ui.theme.dimens
@@ -22,7 +22,7 @@ import com.mvproject.tvprogramguide.ui.theme.dimens
 fun ChannelList(
     listState: LazyListState,
     singleChannelPrograms: List<SelectedChannelWithPrograms>,
-    onChannelClick: (SelectedChannel) -> Unit,
+    onChannelClick: (SelectionChannel) -> Unit,
     onScheduleClick: (String, Program) -> Unit,
 ) {
     Crossfade(
@@ -37,7 +37,9 @@ fun ChannelList(
             state = listState,
         ) {
             data.forEach { item ->
-                stickyHeader {
+                stickyHeader(
+                    key = item.selectedChannel.channelId,
+                ) {
                     ChannelItem(
                         channelName = item.selectedChannel.channelName,
                         channelLogo = item.selectedChannel.channelIcon,
@@ -47,7 +49,7 @@ fun ChannelList(
                 }
                 items(
                     items = item.programs,
-                    key = { program -> program.hashCode() },
+                    key = { program -> program.programKey + item.selectedChannel.channelId },
                 ) { program ->
                     ProgramItem(program = program) {
                         onScheduleClick(item.selectedChannel.channelName, program)

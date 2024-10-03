@@ -4,12 +4,11 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.mvproject.tvprogramguide.data.model.entity.UserChannelsListEntity
+import com.mvproject.tvprogramguide.data.database.entity.UserChannelsListEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserChannelsListDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addUserChannelsList(channelList: UserChannelsListEntity)
 

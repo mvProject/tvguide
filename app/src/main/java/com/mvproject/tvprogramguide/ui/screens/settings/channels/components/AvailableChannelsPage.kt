@@ -50,7 +50,7 @@ fun AvailableChannelsPage(
         ) {
             items(
                 items = selectedChannels,
-                key = { item -> item.channelId + item.channelName },
+                key = { item -> item.channelId },
             ) { chn ->
                 ChannelSelectableItem(
                     channelLogo = chn.channelIcon,

@@ -2,8 +2,9 @@ package com.mvproject.tvprogramguide.data.repository
 
 import androidx.room.Transaction
 import com.mvproject.tvprogramguide.data.database.dao.SelectedChannelDao
-import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelEntity
-import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelWithIconEntity
+import com.mvproject.tvprogramguide.data.database.entity.SelectedChannelEntity
+import com.mvproject.tvprogramguide.data.mappers.Mappers.asSelectionFromSelected
+import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
 import javax.inject.Inject
 
 class SelectedChannelRepository
@@ -12,11 +13,12 @@ class SelectedChannelRepository
         private val selectedChannelDao: SelectedChannelDao,
     ) {
         @Transaction
-        suspend fun loadSelectedChannels(listName: String): List<SelectedChannelWithIconEntity> {
-            return selectedChannelDao.getSelectedChannels(listName = listName)
-        }
+        suspend fun loadSelectedChannels(listName: String): List<SelectionChannel> =
+            selectedChannelDao
+                .getSelectedChannels(listName = listName)
+                .map { item -> item.asSelectionFromSelected() }
 
-        suspend fun loadSelectedChannelsIds() = selectedChannelDao.getSelectedChannelsIds()
+        suspend fun loadSelectedChannelsIds() = selectedChannelDao.getSelectedChannelsIds().toSet()
 
         suspend fun loadChannelNameById(selectedId: String) = selectedChannelDao.getChannelNameById(id = selectedId)
 

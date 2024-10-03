@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
+import com.mvproject.tvprogramguide.data.database.entity.ProgramEntity
 
 @Dao
 interface ProgramDao {

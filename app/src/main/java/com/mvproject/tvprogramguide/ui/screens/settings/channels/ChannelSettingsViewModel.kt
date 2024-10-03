@@ -120,7 +120,8 @@ class ChannelSettingsViewModel
         private fun removeChannel(removeId: String): List<SelectionChannel> {
             Timber.w("testing remove $removeId")
             val modified =
-                selected.value.toMutableList()
+                selected.value
+                    .toMutableList()
                     .apply {
                         removeIf {
                             it.channelId == removeId

@@ -8,18 +8,19 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltAndroidApp
-class App : Application(), Configuration.Provider {
+class App :
+    Application(),
+    Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(
             object : Timber.DebugTree() {
-                override fun createStackElementTag(element: StackTraceElement): String {
-                    return String.format(
+                override fun createStackElementTag(element: StackTraceElement): String =
+                    String.format(
                         "%s:%s",
                         element.methodName,
                         super.createStackElementTag(element),
                     )
-                }
             },
         )
     }
@@ -29,7 +30,8 @@ class App : Application(), Configuration.Provider {
 
     override val workManagerConfiguration: Configuration
         get() =
-            Configuration.Builder()
+            Configuration
+                .Builder()
                 .setWorkerFactory(workerFactory)
                 .build()
 }

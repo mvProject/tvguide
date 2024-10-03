@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.data.model.entity
+package com.mvproject.tvprogramguide.data.database.entity
 
 import androidx.room.Entity
 import com.mvproject.tvprogramguide.data.database.DbConstants.PROGRAM_KEY_DATE_TIME
@@ -17,15 +17,16 @@ data class ProgramEntity(
     val channelId: String = NO_VALUE_STRING,
     val scheduledId: Long? = null,
 ) {
-    fun toProgram() = with(this) {
-        Program(
-            dateTimeStart = dateTimeStart,
-            dateTimeEnd = dateTimeEnd,
-            title = title,
-            description = description,
-            category = category,
-            channel = channelId,
-            scheduledId = scheduledId
-        )
-    }
+    fun toProgram() =
+        with(this) {
+            Program(
+                dateTimeStart = dateTimeStart,
+                dateTimeEnd = dateTimeEnd,
+                title = title,
+                description = description,
+                category = category,
+                channel = channelId,
+                scheduledId = scheduledId,
+            )
+        }
 }
