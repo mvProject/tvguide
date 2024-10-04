@@ -9,11 +9,11 @@ import androidx.compose.ui.unit.sp
 import com.mvproject.tvprogramguide.R
 
 val fonts = FontFamily(
-    Font(R.font.montserrat_regular, weight = FontWeight.Normal),
-    Font(R.font.montserrat_medium, weight = FontWeight.Medium),
-    Font(R.font.montserrat_semibold, weight = FontWeight.SemiBold),
-    Font(R.font.montserrat_bold, weight = FontWeight.Bold),
-    Font(R.font.montserrat_extrabold, weight = FontWeight.ExtraBold),
+    Font(R.font.prompt_regular, weight = FontWeight.Normal),
+    Font(R.font.prompt_medium, weight = FontWeight.Medium),
+    Font(R.font.prompt_semibold, weight = FontWeight.SemiBold),
+    Font(R.font.prompt_bold, weight = FontWeight.Bold),
+    Font(R.font.prompt_extrabold, weight = FontWeight.ExtraBold),
 )
 
 val appTypography = Typography(
