@@ -44,5 +44,14 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
+      - name: Store reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+           name: reports
+           path: |
+             **/build/reports/
+             **/build/test-results/
+
       - name: Execute Gradle command - testDebug
         run: ./gradlew clean testDebug
