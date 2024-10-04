@@ -42,4 +42,4 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Execute Gradle command - lintDebug
-        run: ./gradlew testDebugUnitTest
+        run: ./gradlew lintDebug
