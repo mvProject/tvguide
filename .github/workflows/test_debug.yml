@@ -1,16 +1,16 @@
-name: Lint debug
+name: Test debug
 
 # Controls when the workflow will run
 on:
  # workflow_call:
- # push:
+  push:
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
   lint:
-    name: Linting debug variant
+    name: Testing debug variant
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -30,4 +30,4 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Execute Gradle command - lintDebug
-        run: ./gradlew testDebugUnitTest
+        run: ./gradlew lintDebug
