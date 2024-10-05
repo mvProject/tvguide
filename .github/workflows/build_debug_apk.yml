@@ -50,8 +50,8 @@ jobs:
       - name: List output directory
         run: ls -R app/build/outputs/
 
-      # - name: Expose app version name
-      # - run: echo "VERSION_NAME=$( ./gradlew -q app:printVersionName )" >> $GITHUB_ENV
+      - name: Expose app version name
+        run: echo "VERSION_NAME=$( ./gradlew -q app:printVersionName )" >> $GITHUB_ENV
 
       # - name: Upload debug APK
       #   uses: actions/upload-artifact@v4.4.0
