@@ -59,17 +59,28 @@ jobs:
       - name: Expose app version name
         run: echo "VERSION_NAME=$( ./gradlew -q app:printVersionName )" >> $GITHUB_ENV
 
-      - name: Upload debug APK
-        uses: actions/upload-artifact@v4.4.0
-        with:
-          name: ${{ env.VERSION_NAME }}
-          #name: "${{ env.VERSION_NAME }}_debug"
-          path: app/build/outputs/apk/debug/${{ env.VERSION_NAME }}.apk
+      #- name: Upload debug APK
+      #  uses: actions/upload-artifact@v4.4.0
+      #  with:
+      #    name: ${{ env.VERSION_NAME }}
+      #    #name: "${{ env.VERSION_NAME }}_debug"
+      #    path: app/build/outputs/apk/debug/${{ env.VERSION_NAME }}.apk
 
+
+      - name: Get release file apk path
+        id: debugApk
+        run: echo "debugApk=$(find app/build/outputs/apk/debug/*.apk)" >> $GITHUB_OUTPUT
 
       - name: Get release file apk path
         id: releaseApk
         run: echo "releaseFile=$(find app/build/outputs/apk/release/*.apk)" >> $GITHUB_OUTPUT
+
+      - name: Upload debug apk
+        uses: actions/upload-artifact@v4.4.0
+        with:
+          name: ${{ env.VERSION_NAME }}
+          #name: "${{ env.VERSION_NAME }}_release"
+          path: ${{ steps.debugApk.outputs.debugApk }}
 
       - name: Upload release APK
         uses: actions/upload-artifact@v4.4.0
