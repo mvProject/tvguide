@@ -36,7 +36,7 @@ jobs:
           EOF
 
       - name: List output directory
-        run: ls -R app/
+        run: ls -l
 
       #- name: Decode Keystore
       #  env:
