@@ -26,17 +26,17 @@ jobs:
       - name: Load Google Service file
         run: echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 --decode > ./app/google-services.json
 
-      #- name: Generate keystore.properties
-      #  run: |
-      #    cat <<EOF > keystore.properties
-      #    storePassword:${{ secrets.KEYSTORE_PASS }}
-      #    keyPassword:${{ secrets.ALIAS_PASS }}
-      #    keyAlias:${{ secrets.ALIAS }}
-      #    storeFile:${{ vars.KEYSTORE_STORE_FILE_PATH }}
-      #    EOF
-#
-      #- name: Decode keystore and create jks
-      #  run: echo "${{ secrets.KEYSTORE_JKS }}" | base64 --decode > mvproject.jks
+      - name: Generate keystore.properties
+        run: |
+          cat <<EOF > keystore.properties
+          storePassword:${{ secrets.KEYSTORE_PASS }}
+          keyPassword:${{ secrets.ALIAS_PASS }}
+          keyAlias:${{ secrets.ALIAS }}
+          storeFile:${{ vars.KEYSTORE_STORE_FILE_PATH }}
+          EOF
+
+      - name: Decode keystore and create jks
+        run: echo "${{ secrets.KEYSTORE_JKS }}" | base64 --decode > mvproject.jks
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -44,36 +44,15 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Decode Keystore
-        env:
-          ENCODED_STRING: ${{ secrets.KEYSTORE_JKS }}
-          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
-          RELEASE_KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
-          RELEASE_KEY_PASSWORD: ${{ secrets.ALIAS_PASS }}
-          RELEASE_STORE_FILE: ${{ vars.KEYSTORE_STORE_FILE_PATH }}
-
-        run: |
-          echo $ENCODED_STRING > keystore.properties
-          base64 -d keystore.properties > mvproject.jks
-
       - name: List output directory
         run: ls -l
-
-      - name: Build Release apk
-        env:
-            RELEASE_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
-            RELEASE_KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
-            RELEASE_KEY_PASSWORD: ${{ secrets.ALIAS_PASS }}
-            RELEASE_STORE_FILE: ${{ vars.KEYSTORE_STORE_FILE_PATH }}
-        run: ./gradlew assembleRelease
-
 
 
       #- name: Build debug APK
       #  run: ./gradlew assembleDebug
 
-      #- name: Build release APK
-      #  run: ./gradlew assembleRelease
+      - name: Build release APK
+        run: ./gradlew assembleRelease
 
       - name: List output directory
         run: ls -R app/build/outputs/
