@@ -66,5 +66,5 @@ jobs:
       - name: Upload debug APK
         uses: actions/upload-artifact@v4.4.0
         with:
-          name: my-app-debug
+          name: ${{ env.VERSION_NAME }}
           path: ${{ steps.debugApk.outputs.apkfile }}
