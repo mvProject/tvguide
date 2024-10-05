@@ -1,24 +1,21 @@
 package com.mvproject.tvprogramguide.data.mappers
 
-import com.mvproject.tvprogramguide.data.model.domain.AvailableChannel
+import com.mvproject.tvprogramguide.data.database.entity.AvailableChannelEntity
+import com.mvproject.tvprogramguide.data.database.entity.ProgramEntity
+import com.mvproject.tvprogramguide.data.database.entity.SelectedChannelEntity
+import com.mvproject.tvprogramguide.data.database.entity.SelectedChannelWithIconEntity
+import com.mvproject.tvprogramguide.data.database.entity.UserChannelsListEntity
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
 import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
-import com.mvproject.tvprogramguide.data.model.entity.AvailableChannelEntity
-import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
-import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelEntity
-import com.mvproject.tvprogramguide.data.model.entity.SelectedChannelWithIconEntity
-import com.mvproject.tvprogramguide.data.model.entity.UserChannelsListEntity
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
 import com.mvproject.tvprogramguide.data.model.response.ProgramResponse
+import com.mvproject.tvprogramguide.data.model.response.ProgramResponse2
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
-import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO_LONG
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.utils.TimeUtils
-import com.mvproject.tvprogramguide.utils.calculateEndings
-import com.mvproject.tvprogramguide.utils.getLastItemEnding
 import com.mvproject.tvprogramguide.utils.parseChannelName
 import com.mvproject.tvprogramguide.utils.takeIfCountNotEmpty
 import com.mvproject.tvprogramguide.utils.toMillis
@@ -38,7 +35,7 @@ object Mappers {
      * @return the converted object
      */
     fun List<Program>.toSelectedChannelWithPrograms(
-        alreadySelected: List<SelectedChannel>,
+        alreadySelected: List<SelectionChannel>,
         itemsCount: Int = COUNT_ZERO,
     ): List<SelectedChannelWithPrograms> {
         val programs =
@@ -48,27 +45,26 @@ object Mappers {
 
         return buildList {
             alreadySelected.forEach { chn ->
-                val currentPrograms = programs[chn.channelId]
+
+                val currentPrograms = programs[chn.programId]
 
                 val channelPrograms =
-                    if (currentPrograms != null && currentPrograms.count() > COUNT_ZERO) {
-                        currentPrograms.takeIfCountNotEmpty(count = itemsCount)
+                    if (!currentPrograms.isNullOrEmpty()) {
+                        currentPrograms
                     } else {
                         // todo modify cause not update if new added
                         chn.channelId.toNoProgramData()
-                            .takeIfCountNotEmpty(count = itemsCount)
                     }
 
                 add(
                     SelectedChannelWithPrograms(
                         selectedChannel = chn,
-                        programs = channelPrograms,
+                        programs = channelPrograms.takeIfCountNotEmpty(count = itemsCount),
                     ),
                 )
             }
         }
     }
-
     /**
      * Maps List of [ProgramResponse] from Response to Entity.
      * with id and end time
@@ -78,19 +74,19 @@ object Mappers {
      *
      * @return the converted object
      */
-    private fun ProgramResponse.asProgramEntity(
-        channelId: String,
-        endTime: Long = COUNT_ZERO_LONG,
-    ) = with(this) {
-        ProgramEntity(
-            dateTimeStart = start.toMillis(),
-            dateTimeEnd = endTime,
-            title = title,
-            description = description,
-            category = category,
-            channelId = channelId,
-        )
-    }
+    /*    private fun ProgramResponse.asProgramEntity(
+            channelId: String,
+            endTime: Long = COUNT_ZERO_LONG,
+        ) = with(this) {
+            ProgramEntity(
+                dateTimeStart = start.toMillis(),
+                dateTimeEnd = endTime,
+                title = title,
+                description = description,
+                category = category,
+                channelId = channelId,
+            )
+        }*/
 
     /**
      * Maps List of [ProgramResponse] from Response to Entity
@@ -100,24 +96,24 @@ object Mappers {
      *
      * @return the converted object
      */
-    fun List<ProgramResponse>.asProgramEntities(channelId: String): List<ProgramEntity> {
-        val actualDayFiltered = this.filterToActualDay()
+    /*  fun List<ProgramResponse>.asProgramEntities(channelId: String): List<ProgramEntity> {
+          val actualDayFiltered = this.filterToActualDay()
 
-        val programEndings =
-            actualDayFiltered
-                .map { programResponse -> programResponse.start }
-                .calculateEndings()
+          val programEndings =
+              actualDayFiltered
+                  .map { programResponse -> programResponse.start }
+                  .calculateEndings()
 
-        return actualDayFiltered.mapIndexed { index, item ->
-            val endingTime =
-                programEndings.elementAtOrNull(index)
-                    ?: item.start.toMillis().getLastItemEnding()
-            item.asProgramEntity(
-                channelId = channelId,
-                endTime = endingTime,
-            )
-        }
-    }
+          return actualDayFiltered.mapIndexed { index, item ->
+              val endingTime =
+                  programEndings.elementAtOrNull(index)
+                      ?: item.start.toMillis().getLastItemEnding()
+              item.asProgramEntity(
+                  channelId = channelId,
+                  endTime = endingTime,
+              )
+          }
+      }*/
 
     /**
      * Filter List of [ProgramResponse] for current day programs start
@@ -157,76 +153,101 @@ object Mappers {
      *
      * @return the converted object
      */
-    fun List<AvailableChannelEntity>.asChannelsFromEntities() =
-        this.map { item ->
-            item.toAvailableChannel()
-        }
+    /*
+        fun List<AvailableChannelEntity>.asChannelsFromEntities() =
+            this.map { item ->
+                item.toAvailableChannel()
+            }
+     */
 
     /**
      * Maps List of [SelectedChannelEntity] from Entity to Domain.
      *
      * @return the converted object
      */
-    fun List<SelectedChannelEntity>.asSelectedChannelsFromEntities() =
-        this.map { item ->
-            item.toSelectedChannel()
-        }
+    /*    fun List<SelectedChannelEntity>.asSelectedChannelsFromEntities() =
+            this.map { item ->
+                item.toSelectedChannel()
+            }*/
 
-    fun List<SelectedChannelWithIconEntity>.asSelectedChannelsFromAltEntities() =
-        this.map { item ->
-            item.toSelectedChannel()
-        }
+    /*    fun List<SelectedChannelWithIconEntity>.asSelectedChannelsFromAltEntities() =
+            this.map { item ->
+                item.toSelectedChannel()
+            }*/
 
-    private fun AvailableChannel.asSelectionFromAvailable() =
+    /*    private fun AvailableChannel.asSelectionFromAvailable() =
+            with(this) {
+                SelectionChannel(
+                    channelId = channelId,
+                    channelName = channelName.parseChannelName(),
+                    channelIcon = channelIcon,
+                )
+            }*/
+
+    fun AvailableChannelEntity.asSelectionFromAvailable() =
         with(this) {
             SelectionChannel(
-                channelId = channelId,
-                channelName = channelName.parseChannelName(),
-                channelIcon = channelIcon,
+                channelId = id,
+                programId = programId,
+                channelName = title.parseChannelName(),
+                channelIcon = logo,
             )
         }
 
-    private fun SelectedChannelWithIconEntity.asSelectionFromSelected() =
+    fun SelectedChannelWithIconEntity.asSelectionFromSelected() =
         with(this) {
             SelectionChannel(
-                channelId = channel.channelId,
-                channelName = allChannel?.channelName?.parseChannelName() ?: NO_VALUE_STRING,
-                channelIcon = allChannel?.channelIcon ?: NO_VALUE_STRING,
+                programId = channel.programId,
+                channelId = channel.id,
+                channelName = allChannel?.title?.parseChannelName() ?: NO_VALUE_STRING,
+                channelIcon = allChannel?.logo ?: NO_VALUE_STRING,
                 order = channel.order,
                 parentList = channel.parentList,
             )
         }
 
-    fun List<AvailableChannel>.asAvailableSelectionChannels() =
-        this.map { item ->
-            item.asSelectionFromAvailable()
+    fun ProgramResponse2.asProgramEntity(id: String) =
+        with(this) {
+            ProgramEntity(
+                dateTimeStart = dateTimeStart,
+                dateTimeEnd = dateTimeEnd,
+                title = title,
+                description = description,
+                channelId = id,
+            )
         }
 
-    fun List<SelectedChannelWithIconEntity>.asSelectionChannels() =
-        this.map { item ->
-            item.asSelectionFromSelected()
-        }
+    /*    fun List<AvailableChannel>.asAvailableSelectionChannels() =
+            this.map { item ->
+                item.asSelectionFromAvailable()
+            }
+
+        fun List<SelectedChannelWithIconEntity>.asSelectionChannels() =
+            this.map { item ->
+                item.asSelectionFromSelected()
+            }*/
 
     /**
      * Maps List of [SelectedChannel] from Domain to Entity.
      *
      * @return the converted object
      */
-    fun List<SelectedChannel>.asSelectedChannelsEntitiesFromChannels() =
-        this.map { item ->
-            SelectedChannelEntity(
-                channelId = item.channelId,
-                channelName = item.channelName,
-                order = item.order,
-                parentList = item.parentList,
-            )
-        }
+    /*    fun List<SelectedChannel>.asSelectedChannelsEntitiesFromChannels() =
+            this.map { item ->
+                SelectedChannelEntity(
+                    channelId = item.channelId,
+                    channelName = item.channelName,
+                    order = item.order,
+                    parentList = item.parentList,
+                )
+            }*/
 
     fun List<SelectionChannel>.asSelectionChannelToEntity() =
         this.map { item ->
             SelectedChannelEntity(
-                channelId = item.channelId,
-                channelName = item.channelName,
+                id = item.channelId,
+                programId = item.programId,
+                title = item.channelName,
                 order = item.order,
                 parentList = item.parentList,
             )

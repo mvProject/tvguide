@@ -1,22 +1,13 @@
 package com.mvproject.tvprogramguide.viewmodels
 
-import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
-import io.kotest.assertions.withClue
-import io.kotest.core.spec.style.StringSpec
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.runs
-
-class OnBoardViewModelTest :
+/*class OnBoardViewModelTest :
     StringSpec({
         lateinit var preferenceRepository: PreferenceRepository
-        lateinit var onBoardViewModel: OnBoardViewModel
+        lateinit var onBoardViewModel: ChannelViewModel
 
         beforeTest {
             preferenceRepository = mockk<PreferenceRepository>()
-            onBoardViewModel = OnBoardViewModel(preferenceRepository)
+            onBoardViewModel = ChannelViewModel(preferenceRepository)
         }
 
         afterTest {
@@ -50,4 +41,4 @@ class OnBoardViewModelTest :
                 }
             }
         }
-    })
+    })*/

@@ -1,20 +1,18 @@
 [versions]
 # plugins
-# kotlin = "1.9.24"
-kotlin = "2.0.0"
-gradle = "8.1.4"
-# ksp = "1.9.24-1.0.20"
-ksp = "2.0.0-1.0.21"
-crashlyticsGradle = "3.0.1"
+kotlin = "2.0.20"
+gradle = "8.5.2"
+ksp = "2.0.20-1.0.25"
+crashlyticsGradle = "3.0.2"
 ktLint = "10.3.0"
 googleServices = "4.4.2"
 versionsPlugin = "0.42.0"
 
 # production libraries
 coreKtx = "1.13.1"
-annotation = "1.8.0"
+annotation = "1.8.2"
 timber = "5.0.1"
-lifecycle-viewmodel = "2.8.2"
+lifecycle-viewmodel = "2.8.5"
 material = "1.12.0"
 
 serialization-json = "1.6.3"
@@ -23,18 +21,18 @@ serialization-json = "1.6.3"
 dataStore = "1.1.1"
 
 # datetime
-datetime = "0.5.0"
+datetime = "0.6.1"
 
 # Compose
-compose-activity = "1.9.0"
-compose-lifecycle-viewmodel = "2.8.2"
-compose-lifecycle-runtime = "2.8.2"
-compose-bom = "2024.06.00"
-firebase-bom = "33.1.0"
+compose-activity = "1.9.2"
+compose-lifecycle-viewmodel = "2.8.5"
+compose-lifecycle-runtime = "2.8.5"
+compose-bom = "2024.09.00"
+firebase-bom = "33.2.0"
 
 # navigationCompose
 composeNavigationHilt = "1.2.0"
-composeNavigation = "2.8.0-beta03"
+composeNavigation = "2.8.0"
 
 # Accompanist Permissions
 accompanistPermissions = "0.32.0"
@@ -44,8 +42,8 @@ daggerHilt = "2.50"
 androidHilt = "1.2.0"
 
 # coroutines
-coroutines-core = "1.8.0"
-coroutines-android = "1.8.0"
+coroutines-core = "1.8.1"
+coroutines-android = "1.8.1"
 
 # retrofit
 retrofit = "2.9.0"
@@ -54,11 +52,12 @@ gson = "2.10.1"
 gsonConverter = "2.9.0"
 
 # Image
-coil = "2.5.0"
-coilCompose = "2.5.0"
+coil = "2.7.0"
 
 # Database
 room = "2.6.1"
+
+ksoup = "0.1.2"
 
 # WorkManager
 workRuntime = "2.9.0"
@@ -70,7 +69,7 @@ startUp = "1.1.1"
 # test libraries
 testJunit = "4.13.2"
 
-kotest = "5.6.2"
+kotest = "6.0.0.M1"
 mockk = "1.13.5"
 
 review = "2.0.1"
@@ -127,6 +126,7 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "compose-lifecycle-runtime" }
 androidx-compose-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "compose-lifecycle-viewmodel" }
 
+# Navigation
 composeNavigation = { module = "androidx.navigation:navigation-compose", version.ref = "composeNavigation" }
 composeNavigationHilt = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "composeNavigationHilt" }
 
@@ -151,18 +151,18 @@ startUp = { module = "androidx.startup:startup-runtime", version.ref = "startUp"
 
 # Coil
 coilKt = { module = "io.coil-kt:coil", version.ref = "coil" }
-coilKtCompose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+coilKtCompose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 # Accompanist Permissions
 accompanistPermissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
 
-# Navigation
-navComposeHilt = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "composeNavigationHilt" }
-navCompose = { module = "androidx.navigation:navigation-compose", version.ref = "composeNavigation" }
-
 # WorkManager
 workRuntimeKtx = { module = "androidx.work:work-runtime", version.ref = "workRuntime" }
 workHilt = { module = "androidx.hilt:hilt-work", version.ref = "workHilt" }
+
+# Parse
+ksoup = { module = "com.fleeksoft.ksoup:ksoup", version.ref = "ksoup" }
+ksoup-network = { module = "com.fleeksoft.ksoup:ksoup-network", version.ref = "ksoup" }
 
 review = { module = "com.google.android.play:review", version.ref = "review" }
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "review" }
@@ -275,4 +275,9 @@ firebase = [
 kotest = [
     "kotest-runner-junit5",
     "kotest-assertions-core"
+]
+
+ksoup = [
+    "ksoup",
+    "ksoup-network"
 ]

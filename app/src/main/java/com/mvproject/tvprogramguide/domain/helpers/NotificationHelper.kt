@@ -10,6 +10,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.mvproject.tvprogramguide.R
 import dagger.hilt.android.qualifiers.ApplicationContext
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -28,39 +29,44 @@ class NotificationHelper @Inject constructor(
      * @param programTitle to be shown as notification content
      */
     fun showScheduledProgramNotification(id: Int, programTitle: String, channelTitle: String) {
+        try {
+            val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
-        val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            val myAudioAttributes = AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build()
 
-        val myAudioAttributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-            .build()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val channel = NotificationChannel(
+                    PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_ID,
+                    PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_NAME,
+                    NotificationManager.IMPORTANCE_DEFAULT
+                ).apply {
+                    setSound(soundUri, myAudioAttributes)
+                }
+                val notificationManager =
+                    context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_ID,
-                PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_DEFAULT
-            ).apply {
-                setSound(soundUri, myAudioAttributes)
+                notificationManager?.createNotificationChannel(channel)
             }
-            val notificationManager =
-                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
 
-            notificationManager?.createNotificationChannel(channel)
+            val builder = NotificationCompat.Builder(
+                context,
+                PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_ID
+            )
+                .setSmallIcon(R.drawable.ic_notify)
+                .setContentTitle(channelTitle)
+                .setContentText(programTitle)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true)
+
+            NotificationManagerCompat.from(context).notify(id, builder.build())
+        } catch (ex: SecurityException) {
+            Timber.e("security exception ${ex.message}")
+        } catch (ex: Exception) {
+            Timber.e("exception ${ex.message}")
         }
-
-        val builder = NotificationCompat.Builder(
-            context,
-            PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_ID
-        )
-            .setSmallIcon(R.drawable.ic_notify)
-            .setContentTitle(channelTitle)
-            .setContentText(programTitle)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(true)
-
-        NotificationManagerCompat.from(context).notify(id, builder.build())
     }
 
     /**
@@ -69,7 +75,13 @@ class NotificationHelper @Inject constructor(
      * @param id notification to be dismissed
      */
     fun hideScheduledProgramNotification(id: Int) {
-        NotificationManagerCompat.from(context).cancel(id)
+        try {
+            NotificationManagerCompat.from(context).cancel(id)
+        } catch (ex: SecurityException) {
+            Timber.e("security exception ${ex.message}")
+        } catch (ex: Exception) {
+            Timber.e("exception ${ex.message}")
+        }
     }
 
     /**
@@ -77,25 +89,30 @@ class NotificationHelper @Inject constructor(
      *
      * @param message Message shown on the notification
      */
-
     fun makeStatusNotification(message: String) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = UPDATE_NOTIFICATION_CHANNEL_NAME
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(UPDATE_NOTIFICATION_CHANNEL_ID, name, importance)
-            val notificationManager =
-                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val name = UPDATE_NOTIFICATION_CHANNEL_NAME
+                val importance = NotificationManager.IMPORTANCE_DEFAULT
+                val channel = NotificationChannel(UPDATE_NOTIFICATION_CHANNEL_ID, name, importance)
+                val notificationManager =
+                    context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
 
-            notificationManager?.createNotificationChannel(channel)
+                notificationManager?.createNotificationChannel(channel)
+            }
+
+            val builder = NotificationCompat.Builder(context, UPDATE_NOTIFICATION_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notify)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setVibrate(LongArray(0))
+
+            NotificationManagerCompat.from(context).notify(UPDATE_NOTIFICATION_ID, builder.build())
+        } catch (ex: SecurityException) {
+            Timber.e("security exception ${ex.message}")
+        } catch (ex: Exception) {
+            Timber.e("exception ${ex.message}")
         }
-
-        val builder = NotificationCompat.Builder(context, UPDATE_NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_notify)
-            .setContentText(message)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setVibrate(LongArray(0))
-
-        NotificationManagerCompat.from(context).notify(UPDATE_NOTIFICATION_ID, builder.build())
     }
 
     /**

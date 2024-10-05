@@ -4,11 +4,10 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.mvproject.tvprogramguide.data.model.entity.AvailableChannelEntity
+import com.mvproject.tvprogramguide.data.database.entity.AvailableChannelEntity
 
 @Dao
 interface AllChannelDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertChannelList(availableChannels: List<AvailableChannelEntity>)
 

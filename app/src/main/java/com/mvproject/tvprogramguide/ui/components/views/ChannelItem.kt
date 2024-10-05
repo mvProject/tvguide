@@ -35,7 +35,8 @@ fun ChannelItem(
         leadingContent = {
             AsyncImage(
                 model =
-                    ImageRequest.Builder(LocalContext.current)
+                    ImageRequest
+                        .Builder(LocalContext.current)
                         .data(channelLogo)
                         .crossfade(true)
                         .placeholder(R.drawable.no_channel_logo)

@@ -1,7 +1,5 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
-import com.mvproject.tvprogramguide.data.mappers.Mappers.asAvailableSelectionChannels
-import com.mvproject.tvprogramguide.data.mappers.Mappers.asSelectionChannels
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
 import com.mvproject.tvprogramguide.data.repository.AllChannelRepository
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
@@ -19,15 +17,9 @@ class GetAvailableChannels
         private val selectedChannelRepository: SelectedChannelRepository,
     ) {
         suspend operator fun invoke(listName: String): List<SelectionChannel> {
-            val availableChannels =
-                allChannelRepository
-                    .loadChannels()
-                    .asAvailableSelectionChannels()
+            val availableChannels = allChannelRepository.loadChannels()
 
-            val favoriteChannels =
-                selectedChannelRepository
-                    .loadSelectedChannels(listName = listName)
-                    .asSelectionChannels()
+            val favoriteChannels = selectedChannelRepository.loadSelectedChannels(listName = listName)
 
             val selectedIds = favoriteChannels.map { it.channelId }
 
@@ -39,14 +31,6 @@ class GetAvailableChannels
                             parentList = listName,
                         )
                     }
-
-        /*            val mappedChannels2 =
-                        buildList {
-                            availableChannels.forEach { chn ->
-                                val isInFavorites = chn.channelId in selectedIds
-                                add(chn.copy(isSelected = isInFavorites))
-                            }
-                        }*/
 
             return mappedChannels
         }

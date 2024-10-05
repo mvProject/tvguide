@@ -29,7 +29,7 @@ class MainViewModel
     constructor(
         private val workManager: WorkManager,
         private val networkHelper: NetworkHelper,
-        private val preferenceRepository: PreferenceRepository,
+        preferenceRepository: PreferenceRepository,
         private val updateChannelsInfoUseCase: UpdateChannelsInfoUseCase,
     ) : ViewModel() {
         private val fullUpdateWorkInfoFlow =

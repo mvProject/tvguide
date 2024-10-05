@@ -3,8 +3,8 @@ package com.mvproject.tvprogramguide.utils
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import com.mvproject.tvprogramguide.data.database.entity.ProgramEntity
 import com.mvproject.tvprogramguide.data.model.domain.Program
-import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
 import com.mvproject.tvprogramguide.utils.AppConstants.CHANNEL_NAME_NO_EPG_FILTER
 import com.mvproject.tvprogramguide.utils.AppConstants.CHANNEL_NAME_PARSE_DELIMITER
@@ -26,6 +26,7 @@ import java.util.Locale
 import kotlin.time.Duration.Companion.hours
 
 private const val DATE_FORMAT = "dd-MM-yyyy HH:mm"
+private const val DATE_FORMAT_SLASH = "dd/MM/yyyy HH:mm"
 private const val TARGET_DATE_FORMAT = "dd MM yyyy"
 
 /**
@@ -52,18 +53,22 @@ fun String.toMillis(): Long {
     return parser.parse(this)?.time ?: NO_VALUE_LONG
 }
 
+fun String.toMillisSlashed(): Long {
+    val parser = SimpleDateFormat(DATE_FORMAT_SLASH, Locale.getDefault())
+    return parser.parse(this)?.time ?: NO_VALUE_LONG
+}
+
 /**
  * Extension Method to non-null long variable which
  * convert value to specified date pattern
  *
  * @return String converted date value
  */
-fun Long.convertDateToReadableFormat(): String {
-    return SimpleDateFormat(
+fun Long.convertDateToReadableFormat(): String =
+    SimpleDateFormat(
         TARGET_DATE_FORMAT,
         Locale.getDefault(),
     ).format(this)
-}
 
 /**
  * Extension Method to non-null long variable which
@@ -111,8 +116,8 @@ fun List<AvailableChannelResponse>.filterNoEpg() =
  *
  * @return list of dummy program entities
  */
-fun String.getNoProgramData(): List<ProgramEntity> {
-    return buildList {
+fun String.getNoProgramData(): List<ProgramEntity> =
+    buildList {
         val initTime = Clock.System.now()
         for (i in NO_EPG_PROGRAM_RANGE_START..NO_EPG_PROGRAM_RANGE_END) {
             val startDelta = i * NO_EPG_PROGRAM_DURATION
@@ -132,10 +137,9 @@ fun String.getNoProgramData(): List<ProgramEntity> {
             )
         }
     }
-}
 
-fun String.toNoProgramData(): List<Program> {
-    return buildList {
+fun String.toNoProgramData(): List<Program> =
+    buildList {
         val initTime = Clock.System.now()
         for (i in NO_EPG_PROGRAM_RANGE_START..NO_EPG_PROGRAM_RANGE_END) {
             val startDelta = i * NO_EPG_PROGRAM_DURATION
@@ -155,20 +159,18 @@ fun String.toNoProgramData(): List<Program> {
             )
         }
     }
-}
 
 /**
  * Obtain time values of program end from start time of next
  *
  * @return the list of long values in milliseconds
  */
-fun List<String>.calculateEndings(): List<Long> {
-    return buildList {
+fun List<String>.calculateEndings(): List<Long> =
+    buildList {
         this@calculateEndings.zipWithNext().forEach { timing ->
             add(timing.second.toMillis())
         }
     }
-}
 
 /**
  * Obtain time value of program end for last element
@@ -187,13 +189,12 @@ fun Long.getLastItemEnding() =
  *
  * @return list of elements
  */
-fun <T> List<T>.takeIfCountNotEmpty(count: Int): List<T> {
-    return if (count <= COUNT_ZERO || count >= size) {
+fun <T> List<T>.takeIfCountNotEmpty(count: Int): List<T> =
+    if (count <= COUNT_ZERO || count >= size) {
         this
     } else {
         take(count)
     }
-}
 
 fun String.manageLength() =
     if (this.length > USER_LIST_MAX_LENGTH) {

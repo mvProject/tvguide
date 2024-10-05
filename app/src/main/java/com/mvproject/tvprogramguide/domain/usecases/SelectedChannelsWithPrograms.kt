@@ -1,6 +1,5 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
-import com.mvproject.tvprogramguide.data.mappers.Mappers.asSelectedChannelsFromAltEntities
 import com.mvproject.tvprogramguide.data.mappers.Mappers.toSelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
@@ -38,12 +37,9 @@ class SelectedChannelsWithPrograms
             val selectedChannels =
                 selectedChannelRepository
                     .loadSelectedChannels(listName = currentChannelList)
-                    .asSelectedChannelsFromAltEntities()
 
             val selectedChannelIds =
-                selectedChannels.map { channel ->
-                    channel.channelId
-                }
+                selectedChannels.map { item -> item.programId }
 
             val programsWithChannels =
                 channelProgramRepository.loadProgramsForChannels(channelsIds = selectedChannelIds)

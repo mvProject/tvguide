@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.data.model.entity
+package com.mvproject.tvprogramguide.data.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -9,10 +9,11 @@ import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
 class UserChannelsListEntity(
     @PrimaryKey
     val id: Int,
-    val name: String
+    val name: String,
 ) {
-    fun toUserChannelsList() = UserChannelsList(
-        id = id,
-        listName = name
-    )
+    fun toUserChannelsList() =
+        UserChannelsList(
+            id = id,
+            listName = name,
+        )
 }

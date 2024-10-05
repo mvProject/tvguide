@@ -1,11 +1,14 @@
 package com.mvproject.tvprogramguide.data.database.dao
 
-import androidx.room.*
-import com.mvproject.tvprogramguide.data.model.entity.ProgramEntity
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
+import com.mvproject.tvprogramguide.data.database.entity.ProgramEntity
 
 @Dao
 interface ProgramDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPrograms(channels: List<ProgramEntity>)
 

@@ -5,6 +5,7 @@ import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 
 data class SelectionChannel(
     val channelId: String,
+    val programId: String = NO_VALUE_STRING,
     val channelName: String = NO_VALUE_STRING,
     val channelIcon: String = NO_VALUE_STRING,
     val order: Int = COUNT_ZERO,

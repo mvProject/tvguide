@@ -2,51 +2,27 @@ package com.mvproject.tvprogramguide.data.repository
 
 import androidx.room.Transaction
 import com.mvproject.tvprogramguide.data.database.dao.AllChannelDao
-import com.mvproject.tvprogramguide.data.mappers.Mappers.asChannelsFromEntities
+import com.mvproject.tvprogramguide.data.mappers.Mappers.asSelectionFromAvailable
 import com.mvproject.tvprogramguide.data.mappers.Mappers.toAvailableChannelEntities
-import com.mvproject.tvprogramguide.data.model.domain.AvailableChannel
-import com.mvproject.tvprogramguide.data.model.entity.AvailableChannelEntity
-import com.mvproject.tvprogramguide.data.network.EpgService
-import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
-import com.mvproject.tvprogramguide.utils.filterNoEpg
+import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
+import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
 import javax.inject.Inject
 
-class AllChannelRepository @Inject constructor(
-    private val epgService: EpgService,
-    private val allChannelDao: AllChannelDao
-) {
-    private var databaseChannels: List<AvailableChannelEntity> = emptyList()
+class AllChannelRepository
+    @Inject
+    constructor(
+        private val allChannelDao: AllChannelDao,
+    ) {
+        suspend fun loadChannels(): List<SelectionChannel> =
+            allChannelDao
+                .getChannelList()
+                .map { item -> item.asSelectionFromAvailable() }
 
-    suspend fun loadChannels(): List<AvailableChannel> {
-        databaseChannels = allChannelDao.getChannelList()
-        return if (databaseChannels.isEmpty()) {
-            val networkChannels = epgService.getChannels()
-                .channels
-                .filterNoEpg()
-            databaseChannels = networkChannels.toAvailableChannelEntities()
-            allChannelDao.insertChannelList(availableChannels = databaseChannels)
-            databaseChannels.asChannelsFromEntities()
-        } else {
-            databaseChannels.asChannelsFromEntities()
+        @Transaction
+        suspend fun refreshChannels(channels: List<AvailableChannelResponse>) {
+            allChannelDao.apply {
+                deleteChannels()
+                insertChannelList(availableChannels = channels.toAvailableChannelEntities())
+            }
         }
     }
-
-    @Transaction
-    suspend fun loadProgramFromSource() {
-        val networkChannels = epgService.getChannels()
-            .channels
-            .filterNoEpg()
-
-        val entities = networkChannels.toAvailableChannelEntities()
-        if (entities.count() > COUNT_ZERO) {
-            updateEntities(entities = entities)
-        }
-    }
-
-    suspend fun updateEntities(entities: List<AvailableChannelEntity>) {
-        allChannelDao.apply {
-            deleteChannels()
-            insertChannelList(availableChannels = entities)
-        }
-    }
-}

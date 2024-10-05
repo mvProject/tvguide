@@ -57,7 +57,7 @@ fun SingleChannelScreen(
                     }
                     items(
                         items = item.programs,
-                        key = { program -> program.hashCode() },
+                        key = { program -> program.programKey },
                     ) { program ->
                         ProgramItem(program = program) {
                             viewModel.toggleSchedule(

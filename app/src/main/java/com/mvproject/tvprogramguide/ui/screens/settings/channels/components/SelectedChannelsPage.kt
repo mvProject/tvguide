@@ -45,7 +45,8 @@ fun SelectedChannelsPage(
             },
             onMove = { fromIndex, toIndex ->
                 channels =
-                    channels.toMutableList()
+                    channels
+                        .toMutableList()
                         .apply {
                             add(toIndex, removeAt(fromIndex))
                         }
@@ -63,7 +64,7 @@ fun SelectedChannelsPage(
     ) {
         itemsIndexed(
             items = channels,
-            key = { _, chn -> chn.channelId },
+            key = { _, item -> item.channelId },
         ) { index, chn ->
             DraggableItem(
                 dragDropState = dragDropState,
