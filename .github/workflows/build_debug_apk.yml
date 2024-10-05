@@ -45,11 +45,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build debug APK
-        run: ./gradlew assembleDebug --stacktrace
-
-      - name: Get debug file apk path
-        id: debugApk
-        run: echo "apkfile=$(find app/build/outputs/apk/debug/*.apk)" >> $GITHUB_OUTPUT
+        run: ./gradlew assembleRelease --stacktrace
 
       #- name: Rename APK
       #  run:
@@ -59,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v4.4.0
         with:
           name: app-debug
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/debug/app-release.apk
 
       - name: Store reports
         if: failure()
