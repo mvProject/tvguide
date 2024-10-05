@@ -35,9 +35,6 @@ jobs:
           storeFile:${{ vars.KEYSTORE_STORE_FILE_PATH }}
           EOF
 
-      - name: List output directory
-        run: ls -l
-
       #- name: Decode Keystore
       #  env:
       #    ENCODED_STRING: ${{ secrets.KEYSTORE_JKS }}
@@ -51,6 +48,9 @@ jobs:
 
       - name: Decode keystore and create jks
         run: echo "${{ secrets.KEYSTORE_JKS }}" | base64 --decode > mvproject.jks
+
+      - name: List output directory
+        run: ls -l
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
