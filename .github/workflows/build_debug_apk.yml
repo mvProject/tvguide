@@ -48,7 +48,7 @@ jobs:
         run: ./gradlew assembleDebug
 
       # Set VERSION_INFORMATION
-      - run: echo "VERSION_INFORMATION=./gradlew -q printVersionName)" >> $GITHUB_ENV
+      - run: echo "VERSION_NAME=$( ./gradlew -q app:printVersionName )" >> $GITHUB_ENV
 
       - name: List output directory
         run: ls -R app/build/outputs/
@@ -57,4 +57,4 @@ jobs:
         uses: actions/upload-artifact@v4.4.0
         with:
           name: app-debug
-          path: app/build/outputs/apk/debug/${{ env.VERSION_INFORMATION }}.apk
+          path: app/build/outputs/apk/debug/${{ env.VERSION_NAME }}.apk
