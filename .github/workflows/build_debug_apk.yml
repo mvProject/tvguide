@@ -52,8 +52,8 @@ jobs:
           RELEASE_KEY_PASSWORD: ${{ secrets.ALIAS_PASS }}
 
         run: |
-          echo $ENCODED_STRING > keystore-b64.txt
-          base64 -d keystore-b64.txt > mvproject.jks
+          echo $ENCODED_STRING > keystore.properties
+          base64 -d keystore.properties > mvproject.jks
 
       - name: List output directory
         run: ls -l
