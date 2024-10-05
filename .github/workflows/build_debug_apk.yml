@@ -45,24 +45,19 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build debug APK
-        run: ./gradlew assembleDebug --stacktrace
+        run: ./gradlew assembleDebug
 
-      - run: 'echo Build status report=${{ job.status }}'
+      # Set VERSION_INFORMATION
+      - run: echo "VERSION_INFORMATION=$(${{github.workspace}}/gradlew -q printVersionInformation)" >> $GITHUB_ENV
 
       - name: List output directory
         run: ls -R app/build/outputs/
-
-      #- name: Rename APK
-      #  run:
-      #    mv "./app/build/outputs/apk/debug/app-debug.apk" "./app/build/outputs/apk/debug/test.apk"
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4.4.0
         with:
           name: app-debug
-          path: app/build/outputs/apk/debug/app-debug.apk
-
-      - run: 'echo Build status report=${{ job.status }}'
+          path: app/build/outputs/apk/debug/${{ env.VERSION_INFORMATION }}.apk
 
       - name: Store reports
         if: failure()
