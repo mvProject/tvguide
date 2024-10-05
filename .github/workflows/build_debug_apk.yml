@@ -2,7 +2,7 @@ name: Build debug
 
 # Controls when the workflow will run
 on:
- # workflow_call:
+  # workflow_call:
   push:
   workflow_dispatch:
 
@@ -47,14 +47,24 @@ jobs:
       - name: Build debug APK
         run: ./gradlew assembleDebug
 
-      # Set VERSION_INFORMATION
-      - run: echo "VERSION_NAME=$( ./gradlew -q app:printVersionName )" >> $GITHUB_ENV
-
       - name: List output directory
         run: ls -R app/build/outputs/
+
+      # - name: Expose app version name
+      # - run: echo "VERSION_NAME=$( ./gradlew -q app:printVersionName )" >> $GITHUB_ENV
+
+      # - name: Upload debug APK
+      #   uses: actions/upload-artifact@v4.4.0
+      #   with:
+      #     name: app-debug
+      #     path: app/build/outputs/apk/debug/${{ env.VERSION_NAME }}.apk
+
+      - name: Get debug file apk path
+        id: debugApk
+        run: echo "apkfile=$(find app/build/outputs/apk/debug/*.apk)" >> $GITHUB_OUTPUT
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4.4.0
         with:
           name: app-debug
-          path: app/build/outputs/apk/debug/${{ env.VERSION_NAME }}.apk
+          path: ${{ steps.debugApk.outputs.apkfile }}

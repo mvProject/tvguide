@@ -180,5 +180,5 @@ dependencies {
 }*/
 
 tasks.register("printVersionName") {
-    println("${rootProject.name}_${project.android.defaultConfig.name}")
+    println("${rootProject.name}_${project.android.defaultConfig.versionName}")
 }
