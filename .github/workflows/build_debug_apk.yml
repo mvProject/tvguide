@@ -44,8 +44,11 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Build debug APK
-        run: ./gradlew assembleDebug
+      #- name: Build debug APK
+      #  run: ./gradlew assembleDebug
+
+      - name: Build release APK
+        run: ./gradlew assembleRelease
 
       - name: List output directory
         run: ls -R app/build/outputs/
