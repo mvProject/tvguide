@@ -73,18 +73,16 @@ jobs:
 
       - name: Get release file apk path
         id: releaseApk
-        run: echo "releaseFile=$(find app/build/outputs/apk/release/*.apk)" >> $GITHUB_OUTPUT
+        run: echo "releaseApk=$(find app/build/outputs/apk/release/*.apk)" >> $GITHUB_OUTPUT
 
       - name: Upload debug apk
         uses: actions/upload-artifact@v4.4.0
         with:
-          name: ${{ env.VERSION_NAME }}
-          #name: "${{ env.VERSION_NAME }}_release"
+          name: "${{ env.VERSION_NAME }}_debug"
           path: ${{ steps.debugApk.outputs.debugApk }}
 
       - name: Upload release APK
         uses: actions/upload-artifact@v4.4.0
         with:
-          name: ${{ env.VERSION_NAME }}
-          #name: "${{ env.VERSION_NAME }}_release"
-          path: ${{ steps.releaseApk.outputs.releaseFile }}
+          name: "${{ env.VERSION_NAME }}_release"
+          path: ${{ steps.releaseApk.outputs.releaseApk }}
