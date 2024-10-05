@@ -48,7 +48,7 @@ jobs:
         run: ./gradlew assembleDebug
 
       # Set VERSION_INFORMATION
-      - run: echo "VERSION_INFORMATION=./gradlew -q printVersionInformation)" >> $GITHUB_ENV
+      - run: echo "VERSION_INFORMATION=./gradlew -q printVersionName)" >> $GITHUB_ENV
 
       - name: List output directory
         run: ls -R app/build/outputs/
