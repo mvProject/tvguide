@@ -50,6 +50,7 @@ jobs:
           RELEASE_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
           RELEASE_KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
           RELEASE_KEY_PASSWORD: ${{ secrets.ALIAS_PASS }}
+          RELEASE_STORE_FILE: ${{ vars.KEYSTORE_STORE_FILE_PATH }}
 
         run: |
           echo $ENCODED_STRING > keystore.properties
@@ -63,6 +64,7 @@ jobs:
             RELEASE_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASS }}
             RELEASE_KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
             RELEASE_KEY_PASSWORD: ${{ secrets.ALIAS_PASS }}
+            RELEASE_STORE_FILE: ${{ vars.KEYSTORE_STORE_FILE_PATH }}
         run: ./gradlew assembleRelease
 
 
