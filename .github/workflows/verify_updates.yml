@@ -1,16 +1,18 @@
-name: Lint debug
+name: Test debug
 
 # Controls when the workflow will run
 on:
- # workflow_call:
- # push:
   workflow_dispatch:
+  pull_request:
+    types: [ opened, edited, synchronize ]
+    branches:
+      - staging
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  lint:
-    name: Linting debug variant
+  verify:
+    name: Lint and Test
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -28,12 +30,12 @@ jobs:
 
       - name: Generate keystore.properties
         run: |
-            cat <<EOF > keystore.properties
-            storePassword:${{ secrets.KEYSTORE_PASS }}
-            keyPassword:${{ secrets.ALIAS_PASS }}
-            keyAlias:${{ secrets.ALIAS }}
-            storeFile:${{ vars.KEYSTORE_STORE_FILE_PATH }}
-            EOF
+          cat <<EOF > keystore.properties
+          storePassword:${{ secrets.KEYSTORE_PASS }}
+          keyPassword:${{ secrets.ALIAS_PASS }}
+          keyAlias:${{ secrets.ALIAS }}
+          storeFile:${{ vars.KEYSTORE_STORE_FILE_PATH }}
+          EOF
 
       - name: Decode keystore and create jks
         run: echo "${{ secrets.KEYSTORE_JKS }}" | base64 --decode > mvproject.jks
@@ -44,5 +46,16 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Execute Gradle command - lintDebug
+      - name: Execute lintDebug
         run: ./gradlew lintDebug
+
+      - name: Execute testDebug
+        run: ./gradlew clean testDebug
+
+      - name: Store reports
+        if: failure()
+        uses: actions/upload-artifact@v4.4.0
+        with:
+          name: reports
+          path: |
+            **/build/reports/

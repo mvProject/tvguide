@@ -174,3 +174,11 @@ dependencies {
 
     debugImplementation(libs.bundles.testDebugCompose)
 }
+
+/*task("printVersionName"){
+    println("${rootProject.name}_${project.android.defaultConfig.name}")
+}*/
+
+tasks.register("printVersionName") {
+    println("${rootProject.name}_${project.android.defaultConfig.versionName}")
+}
