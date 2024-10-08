@@ -22,10 +22,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
@@ -80,22 +79,18 @@ fun ChannelSelectableItem(
             ),
         leadingContent = {
             AsyncImage(
-                model =
-                    ImageRequest.Builder(LocalContext.current)
-                        .data(channelLogo)
-                        .crossfade(true)
-                        .placeholder(R.drawable.no_channel_logo)
-                        .error(R.drawable.no_channel_logo)
-                        .build(),
+                model = channelLogo,
+                placeholder = painterResource(R.drawable.no_channel_logo),
+                error = painterResource(R.drawable.no_channel_logo),
                 contentDescription = channelName,
                 modifier =
-                    Modifier
-                        .size(MaterialTheme.dimens.size38)
-                        .background(
-                            color =
-                                MaterialTheme.colorScheme.outline,
-                            shape = MaterialTheme.shapes.extraSmall,
-                        ),
+                Modifier
+                    .size(MaterialTheme.dimens.size38)
+                    .background(
+                        color =
+                        MaterialTheme.colorScheme.outline,
+                        shape = MaterialTheme.shapes.extraSmall,
+                    ),
             )
         },
         headlineContent = {
