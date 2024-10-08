@@ -1,7 +1,7 @@
 package com.mvproject.tvprogramguide.repository
 
-import com.mvproject.tvprogramguide.data.database.dao.UserChannelsListDao
-import com.mvproject.tvprogramguide.data.database.entity.UserChannelsListEntity
+import com.mvproject.tvprogramguide.data.database.dao.ChannelsListDao
+import com.mvproject.tvprogramguide.data.database.entity.ChannelsListEntity
 import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
 import com.mvproject.tvprogramguide.data.repository.CustomListRepository
 import io.kotest.assertions.assertSoftly
@@ -23,11 +23,11 @@ import kotlinx.coroutines.test.runTest
 @OptIn(ExperimentalCoroutinesApi::class)
 class CustomListRepositoryTest :
     StringSpec({
-        lateinit var dao: UserChannelsListDao
+        lateinit var dao: ChannelsListDao
         lateinit var repository: CustomListRepository
 
         beforeTest {
-            dao = mockk<UserChannelsListDao>(relaxed = true)
+            dao = mockk<ChannelsListDao>(relaxed = true)
             repository = CustomListRepository(dao)
         }
 
@@ -75,14 +75,14 @@ class CustomListRepositoryTest :
 
             "add list to database if name empty" {
                 coEvery {
-                    dao.addUserChannelsList(UserChannelsListEntity(1, ""))
+                    dao.addUserChannelsList(ChannelsListEntity(1, ""))
                 } just runs
 
                 withClue("single call from dao execute") {
                     repository.addCustomList("")
 
                     coVerify(exactly = 0) {
-                        dao.addUserChannelsList(UserChannelsListEntity(1, ""))
+                        dao.addUserChannelsList(ChannelsListEntity(1, ""))
                     }
                     confirmVerified(dao)
                 }
@@ -91,9 +91,9 @@ class CustomListRepositoryTest :
             "retrieve userlists" {
                 val expectedResultDao =
                     listOf(
-                        UserChannelsListEntity(1, "list1"),
-                        UserChannelsListEntity(2, "list2"),
-                        UserChannelsListEntity(3, "list3"),
+                        ChannelsListEntity(1, "list1"),
+                        ChannelsListEntity(2, "list2"),
+                        ChannelsListEntity(3, "list3"),
                     )
 
                 val expectedResult =

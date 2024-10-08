@@ -1,5 +1,7 @@
 package com.mvproject.tvprogramguide.utils
 
+import kotlinx.serialization.json.Json
+
 object AppConstants {
     const val NO_VALUE_LONG = -1L
     const val NO_VALUE_INT = -1
@@ -52,4 +54,10 @@ object AppConstants {
     const val ONBOARD_LAST_PAGES_INDEX = 2
 
     const val TIMEOUT_SECONDS = 15
+
+    val json = Json {
+        prettyPrint = true
+        isLenient = true
+        ignoreUnknownKeys = true
+    }
 }
