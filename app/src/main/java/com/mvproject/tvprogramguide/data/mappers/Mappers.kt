@@ -19,7 +19,6 @@ import com.mvproject.tvprogramguide.utils.TimeUtils
 import com.mvproject.tvprogramguide.utils.parseChannelName
 import com.mvproject.tvprogramguide.utils.takeIfCountNotEmpty
 import com.mvproject.tvprogramguide.utils.toMillis
-import com.mvproject.tvprogramguide.utils.toNoProgramData
 
 /**
  * Maps Data between models
@@ -46,20 +45,12 @@ object Mappers {
         return buildList {
             alreadySelected.forEach { chn ->
 
-                val currentPrograms = programs[chn.programId]
-
-                val channelPrograms =
-                    if (!currentPrograms.isNullOrEmpty()) {
-                        currentPrograms
-                    } else {
-                        // todo modify cause not update if new added
-                        chn.channelId.toNoProgramData()
-                    }
+                val currentPrograms = programs[chn.programId] ?: emptyList()
 
                 add(
                     SelectedChannelWithPrograms(
                         selectedChannel = chn,
-                        programs = channelPrograms.takeIfCountNotEmpty(count = itemsCount),
+                        programs = currentPrograms.takeIfCountNotEmpty(count = itemsCount),
                     ),
                 )
             }
