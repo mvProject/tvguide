@@ -14,8 +14,8 @@ import com.mvproject.tvprogramguide.ui.screens.settings.channels.navigation.navi
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.navigation.settingsChannelScreen
 import com.mvproject.tvprogramguide.ui.screens.settings.general.navigation.navigateToSettingsGeneral
 import com.mvproject.tvprogramguide.ui.screens.settings.general.navigation.settingsGeneralScreen
-import com.mvproject.tvprogramguide.ui.screens.usercustomlist.navigation.navigateToUserCustomList
-import com.mvproject.tvprogramguide.ui.screens.usercustomlist.navigation.userCustomListScreen
+import com.mvproject.tvprogramguide.ui.screens.usercustomlist.navigation.channelListScreen
+import com.mvproject.tvprogramguide.ui.screens.usercustomlist.navigation.navigateToChannelList
 
 @Composable
 fun NavigationHost(
@@ -29,7 +29,7 @@ fun NavigationHost(
         selectedChannelsScreen(
             onNavigateSingleChannel = navController::navigateToSingleChannel,
             onNavigateSettings = navController::navigateToSettingsGeneral,
-            onNavigateChannelsList = navController::navigateToUserCustomList,
+            onNavigateChannelsList = navController::navigateToChannelList,
         )
 
         singleChannelScreen(
@@ -39,14 +39,14 @@ fun NavigationHost(
         settingsGeneralScreen(
             onNavigateBack = navController::navigateToBack,
             onNavigateAppSettings = navController::navigateToSettingsApp,
-            onNavigateChannelSettings = navController::navigateToUserCustomList,
+            onNavigateChannelSettings = navController::navigateToChannelList,
         )
 
         settingsAppScreen(
             onNavigateBack = navController::navigateToBack,
         )
 
-        userCustomListScreen(
+        channelListScreen(
             onNavigateBack = navController::navigateToBack,
             onNavigateItem = navController::navigateToSettingsChannel,
         )

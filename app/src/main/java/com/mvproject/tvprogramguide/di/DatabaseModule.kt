@@ -5,9 +5,9 @@ import androidx.room.Room
 import com.mvproject.tvprogramguide.data.database.AppDatabase
 import com.mvproject.tvprogramguide.data.database.DbConstants.DATABASE
 import com.mvproject.tvprogramguide.data.database.dao.AllChannelDao
+import com.mvproject.tvprogramguide.data.database.dao.ChannelsListDao
 import com.mvproject.tvprogramguide.data.database.dao.ProgramDao
 import com.mvproject.tvprogramguide.data.database.dao.SelectedChannelDao
-import com.mvproject.tvprogramguide.data.database.dao.UserChannelsListDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,7 +51,7 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideUserChannelsListDao(appDatabase: AppDatabase): UserChannelsListDao {
+    fun provideUserChannelsListDao(appDatabase: AppDatabase): ChannelsListDao {
         return appDatabase.userChannelsListDao()
     }
 }

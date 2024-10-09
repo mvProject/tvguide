@@ -45,7 +45,7 @@ class UpdateChannelsInfoUseCase
 
             Timber.w("testing UpdateChannelsInfoUseCase networkChannels ${networkChannels.count()}")
             if (networkChannels.isNotEmpty()) {
-                allChannelRepository.refreshChannels(channels = networkChannels)
+                allChannelRepository.updateChannels(channels = networkChannels)
             }
 
             preferenceRepository.setChannelsUpdateLastTime(timeInMillis = actualDate)

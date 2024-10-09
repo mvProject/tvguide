@@ -20,7 +20,7 @@ class SaveChannelsSelection
         suspend operator fun invoke(
             listName: String,
             channels: List<SelectionChannel>,
-            isUpdateRequired: Boolean,
+            channelsForUpdate:List<String> = emptyList()
         ) {
             val channelsUpdate =
                 channels.asSelectionChannelToEntity()
@@ -30,6 +30,6 @@ class SaveChannelsSelection
                 selectedChannels = channelsUpdate,
             )
 
-            preferenceRepository.setChannelsCountChanged(state = isUpdateRequired)
+            preferenceRepository.setChannelsForUpdate(ids = channelsForUpdate)
         }
     }

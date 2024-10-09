@@ -1,9 +1,9 @@
 package com.mvproject.tvprogramguide.repository
 
-import com.mvproject.tvprogramguide.data.database.dao.UserChannelsListDao
-import com.mvproject.tvprogramguide.data.database.entity.UserChannelsListEntity
-import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
-import com.mvproject.tvprogramguide.data.repository.CustomListRepository
+import com.mvproject.tvprogramguide.data.database.dao.ChannelsListDao
+import com.mvproject.tvprogramguide.data.database.entity.ChannelsListEntity
+import com.mvproject.tvprogramguide.data.model.domain.ChannelList
+import com.mvproject.tvprogramguide.data.repository.ChannelListRepository
 import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
@@ -23,12 +23,12 @@ import kotlinx.coroutines.test.runTest
 @OptIn(ExperimentalCoroutinesApi::class)
 class CustomListRepositoryTest :
     StringSpec({
-        lateinit var dao: UserChannelsListDao
-        lateinit var repository: CustomListRepository
+        lateinit var dao: ChannelsListDao
+        lateinit var repository: ChannelListRepository
 
         beforeTest {
-            dao = mockk<UserChannelsListDao>(relaxed = true)
-            repository = CustomListRepository(dao)
+            dao = mockk<ChannelsListDao>(relaxed = true)
+            repository = ChannelListRepository(dao)
         }
 
         afterTest {
@@ -39,35 +39,35 @@ class CustomListRepositoryTest :
 
             "delete list from database" {
                 coEvery {
-                    dao.deleteSingleUserChannelsList(1)
+                    dao.deleteSingleChannelsList(1)
                 } just runs
 
                 withClue("single call from dao execute") {
-                    repository.deleteList(UserChannelsList(1, "1"))
+                    repository.deleteList(ChannelList(1, "1", false))
 
                     coVerify(exactly = 1) {
-                        dao.deleteSingleUserChannelsList(1)
+                        dao.deleteSingleChannelsList(1)
                     }
                     confirmVerified(dao)
                 }
             }
 
             "add list to database if name filled" {
-                val repository = mockk<CustomListRepository>()
+                val repository = mockk<ChannelListRepository>()
 
                 coEvery {
-                    dao.addUserChannelsList(any())
+                    dao.addChannelsList(any())
                 } just runs
 
                 coEvery {
-                    repository.addCustomList("list")
+                    repository.addChannelsList("list")
                 } just runs
 
                 withClue("single call from repository execute") {
-                    repository.addCustomList("list")
+                    repository.addChannelsList("list")
 
                     coVerify(exactly = 1) {
-                        repository.addCustomList("list")
+                        repository.addChannelsList("list")
                     }
                     confirmVerified(repository)
                 }
@@ -75,14 +75,14 @@ class CustomListRepositoryTest :
 
             "add list to database if name empty" {
                 coEvery {
-                    dao.addUserChannelsList(UserChannelsListEntity(1, ""))
+                    dao.addChannelsList(ChannelsListEntity(1, "", false))
                 } just runs
 
                 withClue("single call from dao execute") {
-                    repository.addCustomList("")
+                    repository.addChannelsList("")
 
                     coVerify(exactly = 0) {
-                        dao.addUserChannelsList(UserChannelsListEntity(1, ""))
+                        dao.addChannelsList(ChannelsListEntity(1, "", false))
                     }
                     confirmVerified(dao)
                 }
@@ -91,20 +91,20 @@ class CustomListRepositoryTest :
             "retrieve userlists" {
                 val expectedResultDao =
                     listOf(
-                        UserChannelsListEntity(1, "list1"),
-                        UserChannelsListEntity(2, "list2"),
-                        UserChannelsListEntity(3, "list3"),
+                        ChannelsListEntity(1, "list1", false),
+                        ChannelsListEntity(2, "list2", false),
+                        ChannelsListEntity(3, "list3", false),
                     )
 
                 val expectedResult =
                     listOf(
-                        UserChannelsList(1, "list1"),
-                        UserChannelsList(2, "list2"),
-                        UserChannelsList(3, "list3"),
+                        ChannelList(1, "list1", false),
+                        ChannelList(2, "list2", false),
+                        ChannelList(3, "list3", false),
                     )
 
                 coEvery {
-                    dao.getAllUserChannelsLists()
+                    dao.getChannelsListsAsFlow()
                 } returns
                     flow {
                         emit(expectedResultDao)
@@ -114,16 +114,16 @@ class CustomListRepositoryTest :
                     repository.loadChannelsLists()
 
                     coVerify(exactly = 1) {
-                        dao.getAllUserChannelsLists()
+                        dao.getChannelsLists()
                     }
                     confirmVerified(dao)
                 }
 
                 withClue("collect proper data from flow") {
                     runTest {
-                        repository.loadChannelsLists().collect { retrievedResult ->
+                        repository.loadChannelsListsAsFlow().collect { retrievedResult ->
                             withClue("result is list of entity value") {
-                                retrievedResult.shouldBeInstanceOf<List<UserChannelsList>>()
+                                retrievedResult.shouldBeInstanceOf<List<ChannelList>>()
                                 retrievedResult.first() shouldBeEqualToComparingFields expectedResult.first()
                             }
                             withClue("result fields values match expected values") {

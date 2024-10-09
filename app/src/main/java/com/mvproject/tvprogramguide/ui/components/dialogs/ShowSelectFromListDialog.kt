@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
@@ -14,16 +16,18 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.window.Dialog
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.ui.components.radio.RadioGroupScrollable
+import com.mvproject.tvprogramguide.data.model.domain.ChannelList
+import com.mvproject.tvprogramguide.ui.components.radio.RadioGroupContent
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
@@ -31,40 +35,36 @@ import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 
 @Composable
 fun ShowSelectFromListDialog(
-    radioOptions: List<String> = listOf(),
+    channelLists: List<ChannelList>,
     defaultSelection: Int = COUNT_ZERO,
     isDialogOpen: MutableState<Boolean>,
-    onSelected: (String) -> Unit,
+    onSelected: (ChannelList) -> Unit = {},
 ) {
-    val def =
-        if (radioOptions.isEmpty()) {
-            NO_VALUE_STRING
-        } else {
-            radioOptions[defaultSelection]
-        }
+    val selection = channelLists.firstOrNull { it.isSelected }?.listName ?: NO_VALUE_STRING
 
-    val name = remember { mutableStateOf(def) }
+    var name by remember { mutableStateOf(selection) }
+
     if (isDialogOpen.value) {
         Dialog(
             onDismissRequest = { isDialogOpen.value = false },
         ) {
             Surface(
                 modifier =
-                    Modifier
-                        .width(MaterialTheme.dimens.size350)
-                        .height(MaterialTheme.dimens.size350)
-                        .padding(MaterialTheme.dimens.size8),
+                Modifier
+                    .width(MaterialTheme.dimens.size350)
+                    .height(MaterialTheme.dimens.size350)
+                    .padding(MaterialTheme.dimens.size8),
                 shape = MaterialTheme.shapes.small,
                 shadowElevation = MaterialTheme.dimens.size8,
             ) {
                 Column(
                     modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .padding(
-                                horizontal = MaterialTheme.dimens.size16,
-                                vertical = MaterialTheme.dimens.size12,
-                            ),
+                    Modifier
+                        .fillMaxSize()
+                        .padding(
+                            horizontal = MaterialTheme.dimens.size16,
+                            vertical = MaterialTheme.dimens.size12,
+                        ),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size12),
                 ) {
@@ -74,25 +74,40 @@ fun ShowSelectFromListDialog(
                         style = MaterialTheme.typography.titleMedium,
                     )
 
-                    RadioGroupScrollable(
-                        radioOptions = radioOptions,
-                        defaultSelection = defaultSelection,
-                    ) { selected ->
-                        name.value = selected
+                    val scrollState = rememberScrollState()
+
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .weight(MaterialTheme.dimens.weight1)
+                            .verticalScroll(
+                                state = scrollState,
+                                enabled = true,
+                            ),
+                    ) {
+                        RadioGroupContent(
+                            radioOptions = channelLists.map { it.listName },
+                            defaultSelection = defaultSelection,
+                            onItemClick = { selected ->
+                                name = selected
+                            },
+                        )
                     }
 
                     ElevatedButton(
                         onClick = {
-                            onSelected(name.value)
+                            channelLists.firstOrNull { it.listName == name }?.let {
+                                onSelected(it)
+                            }
                             isDialogOpen.value = false
                         },
                         Modifier
                             .fillMaxWidth()
                             .padding(MaterialTheme.dimens.size4),
                         colors =
-                            ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.tertiary,
-                            ),
+                        ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.tertiary,
+                        ),
                         shape = MaterialTheme.shapes.small,
                     ) {
                         Text(
@@ -108,7 +123,6 @@ fun ShowSelectFromListDialog(
 }
 
 @PreviewLightDark
-@PreviewScreenSizes
 @Composable
 fun ShowSelectFromListDialogPreview() {
     val open =
@@ -117,7 +131,7 @@ fun ShowSelectFromListDialogPreview() {
         }
     TvGuideTheme {
         ShowSelectFromListDialog(
-            radioOptions = listOf("One, Two, Three"),
+            channelLists = listOf(ChannelList(1, "1", true), ChannelList(2, "2", false)),
             defaultSelection = 1,
             isDialogOpen = open,
             onSelected = {},

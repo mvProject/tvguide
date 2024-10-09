@@ -4,7 +4,6 @@ import androidx.room.Entity
 import com.mvproject.tvprogramguide.data.database.DbConstants.PROGRAM_KEY_DATE_TIME
 import com.mvproject.tvprogramguide.data.database.DbConstants.PROGRAM_KEY_TITLE
 import com.mvproject.tvprogramguide.data.database.DbConstants.TABLE_PROGRAMS
-import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 
 @Entity(tableName = TABLE_PROGRAMS, primaryKeys = [PROGRAM_KEY_DATE_TIME, PROGRAM_KEY_TITLE])
@@ -16,17 +15,4 @@ data class ProgramEntity(
     val category: String = NO_VALUE_STRING,
     val channelId: String = NO_VALUE_STRING,
     val scheduledId: Long? = null,
-) {
-    fun toProgram() =
-        with(this) {
-            Program(
-                dateTimeStart = dateTimeStart,
-                dateTimeEnd = dateTimeEnd,
-                title = title,
-                description = description,
-                category = category,
-                channel = channelId,
-                scheduledId = scheduledId,
-            )
-        }
-}
+)

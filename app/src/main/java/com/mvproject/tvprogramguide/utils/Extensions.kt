@@ -203,6 +203,9 @@ fun String.manageLength() =
         this
     }
 
+fun String.trimSpaces() =
+    this.replace(" ", "")
+
 fun Context.findActivity(): Activity {
     var ctx = this
     while (ctx is ContextWrapper) {

@@ -10,17 +10,17 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.mvproject.tvprogramguide.navigation.AppRoutes
 import com.mvproject.tvprogramguide.navigation.canNavigate
-import com.mvproject.tvprogramguide.ui.screens.usercustomlist.UserCustomListScreen
-import com.mvproject.tvprogramguide.ui.screens.usercustomlist.UserCustomListViewModel
+import com.mvproject.tvprogramguide.ui.screens.usercustomlist.ChannelListScreen
+import com.mvproject.tvprogramguide.ui.screens.usercustomlist.ChannelListViewModel
 import com.mvproject.tvprogramguide.utils.AppConstants
 
-fun NavController.navigateToUserCustomList() {
+fun NavController.navigateToChannelList() {
     if (canNavigate) {
         this.navigate(AppRoutes.UserCustomList)
     }
 }
 
-fun NavGraphBuilder.userCustomListScreen(
+fun NavGraphBuilder.channelListScreen(
     onNavigateBack: () -> Unit,
     onNavigateItem: (String) -> Unit,
 ) {
@@ -38,10 +38,10 @@ fun NavGraphBuilder.userCustomListScreen(
             ) + fadeOut(animationSpec = tween(AppConstants.ANIM_DURATION_600))
         },
     ) {
-        val userCustomListViewModel = hiltViewModel<UserCustomListViewModel>()
+        val channelListViewModel = hiltViewModel<ChannelListViewModel>()
 
-        UserCustomListScreen(
-            viewModel = userCustomListViewModel,
+        ChannelListScreen(
+            viewModel = channelListViewModel,
             onNavigateItem = onNavigateItem,
             onNavigateBack = onNavigateBack,
         )

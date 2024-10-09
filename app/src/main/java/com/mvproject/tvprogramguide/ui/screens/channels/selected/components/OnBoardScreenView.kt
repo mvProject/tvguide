@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.screens.channels.selected
+package com.mvproject.tvprogramguide.ui.screens.channels.selected.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
@@ -19,7 +19,6 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.mvproject.tvprogramguide.ui.components.onboard.AnimatedCompleteButton
 import com.mvproject.tvprogramguide.ui.components.onboard.PagerIndicator
 import com.mvproject.tvprogramguide.ui.components.onboard.PagerScreen
-import com.mvproject.tvprogramguide.ui.screens.channels.selected.components.OnBoardingPage
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.utils.AppConstants

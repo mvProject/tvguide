@@ -1,164 +1,150 @@
 package com.mvproject.tvprogramguide.ui.screens.channels.selected
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.work.WorkInfo
-import androidx.work.WorkManager
+import com.mvproject.tvprogramguide.data.model.domain.ChannelList
 import com.mvproject.tvprogramguide.data.model.domain.Program
-import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
-import com.mvproject.tvprogramguide.data.repository.CustomListRepository
+import com.mvproject.tvprogramguide.data.repository.ChannelListRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
+import com.mvproject.tvprogramguide.domain.usecases.SelectChannelListUseCase
 import com.mvproject.tvprogramguide.domain.usecases.SelectedChannelsWithPrograms
 import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramSchedule
+import com.mvproject.tvprogramguide.ui.screens.channels.selected.actions.ChannelsViewAction
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.state.ChannelsViewState
-import com.mvproject.tvprogramguide.utils.DOWNLOAD_PROGRAMS
+import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @HiltViewModel
 class ChannelViewModel
-    @Inject
-    constructor(
-        private val workManager: WorkManager,
-        private val customListRepository: CustomListRepository,
-        private val selectedChannelsWithPrograms: SelectedChannelsWithPrograms,
-        private val preferenceRepository: PreferenceRepository,
-        private val toggleProgramSchedule: ToggleProgramSchedule,
-    ) : ViewModel() {
-        private var _viewState = MutableStateFlow(ChannelsViewState())
-        val viewState = _viewState.asStateFlow()
+@Inject
+constructor(
+    private val channelListRepository: ChannelListRepository,
+    private val selectedChannelsWithPrograms: SelectedChannelsWithPrograms,
+    private val preferenceRepository: PreferenceRepository,
+    private val toggleProgramSchedule: ToggleProgramSchedule,
+    private val selectChannelListUseCase: SelectChannelListUseCase,
+) : ViewModel() {
+    private var _viewState = MutableStateFlow(ChannelsViewState())
+    val viewState = _viewState.asStateFlow()
 
-        val selectedPrograms = mutableStateListOf<SelectedChannelWithPrograms>()
+   // private var _channelsState =
+   //     MutableStateFlow<List<SelectedChannelWithPrograms>>(emptyList())
+   // val channelsState: StateFlow<List<SelectedChannelWithPrograms>> = _channelsState
 
-        private val fullUpdateWorkInfoFlow =
-            workManager.getWorkInfosForUniqueWorkFlow(DOWNLOAD_PROGRAMS)
 
-        init {
-            // viewModelScope.launch {
-            //     _viewState.update { state ->
-            //         state.copy(isOnboard = preferenceRepository.loadOnBoardState())
-            //     }
-            // }
-            combine(
-                customListRepository.loadChannelsLists(),
-                preferenceRepository.loadDefaultUserList(),
-                preferenceRepository.loadOnBoardState(),
-            ) { allLists, defaultList, onboard ->
-                _viewState.update { current ->
-                    current.copy(
-                        listName = defaultList,
-                        playlists = allLists,
-                        isOnboard = onboard,
-                        isLoading = false,
-                    )
-                }
-            }.launchIn(viewModelScope)
-
-            fullUpdateWorkInfoFlow
-                .onEach { state ->
-                    if (!state.isNullOrEmpty()) {
-                        val workInfo = state.first()
-                        if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                            if (viewState.value.listName.isNotBlank()) {
-                                updatePrograms()
-                            }
-                        }
-                    }
-                }.launchIn(viewModelScope)
-        }
-
-        fun reloadData() {
-            viewModelScope.launch(Dispatchers.IO) {
-                val isChannelsChanged = preferenceRepository.loadChannelsCountChanged()
-                requestUpdate(isOnlineRequested = isChannelsChanged)
-            }
-        }
-
-        fun completeOnBoard() {
-            viewModelScope.launch(Dispatchers.IO) {
-                preferenceRepository.setOnBoardState(onBoardState = false)
-                _viewState.update { state ->
-                    state.copy(isOnboard = false)
-                }
-            }
-        }
-
-        fun forceReloadData() {
-            viewModelScope.launch(Dispatchers.IO) {
-                requestUpdate()
-            }
-        }
-
-        private suspend fun requestUpdate(isOnlineRequested: Boolean = true) {
+    init {
+        preferenceRepository.loadOnBoardState().onEach { onboardState ->
             _viewState.update { state ->
-                state.copy(isLoading = true)
+                state.copy(
+                    isOnboard = onboardState
+                )
             }
-            preferenceRepository.setChannelsUpdateRequired(isOnlineRequested)
-            updatePrograms()
-        }
 
-        fun applyList(listName: String) {
-            if (listName.isNotBlank()) {
-                viewModelScope.launch {
-                    preferenceRepository.setDefaultUserList(listName = listName)
-                }
+        }.launchIn(viewModelScope)
+
+        channelListRepository.loadChannelsListsAsFlow().onEach { allLists ->
+            _viewState.update { state ->
+                val listName = allLists.firstOrNull { it.isSelected }?.listName ?: NO_VALUE_STRING
+
+                state.copy(
+                    listName = listName,
+                    playlists = allLists,
+                )
             }
-        }
 
-        fun toggleSchedule(
-            channelName: String,
-            program: Program,
-        ) {
-            viewModelScope.launch(Dispatchers.IO) {
-                val scheduleId =
-                    toggleProgramSchedule(
-                        channelName = channelName,
-                        program = program,
-                    )
+        }.launchIn(viewModelScope)
 
-                val channel = selectedPrograms.first { it.programs.contains(program) }
-                val channelIndex = selectedPrograms.indexOf(channel)
+        selectedChannelsWithPrograms().onEach { programs ->
+            val sortedPrograms = programs.sortedBy { item -> item.selectedChannel.order }
+          //  _channelsState.value = sortedPrograms
 
-                val updatedPrograms =
-                    channel.programs.toMutableList().also {
-                        val programIndex = it.indexOf(program)
-                        it[programIndex] = program.copy(scheduledId = scheduleId)
-                    }
-
-                selectedPrograms[channelIndex] = channel.copy(programs = updatedPrograms)
+            _viewState.update { state ->
+               state.copy(channels = sortedPrograms)
             }
+
+        }.launchIn(viewModelScope)
+    }
+
+    fun processAction(action: ChannelsViewAction) {
+        when (action) {
+            ChannelsViewAction.RefreshChannels -> reloadData()
+            ChannelsViewAction.ReloadChannels -> forceReloadData()
+            is ChannelsViewAction.SelectChannelList -> applyList(list = action.list)
+            ChannelsViewAction.CompleteOnBoard -> completeOnBoard()
+            is ChannelsViewAction.ToggleScheduleProgram -> toggleSchedule(
+                channelName = action.channelName,
+                program = action.program
+            )
         }
+    }
 
-        private fun updatePrograms() {
-            if (viewState.value.listName.isEmpty()) {
-                Timber.e("testing no current saved list")
-            } else {
-                viewModelScope.launch(Dispatchers.IO) {
-                    val programs =
-                        selectedChannelsWithPrograms()
-                            .sortedBy { item -> item.selectedChannel.order }
+    private fun reloadData() {
+        // todo refresh channels
+    }
 
-                    selectedPrograms.apply {
-                        clear()
-                        addAll(programs)
-                    }
+    private fun completeOnBoard() {
+        viewModelScope.launch(Dispatchers.IO) {
+            preferenceRepository.setOnBoardState(onBoardState = false)
+        }
+    }
 
-                    _viewState.update { state ->
-                        state.copy(isLoading = false)
-                    }
-                }
+    private fun forceReloadData() {
+      //  val currentChannels = channelsState.value.map { it.selectedChannel.programId }
+        val currentChannels = viewState.value.channels.map { it.selectedChannel.programId }
+        viewModelScope.launch(Dispatchers.IO) {
+            preferenceRepository.setChannelsForUpdate(currentChannels)
+        }
+    }
+
+    private fun applyList(list: ChannelList) {
+        if (list.listName.isNotBlank()) {
+            viewModelScope.launch {
+                selectChannelListUseCase(list = list)
             }
         }
     }
+
+    private fun toggleSchedule(
+        channelName: String,
+        program: Program,
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val scheduleId =
+                toggleProgramSchedule(
+                    channelName = channelName,
+                    program = program,
+                )
+
+            val currentChannels = viewState.value.channels
+            val channel = currentChannels.first { it.programs.contains(program) }
+           // val channel = channelsState.value.first { it.programs.contains(program) }
+            val channelIndex = currentChannels.indexOf(channel)
+           // val channelIndex = channelsState.value.indexOf(channel)
+
+            val updatedPrograms =
+                channel.programs.toMutableList().also {
+                    val programIndex = it.indexOf(program)
+                    it[programIndex] = program.copy(scheduledId = scheduleId)
+                }
+           // val selectedProgramsUpdated = channelsState.value.toMutableList()
+            val selectedProgramsUpdated = currentChannels.toMutableList()
+
+            selectedProgramsUpdated[channelIndex] = channel.copy(programs = updatedPrograms)
+
+        //    _channelsState.value = selectedProgramsUpdated
+            _viewState.update { state ->
+                state.copy(channels = selectedProgramsUpdated)
+            }
+        }
+    }
+}

@@ -2,18 +2,12 @@ package com.mvproject.tvprogramguide.ui.components.views
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -40,14 +34,12 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.IntSize
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_300
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO_FLOAT
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_EPG_PROGRAM_TITLE
 import com.mvproject.tvprogramguide.utils.AppConstants.PROGRESS_STATE_COMPLETE
 import com.mvproject.tvprogramguide.utils.AppConstants.ROTATION_STATE_DOWN
 import com.mvproject.tvprogramguide.utils.AppConstants.ROTATION_STATE_UP
@@ -110,15 +102,8 @@ fun ProgramItem(
                 )
             },
             headlineContent = {
-                val title =
-                    if (program.title == NO_EPG_PROGRAM_TITLE) {
-                        stringResource(id = R.string.msg_no_epg_found)
-                    } else {
-                        program.title
-                    }
-
                 Text(
-                    text = title,
+                    text = program.title,
                     modifier = Modifier.fillMaxWidth(),
                     style = MaterialTheme.typography.bodyMedium,
                 )

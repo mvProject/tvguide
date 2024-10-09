@@ -33,13 +33,16 @@ import com.mvproject.tvprogramguide.ui.components.channels.ChannelList
 import com.mvproject.tvprogramguide.ui.components.dialogs.ShowSelectFromListDialog
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithOptions
 import com.mvproject.tvprogramguide.ui.components.views.NoItemsScreen
+import com.mvproject.tvprogramguide.ui.screens.channels.selected.actions.ChannelsViewAction
+import com.mvproject.tvprogramguide.ui.screens.channels.selected.components.OnBoardScreenView
+import com.mvproject.tvprogramguide.ui.screens.channels.selected.state.ChannelsViewState
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.utils.AppConstants.REFRESH_DELAY
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalCoroutinesApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 @Composable
 fun ChannelScreen(
     viewModel: ChannelViewModel,
@@ -48,6 +51,29 @@ fun ChannelScreen(
     onNavigateChannelsList: () -> Unit,
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+  //  val channelState by viewModel.channelsState.collectAsStateWithLifecycle()
+
+    ChannelScreen(
+        viewState = viewState,
+       // channelsState = channelState,
+        onAction = viewModel::processAction,
+        onNavigateSingleChannel = onNavigateSingleChannel,
+        onNavigateSettings = onNavigateSettings,
+        onNavigateChannelsList = onNavigateChannelsList
+    )
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ChannelScreen(
+    viewState: ChannelsViewState,
+  //  channelsState: List<SelectedChannelWithPrograms>,
+    onAction: (ChannelsViewAction) -> Unit,
+    onNavigateSingleChannel: (String, String) -> Unit,
+    onNavigateSettings: () -> Unit,
+    onNavigateChannelsList: () -> Unit,
+) {
 
     val isDialogOpen = remember { mutableStateOf(false) }
 
@@ -61,7 +87,7 @@ fun ChannelScreen(
     val onRefresh: () -> Unit = {
         isRefreshing = true
         scope.launch {
-            viewModel.forceReloadData()
+            onAction(ChannelsViewAction.ReloadChannels)
             delay(REFRESH_DELAY)
             isRefreshing = false
         }
@@ -69,7 +95,7 @@ fun ChannelScreen(
 
     LifecycleResumeEffect(viewState.listName) {
         if (viewState.listName.isNotBlank()) {
-            viewModel.reloadData()
+            onAction(ChannelsViewAction.RefreshChannels)
         }
 
         onPauseOrDispose {
@@ -84,9 +110,9 @@ fun ChannelScreen(
 
     Scaffold(
         modifier =
-            Modifier
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
+        Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         containerColor = MaterialTheme.colorScheme.inverseOnSurface,
         contentColor = MaterialTheme.colorScheme.onSurface,
         topBar = {
@@ -123,7 +149,7 @@ fun ChannelScreen(
         if (viewState.isOnboard) {
             OnBoardScreenView(
                 onComplete = {
-                    viewModel.completeOnBoard()
+                    onAction(ChannelsViewAction.CompleteOnBoard)
                 },
             )
         } else {
@@ -137,7 +163,7 @@ fun ChannelScreen(
                     modifier = Modifier.fillMaxSize(),
                 ) {
                     ChannelList(
-                        singleChannelPrograms = viewModel.selectedPrograms,
+                        singleChannelPrograms = viewState.channels,
                         listState = listState,
                         onChannelClick = { channel ->
                             onNavigateSingleChannel(
@@ -145,7 +171,9 @@ fun ChannelScreen(
                                 channel.channelName,
                             )
                         },
-                        onScheduleClick = viewModel::toggleSchedule,
+                        onScheduleClick = { name, program ->
+                            onAction(ChannelsViewAction.ToggleScheduleProgram(name, program))
+                        }
                     )
                 }
 
@@ -166,10 +194,10 @@ fun ChannelScreen(
             }
 
             ShowSelectFromListDialog(
+                channelLists = viewState.playlists,
                 isDialogOpen = isDialogOpen,
-                radioOptions = viewState.listNames,
                 defaultSelection = viewState.selectedListIndex,
-                onSelected = viewModel::applyList,
+                onSelected = { selected -> onAction(ChannelsViewAction.SelectChannelList(selected)) },
             )
         }
     }

@@ -1,11 +1,11 @@
 package com.mvproject.tvprogramguide.viewmodels
 
-import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
-import com.mvproject.tvprogramguide.data.repository.CustomListRepository
-import com.mvproject.tvprogramguide.domain.usecases.AddPlaylistUseCase
-import com.mvproject.tvprogramguide.domain.usecases.DeletePlaylistUseCase
-import com.mvproject.tvprogramguide.ui.screens.usercustomlist.UserCustomListViewModel
-import com.mvproject.tvprogramguide.ui.screens.usercustomlist.action.UserListAction
+import com.mvproject.tvprogramguide.data.model.domain.ChannelList
+import com.mvproject.tvprogramguide.data.repository.ChannelListRepository
+import com.mvproject.tvprogramguide.domain.usecases.AddChannelListUseCase
+import com.mvproject.tvprogramguide.domain.usecases.DeleteChannelListUseCase
+import com.mvproject.tvprogramguide.ui.screens.usercustomlist.ChannelListViewModel
+import com.mvproject.tvprogramguide.ui.screens.usercustomlist.action.ChannelListAction
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
@@ -16,17 +16,17 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 
 class UserCustomListViewModelTest : StringSpec({
-    lateinit var customListRepository: CustomListRepository
-    lateinit var addPlaylistUseCase: AddPlaylistUseCase
-    lateinit var deletePlaylistUseCase: DeletePlaylistUseCase
-    lateinit var userCustomListViewModel: UserCustomListViewModel
+    lateinit var channelListRepository: ChannelListRepository
+    lateinit var addChannelListUseCase: AddChannelListUseCase
+    lateinit var deleteChannelListUseCase: DeleteChannelListUseCase
+    lateinit var channelListViewModel: ChannelListViewModel
 
     beforeTest {
-        customListRepository = mockk<CustomListRepository>()
-        addPlaylistUseCase = mockk<AddPlaylistUseCase>()
-        deletePlaylistUseCase = mockk<DeletePlaylistUseCase>()
-        userCustomListViewModel =
-            UserCustomListViewModel(customListRepository, addPlaylistUseCase, deletePlaylistUseCase)
+        channelListRepository = mockk<ChannelListRepository>()
+        addChannelListUseCase = mockk<AddChannelListUseCase>()
+        deleteChannelListUseCase = mockk<DeleteChannelListUseCase>()
+        channelListViewModel =
+            ChannelListViewModel(channelListRepository, addChannelListUseCase, deleteChannelListUseCase)
     }
 
     afterTest {
@@ -35,8 +35,8 @@ class UserCustomListViewModelTest : StringSpec({
 
     "viewmodel calls" {
         withClue("viewmodel init calls") {
-            userCustomListViewModel.customs.value shouldBe emptyList()
-            userCustomListViewModel.customs.value shouldNotBe null
+            channelListViewModel.customs.value shouldBe emptyList()
+            channelListViewModel.customs.value shouldNotBe null
         }
     }
 
@@ -49,34 +49,35 @@ class UserCustomListViewModelTest : StringSpec({
         //      }
         //  }
 
-        userCustomListViewModel.processAction(UserListAction.AddList("test"))
+        channelListViewModel.processAction(ChannelListAction.AddList("test"))
 
         coVerify(exactly = 1) {
-            addPlaylistUseCase.invoke("test")
+            addChannelListUseCase.invoke("test")
         }
     }
 
     "action delete called" {
         coEvery {
-            customListRepository.loadChannelsLists()
+            channelListRepository.loadChannelsListsAsFlow()
         } answers {
             flow {
                 emit(listOf())
             }
         }
 
-        userCustomListViewModel.processAction(
-            UserListAction.DeleteList(
-                UserChannelsList(
+        channelListViewModel.processAction(
+            ChannelListAction.DeleteList(
+                ChannelList(
                     1,
                     "test",
+                    false
                 ),
             ),
         )
 
         coVerify(exactly = 1) {
-            deletePlaylistUseCase.invoke(UserChannelsList(1, "test"))
-            customListRepository.loadChannelsLists()
+            deleteChannelListUseCase.invoke(ChannelList(1, "test", false))
+            channelListRepository.loadChannelsLists()
         }
     }
 })

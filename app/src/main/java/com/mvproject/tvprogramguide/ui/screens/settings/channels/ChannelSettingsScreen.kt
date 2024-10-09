@@ -123,7 +123,6 @@ fun ChannelSettingsScreen(
                         modifier =
                             Modifier
                                 .clip(MaterialTheme.shapes.medium)
-                                // .background(tabColor.value)
                                 .drawBehind {
                                     drawRect(color = tabColor.value)
                                 },

@@ -9,7 +9,7 @@ data class ProgramResponse(
     val category: String = NO_VALUE_STRING,
 )
 
-data class ProgramResponse2(
+data class ProgramDTO(
     val dateTimeStart: Long,
     val dateTimeEnd: Long,
     val title: String = NO_VALUE_STRING,

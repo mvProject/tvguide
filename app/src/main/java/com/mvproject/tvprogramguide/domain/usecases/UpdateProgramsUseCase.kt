@@ -1,6 +1,6 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
-import com.mvproject.tvprogramguide.data.model.response.ProgramResponse2
+import com.mvproject.tvprogramguide.data.model.response.ProgramDTO
 import com.mvproject.tvprogramguide.data.repository.AllChannelRepository
 import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
@@ -37,7 +37,7 @@ class UpdateProgramsUseCase
                         val (start, end) = parseDateTime(input = date)
 
                         val program =
-                            ProgramResponse2(
+                            ProgramDTO(
                                 dateTimeStart = start,
                                 dateTimeEnd = end,
                                 title = title,
@@ -50,7 +50,7 @@ class UpdateProgramsUseCase
 
             Timber.w("testing UpdateChannelsInfoUseCase programs ${programs.count()}")
             if (programs.isNotEmpty()) {
-                channelProgramRepository.refreshPrograms(
+                channelProgramRepository.updatePrograms(
                     channelId = channelId,
                     programs = programs,
                 )

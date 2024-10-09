@@ -7,7 +7,6 @@ import androidx.work.Data
 import androidx.work.WorkerParameters
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
-import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.domain.helpers.NotificationHelper
 import com.mvproject.tvprogramguide.domain.usecases.UpdateProgramsUseCase
 import com.mvproject.tvprogramguide.utils.AppConstants
@@ -18,6 +17,7 @@ import com.mvproject.tvprogramguide.utils.NOTIFICATION_CONDITION
 import com.mvproject.tvprogramguide.utils.TimeUtils
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 @HiltWorker
@@ -26,7 +26,6 @@ class FullUpdateProgramsWorker
     constructor(
         @Assisted context: Context,
         @Assisted params: WorkerParameters,
-        private val selectedChannelRepository: SelectedChannelRepository,
         private val preferenceRepository: PreferenceRepository,
         private val notificationHelper: NotificationHelper,
         private val updateProgramsUseCase: UpdateProgramsUseCase,
@@ -41,12 +40,12 @@ class FullUpdateProgramsWorker
                 )
             }
 
-            val selectedChannels = selectedChannelRepository.loadSelectedChannelsIds()
+            val selectedChannels = preferenceRepository.getChannelsForUpdate().first()
+            Timber.w("testing FullUpdateProgramsWorker selectedChannels $selectedChannels")
 
             val channelsCount = selectedChannels.count()
             if (channelsCount > COUNT_ZERO) {
                 selectedChannels.forEachIndexed { ind, channelId ->
-
                     updateProgramsUseCase.invoke(channelId = channelId)
 
                     val channelNumber = ind + AppConstants.COUNT_ONE
@@ -61,8 +60,7 @@ class FullUpdateProgramsWorker
                 }
                 preferenceRepository.apply {
                     setProgramsUpdateLastTime(timeInMillis = TimeUtils.actualDate)
-                    setChannelsCountChanged(false)
-                    setChannelsUpdateRequired(false)
+                    setChannelsForUpdate(emptyList())
                 }
             } else {
                 Timber.e("FullUpdateProgramsWorker update count zero")

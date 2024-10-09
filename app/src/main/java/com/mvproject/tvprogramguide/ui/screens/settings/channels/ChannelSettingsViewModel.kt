@@ -42,11 +42,9 @@ class ChannelSettingsViewModel
         var name = SettingsChannelArgs(savedStateHandle).userListName
             private set
 
-        private var isRefreshRequired = false
+        private val channelsForUpdate = mutableListOf<String>()
 
         init {
-            Timber.e("testing ChannelSettingsViewModel name $name")
-
             viewModelScope.launch {
                 _selected.value = getSelectedChannels(listName = name)
             }
@@ -101,7 +99,8 @@ class ChannelSettingsViewModel
                 index = allChannels.indexOf(channel),
                 element = updated,
             )
-            isRefreshRequired = true
+
+            channelsForUpdate.add(channel.programId)
         }
 
         private fun removeFromSelected(channel: SelectionChannel) {
@@ -115,10 +114,13 @@ class ChannelSettingsViewModel
             )
 
             _selected.value = removeChannel(removeId = channel.channelId)
+            if (channelsForUpdate.isNotEmpty()){
+                val updateIndex = channelsForUpdate.indexOf(channel.programId)
+                channelsForUpdate.removeAt(updateIndex)
+            }
         }
 
         private fun removeChannel(removeId: String): List<SelectionChannel> {
-            Timber.w("testing remove $removeId")
             val modified =
                 selected.value
                     .toMutableList()
@@ -136,13 +138,11 @@ class ChannelSettingsViewModel
 
         fun applyChanges() {
             viewModelScope.launch {
-                Timber.d("testing applyChanges")
                 saveChannelsSelection(
                     listName = name,
                     channels = selected.value,
-                    isUpdateRequired = isRefreshRequired,
+                    channelsForUpdate = channelsForUpdate
                 )
-                Timber.w("testing applyChanges complete")
                 _viewState.update { state ->
                     state.copy(isComplete = true)
                 }
