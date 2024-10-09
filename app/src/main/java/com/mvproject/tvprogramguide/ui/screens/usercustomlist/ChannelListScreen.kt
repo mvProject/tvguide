@@ -25,18 +25,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.mvproject.tvprogramguide.R
-import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
+import com.mvproject.tvprogramguide.data.model.domain.ChannelList
 import com.mvproject.tvprogramguide.ui.components.dialogs.ShowAddNewDialog
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
+import com.mvproject.tvprogramguide.ui.components.views.ChannelListItem
 import com.mvproject.tvprogramguide.ui.components.views.NoItemsScreen
-import com.mvproject.tvprogramguide.ui.components.views.UserCustomListItem
-import com.mvproject.tvprogramguide.ui.screens.usercustomlist.action.UserListAction
+import com.mvproject.tvprogramguide.ui.screens.usercustomlist.action.ChannelListAction
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.utils.findActivity
 
 @Composable
-fun UserCustomListScreen(
-    viewModel: UserCustomListViewModel,
+fun ChannelListScreen(
+    viewModel: ChannelListViewModel,
     onNavigateItem: (String) -> Unit,
     onNavigateBack: () -> Unit,
 ) {
@@ -44,7 +44,7 @@ fun UserCustomListScreen(
 
     val state by viewModel.customs.collectAsStateWithLifecycle()
 
-    UserCustomListContent(
+    ChannelListScreen(
         userLists = state,
         onAction = viewModel::processAction,
         onItemClick = onNavigateItem,
@@ -53,9 +53,9 @@ fun UserCustomListScreen(
 }
 
 @Composable
-private fun UserCustomListContent(
-    userLists: List<UserChannelsList>,
-    onAction: (action: UserListAction) -> Unit,
+private fun ChannelListScreen(
+    userLists: List<ChannelList>,
+    onAction: (action: ChannelListAction) -> Unit,
     onItemClick: (item: String) -> Unit,
     onBackClick: () -> Unit,
 ) {
@@ -112,10 +112,10 @@ private fun UserCustomListContent(
                             ),
                     ) {
                         items(userLists) { item ->
-                            UserCustomListItem(
+                            ChannelListItem(
                                 listName = item.listName,
                                 onItemAction = { onItemClick(item.listName) },
-                                onDeleteAction = { onAction(UserListAction.DeleteList(item)) },
+                                onDeleteAction = { onAction(ChannelListAction.DeleteList(item)) },
                             )
                         }
                     }
@@ -124,7 +124,7 @@ private fun UserCustomListContent(
         }
 
         ShowAddNewDialog(isDialogOpen) { name ->
-            onAction(UserListAction.AddList(name))
+            onAction(ChannelListAction.AddList(name))
         }
     }
 }

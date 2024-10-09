@@ -48,6 +48,7 @@ fun ChannelScreen(
     onNavigateChannelsList: () -> Unit,
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+    val channelsState by viewModel.selectedProgramsState.collectAsStateWithLifecycle()
 
     val isDialogOpen = remember { mutableStateOf(false) }
 
@@ -137,7 +138,7 @@ fun ChannelScreen(
                     modifier = Modifier.fillMaxSize(),
                 ) {
                     ChannelList(
-                        singleChannelPrograms = viewModel.selectedPrograms,
+                        singleChannelPrograms = channelsState,
                         listState = listState,
                         onChannelClick = { channel ->
                             onNavigateSingleChannel(
@@ -166,8 +167,8 @@ fun ChannelScreen(
             }
 
             ShowSelectFromListDialog(
+                avalilable = viewState.playlists,
                 isDialogOpen = isDialogOpen,
-                radioOptions = viewState.listNames,
                 defaultSelection = viewState.selectedListIndex,
                 onSelected = viewModel::applyList,
             )

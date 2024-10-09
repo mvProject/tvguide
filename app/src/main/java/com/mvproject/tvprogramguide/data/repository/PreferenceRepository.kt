@@ -13,10 +13,8 @@ import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_CHANNELS_UPDATE_P
 import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_PROGRAMS_UPDATE_PERIOD
 import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_PROGRAMS_VISIBLE_COUNT
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_LONG
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.utils.AppConstants.json
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -41,29 +39,17 @@ constructor(
                 preferences[ON_BOARD_COMPLETE] ?: true
             }
 
-    suspend fun setDefaultUserList(listName: String) {
-        dataStore.edit { settings ->
-            settings[DEFAULT_CHANNEL_LIST] = listName
-        }
-    }
-
-    fun loadDefaultUserList() =
-        dataStore.data
-            .map { preferences ->
-                preferences[DEFAULT_CHANNEL_LIST] ?: NO_VALUE_STRING
-            }.distinctUntilChanged()
 
     val isNeedFullProgramsUpdate =
         combine(
-            loadDefaultUserList(),
             loadAppSettings(),
             loadProgramsUpdateLastTime(),
-        ) { userList, settings, lastUpdate ->
+        ) { settings, lastUpdate ->
             val current = Clock.System.now()
             val last = Instant.fromEpochMilliseconds(lastUpdate)
             val updateRequest = current - last > settings.programsUpdatePeriod.days
 
-            return@combine userList.isNotEmpty() && updateRequest
+            return@combine updateRequest
         }
 
     val isNeedAvailableChannelsUpdate =
@@ -145,7 +131,6 @@ constructor(
         val CHANNELS_UPDATE_PERIOD_OPTION = intPreferencesKey("channels_update_period_option")
         val PROGRAM_VIEW_COUNT_OPTION = intPreferencesKey("program_view_count_option")
 
-        val DEFAULT_CHANNEL_LIST = stringPreferencesKey("DefaultChannelList")
         val LAST_UPDATE_CHANNELS = longPreferencesKey("LastUpdateChannels")
         val LAST_UPDATE_PROGRAMS = longPreferencesKey("LastUpdatePrograms")
 

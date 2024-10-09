@@ -20,7 +20,7 @@ import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 
 @Composable
-fun UserCustomListItem(
+fun ChannelListItem(
     modifier: Modifier = Modifier,
     listName: String,
     onItemAction: () -> Unit = {},
@@ -66,13 +66,13 @@ fun UserCustomListItem(
 
 @Composable
 @PreviewLightDark
-fun CustomListItemItemPreview() {
+private fun ChannelListItemPreview() {
     TvGuideTheme {
         Column {
-            UserCustomListItem(
+            ChannelListItem(
                 listName = "Channel1",
             )
-            UserCustomListItem(
+            ChannelListItem(
                 listName = "Channel2",
             )
         }

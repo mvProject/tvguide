@@ -1,20 +1,16 @@
 package com.mvproject.tvprogramguide.ui.components.radio
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
@@ -32,52 +28,41 @@ fun RadioGroupContent(
 
     Column {
         radioOptions.forEach { item ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                RadioButton(
-                    selected = (item == selectedOption),
-                    colors =
+            ListItem(
+                modifier = Modifier.clickable {
+                    onOptionSelected(item)
+                    onItemClick(item)
+                },
+                leadingContent = {
+                    RadioButton(
+                        selected = (item == selectedOption),
+                        colors =
                         RadioButtonDefaults.colors(
                             selectedColor = MaterialTheme.colorScheme.tertiary,
                             unselectedColor = MaterialTheme.colorScheme.onSurface,
                         ),
-                    onClick = {
-                        onOptionSelected(item)
-                        onItemClick(item)
-                    },
-                )
-
-                val annotatedString =
-                    buildAnnotatedString {
-                        withStyle(
-                            style =
-                                SpanStyle(
-                                    color =
-                                        if (item == selectedOption) {
-                                            MaterialTheme.colorScheme.tertiary
-                                        } else {
-                                            MaterialTheme.colorScheme.onSurface
-                                        },
-                                ),
-                        ) { append("  $item  ") }
-                    }
-
-                ClickableText(
-                    text = annotatedString,
-                    style =
+                        onClick = {
+                            onOptionSelected(item)
+                            onItemClick(item)
+                        },
+                    )
+                }, headlineContent = {
+                    Text(
+                        text = item,
+                        style =
                         if (item == selectedOption) {
                             MaterialTheme.typography.titleMedium
                         } else {
                             MaterialTheme.typography.bodyMedium
                         },
-                    onClick = {
-                        onOptionSelected(item)
-                        onItemClick(item)
-                    },
-                )
-            }
+                        color = if (item == selectedOption) {
+                            MaterialTheme.colorScheme.tertiary
+                        } else {
+                            MaterialTheme.colorScheme.onSurface
+                        },
+                    )
+                }
+            )
         }
     }
 }

@@ -2,6 +2,7 @@ package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.mappers.Mappers.toSelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
+import com.mvproject.tvprogramguide.data.repository.ChannelListRepository
 import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
@@ -20,6 +21,7 @@ class SelectedChannelsWithPrograms
         private val selectedChannelRepository: SelectedChannelRepository,
         private val channelProgramRepository: ChannelProgramRepository,
         private val preferenceRepository: PreferenceRepository,
+        private val channelListRepository: ChannelListRepository
     ) {
         /**
          * Obtain list of programs for selected channels and sorted by channels and view count
@@ -27,7 +29,7 @@ class SelectedChannelsWithPrograms
          * @return sorted list of programs
          */
         suspend operator fun invoke(): List<SelectedChannelWithPrograms> {
-            val currentChannelList = preferenceRepository.loadDefaultUserList().first()
+            val currentChannelList = channelListRepository.loadChannelsLists().first { it.isSelected }.listName
             val itemsCount =
                 preferenceRepository
                     .loadAppSettings()

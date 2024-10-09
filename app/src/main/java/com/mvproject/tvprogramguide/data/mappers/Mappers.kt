@@ -1,15 +1,15 @@
 package com.mvproject.tvprogramguide.data.mappers
 
 import com.mvproject.tvprogramguide.data.database.entity.AvailableChannelEntity
+import com.mvproject.tvprogramguide.data.database.entity.ChannelsListEntity
 import com.mvproject.tvprogramguide.data.database.entity.ProgramEntity
 import com.mvproject.tvprogramguide.data.database.entity.SelectedChannelEntity
 import com.mvproject.tvprogramguide.data.database.entity.SelectedChannelWithIconEntity
-import com.mvproject.tvprogramguide.data.database.entity.UserChannelsListEntity
+import com.mvproject.tvprogramguide.data.model.domain.ChannelList
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannel
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
-import com.mvproject.tvprogramguide.data.model.domain.UserChannelsList
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
 import com.mvproject.tvprogramguide.data.model.response.ProgramResponse
 import com.mvproject.tvprogramguide.data.model.response.ProgramResponse2
@@ -254,12 +254,26 @@ object Mappers {
         }
 
     /**
-     * Maps List of [UserChannelsList] from Entity to Domain.
+     * Maps List of [ChannelList] from Entity to Domain.
      *
      * @return the converted object
      */
-    fun List<UserChannelsListEntity>.asUserChannelsLists() =
+    fun List<ChannelsListEntity>.asChannelLists() =
         this.map { item ->
-            item.toUserChannelsList()
+            item.toChannelList()
         }
+
+    private fun ChannelsListEntity.toChannelList() =
+        ChannelList(
+            id = id,
+            listName = name,
+            isSelected = isSelected
+        )
+
+    fun ChannelList.toChannelsListEntity() =
+        ChannelsListEntity(
+            id = id,
+            name = listName,
+            isSelected = isSelected
+        )
 }
