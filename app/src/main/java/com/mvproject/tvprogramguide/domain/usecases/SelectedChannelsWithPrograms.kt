@@ -1,12 +1,12 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
-import com.mvproject.tvprogramguide.data.mappers.Mappers.toSelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
-import com.mvproject.tvprogramguide.data.repository.ChannelListRepository
 import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
-import kotlinx.coroutines.flow.first
+import com.mvproject.tvprogramguide.utils.ProgramUtils.toSelectedChannelWithPrograms
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 /**
@@ -16,29 +16,23 @@ import javax.inject.Inject
  * @property preferenceRepository the PreferenceRepository repository
  */
 class SelectedChannelsWithPrograms
-    @Inject
-    constructor(
-        private val selectedChannelRepository: SelectedChannelRepository,
-        private val channelProgramRepository: ChannelProgramRepository,
-        private val preferenceRepository: PreferenceRepository,
-        private val channelListRepository: ChannelListRepository
-    ) {
-        /**
-         * Obtain list of programs for selected channels and sorted by channels and view count
-         *
-         * @return sorted list of programs
-         */
-        suspend operator fun invoke(): List<SelectedChannelWithPrograms> {
-            val currentChannelList = channelListRepository.loadChannelsLists().first { it.isSelected }.listName
-            val itemsCount =
-                preferenceRepository
-                    .loadAppSettings()
-                    .first()
-                    .programsViewCount
+@Inject
+constructor(
+    private val selectedChannelRepository: SelectedChannelRepository,
+    private val channelProgramRepository: ChannelProgramRepository,
+    private val preferenceRepository: PreferenceRepository
+) {
+    /**
+     * Obtain list of programs for selected channels and sorted by channels and view count
+     *
+     * @return sorted list of programs
+     */
 
-            val selectedChannels =
-                selectedChannelRepository
-                    .loadSelectedChannels(listName = currentChannelList)
+    operator fun invoke(): Flow<List<SelectedChannelWithPrograms>> {
+        return combine(
+            selectedChannelRepository.loadSelectedChannelsAsFlow(),
+            preferenceRepository.loadAppSettings()
+        ) { selectedChannels, settings ->
 
             val selectedChannelIds =
                 selectedChannels.map { item -> item.programId }
@@ -46,9 +40,10 @@ class SelectedChannelsWithPrograms
             val programsWithChannels =
                 channelProgramRepository.loadProgramsForChannels(channelsIds = selectedChannelIds)
 
-            return programsWithChannels.toSelectedChannelWithPrograms(
+            programsWithChannels.toSelectedChannelWithPrograms(
                 alreadySelected = selectedChannels,
-                itemsCount = itemsCount,
+                itemsCount = settings.programsViewCount,
             )
         }
     }
+}

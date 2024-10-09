@@ -15,14 +15,14 @@ class AllChannelRepository
     ) {
         suspend fun loadChannels(): List<SelectionChannel> =
             allChannelDao
-                .getChannelList()
+                .getChannels()
                 .map { item -> item.asSelectionFromAvailable() }
 
         @Transaction
-        suspend fun refreshChannels(channels: List<AvailableChannelResponse>) {
+        suspend fun updateChannels(channels: List<AvailableChannelResponse>) {
             allChannelDao.apply {
                 deleteChannels()
-                insertChannelList(availableChannels = channels.toAvailableChannelEntities())
+                insertChannels(availableChannels = channels.toAvailableChannelEntities())
             }
         }
     }

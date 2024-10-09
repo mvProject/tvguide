@@ -35,12 +35,12 @@ import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 
 @Composable
 fun ShowSelectFromListDialog(
-    avalilable: List<ChannelList>,
+    channelLists: List<ChannelList>,
     defaultSelection: Int = COUNT_ZERO,
     isDialogOpen: MutableState<Boolean>,
     onSelected: (ChannelList) -> Unit = {},
 ) {
-    val selection = avalilable.firstOrNull { it.isSelected }?.listName ?: NO_VALUE_STRING
+    val selection = channelLists.firstOrNull { it.isSelected }?.listName ?: NO_VALUE_STRING
 
     var name by remember { mutableStateOf(selection) }
 
@@ -86,7 +86,7 @@ fun ShowSelectFromListDialog(
                             ),
                     ) {
                         RadioGroupContent(
-                            radioOptions = avalilable.map { it.listName },
+                            radioOptions = channelLists.map { it.listName },
                             defaultSelection = defaultSelection,
                             onItemClick = { selected ->
                                 name = selected
@@ -96,7 +96,7 @@ fun ShowSelectFromListDialog(
 
                     ElevatedButton(
                         onClick = {
-                            avalilable.firstOrNull { it.listName == name }?.let {
+                            channelLists.firstOrNull { it.listName == name }?.let {
                                 onSelected(it)
                             }
                             isDialogOpen.value = false
@@ -131,7 +131,7 @@ fun ShowSelectFromListDialogPreview() {
         }
     TvGuideTheme {
         ShowSelectFromListDialog(
-            avalilable = listOf(ChannelList(1, "1", true), ChannelList(2, "2", false)),
+            channelLists = listOf(ChannelList(1, "1", true), ChannelList(2, "2", false)),
             defaultSelection = 1,
             isDialogOpen = open,
             onSelected = {},

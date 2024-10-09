@@ -25,7 +25,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.window.Dialog
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
@@ -128,9 +127,8 @@ fun ShowAddNewDialog(
 }
 
 @PreviewLightDark
-@PreviewScreenSizes
 @Composable
-fun ShowAddNewDialogPreview() {
+private fun ShowAddNewDialogPreview() {
     val open =
         remember {
             mutableStateOf(true)

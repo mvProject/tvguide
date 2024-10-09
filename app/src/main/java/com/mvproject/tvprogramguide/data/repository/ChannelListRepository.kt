@@ -16,18 +16,18 @@ constructor(
 ) {
     fun loadChannelsListsAsFlow() =
         channelsListDao
-            .getAllUserChannelsListsAsFlow()
+            .getChannelsListsAsFlow()
             .map { entities ->
                 entities.asChannelLists()
             }
 
     suspend fun loadChannelsLists() =
         channelsListDao
-            .getAllUserChannelsLists()
+            .getChannelsLists()
             .asChannelLists()
 
 
-    suspend fun addCustomList(name: String) {
+    suspend fun addChannelsList(name: String) {
         if (name.isNotEmpty()) {
             val listItem =
                 ChannelsListEntity(
@@ -35,20 +35,20 @@ constructor(
                     name = name,
                     isSelected = false
                 )
-            channelsListDao.addUserChannelsList(channelList = listItem)
+            channelsListDao.addChannelsList(channelList = listItem)
         }
     }
 
     suspend fun addChannelList(list: ChannelList) {
-        channelsListDao.addUserChannelsList(channelList = list.toChannelsListEntity())
+        channelsListDao.addChannelsList(channelList = list.toChannelsListEntity())
     }
 
     suspend fun addChannelLists(lists: List<ChannelList>) {
         val channelsLists = lists.map { it.toChannelsListEntity() }
-        channelsListDao.addUserChannelsLists(channelLists = channelsLists)
+        channelsListDao.addChannelsLists(channelLists = channelsLists)
     }
 
     suspend fun deleteList(item: ChannelList) {
-        channelsListDao.deleteSingleUserChannelsList(channelId = item.id)
+        channelsListDao.deleteSingleChannelsList(channelId = item.id)
     }
 }

@@ -10,13 +10,13 @@ import com.mvproject.tvprogramguide.data.database.entity.ProgramEntity
 @Dao
 interface ProgramDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPrograms(channels: List<ProgramEntity>)
+    suspend fun insertPrograms(programs: List<ProgramEntity>)
 
     @Query("SELECT * FROM programs WHERE channelId = :channelId")
-    suspend fun getSingleChannelPrograms(channelId: String): List<ProgramEntity>
+    suspend fun getChannelProgramsById(channelId: String): List<ProgramEntity>
 
-    @Query("SELECT * FROM programs WHERE channelId IN (:ids)")
-    suspend fun getSelectedChannelPrograms(ids: List<String>): List<ProgramEntity>
+    @Query("SELECT * FROM programs WHERE channelId IN (:selectedIds)")
+    suspend fun getSelectedChannelPrograms(selectedIds: List<String>): List<ProgramEntity>
 
     @Query("DELETE FROM programs WHERE channelId = :channelId")
     suspend fun deletePrograms(channelId: String)

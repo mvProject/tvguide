@@ -39,14 +39,14 @@ class CustomListRepositoryTest :
 
             "delete list from database" {
                 coEvery {
-                    dao.deleteSingleUserChannelsList(1)
+                    dao.deleteSingleChannelsList(1)
                 } just runs
 
                 withClue("single call from dao execute") {
                     repository.deleteList(ChannelList(1, "1", false))
 
                     coVerify(exactly = 1) {
-                        dao.deleteSingleUserChannelsList(1)
+                        dao.deleteSingleChannelsList(1)
                     }
                     confirmVerified(dao)
                 }
@@ -56,18 +56,18 @@ class CustomListRepositoryTest :
                 val repository = mockk<ChannelListRepository>()
 
                 coEvery {
-                    dao.addUserChannelsList(any())
+                    dao.addChannelsList(any())
                 } just runs
 
                 coEvery {
-                    repository.addCustomList("list")
+                    repository.addChannelsList("list")
                 } just runs
 
                 withClue("single call from repository execute") {
-                    repository.addCustomList("list")
+                    repository.addChannelsList("list")
 
                     coVerify(exactly = 1) {
-                        repository.addCustomList("list")
+                        repository.addChannelsList("list")
                     }
                     confirmVerified(repository)
                 }
@@ -75,14 +75,14 @@ class CustomListRepositoryTest :
 
             "add list to database if name empty" {
                 coEvery {
-                    dao.addUserChannelsList(ChannelsListEntity(1, "", false))
+                    dao.addChannelsList(ChannelsListEntity(1, "", false))
                 } just runs
 
                 withClue("single call from dao execute") {
-                    repository.addCustomList("")
+                    repository.addChannelsList("")
 
                     coVerify(exactly = 0) {
-                        dao.addUserChannelsList(ChannelsListEntity(1, "", false))
+                        dao.addChannelsList(ChannelsListEntity(1, "", false))
                     }
                     confirmVerified(dao)
                 }
@@ -104,7 +104,7 @@ class CustomListRepositoryTest :
                     )
 
                 coEvery {
-                    dao.getAllUserChannelsListsAsFlow()
+                    dao.getChannelsListsAsFlow()
                 } returns
                     flow {
                         emit(expectedResultDao)
@@ -114,7 +114,7 @@ class CustomListRepositoryTest :
                     repository.loadChannelsLists()
 
                     coVerify(exactly = 1) {
-                        dao.getAllUserChannelsLists()
+                        dao.getChannelsLists()
                     }
                     confirmVerified(dao)
                 }

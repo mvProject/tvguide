@@ -9,14 +9,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
 import com.mvproject.tvprogramguide.navigation.AppRoutes
 import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_USER_LIST_NAME
 import com.mvproject.tvprogramguide.navigation.canNavigate
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.ChannelSettingsScreen
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.ChannelSettingsViewModel
 import com.mvproject.tvprogramguide.utils.AppConstants
-import timber.log.Timber
 
 fun NavController.navigateToSettingsChannel(userListName: String) {
     if (canNavigate) {
@@ -26,7 +24,7 @@ fun NavController.navigateToSettingsChannel(userListName: String) {
 
 internal class SettingsChannelArgs(val userListName: String) {
     constructor(savedStateHandle: SavedStateHandle) :
-        this(userListName = checkNotNull(savedStateHandle[ARGUMENT_USER_LIST_NAME]) as String)
+            this(userListName = checkNotNull(savedStateHandle[ARGUMENT_USER_LIST_NAME]) as String)
 }
 
 fun NavGraphBuilder.settingsChannelScreen(onNavigateBack: () -> Unit) {
@@ -43,9 +41,7 @@ fun NavGraphBuilder.settingsChannelScreen(onNavigateBack: () -> Unit) {
                 animationSpec = tween(AppConstants.ANIM_DURATION_600),
             ) + fadeOut(animationSpec = tween(AppConstants.ANIM_DURATION_600))
         },
-    ) { backstackEntry ->
-        val userListName = backstackEntry.toRoute<AppRoutes.ChannelSettings>()
-        Timber.d("testing settingsChannelScreen userListName $userListName")
+    ) {
         val channelSettingsViewModel = hiltViewModel<ChannelSettingsViewModel>()
 
         ChannelSettingsScreen(

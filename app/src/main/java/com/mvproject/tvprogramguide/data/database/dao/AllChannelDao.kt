@@ -9,10 +9,10 @@ import com.mvproject.tvprogramguide.data.database.entity.AvailableChannelEntity
 @Dao
 interface AllChannelDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertChannelList(availableChannels: List<AvailableChannelEntity>)
+    suspend fun insertChannels(availableChannels: List<AvailableChannelEntity>)
 
     @Query("SELECT * FROM all_channels")
-    suspend fun getChannelList(): List<AvailableChannelEntity>
+    suspend fun getChannels(): List<AvailableChannelEntity>
 
     @Query("DELETE FROM all_channels")
     suspend fun deleteChannels()

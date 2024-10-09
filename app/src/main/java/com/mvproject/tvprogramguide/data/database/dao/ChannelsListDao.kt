@@ -9,17 +9,17 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ChannelsListDao {
     @Upsert
-    suspend fun addUserChannelsList(channelList: ChannelsListEntity)
+    suspend fun addChannelsList(channelList: ChannelsListEntity)
 
     @Upsert
-    suspend fun addUserChannelsLists(channelLists: List<ChannelsListEntity>)
+    suspend fun addChannelsLists(channelLists: List<ChannelsListEntity>)
 
     @Query("SELECT * FROM channelsList")
-    fun getAllUserChannelsListsAsFlow(): Flow<List<ChannelsListEntity>>
+    fun getChannelsListsAsFlow(): Flow<List<ChannelsListEntity>>
 
     @Query("SELECT * FROM channelsList")
-    suspend fun getAllUserChannelsLists(): List<ChannelsListEntity>
+    suspend fun getChannelsLists(): List<ChannelsListEntity>
 
     @Query("DELETE FROM channelsList WHERE id = :channelId")
-    suspend fun deleteSingleUserChannelsList(channelId: Int)
+    suspend fun deleteSingleChannelsList(channelId: Int)
 }

@@ -45,8 +45,6 @@ class ChannelSettingsViewModel
         private val channelsForUpdate = mutableListOf<String>()
 
         init {
-            Timber.e("testing ChannelSettingsViewModel name $name")
-
             viewModelScope.launch {
                 _selected.value = getSelectedChannels(listName = name)
             }
@@ -103,7 +101,6 @@ class ChannelSettingsViewModel
             )
 
             channelsForUpdate.add(channel.programId)
-            Timber.e("testing addToSelected channelsForUpdate $channelsForUpdate")
         }
 
         private fun removeFromSelected(channel: SelectionChannel) {
@@ -121,11 +118,9 @@ class ChannelSettingsViewModel
                 val updateIndex = channelsForUpdate.indexOf(channel.programId)
                 channelsForUpdate.removeAt(updateIndex)
             }
-            Timber.e("testing removeFromSelected channelsForUpdate $channelsForUpdate")
         }
 
         private fun removeChannel(removeId: String): List<SelectionChannel> {
-            Timber.w("testing remove $removeId")
             val modified =
                 selected.value
                     .toMutableList()
@@ -143,13 +138,11 @@ class ChannelSettingsViewModel
 
         fun applyChanges() {
             viewModelScope.launch {
-                Timber.d("testing applyChanges")
                 saveChannelsSelection(
                     listName = name,
                     channels = selected.value,
                     channelsForUpdate = channelsForUpdate
                 )
-                Timber.w("testing applyChanges complete")
                 _viewState.update { state ->
                     state.copy(isComplete = true)
                 }
