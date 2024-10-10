@@ -15,6 +15,7 @@ import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_PROGRAMS_VISIBLE_
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_LONG
 import com.mvproject.tvprogramguide.utils.AppConstants.json
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -125,12 +126,24 @@ constructor(
             )
         }
 
+    suspend fun setProgramsCleanTime(timeInMillis: Long) {
+        dataStore.edit { settings ->
+            settings[PROGRAM_CLEAN] = timeInMillis
+        }
+    }
+
+    suspend fun getProgramsCleanTime() =
+        dataStore.data.map { preferences ->
+            preferences[PROGRAM_CLEAN] ?: NO_VALUE_LONG
+        }.first()
+
     private companion object {
         val APP_THEME_OPTION = intPreferencesKey("theme_option")
         val PROGRAM_UPDATE_PERIOD_OPTION = intPreferencesKey("program_update_period_option")
         val CHANNELS_UPDATE_PERIOD_OPTION = intPreferencesKey("channels_update_period_option")
         val PROGRAM_VIEW_COUNT_OPTION = intPreferencesKey("program_view_count_option")
 
+        val PROGRAM_CLEAN = longPreferencesKey("programClean")
         val LAST_UPDATE_CHANNELS = longPreferencesKey("LastUpdateChannels")
         val LAST_UPDATE_PROGRAMS = longPreferencesKey("LastUpdatePrograms")
 

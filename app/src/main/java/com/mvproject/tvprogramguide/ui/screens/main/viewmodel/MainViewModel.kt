@@ -9,6 +9,7 @@ import androidx.work.WorkManager
 import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.domain.helpers.NetworkHelper
+import com.mvproject.tvprogramguide.domain.usecases.CleanProgramsUseCase
 import com.mvproject.tvprogramguide.domain.usecases.UpdateChannelsInfoUseCase
 import com.mvproject.tvprogramguide.utils.AppConstants
 import com.mvproject.tvprogramguide.utils.CHANNEL_COUNT
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -31,6 +33,7 @@ constructor(
     private val networkHelper: NetworkHelper,
     preferenceRepository: PreferenceRepository,
     private val updateChannelsInfoUseCase: UpdateChannelsInfoUseCase,
+    private val cleanProgramsUseCase: CleanProgramsUseCase,
 ) : ViewModel() {
     private val fullUpdateWorkInfoFlow =
         workManager.getWorkInfosForUniqueWorkFlow(DOWNLOAD_PROGRAMS)
@@ -76,6 +79,10 @@ constructor(
                 startProgramsUpdate(requestForUpdate = buildFullUpdateRequest())
             }
         }.launchIn(viewModelScope)
+
+        viewModelScope.launch {
+            cleanProgramsUseCase()
+        }
     }
 
     private fun startProgramsUpdate(requestForUpdate: OneTimeWorkRequest) {

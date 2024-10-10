@@ -25,14 +25,14 @@ datetime = "0.6.1"
 
 # Compose
 compose-activity = "1.9.2"
-compose-lifecycle-viewmodel = "2.8.5"
-compose-lifecycle-runtime = "2.8.5"
-compose-bom = "2024.09.00"
-firebase-bom = "33.2.0"
+compose-lifecycle-viewmodel = "2.8.6"
+compose-lifecycle-runtime = "2.8.6"
+compose-bom = "2024.09.03"
+firebase-bom = "33.4.0"
 
 # navigationCompose
 composeNavigationHilt = "1.2.0"
-composeNavigation = "2.8.0"
+composeNavigation = "2.8.2"
 
 # Accompanist Permissions
 accompanistPermissions = "0.32.0"
@@ -42,8 +42,8 @@ daggerHilt = "2.50"
 androidHilt = "1.2.0"
 
 # coroutines
-coroutines-core = "1.8.1"
-coroutines-android = "1.8.1"
+coroutines-core = "1.9.0"
+coroutines-android = "1.9.0"
 
 # retrofit
 retrofit = "2.9.0"
@@ -76,8 +76,8 @@ review = "2.0.1"
 app-update = "2.1.0"
 
 # android test libraries
-testAndroidJunitExt = "1.1.5"
-testAndroidEspresso = "3.5.1"
+testAndroidJunitExt = "1.2.1"
+testAndroidEspresso = "3.6.1"
 
 [plugins]
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
@@ -239,7 +239,7 @@ playUpdate = [
 ]
 
 lifecycleCompose = [
-    "lifecycle-viewmodel-ktx",
+    #"lifecycle-viewmodel-ktx",
     "androidx-compose-lifecycle-runtime",
     "androidx-compose-lifecycle-viewmodel"
 ]
