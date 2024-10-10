@@ -51,11 +51,9 @@ fun ChannelScreen(
     onNavigateChannelsList: () -> Unit,
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
-  //  val channelState by viewModel.channelsState.collectAsStateWithLifecycle()
 
     ChannelScreen(
         viewState = viewState,
-       // channelsState = channelState,
         onAction = viewModel::processAction,
         onNavigateSingleChannel = onNavigateSingleChannel,
         onNavigateSettings = onNavigateSettings,
@@ -68,7 +66,6 @@ fun ChannelScreen(
 @Composable
 private fun ChannelScreen(
     viewState: ChannelsViewState,
-  //  channelsState: List<SelectedChannelWithPrograms>,
     onAction: (ChannelsViewAction) -> Unit,
     onNavigateSingleChannel: (String, String) -> Unit,
     onNavigateSettings: () -> Unit,
@@ -95,10 +92,10 @@ private fun ChannelScreen(
 
     LifecycleResumeEffect(viewState.listName) {
         if (viewState.listName.isNotBlank()) {
-            onAction(ChannelsViewAction.RefreshChannels)
+            onAction(ChannelsViewAction.StartUpdates)
         }
-
         onPauseOrDispose {
+            onAction(ChannelsViewAction.StopUpdates)
         }
     }
 

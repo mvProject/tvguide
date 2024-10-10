@@ -148,4 +148,17 @@ object Mappers {
             name = listName,
             isSelected = isSelected
         )
+
+    fun Program.toEntity() =
+        with(this) {
+            ProgramEntity(
+                dateTimeStart = dateTimeStart,
+                dateTimeEnd = dateTimeEnd,
+                title = title,
+                description = description,
+                category = category,
+                channelId = channel,
+                scheduledId = scheduledId,
+            )
+        }
 }

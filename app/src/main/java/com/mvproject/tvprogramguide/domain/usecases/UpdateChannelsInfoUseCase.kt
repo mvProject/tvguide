@@ -6,6 +6,8 @@ import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.utils.ParserUtils.loadElements
 import com.mvproject.tvprogramguide.utils.ParserUtils.parseElementDataAsChannel
 import com.mvproject.tvprogramguide.utils.TimeUtils.actualDate
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -15,33 +17,31 @@ import javax.inject.Inject
  * @property preferenceRepository the PreferenceRepository repository
  */
 class UpdateChannelsInfoUseCase
-    @Inject
-    constructor(
-        private val allChannelRepository: AllChannelRepository,
-        private val preferenceRepository: PreferenceRepository,
-    ) {
-        suspend operator fun invoke() {
-            val parsedTable =
-                loadElements(
-                    sourceUrl = "https://epg.ott-play.com/php/show_prow.php?f=edem/edem.xml.gz",
-                )
+@Inject constructor(
+    private val allChannelRepository: AllChannelRepository,
+    private val preferenceRepository: PreferenceRepository,
+) {
+    suspend operator fun invoke() {
+        withContext(Dispatchers.IO) {
+            val parsedTable = loadElements(
+                sourceUrl = "https://epg.ott-play.com/php/show_prow.php?f=edem/edem.xml.gz",
+            )
 
-            val networkChannels =
-                buildList {
-                    parsedTable.forEach { element ->
-                        val (id, logo, names) = element.parseElementDataAsChannel()
+            val networkChannels = buildList {
+                parsedTable.forEach { element ->
+                    val (id, logo, names) = element.parseElementDataAsChannel()
 
-                        names.forEach { name ->
-                            add(
-                                AvailableChannelResponse(
-                                    channelNames = name,
-                                    channelId = id,
-                                    channelIcon = logo,
-                                ),
-                            )
-                        }
+                    names.forEach { name ->
+                        add(
+                            AvailableChannelResponse(
+                                channelNames = name,
+                                channelId = id,
+                                channelIcon = logo,
+                            ),
+                        )
                     }
                 }
+            }
 
             Timber.w("testing UpdateChannelsInfoUseCase networkChannels ${networkChannels.count()}")
             if (networkChannels.isNotEmpty()) {
@@ -51,3 +51,4 @@ class UpdateChannelsInfoUseCase
             preferenceRepository.setChannelsUpdateLastTime(timeInMillis = actualDate)
         }
     }
+}

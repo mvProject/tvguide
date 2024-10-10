@@ -1,7 +1,6 @@
 package com.mvproject.tvprogramguide.data.model.domain
 
 import androidx.compose.runtime.Immutable
-import com.mvproject.tvprogramguide.data.database.entity.ProgramEntity
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
 import com.mvproject.tvprogramguide.utils.TimeUtils
 
@@ -23,17 +22,4 @@ data class Program(
             )
 
     val programKey get() = "$dateTimeStart$title"
-
-    fun toEntity() =
-        with(this) {
-            ProgramEntity(
-                dateTimeStart = dateTimeStart,
-                dateTimeEnd = dateTimeEnd,
-                title = title,
-                description = description,
-                category = category,
-                channelId = channel,
-                scheduledId = scheduledId,
-            )
-        }
 }

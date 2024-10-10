@@ -1,10 +1,6 @@
 package com.mvproject.tvprogramguide.utils
 
-import android.app.Activity
-import android.content.Context
-import android.content.ContextWrapper
 import com.mvproject.tvprogramguide.data.database.entity.ProgramEntity
-import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
 import com.mvproject.tvprogramguide.utils.AppConstants.CHANNEL_NAME_NO_EPG_FILTER
 import com.mvproject.tvprogramguide.utils.AppConstants.CHANNEL_NAME_PARSE_DELIMITER
@@ -138,28 +134,6 @@ fun String.getNoProgramData(): List<ProgramEntity> =
         }
     }
 
-fun String.toNoProgramData(): List<Program> =
-    buildList {
-        val initTime = Clock.System.now()
-        for (i in NO_EPG_PROGRAM_RANGE_START..NO_EPG_PROGRAM_RANGE_END) {
-            val startDelta = i * NO_EPG_PROGRAM_DURATION
-            val start =
-                (initTime + startDelta.hours)
-                    .toEpochMilliseconds()
-            val end =
-                (initTime + (startDelta + NO_EPG_PROGRAM_DURATION).hours)
-                    .toEpochMilliseconds()
-            add(
-                Program(
-                    dateTimeStart = start,
-                    dateTimeEnd = end,
-                    title = NO_EPG_PROGRAM_TITLE,
-                    channel = this@toNoProgramData,
-                ),
-            )
-        }
-    }
-
 /**
  * Obtain time values of program end from start time of next
  *
@@ -205,12 +179,3 @@ fun String.manageLength() =
 
 fun String.trimSpaces() =
     this.replace(" ", "")
-
-fun Context.findActivity(): Activity {
-    var ctx = this
-    while (ctx is ContextWrapper) {
-        if (ctx is Activity) return ctx
-        ctx = ctx.baseContext
-    }
-    throw IllegalStateException("no activity")
-}

@@ -11,7 +11,6 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format.char
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
-import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.minutes
 
 object TimeUtils {
@@ -19,12 +18,6 @@ object TimeUtils {
     private val tzSourceMoscow = TimeZone.of("Europe/Moscow")
     private val tzCurrent = TimeZone.currentSystemDefault()
 
-    val actualDay
-        get() =
-            Clock.System
-                .now()
-                .minus(1.days)
-                .toEpochMilliseconds()
     val actualDate
         get() =
             Clock.System

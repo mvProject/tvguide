@@ -1,5 +1,6 @@
 package com.mvproject.tvprogramguide.ui.screens.usercustomlist
 
+import android.app.Activity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -32,7 +33,6 @@ import com.mvproject.tvprogramguide.ui.components.views.ChannelListItem
 import com.mvproject.tvprogramguide.ui.components.views.NoItemsScreen
 import com.mvproject.tvprogramguide.ui.screens.usercustomlist.action.ChannelListAction
 import com.mvproject.tvprogramguide.ui.theme.dimens
-import com.mvproject.tvprogramguide.utils.findActivity
 
 @Composable
 fun ChannelListScreen(
@@ -131,14 +131,13 @@ private fun ChannelListScreen(
 
 @Composable
 private fun ShowFeedback() {
-    val context = LocalContext.current
-    val activity = context.findActivity()
+    val context = LocalContext.current as Activity
     val reviewManager = ReviewManagerFactory.create(context)
     reviewManager
         .requestReviewFlow()
         .addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                reviewManager.launchReviewFlow(activity, task.result)
+                reviewManager.launchReviewFlow(context, task.result)
             }
         }
 }

@@ -4,6 +4,7 @@ import androidx.room.Transaction
 import com.mvproject.tvprogramguide.data.database.dao.ProgramDao
 import com.mvproject.tvprogramguide.data.mappers.Mappers.asProgramEntity
 import com.mvproject.tvprogramguide.data.mappers.Mappers.asProgramFromEntities
+import com.mvproject.tvprogramguide.data.mappers.Mappers.toEntity
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.response.ProgramDTO
 import com.mvproject.tvprogramguide.utils.TimeUtils.correctTimeZone
