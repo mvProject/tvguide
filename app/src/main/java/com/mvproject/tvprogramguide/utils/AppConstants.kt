@@ -14,6 +14,7 @@ object AppConstants {
 
     const val DEFAULT_DELAY = 500L
     const val REFRESH_DELAY = 1500L
+    const val WORKER_DELAY = 2000L
 
     const val DEFAULT_PROGRAMS_UPDATE_PERIOD = 2
     const val DEFAULT_CHANNELS_UPDATE_PERIOD = 7

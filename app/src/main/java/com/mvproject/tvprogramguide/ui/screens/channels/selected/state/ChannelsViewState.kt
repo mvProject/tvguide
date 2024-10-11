@@ -10,7 +10,7 @@ import com.mvproject.tvprogramguide.utils.obtainIndexOrZero
 @Stable
 data class ChannelsViewState(
     val listName: String = NO_VALUE_STRING,
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
     val isOnboard: Boolean = false,
     val playlists: List<ChannelList> = emptyList(),
     val channels: List<SelectedChannelWithPrograms> = emptyList(),

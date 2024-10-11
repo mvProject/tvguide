@@ -60,7 +60,7 @@ constructor(
                         val progress = workInfo.progress
                         val current = progress.getInt(CHANNEL_INDEX, AppConstants.COUNT_ZERO)
                         val count = progress.getInt(CHANNEL_COUNT, AppConstants.COUNT_ZERO)
-                        Timber.i("fullUpdateWorkInfoFlow worker channel update $current/$count")
+                        Timber.i("testing fullUpdateWorkInfoFlow worker channel update $current/$count")
                     }
                 }
             }.launchIn(viewModelScope)

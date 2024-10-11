@@ -87,7 +87,10 @@ constructor(
                 val sortedPrograms = programs.sortedBy { item -> item.selectedChannel.order }
 
                 _viewState.update { state ->
-                    state.copy(channels = sortedPrograms)
+                    state.copy(
+                        channels = sortedPrograms,
+                        isLoading = false
+                    )
                 }
 
             }.launchIn(viewModelScope)

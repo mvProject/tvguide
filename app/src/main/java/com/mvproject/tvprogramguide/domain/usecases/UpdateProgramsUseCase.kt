@@ -24,25 +24,22 @@ class UpdateProgramsUseCase
 ) {
     suspend operator fun invoke(channelId: String) {
         withContext(Dispatchers.IO) {
+
             val parsedTable = loadElements(
                 sourceUrl = "https://epg.ott-play.com/php/show_prog.php?f=edem/epg/$channelId.json",
             )
 
-            val programs = buildList {
-                parsedTable.forEach { element ->
-                    val (date, title, description) = element.parseElementDataAsProgram()
+            val programs = parsedTable.map { element ->
+                val (date, title, description) = element.parseElementDataAsProgram()
 
-                    val (start, end) = parseDateTime(input = date)
+                val (start, end) = parseDateTime(input = date)
 
-                    val program = ProgramDTO(
-                        dateTimeStart = start,
-                        dateTimeEnd = end,
-                        title = title,
-                        description = description,
-                    )
-
-                    add(program)
-                }
+                ProgramDTO(
+                    dateTimeStart = start,
+                    dateTimeEnd = end,
+                    title = title,
+                    description = description,
+                )
             }
 
             Timber.w("testing UpdateChannelsInfoUseCase programs ${programs.count()}")
