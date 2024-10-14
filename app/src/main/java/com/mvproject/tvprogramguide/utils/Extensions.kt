@@ -6,7 +6,6 @@ import com.mvproject.tvprogramguide.utils.AppConstants.CHANNEL_NAME_NO_EPG_FILTE
 import com.mvproject.tvprogramguide.utils.AppConstants.CHANNEL_NAME_PARSE_DELIMITER
 import com.mvproject.tvprogramguide.utils.AppConstants.CHANNEL_NAME_PLUG_FILTER
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_END_PROGRAM_DURATION
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_EPG_PROGRAM_DURATION
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_EPG_PROGRAM_RANGE_END
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_EPG_PROGRAM_RANGE_START
@@ -49,10 +48,10 @@ fun String.toMillis(): Long {
     return parser.parse(this)?.time ?: NO_VALUE_LONG
 }
 
-fun String.toMillisSlashed(): Long {
+/*fun String.toMillisSlashed(): Long {
     val parser = SimpleDateFormat(DATE_FORMAT_SLASH, Locale.getDefault())
     return parser.parse(this)?.time ?: NO_VALUE_LONG
-}
+}*/
 
 /**
  * Extension Method to non-null long variable which
@@ -125,6 +124,7 @@ fun String.getNoProgramData(): List<ProgramEntity> =
                     .toEpochMilliseconds()
             add(
                 ProgramEntity(
+                    programId = "",
                     dateTimeStart = start,
                     dateTimeEnd = end,
                     title = NO_EPG_PROGRAM_TITLE,
@@ -139,12 +139,12 @@ fun String.getNoProgramData(): List<ProgramEntity> =
  *
  * @return the list of long values in milliseconds
  */
-fun List<String>.calculateEndings(): List<Long> =
+/*fun List<String>.calculateEndings(): List<Long> =
     buildList {
         this@calculateEndings.zipWithNext().forEach { timing ->
             add(timing.second.toMillis())
         }
-    }
+    }*/
 
 /**
  * Obtain time value of program end for last element
@@ -152,9 +152,9 @@ fun List<String>.calculateEndings(): List<Long> =
  *
  * @return the long value in milliseconds
  */
-fun Long.getLastItemEnding() =
+/*fun Long.getLastItemEnding() =
     (Instant.fromEpochMilliseconds(this) + NO_END_PROGRAM_DURATION.hours)
-        .toEpochMilliseconds()
+        .toEpochMilliseconds()*/
 
 /**
  * Take elements from source only if count bigger than 0

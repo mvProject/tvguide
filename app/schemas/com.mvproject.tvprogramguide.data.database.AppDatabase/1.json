@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "78ceabfec1ac9cb94898abcc22723d28",
+    "identityHash": "ef372ff7f85e3adcdf498c5199cbf0ec",
     "entities": [
       {
         "tableName": "all_channels",
@@ -44,8 +44,14 @@
       },
       {
         "tableName": "programs",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dateTimeStart` INTEGER NOT NULL, `dateTimeEnd` INTEGER NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `category` TEXT NOT NULL, `channelId` TEXT NOT NULL, `scheduledId` INTEGER, PRIMARY KEY(`dateTimeStart`, `title`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`programId` TEXT NOT NULL, `dateTimeStart` INTEGER NOT NULL, `dateTimeEnd` INTEGER NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `category` TEXT NOT NULL, `channelId` TEXT NOT NULL, `scheduledId` INTEGER, PRIMARY KEY(`dateTimeStart`, `title`))",
         "fields": [
+          {
+            "fieldPath": "programId",
+            "columnName": "programId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
           {
             "fieldPath": "dateTimeStart",
             "columnName": "dateTimeStart",
@@ -179,7 +185,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '78ceabfec1ac9cb94898abcc22723d28')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ef372ff7f85e3adcdf498c5199cbf0ec')"
     ]
   }
 }

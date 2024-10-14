@@ -11,7 +11,6 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format.char
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
-import kotlin.time.Duration.Companion.minutes
 
 object TimeUtils {
     private val tzSourceBerlin = TimeZone.of("Europe/Berlin")
@@ -23,6 +22,22 @@ object TimeUtils {
             Clock.System
                 .now()
                 .toEpochMilliseconds()
+
+    private val dateFormat =
+        LocalDate.Format {
+            dayOfMonth()
+            char('/')
+            monthNumber()
+            char('/')
+            year()
+        }
+
+    private val timeFormat =
+        LocalTime.Format {
+            hour()
+            char(':')
+            minute()
+        }
 
     fun calculateProgramProgress(
         startTime: Long,
@@ -61,26 +76,9 @@ object TimeUtils {
             updatedDateTimeEnd,
         )
     }
-
+/*
     fun parseDateTime(input: String): Pair<Long, Long> {
         // val test = "14/09/2024 18:27-20:19 (112)"
-
-        // Split the input string
-        val dateFormat =
-            LocalDate.Format {
-                dayOfMonth()
-                char('/')
-                monthNumber()
-                char('/')
-                year()
-            }
-
-        val timeFormat =
-            LocalTime.Format {
-                hour()
-                char(':')
-                minute()
-            }
 
         val (dateTimeStart, durationPart) = input.split(" (")
         val (date, time) = dateTimeStart.split(" ")
@@ -99,7 +97,7 @@ object TimeUtils {
         val endInstant = startInstant.plus(duration.minutes)
 
         return Pair(startInstant.toEpochMilliseconds(), endInstant.toEpochMilliseconds())
-    }
+    }*/
 
     @SuppressLint("DefaultLocale")
     fun roundTimeString(time: String): String {
@@ -121,4 +119,32 @@ object TimeUtils {
         // Ensure the rounded minute is formatted properly with leading zero if needed
         return String.format("%02d:%02d", hour, roundedMinute)
     }
+
+    @SuppressLint("DefaultLocale")
+    fun extractDate(input: String): String {
+        val year = input.substring(0, 4).toInt()
+        val month = input.substring(4, 6).toInt()
+        val day = input.substring(6, 8).toInt()
+        return String.format("%02d/%02d/%04d", day, month, year)
+    }
+
+    @SuppressLint("DefaultLocale")
+    fun extractTime(input: String): String {
+        val hour = input.substring(8, 10).toInt()
+        val minute = input.substring(10, 12).toInt()
+        return String.format("%02d:%02d", hour, minute)
+    }
+
+    fun parseToInstant(input: String): Long {
+        val date = extractDate(input)
+        val time = extractTime(input)
+
+        val localDate = dateFormat.parse(date)
+        val localTime = timeFormat.parse(roundTimeString(time = time))
+
+        val localDateTime = LocalDateTime(localDate, localTime)
+        return localDateTime.toInstant(tzSourceMoscow).toEpochMilliseconds()
+    }
 }
+
+

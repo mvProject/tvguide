@@ -10,9 +10,11 @@ import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
 import com.mvproject.tvprogramguide.data.model.response.ProgramDTO
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.utils.AppConstants.empty
 import com.mvproject.tvprogramguide.utils.parseChannelName
 import com.mvproject.tvprogramguide.utils.trimSpaces
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Maps Data between models
@@ -51,6 +53,7 @@ object Mappers {
     private fun ProgramEntity.toProgram() =
         with(this) {
             Program(
+                programId = programId,
                 dateTimeStart = dateTimeStart,
                 dateTimeEnd = dateTimeEnd,
                 title = title,
@@ -85,16 +88,18 @@ object Mappers {
             SelectionChannel(
                 programId = channel.programId,
                 channelId = channel.id,
-                channelName = allChannel?.title?.parseChannelName() ?: NO_VALUE_STRING,
-                channelIcon = allChannel?.logo ?: NO_VALUE_STRING,
+                channelName = allChannel?.title?.parseChannelName() ?: String.empty,
+                channelIcon = allChannel?.logo ?: String.empty,
                 order = channel.order,
                 parentList = channel.parentList,
             )
         }
 
+    @OptIn(ExperimentalUuidApi::class)
     fun ProgramDTO.asProgramEntity(id: String) =
         with(this) {
             ProgramEntity(
+                programId = Uuid.random().toString(),
                 dateTimeStart = dateTimeStart,
                 dateTimeEnd = dateTimeEnd,
                 title = title,
@@ -152,6 +157,7 @@ object Mappers {
     fun Program.toEntity() =
         with(this) {
             ProgramEntity(
+                programId = programId,
                 dateTimeStart = dateTimeStart,
                 dateTimeEnd = dateTimeEnd,
                 title = title,

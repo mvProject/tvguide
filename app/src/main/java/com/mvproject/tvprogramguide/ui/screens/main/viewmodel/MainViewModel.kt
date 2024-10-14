@@ -34,7 +34,8 @@ constructor(
     preferenceRepository: PreferenceRepository,
     private val updateChannelsInfoUseCase: UpdateChannelsInfoUseCase,
     private val cleanProgramsUseCase: CleanProgramsUseCase,
-) : ViewModel() {
+
+    ) : ViewModel() {
     private val fullUpdateWorkInfoFlow =
         workManager.getWorkInfosForUniqueWorkFlow(DOWNLOAD_PROGRAMS)
 
@@ -48,7 +49,6 @@ constructor(
     private var isUpdating = false
 
     init {
-
         fullUpdateWorkInfoFlow
             .onEach { state ->
                 if (state.isNullOrEmpty()) {
@@ -68,14 +68,15 @@ constructor(
         combine(
             preferenceRepository.isNeedAvailableChannelsUpdate,
             preferenceRepository.isNeedFullProgramsUpdate,
-            preferenceRepository.getChannelsForUpdate()
-        ) { channelsUpdateRequired, plannedUpdateRequired, channels ->
+        //    preferenceRepository.getChannelsForUpdate(),
+            preferenceRepository.getProgramsUpdateRequiredState()
+        ) { channelsUpdateRequired, plannedUpdateRequired, manualUpdateRequired ->
 
             if (channelsUpdateRequired) {
                 updateChannelsInfoUseCase()
             }
 
-            if (plannedUpdateRequired || channels.isNotEmpty()) {
+            if (plannedUpdateRequired || manualUpdateRequired) {
                 startProgramsUpdate(requestForUpdate = buildFullUpdateRequest())
             }
         }.launchIn(viewModelScope)

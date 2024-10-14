@@ -141,7 +141,7 @@ class ChannelSettingsViewModel
                 saveChannelsSelection(
                     listName = name,
                     channels = selected.value,
-                    channelsForUpdate = channelsForUpdate
+                  //  channelsForUpdate = channelsForUpdate
                 )
                 _viewState.update { state ->
                     state.copy(isComplete = true)

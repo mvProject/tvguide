@@ -5,6 +5,7 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import coil.request.CachePolicy
 import dagger.hilt.android.HiltAndroidApp
@@ -49,13 +50,13 @@ class App :
                     .strongReferencesEnabled(true)
                     .build()
             }
-/*            .diskCachePolicy(CachePolicy.ENABLED)
+            .diskCachePolicy(CachePolicy.ENABLED)
             .diskCache {
                 DiskCache.Builder()
                     .maxSizePercent(0.03)
                     .directory(cacheDir)
                     .build()
-            }*/
+            }
            // .logger(DebugLogger())
             .build()
     }

@@ -3,7 +3,7 @@ package com.mvproject.tvprogramguide.extensions
 import com.mvproject.tvprogramguide.data.database.entity.ProgramEntity
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_EPG_PROGRAM_TITLE
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.utils.AppConstants.empty
 import com.mvproject.tvprogramguide.utils.filterNoEpg
 import com.mvproject.tvprogramguide.utils.getNoProgramData
 import com.mvproject.tvprogramguide.utils.obtainIndexOrZero
@@ -65,13 +65,13 @@ class ExtensionListTest :
 
                 should("should return result with proper items count") {
                     listName.getNoProgramData().first().title shouldBe NO_EPG_PROGRAM_TITLE
-                    listName.getNoProgramData().first().description shouldBe NO_VALUE_STRING
+                    listName.getNoProgramData().first().description shouldBe String.empty
                     listName.getNoProgramData().first().channelId shouldBe listName
                 }
 
                 should("should with empty list name return result with proper items count") {
                     emptyListName.getNoProgramData().first().title shouldBe NO_EPG_PROGRAM_TITLE
-                    emptyListName.getNoProgramData().first().description shouldBe NO_VALUE_STRING
+                    emptyListName.getNoProgramData().first().description shouldBe String.empty
                     emptyListName.getNoProgramData().first().channelId shouldBe emptyListName
                 }
             }

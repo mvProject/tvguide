@@ -5,7 +5,6 @@ import kotlinx.serialization.json.Json
 object AppConstants {
     const val NO_VALUE_LONG = -1L
     const val NO_VALUE_INT = -1
-    const val NO_VALUE_STRING = ""
 
     const val COUNT_ONE = 1
     const val COUNT_ZERO = 0
@@ -61,4 +60,6 @@ object AppConstants {
         isLenient = true
         ignoreUnknownKeys = true
     }
+
+    inline val String.Companion.empty get() = ""
 }

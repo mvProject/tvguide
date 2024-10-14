@@ -31,7 +31,7 @@ import com.mvproject.tvprogramguide.ui.components.radio.RadioGroupContent
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.utils.AppConstants.empty
 
 @Composable
 fun ShowSelectFromListDialog(
@@ -40,7 +40,7 @@ fun ShowSelectFromListDialog(
     isDialogOpen: MutableState<Boolean>,
     onSelected: (ChannelList) -> Unit = {},
 ) {
-    val selection = channelLists.firstOrNull { it.isSelected }?.listName ?: NO_VALUE_STRING
+    val selection = channelLists.firstOrNull { it.isSelected }?.listName ?: String.empty
 
     var name by remember { mutableStateOf(selection) }
 

@@ -14,12 +14,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.utils.AppConstants.empty
 
 @Composable
 fun SettingsMenu(
     modifier: Modifier = Modifier,
-    title: String = NO_VALUE_STRING,
+    title: String = String.empty,
     onAction: () -> Unit = {},
 ) {
     Column {

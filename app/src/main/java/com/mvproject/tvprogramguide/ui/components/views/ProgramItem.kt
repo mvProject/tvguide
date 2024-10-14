@@ -180,6 +180,7 @@ fun ProgramItemPreview() {
         ProgramItem(
             program =
             Program(
+                programId = "",
                 dateTimeStart = current - 30.minutes.inWholeMilliseconds,
                 dateTimeEnd = current + 30.minutes.inWholeMilliseconds,
                 title = stringResource(id = R.string.app_name),

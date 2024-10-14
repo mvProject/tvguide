@@ -29,7 +29,7 @@ import androidx.compose.ui.window.Dialog
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.utils.AppConstants.empty
 import com.mvproject.tvprogramguide.utils.manageLength
 
 @Composable
@@ -37,12 +37,12 @@ fun ShowAddNewDialog(
     isDialogOpen: MutableState<Boolean>,
     onSelected: (String) -> Unit,
 ) {
-    val name = remember { mutableStateOf(NO_VALUE_STRING) }
+    val name = remember { mutableStateOf(String.empty) }
 
     if (isDialogOpen.value) {
         Dialog(
             onDismissRequest = {
-                name.value = NO_VALUE_STRING
+                name.value = String.empty
                 isDialogOpen.value = false
             },
         ) {
@@ -101,7 +101,7 @@ fun ShowAddNewDialog(
                     ElevatedButton(
                         onClick = {
                             onSelected(name.value)
-                            name.value = NO_VALUE_STRING
+                            name.value = String.empty
                             isDialogOpen.value = false
                         },
                         modifier =

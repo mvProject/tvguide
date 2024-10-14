@@ -11,13 +11,14 @@ import com.mvproject.tvprogramguide.domain.usecases.SelectedChannelsWithPrograms
 import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramSchedule
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.actions.ChannelsViewAction
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.state.ChannelsViewState
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.utils.AppConstants.empty
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
@@ -41,30 +42,31 @@ constructor(
     private var channelsJob: Job? = null
 
     init {
-        preferenceRepository.loadOnBoardState().onEach { onboardState ->
-            _viewState.update { state ->
-                state.copy(
-                    isOnboard = onboardState
-                )
-            }
+        preferenceRepository.loadOnBoardState()
+            .onEach { onboardState ->
+                _viewState.update { state ->
+                    state.copy(isOnboard = onboardState)
+                }
 
-        }.launchIn(viewModelScope)
+            }.flowOn(Dispatchers.IO)
+            .launchIn(viewModelScope)
 
         channelListRepository.loadChannelsListsAsFlow()
             .onEach { allLists ->
+
                 _viewState.update { state ->
                     val listName =
-                        allLists.firstOrNull { it.isSelected }?.listName ?: NO_VALUE_STRING
+                        allLists.firstOrNull { it.isSelected }?.listName ?: String.empty
 
                     state.copy(
                         listName = listName,
                         playlists = allLists,
+                        isLoading = listName.isNotEmpty()
                     )
                 }
 
-            }.launchIn(viewModelScope)
-
-
+            }.flowOn(Dispatchers.IO)
+            .launchIn(viewModelScope)
     }
 
     fun processAction(action: ChannelsViewAction) {
@@ -92,8 +94,8 @@ constructor(
                         isLoading = false
                     )
                 }
-
-            }.launchIn(viewModelScope)
+            }.flowOn(Dispatchers.IO)
+            .launchIn(viewModelScope)
     }
 
     private fun stopProgramsObserving() {
@@ -109,9 +111,8 @@ constructor(
     }
 
     private fun forceReloadData() {
-        val currentChannels = viewState.value.channels.map { it.selectedChannel.programId }
         viewModelScope.launch(Dispatchers.IO) {
-            preferenceRepository.setChannelsForUpdate(currentChannels)
+            preferenceRepository.setProgramsUpdateRequiredState(true)
         }
     }
 

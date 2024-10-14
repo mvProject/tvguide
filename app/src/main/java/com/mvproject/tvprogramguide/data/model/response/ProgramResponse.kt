@@ -1,17 +1,17 @@
 package com.mvproject.tvprogramguide.data.model.response
 
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.utils.AppConstants.empty
 
 data class ProgramResponse(
-    val start: String = NO_VALUE_STRING,
-    val title: String = NO_VALUE_STRING,
-    val description: String = NO_VALUE_STRING,
-    val category: String = NO_VALUE_STRING,
+    val start: String = String.empty,
+    val title: String = String.empty,
+    val description: String = String.empty,
+    val category: String = String.empty,
 )
 
 data class ProgramDTO(
     val dateTimeStart: Long,
     val dateTimeEnd: Long,
-    val title: String = NO_VALUE_STRING,
-    val description: String = NO_VALUE_STRING,
+    val title: String = String.empty,
+    val description: String = String.empty,
 )
