@@ -1,21 +1,21 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.model.domain.Program
-import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
+import com.mvproject.tvprogramguide.data.repository.ProgramRepository
 import com.mvproject.tvprogramguide.domain.helpers.ProgramSchedulerHelper
 import javax.inject.Inject
 import kotlin.random.Random
 
 /**
  * Use case to update available channels
- * @property channelProgramRepository the ChannelProgramRepository repository
+ * @property programRepository the ChannelProgramRepository repository
  * @property programSchedulerHelper the ProgramSchedulerHelper repository
  *
  */
 class ToggleProgramSchedule
     @Inject
     constructor(
-        private val channelProgramRepository: ChannelProgramRepository,
+        private val programRepository: ProgramRepository,
         private val programSchedulerHelper: ProgramSchedulerHelper,
     ) {
         /**
@@ -43,7 +43,7 @@ class ToggleProgramSchedule
                     programSchedulerHelper.cancelProgramAlarm(schedulerId = idForCancel)
                     program.copy(scheduledId = null)
                 }
-            channelProgramRepository.updateProgram(program = selectedProgram)
+            programRepository.updateProgram(program = selectedProgram)
             return selectedProgram.scheduledId
         }
     }

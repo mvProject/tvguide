@@ -1,14 +1,14 @@
 package com.mvproject.tvprogramguide.data.model.domain
 
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.utils.AppConstants.empty
 
 data class SelectionChannel(
     val channelId: String,
-    val programId: String = NO_VALUE_STRING,
-    val channelName: String = NO_VALUE_STRING,
-    val channelIcon: String = NO_VALUE_STRING,
+    val programId: String = String.empty,
+    val channelName: String = String.empty,
+    val channelIcon: String = String.empty,
     val order: Int = COUNT_ZERO,
-    val parentList: String = NO_VALUE_STRING,
+    val parentList: String = String.empty,
     val isSelected: Boolean = false,
 )

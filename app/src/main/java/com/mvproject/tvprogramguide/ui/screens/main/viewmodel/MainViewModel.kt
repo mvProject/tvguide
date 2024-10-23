@@ -9,6 +9,7 @@ import androidx.work.WorkManager
 import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.domain.helpers.NetworkHelper
+import com.mvproject.tvprogramguide.domain.usecases.CleanProgramsUseCase
 import com.mvproject.tvprogramguide.domain.usecases.UpdateChannelsInfoUseCase
 import com.mvproject.tvprogramguide.utils.AppConstants
 import com.mvproject.tvprogramguide.utils.CHANNEL_COUNT
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -31,7 +33,9 @@ constructor(
     private val networkHelper: NetworkHelper,
     preferenceRepository: PreferenceRepository,
     private val updateChannelsInfoUseCase: UpdateChannelsInfoUseCase,
-) : ViewModel() {
+    private val cleanProgramsUseCase: CleanProgramsUseCase,
+
+    ) : ViewModel() {
     private val fullUpdateWorkInfoFlow =
         workManager.getWorkInfosForUniqueWorkFlow(DOWNLOAD_PROGRAMS)
 
@@ -45,7 +49,6 @@ constructor(
     private var isUpdating = false
 
     init {
-
         fullUpdateWorkInfoFlow
             .onEach { state ->
                 if (state.isNullOrEmpty()) {
@@ -57,7 +60,7 @@ constructor(
                         val progress = workInfo.progress
                         val current = progress.getInt(CHANNEL_INDEX, AppConstants.COUNT_ZERO)
                         val count = progress.getInt(CHANNEL_COUNT, AppConstants.COUNT_ZERO)
-                        Timber.i("fullUpdateWorkInfoFlow worker channel update $current/$count")
+                        Timber.i("testing fullUpdateWorkInfoFlow worker channel update $current/$count")
                     }
                 }
             }.launchIn(viewModelScope)
@@ -65,17 +68,22 @@ constructor(
         combine(
             preferenceRepository.isNeedAvailableChannelsUpdate,
             preferenceRepository.isNeedFullProgramsUpdate,
-            preferenceRepository.getChannelsForUpdate()
-        ) { channelsUpdateRequired, plannedUpdateRequired, channels ->
+        //    preferenceRepository.getChannelsForUpdate(),
+            preferenceRepository.getProgramsUpdateRequiredState()
+        ) { channelsUpdateRequired, plannedUpdateRequired, manualUpdateRequired ->
 
             if (channelsUpdateRequired) {
                 updateChannelsInfoUseCase()
             }
 
-            if (plannedUpdateRequired || channels.isNotEmpty()) {
+            if (plannedUpdateRequired || manualUpdateRequired) {
                 startProgramsUpdate(requestForUpdate = buildFullUpdateRequest())
             }
         }.launchIn(viewModelScope)
+
+       viewModelScope.launch {
+           cleanProgramsUseCase()
+       }
     }
 
     private fun startProgramsUpdate(requestForUpdate: OneTimeWorkRequest) {

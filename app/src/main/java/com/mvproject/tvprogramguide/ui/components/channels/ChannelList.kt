@@ -1,6 +1,5 @@
 package com.mvproject.tvprogramguide.ui.components.channels
 
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -30,10 +29,10 @@ fun ChannelList(
     onChannelClick: (SelectionChannel) -> Unit,
     onScheduleClick: (String, Program) -> Unit,
 ) {
-    Crossfade(
+/*    Crossfade(
         targetState = singleChannelPrograms,
         label = "ChannelList",
-    ) { data ->
+    ) { data ->*/
         LazyColumn(
             modifier =
             Modifier
@@ -41,7 +40,7 @@ fun ChannelList(
             contentPadding = PaddingValues(horizontal = MaterialTheme.dimens.size4),
             state = listState,
         ) {
-            data.forEach { item ->
+            singleChannelPrograms.forEach { item ->
                 stickyHeader(
                     key = item.selectedChannel.channelId,
                 ) {
@@ -66,7 +65,7 @@ fun ChannelList(
                 } else {
                     items(
                         items = item.programs,
-                        key = { program -> program.programKey + item.selectedChannel.channelId },
+                        key = { program -> program.programId + item.selectedChannel.channelId},
                     ) { program ->
                         ProgramItem(program = program) {
                             onScheduleClick(item.selectedChannel.channelName, program)
@@ -75,5 +74,5 @@ fun ChannelList(
                 }
             }
         }
-    }
+    //}
 }

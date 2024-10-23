@@ -174,18 +174,21 @@ private val programEntitySingleId
     get() =
         listOf(
             ProgramEntity(
+                programId = "",
                 (Clock.System.now() + 1.hours).toEpochMilliseconds(),
                 (Clock.System.now() + 2.hours).toEpochMilliseconds(),
                 "entity1",
                 channelId = "id1",
             ),
             ProgramEntity(
+                programId = "",
                 (Clock.System.now() + 2.hours).toEpochMilliseconds(),
                 (Clock.System.now() + 3.hours).toEpochMilliseconds(),
                 "entity2",
                 channelId = "id1",
             ),
             ProgramEntity(
+                programId = "",
                 (Clock.System.now() + 3.hours).toEpochMilliseconds(),
                 (Clock.System.now() + 4.hours).toEpochMilliseconds(),
                 "entity3",
@@ -197,18 +200,21 @@ private val programEntityManyId
     get() =
         listOf(
             ProgramEntity(
+                programId = "",
                 (Clock.System.now() + 1.hours).toEpochMilliseconds(),
                 (Clock.System.now() + 2.hours).toEpochMilliseconds(),
                 "entity1",
                 channelId = "id1",
             ),
             ProgramEntity(
+                programId = "",
                 (Clock.System.now() + 2.hours).toEpochMilliseconds(),
                 (Clock.System.now() + 3.hours).toEpochMilliseconds(),
                 "entity2",
                 channelId = "id2",
             ),
             ProgramEntity(
+                programId = "",
                 (Clock.System.now() + 3.hours).toEpochMilliseconds(),
                 (Clock.System.now() + 4.hours).toEpochMilliseconds(),
                 "entity3",

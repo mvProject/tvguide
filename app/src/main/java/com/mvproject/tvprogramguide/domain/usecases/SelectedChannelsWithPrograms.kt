@@ -1,8 +1,8 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
-import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
+import com.mvproject.tvprogramguide.data.repository.ProgramRepository
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.utils.ProgramUtils.toSelectedChannelWithPrograms
 import kotlinx.coroutines.flow.Flow
@@ -12,14 +12,14 @@ import javax.inject.Inject
 /**
  * Use case to retrieve available channels
  * @property selectedChannelRepository the SelectedChannelRepository repository
- * @property channelProgramRepository the ChannelProgramRepository repository
+ * @property programRepository the ChannelProgramRepository repository
  * @property preferenceRepository the PreferenceRepository repository
  */
 class SelectedChannelsWithPrograms
 @Inject
 constructor(
     private val selectedChannelRepository: SelectedChannelRepository,
-    private val channelProgramRepository: ChannelProgramRepository,
+    private val programRepository: ProgramRepository,
     private val preferenceRepository: PreferenceRepository
 ) {
     /**
@@ -38,7 +38,7 @@ constructor(
                 selectedChannels.map { item -> item.programId }
 
             val programsWithChannels =
-                channelProgramRepository.loadProgramsForChannels(channelsIds = selectedChannelIds)
+                programRepository.loadProgramsForChannels(channelsIds = selectedChannelIds)
 
             programsWithChannels.toSelectedChannelWithPrograms(
                 alreadySelected = selectedChannels,

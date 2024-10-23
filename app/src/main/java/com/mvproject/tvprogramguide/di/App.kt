@@ -8,7 +8,6 @@ import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import coil.request.CachePolicy
-import coil.util.DebugLogger
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject
@@ -58,7 +57,7 @@ class App :
                     .directory(cacheDir)
                     .build()
             }
-            .logger(DebugLogger())
+           // .logger(DebugLogger())
             .build()
     }
 }

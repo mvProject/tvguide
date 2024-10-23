@@ -5,7 +5,6 @@ import kotlinx.serialization.json.Json
 object AppConstants {
     const val NO_VALUE_LONG = -1L
     const val NO_VALUE_INT = -1
-    const val NO_VALUE_STRING = ""
 
     const val COUNT_ONE = 1
     const val COUNT_ZERO = 0
@@ -14,6 +13,7 @@ object AppConstants {
 
     const val DEFAULT_DELAY = 500L
     const val REFRESH_DELAY = 1500L
+    const val WORKER_DELAY = 2000L
 
     const val DEFAULT_PROGRAMS_UPDATE_PERIOD = 2
     const val DEFAULT_CHANNELS_UPDATE_PERIOD = 7
@@ -60,4 +60,6 @@ object AppConstants {
         isLenient = true
         ignoreUnknownKeys = true
     }
+
+    inline val String.Companion.empty get() = ""
 }

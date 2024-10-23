@@ -30,7 +30,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.ui.theme.fonts
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.utils.AppConstants.empty
 import timber.log.Timber
 
 @Composable
@@ -39,7 +39,7 @@ fun SearchView(
     onSearch: (String) -> Unit = {},
 ) {
     var text by remember {
-        mutableStateOf(NO_VALUE_STRING)
+        mutableStateOf(String.empty)
     }
 
     Surface(
@@ -80,10 +80,10 @@ fun SearchView(
                 )
             },
             trailingIcon = {
-                if (text != NO_VALUE_STRING) {
+                if (text != String.empty) {
                     FilledIconButton(
                         onClick = {
-                            text = NO_VALUE_STRING
+                            text = String.empty
                             onSearch(text)
                         },
                         modifier = Modifier.padding(MaterialTheme.dimens.size8),

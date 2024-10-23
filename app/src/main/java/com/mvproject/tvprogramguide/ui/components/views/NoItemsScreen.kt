@@ -21,12 +21,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_STRING
+import com.mvproject.tvprogramguide.utils.AppConstants.empty
 
 @Composable
 fun NoItemsScreen(
     title: String = stringResource(id = R.string.msg_no_items_found),
-    navigateTitle: String = NO_VALUE_STRING,
+    navigateTitle: String = String.empty,
     onNavigateClick: () -> Unit = {}
 ) {
     Surface(
