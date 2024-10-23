@@ -65,7 +65,7 @@ fun ChannelList(
                 } else {
                     items(
                         items = item.programs,
-                        key = { program -> program.programId },
+                        key = { program -> program.programId + item.selectedChannel.channelId},
                     ) { program ->
                         ProgramItem(program = program) {
                             onScheduleClick(item.selectedChannel.channelName, program)

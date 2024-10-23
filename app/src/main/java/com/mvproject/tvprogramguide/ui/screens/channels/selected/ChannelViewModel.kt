@@ -43,15 +43,16 @@ constructor(
 
     init {
         preferenceRepository.loadOnBoardState()
+            .flowOn(Dispatchers.IO)
             .onEach { onboardState ->
                 _viewState.update { state ->
                     state.copy(isOnboard = onboardState)
                 }
 
-            }.flowOn(Dispatchers.IO)
-            .launchIn(viewModelScope)
+            }.launchIn(viewModelScope)
 
         channelListRepository.loadChannelsListsAsFlow()
+            .flowOn(Dispatchers.IO)
             .onEach { allLists ->
 
                 _viewState.update { state ->
@@ -65,8 +66,7 @@ constructor(
                     )
                 }
 
-            }.flowOn(Dispatchers.IO)
-            .launchIn(viewModelScope)
+            }.launchIn(viewModelScope)
     }
 
     fun processAction(action: ChannelsViewAction) {
@@ -85,6 +85,7 @@ constructor(
 
     private fun startProgramsObserving() {
         channelsJob = selectedChannelsWithPrograms()
+            .flowOn(Dispatchers.IO)
             .onEach { programs ->
                 val sortedPrograms = programs.sortedBy { item -> item.selectedChannel.order }
 
@@ -94,8 +95,7 @@ constructor(
                         isLoading = false
                     )
                 }
-            }.flowOn(Dispatchers.IO)
-            .launchIn(viewModelScope)
+            }.launchIn(viewModelScope)
     }
 
     private fun stopProgramsObserving() {

@@ -2,8 +2,8 @@ package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.datasource.ProgramDataSource
 import com.mvproject.tvprogramguide.data.model.response.ProgramDTO
-import com.mvproject.tvprogramguide.data.repository.ChannelProgramRepository
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
+import com.mvproject.tvprogramguide.data.repository.ProgramRepository
 import com.mvproject.tvprogramguide.utils.AppConstants.empty
 import com.mvproject.tvprogramguide.utils.TimeUtils.actualDate
 import com.mvproject.tvprogramguide.utils.TimeUtils.parseToInstant
@@ -12,13 +12,13 @@ import javax.inject.Inject
 
 /**
  * Use case to update available channels
- * @property channelProgramRepository the ChannelProgramRepository repository
+ * @property programRepository the ChannelProgramRepository repository
  * @property preferenceRepository the PreferenceRepository repository
  */
 class UpdateProgramsUseCase
 @Inject constructor(
     private val preferenceRepository: PreferenceRepository,
-    private val channelProgramRepository: ChannelProgramRepository,
+    private val programRepository: ProgramRepository,
     private val programDataSource: ProgramDataSource,
 ) {
     suspend operator fun invoke(channelId: String) {
@@ -74,7 +74,7 @@ class UpdateProgramsUseCase
                     programsDto.add(dto)
                 } else {
                     if (programsDto.isNotEmpty()) {
-                        channelProgramRepository.updatePrograms(
+                        programRepository.updatePrograms(
                             channelId = currentId,
                             programs = programsDto,
                         )

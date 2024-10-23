@@ -81,9 +81,9 @@ constructor(
             }
         }.launchIn(viewModelScope)
 
-        viewModelScope.launch {
-            cleanProgramsUseCase()
-        }
+       viewModelScope.launch {
+           cleanProgramsUseCase()
+       }
     }
 
     private fun startProgramsUpdate(requestForUpdate: OneTimeWorkRequest) {
