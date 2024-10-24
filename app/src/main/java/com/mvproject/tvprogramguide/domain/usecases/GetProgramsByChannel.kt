@@ -6,8 +6,9 @@ import com.mvproject.tvprogramguide.utils.convertDateToReadableFormat
 import javax.inject.Inject
 
 /**
- * Use case to retrieving and updating sorted programs
- * @property programRepository the channelProgramRepository repository
+ * Use case for retrieving and organizing programs for a specific channel.
+ *
+ * @property programRepository The repository for accessing program data.
  */
 class GetProgramsByChannel
 @Inject
@@ -15,15 +16,21 @@ constructor(
     private val programRepository: ProgramRepository,
 ) {
     /**
-     * Obtain list of programs for selected channel and sorted by date
+     * Retrieves and organizes programs for a specified channel, grouped by date.
      *
-     * @param channelId the alarm id
-     * @return sorted list of programs
+     * This function performs the following steps:
+     * 1. Loads all programs for the specified channel from the programRepository.
+     * 2. Groups the programs by their start date.
+     * 3. Creates a list of SingleChannelWithPrograms objects, each representing a day's programs.
+     *
+     * @param channelId The ID of the channel to retrieve programs for.
+     * @return A list of SingleChannelWithPrograms objects, each containing a date and its programs.
      */
     suspend operator fun invoke(channelId: String): List<SingleChannelWithPrograms> {
         val programs =
             programRepository
                 .loadProgramsForChannel(channelId = channelId)
+        // Group programs by their start date
         val programsByDays =
             programs.groupBy { program ->
                 program.dateTimeStart.convertDateToReadableFormat()

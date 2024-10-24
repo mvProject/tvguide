@@ -9,13 +9,21 @@ import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
-
+/**
+ * BroadcastReceiver for handling scheduled program alarms and system events.
+ * This class is responsible for showing notifications when a scheduled program is about to start.
+ */
 @AndroidEntryPoint
 internal class ProgramReceiver : BroadcastReceiver() {
 
     @Inject
     lateinit var notificationHelper: NotificationHelper
-
+    /**
+     * Handles incoming broadcast intents.
+     *
+     * @param context The Context in which the receiver is running.
+     * @param intent The Intent being received.
+     */
     override fun onReceive(context: Context?, intent: Intent?) {
         when (intent?.action) {
             ALARM_ACTION -> intent.let { data ->

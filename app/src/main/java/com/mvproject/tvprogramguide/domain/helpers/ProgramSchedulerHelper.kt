@@ -13,66 +13,68 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Helper to interact with the Alarm layer.
- * @property context application context
+ * Helper class to interact with the Alarm layer for scheduling TV programs.
+ * This singleton class provides functionality to schedule and cancel program alarms.
+ *
+ * @property context The application context, injected using Hilt.
  */
 
 @Singleton
 class ProgramSchedulerHelper
-    @Inject
-    constructor(
-        @ApplicationContext private val context: Context,
+@Inject
+constructor(
+    @ApplicationContext private val context: Context,
+) {
+    /**
+     * Schedules an alarm for a TV program based on its start time.
+     *
+     * @param programSchedule The Program object containing details of the TV program to be scheduled.
+     * @param channelName The name of the TV channel broadcasting the program.
+     */
+
+    fun scheduleProgramAlarm(
+        programSchedule: Program,
+        channelName: String,
     ) {
-        /**
-         * Schedules a program alarm based on the due date.
-         *
-         * @param programSchedule program to be scheduled
-         * @param channelName program to be scheduled
-         */
-
-        fun scheduleProgramAlarm(
-            programSchedule: Program,
-            channelName: String,
-        ) {
-            val receiverIntent =
-                Intent(context, ProgramReceiver::class.java).apply {
-                    action = ProgramReceiver.ALARM_ACTION
-                    putExtra(
-                        ProgramReceiver.EXTRA_ID,
-                        programSchedule.scheduledId?.toInt() ?: COUNT_ZERO,
-                    )
-                    putExtra(ProgramReceiver.EXTRA_PROGRAM, programSchedule.title)
-                    putExtra(ProgramReceiver.EXTRA_CHANNEL, channelName)
-                }
-
-            val pendingIntent =
-                PendingIntent.getBroadcast(
-                    context,
+        val receiverIntent =
+            Intent(context, ProgramReceiver::class.java).apply {
+                action = ProgramReceiver.ALARM_ACTION
+                putExtra(
+                    ProgramReceiver.EXTRA_ID,
                     programSchedule.scheduledId?.toInt() ?: COUNT_ZERO,
-                    receiverIntent,
-                    PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE,
                 )
+                putExtra(ProgramReceiver.EXTRA_PROGRAM, programSchedule.title)
+                putExtra(ProgramReceiver.EXTRA_CHANNEL, channelName)
+            }
 
-            context.setExactAlarm(programSchedule.dateTimeStart, pendingIntent)
-        }
+        val pendingIntent =
+            PendingIntent.getBroadcast(
+                context,
+                programSchedule.scheduledId?.toInt() ?: COUNT_ZERO,
+                receiverIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
 
-        /**
-         * Cancels a program alarm based on the program scheduler id.
-         *
-         * @param schedulerId program scheduler id to be canceled
-         */
-        fun cancelProgramAlarm(schedulerId: Long) {
-            val receiverIntent = Intent(context, ProgramReceiver::class.java)
-            receiverIntent.action = ProgramReceiver.ALARM_ACTION
-
-            val pendingIntent =
-                PendingIntent.getBroadcast(
-                    context,
-                    schedulerId.toInt(),
-                    receiverIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-                )
-
-            context.cancelAlarm(pendingIntent)
-        }
+        context.setExactAlarm(programSchedule.dateTimeStart, pendingIntent)
     }
+
+    /**
+     * Cancels a previously scheduled program alarm.
+     *
+     * @param schedulerId The unique identifier of the scheduled program alarm to be canceled.
+     */
+    fun cancelProgramAlarm(schedulerId: Long) {
+        val receiverIntent = Intent(context, ProgramReceiver::class.java)
+        receiverIntent.action = ProgramReceiver.ALARM_ACTION
+
+        val pendingIntent =
+            PendingIntent.getBroadcast(
+                context,
+                schedulerId.toInt(),
+                receiverIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
+
+        context.cancelAlarm(pendingIntent)
+    }
+}
