@@ -16,12 +16,10 @@ import io.mockk.confirmVerified
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 
-@OptIn(ExperimentalCoroutinesApi::class)
-class CustomListRepositoryTest :
+class ChannelListRepositoryTest :
     StringSpec({
         lateinit var dao: ChannelsListDao
         lateinit var repository: ChannelListRepository
@@ -106,9 +104,9 @@ class CustomListRepositoryTest :
                 coEvery {
                     dao.getChannelsListsAsFlow()
                 } returns
-                    flow {
-                        emit(expectedResultDao)
-                    }
+                        flow {
+                            emit(expectedResultDao)
+                        }
 
                 withClue("single call from dao execute") {
                     repository.loadChannelsLists()
