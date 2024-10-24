@@ -1,266 +1,175 @@
 package com.mvproject.tvprogramguide.repository
 
-import io.kotest.core.spec.style.StringSpec
 
-class SelectedChannelRepositoryTest :
-    StringSpec({
+import com.mvproject.tvprogramguide.data.database.dao.SelectedChannelDao
+import com.mvproject.tvprogramguide.data.database.entity.AvailableChannelEntity
+import com.mvproject.tvprogramguide.data.database.entity.SelectedChannelEntity
+import com.mvproject.tvprogramguide.data.database.entity.SelectedChannelWithIconEntity
+import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
+import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
+import io.kotest.assertions.withClue
+import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.shouldBe
+import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.coVerifyOrder
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.unmockkAll
+import io.mockk.verify
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 
-        // TODO refactor tests
+class SelectedChannelRepositoryTest : FunSpec({
 
-      /*  lateinit var dao: SelectedChannelDao
-        lateinit var repository: SelectedChannelRepository
+    lateinit var selectedChannelDao: SelectedChannelDao
+    lateinit var repository: SelectedChannelRepository
 
-        beforeTest {
-            dao = mockk<SelectedChannelDao>(relaxed = true)
-            repository = SelectedChannelRepository(dao)
+    beforeTest {
+        selectedChannelDao = mockk()
+        repository = SelectedChannelRepository(selectedChannelDao)
+    }
+
+    afterTest {
+        unmockkAll()
+    }
+
+    context("loadSelectedChannels") {
+        test("should return mapped SelectionChannel list when channels exist") {
+            val listName = "TestList"
+
+            val selectedChannels = listOf(
+                SelectedChannelWithIconEntity(
+                    SelectedChannelEntity("1", "programId1" , "Channel 1"),
+                    AvailableChannelEntity("1", "programId1", "Channel 1", "logo1")
+                ),
+                SelectedChannelWithIconEntity(
+                    SelectedChannelEntity("2" ,"programId2", "Channel 2",),
+                    AvailableChannelEntity("2", "programId2", "Channel 2", "logo2")
+                )
+            )
+
+            coEvery { selectedChannelDao.getSelectedChannels(listName) } returns selectedChannels
+
+            val result = repository.loadSelectedChannels(listName)
+
+            withClue("Returned list should match expected SelectionChannel list") {
+                result shouldBe listOf(
+                    SelectionChannel("1", "programId1", "Channel 1", "logo1"),
+                    SelectionChannel("2", "programId2", "Channel 2", "logo2")
+                )
+            }
+
+            coVerify { selectedChannelDao.getSelectedChannels(listName) }
         }
 
-        afterTest {
-            println("test ${it.a.name.testName} complete status is ${it.b.isSuccess}")
+        test("should return empty list when no channels exist")  {
+            val listName = "EmptyList"
+            coEvery { selectedChannelDao.getSelectedChannels(listName) } returns emptyList()
+
+            val result = repository.loadSelectedChannels(listName)
+
+            withClue("Returned list should be empty") {
+                result.shouldBe(emptyList())
+            }
+
+            coVerify { selectedChannelDao.getSelectedChannels(listName) }
+        }
+    }
+
+    context("loadSelectedChannelsAsFlow") {
+        test("should return mapped SelectionChannel list as Flow when channels exist")  {
+            val selectedChannels = listOf(
+                SelectedChannelWithIconEntity(
+                    SelectedChannelEntity("1", "programId1", "Channel 1"),
+                    AvailableChannelEntity("1", "programId1", "Channel 1", "logo1")
+                ),
+                SelectedChannelWithIconEntity(
+                    SelectedChannelEntity("2", "programId2", "Channel 2"),
+                    AvailableChannelEntity("2", "programId2", "Channel 2", "logo2")
+                )
+            )
+
+            every { selectedChannelDao.getChannelsForCurrentListAsFlow() } returns flowOf(selectedChannels)
+
+            val result = repository.loadSelectedChannelsAsFlow().first()
+
+            withClue("Returned Flow should emit expected SelectionChannel list") {
+                result shouldBe listOf(
+                    SelectionChannel("1", "programId1", "Channel 1", "logo1"),
+                    SelectionChannel("2", "programId2", "Channel 2", "logo2")
+                )
+            }
+
+            verify { selectedChannelDao.getChannelsForCurrentListAsFlow() }
         }
 
-        assertSoftly {
-            "retrieve selected channels entities" {
-                val expectedResultDao =
-                    listOf(
-                        SelectedChannelWithIconEntity(
-                            channel =
-                                SelectedChannelEntity(
-                                    "testId1",
-                                    "testName1",
-                                    order = 1,
-                                    parentList = "test",
-                                ),
-                            allChannel = AvailableChannelEntity("testId1", "testName1", "iconUrl1"),
-                        ),
-                        SelectedChannelWithIconEntity(
-                            channel =
-                                SelectedChannelEntity(
-                                    "testId2",
-                                    "testName2",
-                                    order = 2,
-                                    parentList = "test",
-                                ),
-                            allChannel = AvailableChannelEntity("testId2", "testName2", "iconUrl2"),
-                        ),
-                        SelectedChannelWithIconEntity(
-                            channel =
-                                SelectedChannelEntity(
-                                    "testId3",
-                                    "testName3",
-                                    order = 3,
-                                    parentList = "test",
-                                ),
-                            allChannel = AvailableChannelEntity("testId3", "testName3", "iconUrl3"),
-                        ),
-                    )
-                coEvery {
-                    dao.getSelectedChannels("test")
-                } returns expectedResultDao
+        test("should return empty list as Flow when no channels exist") {
+            every { selectedChannelDao.getChannelsForCurrentListAsFlow() } returns flowOf(emptyList())
 
-                val retrievedResult = repository.loadSelectedChannels("test")
+            val result = repository.loadSelectedChannelsAsFlow().first()
 
-                withClue("single call from dao execute") {
-                    coVerify(exactly = 1) {
-                        dao.getSelectedChannels("test")
-                    }
-                    confirmVerified(dao)
-                }
-
-                withClue("result is list of entity value") {
-                    retrievedResult.shouldBeInstanceOf<List<SelectedChannelWithIconEntity>>()
-                    retrievedResult.first() shouldBeEqualToComparingFields expectedResultDao.first()
-                }
-
-                withClue("result elements proper count") {
-                    retrievedResult.count() shouldBe expectedResultDao.count()
-                }
-
-                withClue("result fields values match expected values first item") {
-                    retrievedResult.first().channel.channelId shouldBe expectedResultDao.first().channel.channelId
-                    retrievedResult.first().channel.channelName shouldBe expectedResultDao.first().channel.channelName
-                }
-
-                withClue("result fields values match expected values last item") {
-                    retrievedResult.last().channel.channelId shouldBe "testId3"
-                    retrievedResult.last().channel.channelName shouldBe "testName3"
-                }
+            withClue("Returned Flow should emit an empty list") {
+                result.shouldBe(emptyList())
             }
 
-            "retrieve selected channels ids" {
-                val expectedResult =
-                    listOf(
-                        "testId1",
-                        "testId2",
-                        "testId3",
-                    )
-                coEvery {
-                    dao.getSelectedChannelsIds()
-                } returns expectedResult
+            verify { selectedChannelDao.getChannelsForCurrentListAsFlow() }
+        }
+    }
 
-                val retrievedResult = repository.loadSelectedChannelsIds()
+    context("addChannels") {
+        test("should add channels correctly") {
+            val listName = "NewList"
+            val channelsToAdd = listOf(
+                SelectedChannelEntity("1", "Channel 1", "programId1", 1, listName),
+                SelectedChannelEntity("2", "Channel 2", "programId2", 2, listName)
+            )
 
-                withClue("single call from dao execute") {
-                    coVerify(exactly = 1) {
-                        dao.getSelectedChannelsIds()
-                    }
-                    confirmVerified(dao)
-                }
+            coEvery { selectedChannelDao.deleteChannels(listName) } just Runs
+            coEvery { selectedChannelDao.insertChannels(channelsToAdd) } just Runs
 
-                withClue("result is list of string value") {
-                    retrievedResult.shouldBeInstanceOf<List<String>>()
-                    retrievedResult.first() shouldBeEqualToComparingFields expectedResult.first()
-                }
+            repository.addChannels(listName, channelsToAdd)
 
-                withClue("result elements proper count") {
-                    retrievedResult.count() shouldBe expectedResult.count()
-                }
+            coVerifyOrder {
+                selectedChannelDao.deleteChannels(listName)
+                selectedChannelDao.insertChannels(channelsToAdd)
+            }
+        }
 
-                withClue("result fields values match expected values") {
-                    retrievedResult.first() shouldBe expectedResult.first()
-                    retrievedResult.last() shouldBe "testId3"
-                }
+        test("should handle empty list of channels")  {
+            val listName = "EmptyList"
+
+            coEvery { selectedChannelDao.deleteChannels(listName) } just Runs
+            coEvery { selectedChannelDao.insertChannels(emptyList()) } just Runs
+
+            repository.addChannels(listName, emptyList())
+
+            coVerifyOrder {
+                selectedChannelDao.deleteChannels(listName)
+                selectedChannelDao.insertChannels(emptyList())
+            }
+        }
+
+        test("should handle transaction failure")  {
+            val listName = "FailList"
+            val channelsToAdd = listOf(
+                SelectedChannelEntity("1", "Channel 1", "programId1", 1, listName)
+            )
+
+            coEvery { selectedChannelDao.deleteChannels(listName) } throws RuntimeException("Database error")
+
+            kotlin.runCatching {
+                repository.addChannels(listName, channelsToAdd)
             }
 
-            "retrieve selected channel name by id" {
-                val expectedResult = "testName1"
-
-                coEvery {
-                    dao.getChannelNameById("testId")
-                } returns expectedResult
-
-                val retrievedResult = repository.loadChannelNameById("testId")
-
-                withClue("single call from dao execute") {
-                    coVerify(exactly = 1) {
-                        dao.getChannelNameById("testId")
-                    }
-                    confirmVerified(dao)
-                }
-
-                withClue("result is string value") {
-                    retrievedResult.shouldBeInstanceOf<String>()
-                }
-
-                withClue("result value match expected value") {
-                    retrievedResult shouldBe "testName1"
-                }
+            coVerify(exactly = 1) {
+                selectedChannelDao.deleteChannels(listName)
             }
-
-            "add selected channel" {
-                val testChannel = SelectedChannelEntity("testId", "testName", 1, "test")
-
-                withClue("single call from dao execute") {
-                    repository.addChannel(testChannel)
-
-                    coVerify(exactly = 1) {
-                        dao.insertChannel(testChannel)
-                    }
-                    confirmVerified(dao)
-                }
+            coVerify(exactly = 0) {
+                selectedChannelDao.insertChannels(any())
             }
-
-            "delete selected channel" {
-                val testChannel = SelectedChannelEntity("testId", "testName", 1, "test")
-
-                withClue("single call from dao execute") {
-                    repository.deleteChannel(testChannel.channelId)
-
-                    coVerify(exactly = 1) {
-                        dao.deleteSelectedChannel(testChannel.channelId)
-                    }
-                    confirmVerified(dao)
-                }
-            }
-
-            "update selected channels" {
-                val testChannel = SelectedChannelEntity("testId", "testName", 1, "test")
-
-                withClue("single call from dao execute") {
-                    repository.updateChannels(listOf(testChannel))
-
-                    coVerify(exactly = 1) {
-                        dao.updateChannels(listOf(testChannel))
-                    }
-                    confirmVerified(dao)
-                }
-            }
-
-            "retrieve selected channels entities flow" {
-                val expectedResultDao =
-                    listOf(
-                        SelectedChannelWithIconEntity(
-                            channel =
-                                SelectedChannelEntity(
-                                    "testId1",
-                                    "testName1",
-                                    order = 1,
-                                    parentList = "test",
-                                ),
-                            allChannel = AvailableChannelEntity("testId1", "testName1", "iconUrl1"),
-                        ),
-                        SelectedChannelWithIconEntity(
-                            channel =
-                                SelectedChannelEntity(
-                                    "testId2",
-                                    "testName2",
-                                    order = 2,
-                                    parentList = "test",
-                                ),
-                            allChannel = AvailableChannelEntity("testId2", "testName2", "iconUrl2"),
-                        ),
-                        SelectedChannelWithIconEntity(
-                            channel =
-                                SelectedChannelEntity(
-                                    "testId3",
-                                    "testName3",
-                                    order = 3,
-                                    parentList = "test",
-                                ),
-                            allChannel = AvailableChannelEntity("testId3", "testName3", "iconUrl3"),
-                        ),
-                    )
-
-                coEvery {
-                    dao.getSelectedChannelsFlow("test")
-                } returns
-                    flow {
-                        emit(expectedResultDao)
-                    }
-
-                withClue("single call from dao execute") {
-                    repository.loadSelectedChannelsFlow("test")
-
-                    coVerify(exactly = 1) {
-                        dao.getSelectedChannelsFlow("test")
-                    }
-                    confirmVerified(dao)
-                }
-
-                withClue("collect proper data from flow") {
-                    runTest {
-                        repository.loadSelectedChannelsFlow("test").collect { list ->
-                            withClue("result is list of string value") {
-                                list.shouldBeInstanceOf<List<SelectedChannelWithIconEntity>>()
-                                list.first() shouldBeEqualToComparingFields expectedResultDao.first()
-                            }
-
-                            withClue("result elements proper count") {
-                                list.count() shouldBe 3
-                            }
-
-                            withClue("result fields values match expected values first item") {
-                                list.first().channel.channelId shouldBe "testId1"
-                                list.first().channel.channelName shouldBe "testName1"
-                            }
-
-                            withClue("result fields values match expected values last item") {
-                                list.last().channel.channelId shouldBe "testId3"
-                                list.last().channel.channelName shouldBe "testName3"
-                            }
-                        }
-                    }
-                }
-            }
-        }*/
-    })
+        }
+    }
+})

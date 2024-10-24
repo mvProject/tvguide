@@ -14,19 +14,20 @@ import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * Helper to interact with the Notification layer.
- * @property context application context
+ * Helper class to interact with the Notification layer.
+ * Provides methods to show and hide different types of notifications.
+ *
+ * @property context The application context, injected using Hilt.
  */
 class NotificationHelper @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
-
     /**
-     * Shows an notification.
+     * Shows a notification for a scheduled TV program.
      *
-     * @param id program id to be shown as notification
-     * @param channelTitle to be shown as notification title
-     * @param programTitle to be shown as notification content
+     * @param id The unique identifier for the notification.
+     * @param programTitle The title of the TV program to be displayed in the notification content.
+     * @param channelTitle The title of the TV channel to be displayed in the notification title.
      */
     fun showScheduledProgramNotification(id: Int, programTitle: String, channelTitle: String) {
         try {
@@ -70,9 +71,9 @@ class NotificationHelper @Inject constructor(
     }
 
     /**
-     * Dismisses the current notification.
+     * Dismisses a specific notification for a scheduled TV program.
      *
-     * @param id notification to be dismissed
+     * @param id The unique identifier of the notification to be dismissed.
      */
     fun hideScheduledProgramNotification(id: Int) {
         try {
@@ -85,9 +86,10 @@ class NotificationHelper @Inject constructor(
     }
 
     /**
-     * Create a Notification that is shown as a heads-up notification if possible.
+     * Creates and shows a status notification, displayed as a heads-up notification if possible.
+     * This is typically used for update-related notifications.
      *
-     * @param message Message shown on the notification
+     * @param message The message to be displayed in the notification.
      */
     fun makeStatusNotification(message: String) {
         try {
@@ -116,7 +118,8 @@ class NotificationHelper @Inject constructor(
     }
 
     /**
-     * Dismisses the current notification.
+     * Dismisses the current status notification.
+     * This is typically used to hide the update-related notification.
      */
     fun hideStatusNotification() {
         NotificationManagerCompat.from(context).cancel(UPDATE_NOTIFICATION_ID)

@@ -1,63 +1,19 @@
 package com.mvproject.tvprogramguide.utils
 
-import com.mvproject.tvprogramguide.data.database.entity.ProgramEntity
-import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
-import com.mvproject.tvprogramguide.utils.AppConstants.CHANNEL_NAME_NO_EPG_FILTER
-import com.mvproject.tvprogramguide.utils.AppConstants.CHANNEL_NAME_PARSE_DELIMITER
-import com.mvproject.tvprogramguide.utils.AppConstants.CHANNEL_NAME_PLUG_FILTER
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_EPG_PROGRAM_DURATION
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_EPG_PROGRAM_RANGE_END
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_EPG_PROGRAM_RANGE_START
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_EPG_PROGRAM_TITLE
-import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_LONG
 import com.mvproject.tvprogramguide.utils.AppConstants.USER_LIST_MAX_LENGTH
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import java.text.SimpleDateFormat
 import java.util.Locale
-import kotlin.time.Duration.Companion.hours
 
-private const val DATE_FORMAT = "dd-MM-yyyy HH:mm"
-private const val DATE_FORMAT_SLASH = "dd/MM/yyyy HH:mm"
 private const val TARGET_DATE_FORMAT = "dd MM yyyy"
 
 /**
- * Extension Method to non-null string variable which
- * parse value with specified delimiter
+ * Converts a Long timestamp to a readable date format.
  *
- * @return first entry from parse result or source if no matches
- */
-fun String.parseChannelName(): String {
-    if (this.contains(CHANNEL_NAME_PARSE_DELIMITER)) {
-        return this.split(CHANNEL_NAME_PARSE_DELIMITER).first()
-    }
-    return this
-}
-
-/**
- * Extension Method to non-null string variable which
- * convert date value to long value in milliseconds
- *
- * @return long value
- */
-fun String.toMillis(): Long {
-    val parser = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())
-    return parser.parse(this)?.time ?: NO_VALUE_LONG
-}
-
-/*fun String.toMillisSlashed(): Long {
-    val parser = SimpleDateFormat(DATE_FORMAT_SLASH, Locale.getDefault())
-    return parser.parse(this)?.time ?: NO_VALUE_LONG
-}*/
-
-/**
- * Extension Method to non-null long variable which
- * convert value to specified date pattern
- *
- * @return String converted date value
+ * @return A string representation of the date in the format "dd MM yyyy".
  */
 fun Long.convertDateToReadableFormat(): String =
     SimpleDateFormat(
@@ -65,11 +21,24 @@ fun Long.convertDateToReadableFormat(): String =
         Locale.getDefault(),
     ).format(this)
 
+
 /**
- * Extension Method to non-null long variable which
- * convert value to specified time with local timezone
+ * Converts a Long timestamp to a readable date format.
  *
- * @return String converted time value
+ * @return A string representation of the date in the format "dd MM yyyy".
+ */
+fun Long.convertDateToReadableFormat2(): String {
+    val instant = Instant.fromEpochMilliseconds(this)
+    val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
+    return "${localDateTime.dayOfMonth.toString().padStart(2, '0')} " +
+            "${localDateTime.monthNumber.toString().padStart(2, '0')} " +
+            "${localDateTime.year}"
+}
+
+/**
+ * Converts a Long timestamp to a readable time format.
+ *
+ * @return A string representation of the time in the local time zone.
  */
 fun Long.convertTimeToReadableFormat(): String {
     val targetTz = TimeZone.currentSystemDefault()
@@ -81,12 +50,10 @@ fun Long.convertTimeToReadableFormat(): String {
 }
 
 /**
- * Extension Method to non-null list of strings which
- * obtain index of target string in list
+ * Finds the index of a target string in a list, returning 0 if not found.
  *
- * @param target target to find
- *
- * @return index of target
+ * @param target The string to search for in the list.
+ * @return The index of the target string, or 0 if not found.
  */
 fun List<String>.obtainIndexOrZero(target: String): Int {
     val index = this.indexOf(target)
@@ -94,74 +61,10 @@ fun List<String>.obtainIndexOrZero(target: String): Int {
 }
 
 /**
- * Extension Method to non-null list of responses which
- * filter value for names with no epg
+ * Takes a specified number of elements from the list if the count is valid.
  *
- * @return filtered list of responses
- */
-fun List<AvailableChannelResponse>.filterNoEpg() =
-    this.filterNot {
-        it.channelNames.contains(CHANNEL_NAME_NO_EPG_FILTER, true) ||
-            it.channelNames.contains(CHANNEL_NAME_PLUG_FILTER, true)
-    }
-
-/**
- * Extension Method to non-null string variable which
- * create list od dummy program data with source string as channel id
- *
- * @return list of dummy program entities
- */
-fun String.getNoProgramData(): List<ProgramEntity> =
-    buildList {
-        val initTime = Clock.System.now()
-        for (i in NO_EPG_PROGRAM_RANGE_START..NO_EPG_PROGRAM_RANGE_END) {
-            val startDelta = i * NO_EPG_PROGRAM_DURATION
-            val start =
-                (initTime + startDelta.hours)
-                    .toEpochMilliseconds()
-            val end =
-                (initTime + (startDelta + NO_EPG_PROGRAM_DURATION).hours)
-                    .toEpochMilliseconds()
-            add(
-                ProgramEntity(
-                    programId = "",
-                    dateTimeStart = start,
-                    dateTimeEnd = end,
-                    title = NO_EPG_PROGRAM_TITLE,
-                    channelId = this@getNoProgramData,
-                ),
-            )
-        }
-    }
-
-/**
- * Obtain time values of program end from start time of next
- *
- * @return the list of long values in milliseconds
- */
-/*fun List<String>.calculateEndings(): List<Long> =
-    buildList {
-        this@calculateEndings.zipWithNext().forEach { timing ->
-            add(timing.second.toMillis())
-        }
-    }*/
-
-/**
- * Obtain time value of program end for last element
- * with hour duration from start time of current
- *
- * @return the long value in milliseconds
- */
-/*fun Long.getLastItemEnding() =
-    (Instant.fromEpochMilliseconds(this) + NO_END_PROGRAM_DURATION.hours)
-        .toEpochMilliseconds()*/
-
-/**
- * Take elements from source only if count bigger than 0
- *
- * @param count count of elements for take
- *
- * @return list of elements
+ * @param count The number of elements to take.
+ * @return A list containing the specified number of elements, or the original list if count is invalid.
  */
 fun <T> List<T>.takeIfCountNotEmpty(count: Int): List<T> =
     if (count <= COUNT_ZERO || count >= size) {
@@ -170,6 +73,11 @@ fun <T> List<T>.takeIfCountNotEmpty(count: Int): List<T> =
         take(count)
     }
 
+/**
+ * Manages the length of a string, truncating it if it exceeds the maximum length.
+ *
+ * @return The original string if its length is within the limit, or a truncated version if it exceeds the limit.
+ */
 fun String.manageLength() =
     if (this.length > USER_LIST_MAX_LENGTH) {
         this.substring(COUNT_ZERO until USER_LIST_MAX_LENGTH)
@@ -177,5 +85,10 @@ fun String.manageLength() =
         this
     }
 
+/**
+ * Removes all spaces from a string.
+ *
+ * @return A new string with all spaces removed.
+ */
 fun String.trimSpaces() =
     this.replace(" ", "")

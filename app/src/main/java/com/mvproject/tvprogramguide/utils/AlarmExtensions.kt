@@ -9,24 +9,21 @@ import timber.log.Timber
 import java.util.Calendar
 
 /**
- * Gets the [AlarmManager] system service.
+ * Extension function to get the AlarmManager system service.
  *
- * @return the [AlarmManager] system service
+ * @return The AlarmManager system service, or null if it's not available.
  */
 fun Context.getAlarmManager() = getSystemService(Context.ALARM_SERVICE) as? AlarmManager
 
 /**
- * Sets a alarm using [AlarmManagerCompat] to be triggered based on the given parameter.
+ * Extension function to set an exact alarm using AlarmManagerCompat.
+ * This alarm will be triggered at the specified time, even if the device is in low-power idle modes.
  *
- * **This function can only be called if the permission `SCHEDULE_EXACT_ALARM` is granted to
- * the application.**
+ * Note: This function requires the SCHEDULE_EXACT_ALARM permission for Android 12 (API level 31) and above.
  *
- * @see [android.Manifest.permission.SCHEDULE_EXACT_ALARM]
- *
- * @param triggerAtMillis time in milliseconds that the alarm should go off, using the
- * appropriate clock (depending on the alarm type).
- * @param operation action to perform when the alarm goes off
- * @param type type to define how the alarm will behave
+ * @param triggerAtMillis The time in milliseconds when the alarm should be triggered.
+ * @param operation The PendingIntent to be executed when the alarm is triggered.
+ * @param type The type of alarm to set (default is AlarmManager.RTC_WAKEUP).
  */
 fun Context.setExactAlarm(
     triggerAtMillis: Long,
@@ -62,9 +59,9 @@ fun Context.setExactAlarm(
 }
 
 /**
- * Cancels a alarm set on [AlarmManager], based on the given [PendingIntent].
+ * Extension function to cancel a previously set alarm.
  *
- * @param operation action to be canceled
+ * @param operation The PendingIntent associated with the alarm to be canceled.
  */
 fun Context.cancelAlarm(operation: PendingIntent?) {
     if (operation == null) {

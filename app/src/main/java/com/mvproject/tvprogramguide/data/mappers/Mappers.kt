@@ -11,19 +11,18 @@ import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
 import com.mvproject.tvprogramguide.data.model.response.ProgramDTO
 import com.mvproject.tvprogramguide.utils.AppConstants.empty
-import com.mvproject.tvprogramguide.utils.parseChannelName
 import com.mvproject.tvprogramguide.utils.trimSpaces
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 /**
- * Maps Data between models
+ * Mappers object contains extension functions for mapping between different data models.
  */
 object Mappers {
     /**
-     * Maps instance of [AvailableChannelResponse] from Response to Entity.
+     * Maps an instance of [AvailableChannelResponse] to [AvailableChannelEntity].
      *
-     * @return the converted object
+     * @return the converted [AvailableChannelEntity] object
      */
     private fun AvailableChannelResponse.toEntity() =
         with(this) {
@@ -36,9 +35,9 @@ object Mappers {
         }
 
     /**
-     * Maps List of [AvailableChannelResponse] from Response to Entity.
+     * Maps a List of [AvailableChannelResponse] to a List of [AvailableChannelEntity].
      *
-     * @return the converted object
+     * @return the converted list of [AvailableChannelEntity] objects
      */
     fun List<AvailableChannelResponse>.toAvailableChannelEntities() =
         this.map { item ->
@@ -46,9 +45,9 @@ object Mappers {
         }
 
     /**
-     * Maps instance of [ProgramEntity] from Response to Entity.
+     * Maps an instance of [ProgramEntity] to [Program].
      *
-     * @return the converted object
+     * @return the converted [Program] object
      */
     private fun ProgramEntity.toProgram() =
         with(this) {
@@ -64,37 +63,53 @@ object Mappers {
             )
         }
     /**
-     * Maps List of [ProgramEntity] from Entity to Domain.
+     * Maps a List of [ProgramEntity] to a List of [Program].
      *
-     * @return the converted object
+     * @return the converted list of [Program] objects
      */
     fun List<ProgramEntity>.asProgramFromEntities() =
         this.map { item ->
             item.toProgram()
         }
 
+    /**
+     * Maps an [AvailableChannelEntity] to [SelectionChannel].
+     *
+     * @return the converted [SelectionChannel] object
+     */
     fun AvailableChannelEntity.asSelectionFromAvailable() =
         with(this) {
             SelectionChannel(
                 channelId = id,
                 programId = programId,
-                channelName = title.parseChannelName(),
+                channelName = title,
                 channelIcon = logo,
             )
         }
 
+    /**
+     * Maps a [SelectedChannelWithIconEntity] to [SelectionChannel].
+     *
+     * @return the converted [SelectionChannel] object
+     */
     fun SelectedChannelWithIconEntity.asSelectionFromSelected() =
         with(this) {
             SelectionChannel(
                 programId = channel.programId,
                 channelId = channel.id,
-                channelName = allChannel?.title?.parseChannelName() ?: String.empty,
+                channelName = allChannel?.title ?: String.empty,
                 channelIcon = allChannel?.logo ?: String.empty,
                 order = channel.order,
                 parentList = channel.parentList,
             )
         }
 
+    /**
+     * Maps a [ProgramDTO] to [ProgramEntity] with a given channel ID.
+     *
+     * @param id The channel ID to associate with the program
+     * @return the converted [ProgramEntity] object
+     */
     @OptIn(ExperimentalUuidApi::class)
     fun ProgramDTO.asProgramEntity(id: String) =
         with(this) {
@@ -108,6 +123,11 @@ object Mappers {
             )
         }
 
+    /**
+     * Maps a List of [SelectionChannel] to a List of [SelectedChannelEntity].
+     *
+     * @return the converted list of [SelectedChannelEntity] objects
+     */
     fun List<SelectionChannel>.asSelectionChannelToEntity() =
         this.map { item ->
             SelectedChannelEntity(
@@ -120,9 +140,9 @@ object Mappers {
         }
 
     /**
-     * Maps instance of [ChannelsListEntity] from Entity to Domain.
+     * Maps an instance of [ChannelsListEntity] to [ChannelList].
      *
-     * @return the converted object
+     * @return the converted [ChannelList] object
      */
     private fun ChannelsListEntity.toChannelList() =
         ChannelList(
@@ -132,9 +152,9 @@ object Mappers {
         )
 
     /**
-     * Maps List of [ChannelsListEntity] from Entity to Domain.
+     * Maps a List of [ChannelsListEntity] to a List of [ChannelList].
      *
-     * @return the converted object
+     * @return the converted list of [ChannelList] objects
      */
     fun List<ChannelsListEntity>.asChannelLists() =
         this.map { item ->
@@ -142,11 +162,10 @@ object Mappers {
         }
 
     /**
-     * Maps instance of [ChannelsListEntity] from Entity to Domain.
+     * Maps an instance of [ChannelList] to [ChannelsListEntity].
      *
-     * @return the converted object
+     * @return the converted [ChannelsListEntity] object
      */
-
     fun ChannelList.toChannelsListEntity() =
         ChannelsListEntity(
             id = id,
@@ -154,6 +173,11 @@ object Mappers {
             isSelected = isSelected
         )
 
+    /**
+     * Maps an instance of [Program] to [ProgramEntity].
+     *
+     * @return the converted [ProgramEntity] object
+     */
     fun Program.toEntity() =
         with(this) {
             ProgramEntity(

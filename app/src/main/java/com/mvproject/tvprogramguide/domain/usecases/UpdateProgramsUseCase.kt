@@ -11,9 +11,11 @@ import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * Use case to update available channels
- * @property programRepository the ChannelProgramRepository repository
- * @property preferenceRepository the PreferenceRepository repository
+ * Use case for updating TV program information.
+ *
+ * @property preferenceRepository The repository for managing user preferences.
+ * @property programRepository The repository for managing program data.
+ * @property programDataSource The data source for downloading and parsing program data.
  */
 class UpdateProgramsUseCase
 @Inject constructor(
@@ -21,36 +23,47 @@ class UpdateProgramsUseCase
     private val programRepository: ProgramRepository,
     private val programDataSource: ProgramDataSource,
 ) {
+    /**
+     * Updates the TV program information from a remote source.
+     *
+     * This function performs the following steps:
+     * 1. Downloads and parses XML data containing program information.
+     * 2. Processes each program entry, converting it to a ProgramDTO.
+     * 3. Groups programs by channel and updates the repository.
+     * 4. Updates the last update time and update required state in preferences.
+     *
+     * @param channelId The ID of the channel to update programs for (currently unused).
+     */
     suspend operator fun invoke(channelId: String) {
-      /*  withContext(Dispatchers.IO) {
+        /*  withContext(Dispatchers.IO) {
 
-            val parsedTable = loadElements(
-                sourceUrl = "https://epg.ott-play.com/php/show_prog.php?f=edem/epg/$channelId.json",
-            )
+              val parsedTable = loadElements(
+                  sourceUrl = "https://epg.ott-play.com/php/show_prog.php?f=edem/epg/$channelId.json",
+              )
 
-            val programs = parsedTable.map { element ->
-                val (date, title, description) = element.parseElementDataAsProgram()
+              val programs = parsedTable.map { element ->
+                  val (date, title, description) = element.parseElementDataAsProgram()
 
-                val (start, end) = parseDateTime(input = date)
+                  val (start, end) = parseDateTime(input = date)
 
-                ProgramDTO(
-                    dateTimeStart = start,
-                    dateTimeEnd = end,
-                    title = title,
-                    description = description,
-                )
-            }
+                  ProgramDTO(
+                      dateTimeStart = start,
+                      dateTimeEnd = end,
+                      title = title,
+                      description = description,
+                  )
+              }
 
-            Timber.w("testing UpdateChannelsInfoUseCase programs ${programs.count()}")
-            if (programs.isNotEmpty()) {
-                channelProgramRepository.updatePrograms(
-                    channelId = channelId,
-                    programs = programs,
-                )
-            }
+              Timber.w("testing UpdateChannelsInfoUseCase programs ${programs.count()}")
+              if (programs.isNotEmpty()) {
+                  channelProgramRepository.updatePrograms(
+                      channelId = channelId,
+                      programs = programs,
+                  )
+              }
 
-            preferenceRepository.setChannelsUpdateLastTime(timeInMillis = actualDate)
-        }*/
+              preferenceRepository.setChannelsUpdateLastTime(timeInMillis = actualDate)
+          }*/
 
 
         var programmeCount = 0
@@ -65,7 +78,7 @@ class UpdateProgramsUseCase
                 title = programme.title,
                 description = programme.desc ?: String.empty,
             )
-
+            // Group programs by channel and update repository
             if (currentId.isBlank()) {
                 currentId = programme.channel
                 programsDto.add(dto)
