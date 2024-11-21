@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
-import javax.inject.Inject
 import kotlin.time.Duration.Companion.days
 
 /**
@@ -25,9 +24,7 @@ import kotlin.time.Duration.Companion.days
  *
  * @property dataStore DataStore instance for storing preferences.
  */
-class PreferenceRepository
-@Inject
-constructor(
+class PreferenceRepository(
     private val dataStore: DataStore<Preferences>,
 ) {
     /**

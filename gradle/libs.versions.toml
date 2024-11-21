@@ -1,8 +1,8 @@
 [versions]
 # plugins
-kotlin = "2.0.20"
+kotlin = "2.0.21"
 gradle = "8.5.2"
-ksp = "2.0.20-1.0.25"
+ksp = "2.0.21-1.0.25"
 crashlyticsGradle = "3.0.2"
 ktLint = "10.3.0"
 googleServices = "4.4.2"
@@ -10,12 +10,12 @@ versionsPlugin = "0.42.0"
 
 # production libraries
 coreKtx = "1.13.1"
-annotation = "1.8.2"
+annotation = "1.9.1"
 timber = "5.0.1"
 lifecycle-viewmodel = "2.8.5"
 material = "1.12.0"
 
-serialization-json = "1.6.3"
+serialization-json = "1.7.3"
 
 # preferences
 dataStore = "1.1.1"
@@ -23,23 +23,21 @@ dataStore = "1.1.1"
 # datetime
 datetime = "0.6.1"
 
+koin = "4.0.0"
+
 # Compose
-compose-activity = "1.9.2"
-compose-lifecycle-viewmodel = "2.8.6"
-compose-lifecycle-runtime = "2.8.6"
-compose-bom = "2024.09.03"
-firebase-bom = "33.4.0"
+compose-activity = "1.9.3"
+compose-lifecycle-viewmodel = "2.8.7"
+compose-lifecycle-runtime = "2.8.7"
+compose-bom = "2024.11.00"
+firebase-bom = "33.6.0"
 
 # navigationCompose
-composeNavigationHilt = "1.2.0"
-composeNavigation = "2.8.2"
+#composeNavigationHilt = "1.2.0"
+composeNavigation = "2.8.4"
 
 # Accompanist Permissions
 accompanistPermissions = "0.32.0"
-
-# di
-daggerHilt = "2.50"
-androidHilt = "1.2.0"
 
 # coroutines
 coroutines-core = "1.9.0"
@@ -61,7 +59,6 @@ ksoup = "0.1.5"
 
 # WorkManager
 workRuntime = "2.9.0"
-workHilt = "1.2.0"
 
 # StartUp API
 startUp = "1.1.1"
@@ -78,12 +75,11 @@ app-update = "2.1.0"
 # android test libraries
 testAndroidJunitExt = "1.2.1"
 testAndroidEspresso = "3.6.1"
+navigationRuntimeKtx = "2.8.4"
 
 [plugins]
-hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-android-library = { id = "com.android.library", version.ref = "gradle" }
 android-application = { id = "com.android.application", version.ref = "gradle" }
 firebase-crashlitycs = { id = "com.google.firebase.crashlytics", version.ref = "crashlyticsGradle" }
 gms-googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }
@@ -99,7 +95,6 @@ coreKtx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
 androidx-material = { module = "com.google.android.material:material", version.ref = "material" }
-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle-viewmodel" }
 
 # Preference
 dataStore = { module = "androidx.datastore:datastore-preferences", version.ref = "dataStore" }
@@ -128,7 +123,7 @@ androidx-compose-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-
 
 # Navigation
 composeNavigation = { module = "androidx.navigation:navigation-compose", version.ref = "composeNavigation" }
-composeNavigationHilt = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "composeNavigationHilt" }
+#composeNavigationHilt = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "composeNavigationHilt" }
 
 # Database
 roomRuntime = { module = "androidx.room:room-runtime", version.ref = "room" }
@@ -136,9 +131,12 @@ roomCompiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 roomKtx = { module = "androidx.room:room-ktx", version.ref = "room" }
 
 # DI
-hilt = { module = "com.google.dagger:hilt-android", version.ref = "daggerHilt" }
-hiltCompiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "daggerHilt" }
-androidHiltCompiler = { module = "androidx.hilt:hilt-compiler", version.ref = "androidHilt" }
+koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin" }
+koin-core = { group = "io.insert-koin", name = "koin-core" }
+koin-android = { group = "io.insert-koin", name = "koin-android" }
+koin-compose = { group = "io.insert-koin", name = "koin-compose" }
+koin-workmanager = { group = "io.insert-koin", name = "koin-androidx-workmanager" }
+koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel" }
 
 # Network
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
@@ -158,7 +156,6 @@ accompanistPermissions = { module = "com.google.accompanist:accompanist-permissi
 
 # WorkManager
 workRuntimeKtx = { module = "androidx.work:work-runtime", version.ref = "workRuntime" }
-workHilt = { module = "androidx.hilt:hilt-work", version.ref = "workHilt" }
 
 # Parse
 ksoup = { module = "com.fleeksoft.ksoup:ksoup", version.ref = "ksoup" }
@@ -210,7 +207,7 @@ compose = [
 
 navHiltCompose = [
     "composeNavigation",
-    "composeNavigationHilt"
+   # "composeNavigationHilt"
 ]
 
 coil = [
@@ -224,8 +221,7 @@ room = [
 ]
 
 workManager = [
-    "workRuntimeKtx",
-    "workHilt"
+    "workRuntimeKtx"
 ]
 
 playReview = [
@@ -251,9 +247,12 @@ network = [
     "gson"
 ]
 
-hiltCompiler = [
-    "hiltCompiler",
-    "androidHiltCompiler"
+koin = [
+    "koin-core",
+    "koin-android",
+    "koin-compose",
+    "koin-compose-viewmodel",
+    "koin-workmanager"
 ]
 
 testAndroid = [

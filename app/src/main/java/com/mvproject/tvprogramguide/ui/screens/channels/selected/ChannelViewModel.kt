@@ -12,9 +12,7 @@ import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramSchedule
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.actions.ChannelsViewAction
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.state.ChannelsViewState
 import com.mvproject.tvprogramguide.utils.AppConstants.empty
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,13 +21,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
-@HiltViewModel
-class ChannelViewModel
-@Inject
-constructor(
+class ChannelViewModel(
     private val channelListRepository: ChannelListRepository,
     private val selectedChannelsWithPrograms: SelectedChannelsWithPrograms,
     private val preferenceRepository: PreferenceRepository,

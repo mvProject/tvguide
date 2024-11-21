@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -13,6 +12,7 @@ import com.mvproject.tvprogramguide.navigation.canNavigate
 import com.mvproject.tvprogramguide.ui.screens.settings.app.AppSettingsScreen
 import com.mvproject.tvprogramguide.ui.screens.settings.app.AppSettingsViewModel
 import com.mvproject.tvprogramguide.utils.AppConstants
+import org.koin.compose.viewmodel.koinViewModel
 
 fun NavController.navigateToSettingsApp() {
     if (canNavigate) {
@@ -35,7 +35,7 @@ fun NavGraphBuilder.settingsAppScreen(onNavigateBack: () -> Unit) {
             ) + fadeOut(animationSpec = tween(AppConstants.ANIM_DURATION_600))
         },
     ) {
-        val appSettingsViewModel = hiltViewModel<AppSettingsViewModel>()
+        val appSettingsViewModel = koinViewModel<AppSettingsViewModel>()
 
         AppSettingsScreen(
             viewModel = appSettingsViewModel,

@@ -1,6 +1,5 @@
 package com.mvproject.tvprogramguide.di
 
-import android.app.Application
 import androidx.room.Room
 import com.mvproject.tvprogramguide.data.database.AppDatabase
 import com.mvproject.tvprogramguide.data.database.DbConstants.DATABASE
@@ -8,13 +7,9 @@ import com.mvproject.tvprogramguide.data.database.dao.AllChannelDao
 import com.mvproject.tvprogramguide.data.database.dao.ChannelsListDao
 import com.mvproject.tvprogramguide.data.database.dao.ProgramDao
 import com.mvproject.tvprogramguide.data.database.dao.SelectedChannelDao
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import org.koin.dsl.module
 
-@Module
+/*@Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
@@ -54,4 +49,23 @@ object DatabaseModule {
     fun provideUserChannelsListDao(appDatabase: AppDatabase): ChannelsListDao {
         return appDatabase.userChannelsListDao()
     }
+}*/
+
+
+val databaseModule = module {
+    single<AppDatabase> {
+        Room
+            .databaseBuilder(
+                get(),
+                AppDatabase::class.java,
+                DATABASE
+            )
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    single<AllChannelDao> { get<AppDatabase>().allChannelDao() }
+    single<ProgramDao> { get<AppDatabase>().programDao() }
+    single<SelectedChannelDao> { get<AppDatabase>().selectedChannelDao() }
+    single<ChannelsListDao> { get<AppDatabase>().userChannelsListDao() }
 }

@@ -2,16 +2,13 @@ package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
-import javax.inject.Inject
 
 /**
  * Use case for retrieving selected channels for a specific list.
  *
  * @property selectedChannelRepository The repository for accessing selected channel data.
  */
-class GetSelectedChannels
-@Inject
-constructor(
+class GetSelectedChannels(
     private val selectedChannelRepository: SelectedChannelRepository,
 ) {
     /**

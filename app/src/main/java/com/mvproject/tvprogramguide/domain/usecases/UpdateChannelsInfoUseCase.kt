@@ -9,7 +9,6 @@ import com.mvproject.tvprogramguide.utils.TimeUtils.actualDate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import javax.inject.Inject
 
 /**
  * Use case for updating available channels information.
@@ -17,8 +16,7 @@ import javax.inject.Inject
  * @property allChannelRepository The repository for managing all channel data.
  * @property preferenceRepository The repository for managing user preferences.
  */
-class UpdateChannelsInfoUseCase
-@Inject constructor(
+class UpdateChannelsInfoUseCase(
     private val allChannelRepository: AllChannelRepository,
     private val preferenceRepository: PreferenceRepository,
 ) {

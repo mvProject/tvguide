@@ -5,7 +5,6 @@ import com.mvproject.tvprogramguide.data.repository.ProgramRepository
 import com.mvproject.tvprogramguide.utils.TimeUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 import kotlin.time.Duration.Companion.days
 
 /**
@@ -14,8 +13,7 @@ import kotlin.time.Duration.Companion.days
  * @property programRepository The repository for managing program data.
  * @property preferenceRepository The repository for managing app preferences.
  */
-class CleanProgramsUseCase
-@Inject constructor(
+class CleanProgramsUseCase(
     private val preferenceRepository: PreferenceRepository,
     private val programRepository: ProgramRepository,
 ) {

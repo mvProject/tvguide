@@ -1,23 +1,39 @@
 package com.mvproject.tvprogramguide.di
 
 import android.app.Application
-import androidx.hilt.work.HiltWorkerFactory
-import androidx.work.Configuration
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.media.AudioAttributes
+import android.media.RingtoneManager
+import android.os.Build
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import coil.request.CachePolicy
-import dagger.hilt.android.HiltAndroidApp
+import com.mvproject.tvprogramguide.domain.helpers.NotificationHelper.Companion.PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_ID
+import com.mvproject.tvprogramguide.domain.helpers.NotificationHelper.Companion.PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_NAME
+import com.mvproject.tvprogramguide.domain.workers.FullUpdateProgramsWorker.Companion.UPDATE_NOTIFICATION_CHANNEL_ID
+import com.mvproject.tvprogramguide.domain.workers.FullUpdateProgramsWorker.Companion.UPDATE_NOTIFICATION_CHANNEL_NAME
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.androidx.workmanager.koin.workManagerFactory
+import org.koin.core.component.KoinComponent
 import timber.log.Timber
-import javax.inject.Inject
 
-@HiltAndroidApp
 class App :
-    Application(),
-    Configuration.Provider, ImageLoaderFactory {
+    Application(), ImageLoaderFactory, KoinComponent {
+
     override fun onCreate() {
         super.onCreate()
+
+        initKoin {
+            androidLogger()
+            androidContext(this@App)
+            workManagerFactory()
+        }
+
         Timber.plant(
             object : Timber.DebugTree() {
                 override fun createStackElementTag(element: StackTraceElement): String =
@@ -28,17 +44,36 @@ class App :
                     )
             },
         )
-    }
 
-    @Inject
-    lateinit var workerFactory: HiltWorkerFactory
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationManager =
+                applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
 
-    override val workManagerConfiguration: Configuration
-        get() =
-            Configuration
-                .Builder()
-                .setWorkerFactory(workerFactory)
+            val updateChannel = NotificationChannel(
+                UPDATE_NOTIFICATION_CHANNEL_ID,
+                UPDATE_NOTIFICATION_CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+
+            val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+
+            val myAudioAttributes = AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .build()
+
+            val schedulingChannel = NotificationChannel(
+                PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_ID,
+                PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_DEFAULT
+            ).apply {
+                setSound(soundUri, myAudioAttributes)
+            }
+
+            notificationManager?.createNotificationChannel(updateChannel)
+            notificationManager?.createNotificationChannel(schedulingChannel)
+        }
+    }
 
     override fun newImageLoader(): ImageLoader {
         return ImageLoader(this).newBuilder()

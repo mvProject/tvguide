@@ -7,16 +7,13 @@ import com.mvproject.tvprogramguide.data.mappers.Mappers.asSelectionFromSelected
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
 /**
  * Repository class for managing selected channel operations.
  *
  * @property selectedChannelDao Data Access Object for selected channel operations.
  */
-class SelectedChannelRepository
-@Inject
-constructor(
+class SelectedChannelRepository(
     private val selectedChannelDao: SelectedChannelDao,
 ) {
     /**

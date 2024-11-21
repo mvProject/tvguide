@@ -8,7 +8,6 @@ import com.mvproject.tvprogramguide.utils.AppConstants.empty
 import com.mvproject.tvprogramguide.utils.TimeUtils
 import com.mvproject.tvprogramguide.utils.TimeUtils.parseToInstant
 import timber.log.Timber
-import javax.inject.Inject
 
 /**
  * Use case for updating TV program information.
@@ -17,8 +16,7 @@ import javax.inject.Inject
  * @property programRepository The repository for managing program data.
  * @property programDataSource The data source for downloading and parsing program data.
  */
-class UpdateProgramsUseCase
-@Inject constructor(
+class UpdateProgramsUseCase(
     private val preferenceRepository: PreferenceRepository,
     private val programRepository: ProgramRepository,
     private val programDataSource: ProgramDataSource,

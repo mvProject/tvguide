@@ -8,16 +8,13 @@ import com.mvproject.tvprogramguide.data.mappers.Mappers.toEntity
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.response.ProgramDTO
 import com.mvproject.tvprogramguide.utils.TimeUtils
-import javax.inject.Inject
 
 /**
  * Repository class for managing TV program operations.
  *
  * @property programDao Data Access Object for program operations.
  */
-class ProgramRepository
-@Inject
-constructor(
+class ProgramRepository(
     private val programDao: ProgramDao,
 ) {
     /**
