@@ -8,7 +8,6 @@ import com.mvproject.tvprogramguide.data.mappers.Mappers.toEntity
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.response.ProgramDTO
 import com.mvproject.tvprogramguide.utils.TimeUtils
-import com.mvproject.tvprogramguide.utils.TimeUtils.correctTimeZone
 import javax.inject.Inject
 
 /**
@@ -66,7 +65,7 @@ constructor(
         val entities = programs.map { item ->
             item
                 .asProgramEntity(id = channelId)
-                .correctTimeZone()
+         //      .correctTimeZone()
         }
 
         programDao.apply {

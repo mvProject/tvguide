@@ -1,8 +1,13 @@
 package com.mvproject.tvprogramguide.domain.workers
 
 import android.content.Context
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
+import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.domain.helpers.NotificationHelper
@@ -36,15 +41,34 @@ constructor(
      *
      * @return Result indicating the outcome of the work (success in this case)
      */
+    @RequiresApi(Build.VERSION_CODES.Q)
     override suspend fun doWork(): Result {
         val applicationContext = applicationContext
         // Show notification if required
         val isNotificationOn = inputData.getBoolean(NOTIFICATION_CONDITION, false)
         if (isNotificationOn) {
-            notificationHelper.makeStatusNotification(
-                message = applicationContext.getString(R.string.notification_programs_download),
+           // notificationHelper.makeStatusNotification(
+           //     message = applicationContext.getString(R.string.notification_programs_download),
+           // )
+
+            val builder = NotificationCompat.Builder(
+                applicationContext,
+                UPDATE_NOTIFICATION_CHANNEL_ID
+            ).setSmallIcon(R.drawable.ic_notify)
+                .setContentText(applicationContext.getString(R.string.notification_programs_download))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setVibrate(LongArray(0))
+
+
+            val foregroundInfo = ForegroundInfo(
+                UPDATE_NOTIFICATION_ID,
+                builder.build(),
+                FOREGROUND_SERVICE_TYPE_DATA_SYNC
             )
+            setForeground(foregroundInfo)
         }
+
+
         Timber.d("testing FullUpdateProgramsWorker start update")
         updateProgramsUseCase(channelId = "channelId")
         /*      preferenceRepository.apply {
@@ -90,3 +114,6 @@ constructor(
         return Result.success()
     }
 }
+
+const val UPDATE_NOTIFICATION_CHANNEL_ID = "Download Updates"
+const val UPDATE_NOTIFICATION_ID = 1001

@@ -5,7 +5,7 @@ import com.mvproject.tvprogramguide.data.model.response.ProgramDTO
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.data.repository.ProgramRepository
 import com.mvproject.tvprogramguide.utils.AppConstants.empty
-import com.mvproject.tvprogramguide.utils.TimeUtils.actualDate
+import com.mvproject.tvprogramguide.utils.TimeUtils
 import com.mvproject.tvprogramguide.utils.TimeUtils.parseToInstant
 import timber.log.Timber
 import javax.inject.Inject
@@ -35,77 +35,53 @@ class UpdateProgramsUseCase
      * @param channelId The ID of the channel to update programs for (currently unused).
      */
     suspend operator fun invoke(channelId: String) {
-        /*  withContext(Dispatchers.IO) {
-
-              val parsedTable = loadElements(
-                  sourceUrl = "https://epg.ott-play.com/php/show_prog.php?f=edem/epg/$channelId.json",
-              )
-
-              val programs = parsedTable.map { element ->
-                  val (date, title, description) = element.parseElementDataAsProgram()
-
-                  val (start, end) = parseDateTime(input = date)
-
-                  ProgramDTO(
-                      dateTimeStart = start,
-                      dateTimeEnd = end,
-                      title = title,
-                      description = description,
-                  )
-              }
-
-              Timber.w("testing UpdateChannelsInfoUseCase programs ${programs.count()}")
-              if (programs.isNotEmpty()) {
-                  channelProgramRepository.updatePrograms(
-                      channelId = channelId,
-                      programs = programs,
-                  )
-              }
-
-              preferenceRepository.setChannelsUpdateLastTime(timeInMillis = actualDate)
-          }*/
-
-
+        val currentDate = TimeUtils.actualDate
         var programmeCount = 0
         val programsDto = mutableListOf<ProgramDTO>()
         var currentId = String.empty
 
         programDataSource.downloadAndParseXml("epg2.xml.gz") { programme ->
-            programmeCount++
-            val dto = ProgramDTO(
-                dateTimeStart = parseToInstant(programme.start),
-                dateTimeEnd = parseToInstant(programme.stop),
-                title = programme.title,
-                description = programme.desc ?: String.empty,
-            )
-            // Group programs by channel and update repository
-            if (currentId.isBlank()) {
-                currentId = programme.channel
-                programsDto.add(dto)
-            } else {
-                if (programme.channel == currentId) {
-                    programsDto.add(dto)
-                } else {
-                    if (programsDto.isNotEmpty()) {
-                        programRepository.updatePrograms(
-                            channelId = currentId,
-                            programs = programsDto,
-                        )
-                    }
-                    programsDto.clear()
+            val start = parseToInstant(programme.start)
+            val end = parseToInstant(programme.stop)
+            if (end > currentDate) {
+                programmeCount++
+                val dto = ProgramDTO(
+                    dateTimeStart = start,
+                    dateTimeEnd = end,
+                    title = programme.title,
+                    description = programme.desc ?: String.empty,
+                )
+                // Group programs by channel and update repository
+                if (currentId.isBlank()) {
                     currentId = programme.channel
                     programsDto.add(dto)
+                } else {
+                    if (programme.channel == currentId) {
+                        programsDto.add(dto)
+                    } else {
+                        if (programsDto.isNotEmpty()) {
+                            programRepository.updatePrograms(
+                                channelId = currentId,
+                                programs = programsDto,
+                            )
+                        }
+                        programsDto.clear()
+                        currentId = programme.channel
+                        programsDto.add(dto)
+                    }
                 }
             }
-            if (programmeCount % 10000 == 0) {
+            if (programmeCount>0 && programmeCount % 10000 == 0) {
                 Timber.d("testing Parsed $programmeCount programmes")
             }
         }
 
-        Timber.w("testing Finished parsing. Total programmes: $programmeCount")
-        preferenceRepository.apply {
-            setProgramsUpdateLastTime(timeInMillis = actualDate)
-            setProgramsUpdateRequiredState(false)
+        if (programmeCount>0) {
+            Timber.w("testing Finished parsing. Total programmes: $programmeCount")
+            preferenceRepository.apply {
+                setProgramsUpdateLastTime(timeInMillis = currentDate)
+                setProgramsUpdateRequiredState(false)
+            }
         }
     }
 }
