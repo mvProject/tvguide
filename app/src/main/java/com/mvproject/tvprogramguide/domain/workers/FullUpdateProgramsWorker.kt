@@ -40,47 +40,52 @@ class FullUpdateProgramsWorker(
      */
     @RequiresApi(Build.VERSION_CODES.Q)
     override suspend fun doWork(): Result {
+
+        Timber.d("testing FullUpdateProgramsWorker start update")
+
+        val channelsCount = 2300
+        var current = COUNT_ZERO
+
         val notificationManager =
             applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val updateNotificationBuilder = NotificationCompat.Builder(
             applicationContext,
             UPDATE_NOTIFICATION_CHANNEL_ID
+        ).apply {
+            setSmallIcon(R.drawable.ic_notify)
+            setContentText(applicationContext.getString(R.string.notification_programs_download))
+            setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            setVibrate(LongArray(0))
+            setOnlyAlertOnce(true)
+        }
+
+        setForeground(
+            ForegroundInfo(
+                UPDATE_NOTIFICATION_ID,
+                updateNotificationBuilder.build(),
+                FOREGROUND_SERVICE_TYPE_DATA_SYNC
+            )
         )
-            .setSmallIcon(R.drawable.ic_notify)
-            .setContentText(applicationContext.getString(R.string.notification_programs_download))
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setVibrate(LongArray(0))
-            .setOnlyAlertOnce(true)
-
-
-        val foregroundInfo = ForegroundInfo(
-            UPDATE_NOTIFICATION_ID,
-            updateNotificationBuilder.build(),
-            FOREGROUND_SERVICE_TYPE_DATA_SYNC
-        )
-        setForeground(foregroundInfo)
-
-        val channelsCount = 2300
-        var current = COUNT_ZERO
-
-        Timber.d("testing FullUpdateProgramsWorker start update")
 
         updateProgramsUseCase {
             current += COUNT_ONE
-            updateNotificationBuilder.setProgress(channelsCount, current, false)
             val progress = ((current / channelsCount.toFloat()) * 100).toInt()
-            updateNotificationBuilder.setContentText("Updating: $progress%")
-            Timber.d("testing FullUpdateProgramsWorker progress=$progress")
+
+            updateNotificationBuilder.apply {
+                setProgress(channelsCount, current, false)
+                setContentText("Updating: $progress%")
+            }
+
             notificationManager.notify(UPDATE_NOTIFICATION_ID, updateNotificationBuilder.build())
         }
 
-        Timber.w("testing FullUpdateProgramsWorker end update")
-
         // Update notification to show completion
-        updateNotificationBuilder.setContentText("Update complete")
-            .setProgress(COUNT_ZERO, COUNT_ZERO, false)
-        notificationManager.notify(UPDATE_NOTIFICATION_ID, updateNotificationBuilder.build())
+        //updateNotificationBuilder.setContentText("Update complete")
+        //    .setProgress(COUNT_ZERO, COUNT_ZERO, false)
+        //notificationManager.notify(UPDATE_NOTIFICATION_ID, updateNotificationBuilder.build())
+
+        Timber.w("testing FullUpdateProgramsWorker end update")
 
         return Result.success()
     }

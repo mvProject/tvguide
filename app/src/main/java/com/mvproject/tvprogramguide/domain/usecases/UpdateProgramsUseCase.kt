@@ -42,11 +42,6 @@ class UpdateProgramsUseCase(
             val start = parseToInstant(programme.start)
             val end = parseToInstant(programme.stop)
 
-            if (currentId.isBlank() || currentId != programme.channel) {
-                currentId = programme.channel
-                onNextId()
-            }
-
             if (end > currentDate) {
                 programmeCount++
                 val dto = ProgramDTO(
@@ -55,18 +50,25 @@ class UpdateProgramsUseCase(
                     title = programme.title,
                     description = programme.desc ?: String.empty,
                 )
-
-                if (programme.channel == currentId) {
+                if (currentId.isBlank()) {
+                    currentId = programme.channel
+                    onNextId()
                     programsDto.add(dto)
                 } else {
-                    if (programsDto.isNotEmpty()) {
-                        programRepository.updatePrograms(
-                            channelId = currentId,
-                            programs = programsDto,
-                        )
+                    if (programme.channel == currentId) {
+                        programsDto.add(dto)
+                    } else {
+                        if (programsDto.isNotEmpty()) {
+                            programRepository.updatePrograms(
+                                channelId = currentId,
+                                programs = programsDto,
+                            )
+                        }
+                        programsDto.clear()
+                        currentId = programme.channel
+                        onNextId()
+                        programsDto.add(dto)
                     }
-                    programsDto.clear()
-                    programsDto.add(dto)
                 }
             }
             if (programmeCount > 0 && programmeCount % 10000 == 0) {

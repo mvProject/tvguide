@@ -98,20 +98,7 @@
     @retrofit2.http.* <methods>;
 }
 
--keep class * {
-  @com.google.gson.annotations.SerializedName <fields>;
-}
-
--keep class * implements com.google.gson.TypeAdapterFactory
--keep class * implements com.google.gson.JsonSerializer
--keep class * implements com.google.gson.JsonDeserializer
-
--keepattributes Signature
--keep class com.google.gson.reflect.TypeToken
-
 -keepclassmembernames class com.mvproject.tvprogramguide.data.** {
     public ** component1();
     <fields>;
 }
-
--keep,allowobfuscation,allowshrinking @dagger.hilt.EntryPoint class *
