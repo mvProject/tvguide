@@ -3,7 +3,6 @@ package com.mvproject.tvprogramguide.ui.screens.channels.single.navigation
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -15,6 +14,7 @@ import com.mvproject.tvprogramguide.navigation.canNavigate
 import com.mvproject.tvprogramguide.ui.screens.channels.single.SingleChannelScreen
 import com.mvproject.tvprogramguide.ui.screens.channels.single.SingleChannelViewModel
 import com.mvproject.tvprogramguide.utils.AppConstants
+import org.koin.compose.viewmodel.koinViewModel
 
 fun NavController.navigateToSingleChannel(
     channelId: String,
@@ -44,7 +44,7 @@ fun NavGraphBuilder.singleChannelScreen(onNavigateBack: () -> Unit) {
             fadeOut(animationSpec = tween(AppConstants.ANIM_DURATION_600))
         },
     ) {
-        val singleChannelViewModel = hiltViewModel<SingleChannelViewModel>()
+        val singleChannelViewModel = koinViewModel<SingleChannelViewModel>()
 
         SingleChannelScreen(
             viewModel = singleChannelViewModel,

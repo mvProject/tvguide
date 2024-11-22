@@ -3,7 +3,6 @@ package com.mvproject.tvprogramguide.domain.usecases
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
 import com.mvproject.tvprogramguide.data.repository.AllChannelRepository
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
-import javax.inject.Inject
 
 /**
  * Use case for retrieving available channels, including their selection status for a specific list.
@@ -11,9 +10,7 @@ import javax.inject.Inject
  * @property allChannelRepository The repository for accessing all available channels.
  * @property selectedChannelRepository The repository for accessing selected channels.
  */
-class GetAvailableChannels
-@Inject
-constructor(
+class GetAvailableChannels(
     private val allChannelRepository: AllChannelRepository,
     private val selectedChannelRepository: SelectedChannelRepository,
 ) {

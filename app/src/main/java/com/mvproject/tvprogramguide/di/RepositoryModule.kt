@@ -1,15 +1,14 @@
 package com.mvproject.tvprogramguide.di
 
-import android.content.Context
-import androidx.work.WorkManager
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ViewModelScoped
+import com.mvproject.tvprogramguide.data.repository.AllChannelRepository
+import com.mvproject.tvprogramguide.data.repository.ChannelListRepository
+import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
+import com.mvproject.tvprogramguide.data.repository.ProgramRepository
+import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.module
 
-@Module
+/*@Module
 @InstallIn(ViewModelComponent::class)
 object RepositoryModule {
 
@@ -18,4 +17,12 @@ object RepositoryModule {
     fun provideWorkManager(
         @ApplicationContext context: Context
     ) = WorkManager.getInstance(context)
+}*/
+
+val repositoryModule = module {
+    singleOf(::AllChannelRepository)
+    singleOf(::ChannelListRepository)
+    singleOf(::ProgramRepository)
+    singleOf(::PreferenceRepository)
+    singleOf(::SelectedChannelRepository)
 }

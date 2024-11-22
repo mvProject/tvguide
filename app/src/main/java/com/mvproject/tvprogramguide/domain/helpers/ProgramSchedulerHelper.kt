@@ -8,9 +8,6 @@ import com.mvproject.tvprogramguide.domain.receiver.ProgramReceiver
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.utils.cancelAlarm
 import com.mvproject.tvprogramguide.utils.setExactAlarm
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Helper class to interact with the Alarm layer for scheduling TV programs.
@@ -19,12 +16,7 @@ import javax.inject.Singleton
  * @property context The application context, injected using Hilt.
  */
 
-@Singleton
-class ProgramSchedulerHelper
-@Inject
-constructor(
-    @ApplicationContext private val context: Context,
-) {
+class ProgramSchedulerHelper(private val context: Context) {
     /**
      * Schedules an alarm for a TV program based on its start time.
      *

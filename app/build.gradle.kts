@@ -4,7 +4,6 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.android.kotlin)
-    alias(libs.plugins.hilt)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.firebase.crashlitycs)
@@ -128,8 +127,6 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.json)
 
-    implementation(libs.bundles.network)
-
     implementation(libs.kotlinx.coroutines.core)
 
     implementation(libs.bundles.coil)
@@ -139,7 +136,7 @@ dependencies {
 
     implementation(libs.bundles.lifecycleCompose)
 
-    implementation(libs.bundles.navHiltCompose)
+    implementation(libs.composeNavigation)
 
     implementation(libs.startUp)
 
@@ -153,16 +150,18 @@ dependencies {
 
     implementation(libs.bundles.ksoup)
 
+    implementation(libs.bundles.ktor)
+
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
+
+    implementation(platform(libs.koin.bom))
+    implementation(libs.bundles.koin)
 
     implementation(libs.bundles.room)
     ksp(libs.roomCompiler)
 
     implementation(libs.accompanistPermissions)
-
-    implementation(libs.hilt)
-    ksp(libs.bundles.hiltCompiler)
 
     testImplementation(libs.testJunit)
 
@@ -174,10 +173,6 @@ dependencies {
 
     debugImplementation(libs.bundles.testDebugCompose)
 }
-
-/*task("printVersionName"){
-    println("${rootProject.name}_${project.android.defaultConfig.name}")
-}*/
 
 tasks.register("printVersionName") {
     println("${rootProject.name}_${project.android.defaultConfig.versionName}")

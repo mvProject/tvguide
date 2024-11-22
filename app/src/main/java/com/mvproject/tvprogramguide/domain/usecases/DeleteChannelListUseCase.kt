@@ -2,16 +2,13 @@ package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.model.domain.ChannelList
 import com.mvproject.tvprogramguide.data.repository.ChannelListRepository
-import javax.inject.Inject
 
 /**
  * Use case for deleting a specified channel list.
  *
  * @property channelListRepository The repository for managing channel lists.
  */
-class DeleteChannelListUseCase
-@Inject
-constructor(
+class DeleteChannelListUseCase(
     private val channelListRepository: ChannelListRepository
 ) {
     /**

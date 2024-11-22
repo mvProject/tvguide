@@ -3,9 +3,6 @@ package com.mvproject.tvprogramguide.domain.helpers
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Helper class to interact with the Network connection.
@@ -13,12 +10,7 @@ import javax.inject.Singleton
  *
  * @property context The application context, injected using Hilt.
  */
-@Singleton
-class NetworkHelper
-@Inject
-constructor(
-    @ApplicationContext private val context: Context,
-) {
+class NetworkHelper(private val context: Context) {
     /**
      * Checks if the device is currently connected to a network.
      *

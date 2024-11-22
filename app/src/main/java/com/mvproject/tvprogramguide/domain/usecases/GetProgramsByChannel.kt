@@ -3,16 +3,13 @@ package com.mvproject.tvprogramguide.domain.usecases
 import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
 import com.mvproject.tvprogramguide.data.repository.ProgramRepository
 import com.mvproject.tvprogramguide.utils.convertDateToReadableFormat
-import javax.inject.Inject
 
 /**
  * Use case for retrieving and organizing programs for a specific channel.
  *
  * @property programRepository The repository for accessing program data.
  */
-class GetProgramsByChannel
-@Inject
-constructor(
+class GetProgramsByChannel(
     private val programRepository: ProgramRepository,
 ) {
     /**

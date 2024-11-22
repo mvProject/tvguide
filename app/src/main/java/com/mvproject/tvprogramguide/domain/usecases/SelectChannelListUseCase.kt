@@ -2,16 +2,13 @@ package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.model.domain.ChannelList
 import com.mvproject.tvprogramguide.data.repository.ChannelListRepository
-import javax.inject.Inject
 
 /**
  * Use case for selecting a specific channel list.
  *
  * @property channelListRepository The repository for managing channel lists.
  */
-class SelectChannelListUseCase
-@Inject
-constructor(
+class SelectChannelListUseCase(
     private val channelListRepository: ChannelListRepository
 ) {
     /**

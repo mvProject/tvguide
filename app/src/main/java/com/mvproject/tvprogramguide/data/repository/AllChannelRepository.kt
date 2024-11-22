@@ -6,16 +6,13 @@ import com.mvproject.tvprogramguide.data.mappers.Mappers.asSelectionFromAvailabl
 import com.mvproject.tvprogramguide.data.mappers.Mappers.toAvailableChannelEntities
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
-import javax.inject.Inject
 
 /**
  * Repository class for managing all channel-related operations.
  *
  * @property allChannelDao Data Access Object for channel operations.
  */
-class AllChannelRepository
-@Inject
-constructor(
+class AllChannelRepository(
     private val allChannelDao: AllChannelDao,
 ) {
     /**

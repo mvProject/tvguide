@@ -6,18 +6,18 @@ import android.content.Context
 import android.content.Intent
 import com.mvproject.tvprogramguide.domain.helpers.NotificationHelper
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import timber.log.Timber
-import javax.inject.Inject
+
 /**
  * BroadcastReceiver for handling scheduled program alarms and system events.
  * This class is responsible for showing notifications when a scheduled program is about to start.
  */
-@AndroidEntryPoint
-internal class ProgramReceiver : BroadcastReceiver() {
+internal class ProgramReceiver : BroadcastReceiver(), KoinComponent {
 
-    @Inject
-    lateinit var notificationHelper: NotificationHelper
+    private val notificationHelper: NotificationHelper by inject()
+
     /**
      * Handles incoming broadcast intents.
      *
@@ -31,14 +31,16 @@ internal class ProgramReceiver : BroadcastReceiver() {
                 val program = data.getStringExtra(EXTRA_PROGRAM) ?: EXTRA_PROGRAM
                 val id = data.getIntExtra(EXTRA_ID, COUNT_ZERO)
                 notificationHelper.showScheduledProgramNotification(
-                    id,
-                    program,
-                    channel
+                    id = id,
+                    programTitle = program,
+                    channelTitle = channel
                 )
             }
+
             Intent.ACTION_BOOT_COMPLETED,
             AlarmManager.ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED -> {
             }
+
             else ->
                 Timber.e("Action not supported")
         }

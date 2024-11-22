@@ -7,15 +7,12 @@ import com.mvproject.tvprogramguide.data.repository.ChannelListRepository
 import com.mvproject.tvprogramguide.domain.usecases.AddChannelListUseCase
 import com.mvproject.tvprogramguide.domain.usecases.DeleteChannelListUseCase
 import com.mvproject.tvprogramguide.ui.screens.usercustomlist.action.ChannelListAction
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class ChannelListViewModel @Inject constructor(
+class ChannelListViewModel(
     private val channelListRepository: ChannelListRepository,
     private val addChannelListUseCase: AddChannelListUseCase,
     private val deleteChannelListUseCase: DeleteChannelListUseCase

@@ -4,7 +4,7 @@ package com.mvproject.tvprogramguide.repository
 import com.mvproject.tvprogramguide.data.database.dao.ProgramDao
 import com.mvproject.tvprogramguide.data.database.entity.ProgramEntity
 import com.mvproject.tvprogramguide.data.model.domain.Program
-import com.mvproject.tvprogramguide.data.model.response.ProgramDTO
+import com.mvproject.tvprogramguide.data.model.parse.ProgramDTO
 import com.mvproject.tvprogramguide.data.repository.ProgramRepository
 import com.mvproject.tvprogramguide.utils.TimeUtils
 import io.kotest.assertions.withClue

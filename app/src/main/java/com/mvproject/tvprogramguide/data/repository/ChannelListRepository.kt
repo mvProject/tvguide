@@ -6,7 +6,6 @@ import com.mvproject.tvprogramguide.data.mappers.Mappers.asChannelLists
 import com.mvproject.tvprogramguide.data.mappers.Mappers.toChannelsListEntity
 import com.mvproject.tvprogramguide.data.model.domain.ChannelList
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 import kotlin.random.Random
 
 /**
@@ -14,9 +13,7 @@ import kotlin.random.Random
  *
  * @property channelsListDao Data Access Object for channel list operations.
  */
-class ChannelListRepository
-@Inject
-constructor(
+class ChannelListRepository(
     private val channelsListDao: ChannelsListDao,
 ) {
     /**

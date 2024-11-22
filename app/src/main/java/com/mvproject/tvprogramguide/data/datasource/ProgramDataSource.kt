@@ -2,40 +2,46 @@ package com.mvproject.tvprogramguide.data.datasource
 
 import android.util.Xml
 import com.mvproject.tvprogramguide.data.model.parse.ProgramParseModel
-import com.mvproject.tvprogramguide.data.network.EpgService
+import io.ktor.client.HttpClient
+import io.ktor.client.request.prepareGet
+import io.ktor.client.statement.bodyAsChannel
+import io.ktor.http.contentLength
+import io.ktor.utils.io.ByteReadChannel
+import io.ktor.utils.io.jvm.javaio.toInputStream
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.xmlpull.v1.XmlPullParser
 import timber.log.Timber
 import java.io.BufferedInputStream
-import java.io.InputStream
 import java.util.zip.GZIPInputStream
-import javax.inject.Inject
 
-class ProgramDataSource @Inject
-constructor(
-    private val service: EpgService,
+class ProgramDataSource(
+    private val client: HttpClient,
 ) {
     suspend fun downloadAndParseXml(
         url: String,
         onProgrammeParsed: suspend (ProgramParseModel) -> Unit
     ) = withContext(Dispatchers.IO) {
+
         try {
-            val response = service.downloadFile(url)
-            Timber.d("testing XMLParser File download started. Content length: ${response.contentLength()}")
-            response.byteStream().use { inputStream ->
-                parseGzippedXml(inputStream, onProgrammeParsed)
+            client.use { service ->
+                service.prepareGet(url).execute { response ->
+                    Timber.i("testing File download started. Content length: ${response.contentLength()}")
+                    val channel = response.bodyAsChannel()
+                    parseGzippedXml(channel, onProgrammeParsed)
+                }
             }
         } catch (ex: Exception) {
-            Timber.e("testing XMLParser Error downloading or parsing XML: ${ex.message}")
-            throw ex
+            client.close()
+            Timber.e("testing Error downloading or parsing XML: ${ex.message}")
         }
     }
 
     private suspend fun parseGzippedXml(
-        inputStream: InputStream,
+        channel: ByteReadChannel,
         onProgrammeParsed: suspend (ProgramParseModel) -> Unit
     ) = withContext(Dispatchers.Default) {
+        val inputStream = channel.toInputStream()
         BufferedInputStream(inputStream).use { bufferedInput ->
             GZIPInputStream(bufferedInput).use { gzipInput ->
                 val parser = Xml.newPullParser()

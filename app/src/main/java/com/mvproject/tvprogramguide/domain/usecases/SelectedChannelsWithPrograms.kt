@@ -7,7 +7,6 @@ import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.utils.ProgramUtils.toSelectedChannelWithPrograms
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import javax.inject.Inject
 
 /**
  * Use case for retrieving selected channels with their associated programs.
@@ -16,9 +15,7 @@ import javax.inject.Inject
  * @property programRepository The repository for accessing program data.
  * @property preferenceRepository The repository for accessing user preferences.
  */
-class SelectedChannelsWithPrograms
-@Inject
-constructor(
+class SelectedChannelsWithPrograms(
     private val selectedChannelRepository: SelectedChannelRepository,
     private val programRepository: ProgramRepository,
     private val preferenceRepository: PreferenceRepository

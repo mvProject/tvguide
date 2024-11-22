@@ -19,12 +19,12 @@ class MappersTest : FunSpec({
     context("AvailableChannelResponse to Entity mapping") {
         test("toAvailableChannelEntities maps correctly") {
             val response1 = mockk<AvailableChannelResponse> {
-                every { channelNames } returns "Channel 1"
+                every { channelName } returns "Channel 1"
                 every { channelIcon } returns "icon1.png"
                 every { channelId } returns "id1"
             }
             val response2 = mockk<AvailableChannelResponse> {
-                every { channelNames } returns "Channel 2"
+                every { channelName } returns "Channel 2"
                 every { channelIcon } returns "icon2.png"
                 every { channelId } returns "id2"
             }

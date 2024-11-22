@@ -8,8 +8,8 @@ import com.mvproject.tvprogramguide.data.database.entity.SelectedChannelWithIcon
 import com.mvproject.tvprogramguide.data.model.domain.ChannelList
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
+import com.mvproject.tvprogramguide.data.model.parse.ProgramDTO
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
-import com.mvproject.tvprogramguide.data.model.response.ProgramDTO
 import com.mvproject.tvprogramguide.utils.AppConstants.empty
 import com.mvproject.tvprogramguide.utils.trimSpaces
 import kotlin.uuid.ExperimentalUuidApi
@@ -27,10 +27,10 @@ object Mappers {
     private fun AvailableChannelResponse.toEntity() =
         with(this) {
             AvailableChannelEntity(
-                title = channelNames,
+                title = channelName,
                 logo = channelIcon,
                 programId = channelId,
-                id = ("$channelId$channelNames").trimSpaces(),
+                id = ("$channelId$channelName").trimSpaces(),
             )
         }
 
