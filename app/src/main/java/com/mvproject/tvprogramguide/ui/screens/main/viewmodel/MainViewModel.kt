@@ -11,11 +11,7 @@ import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.domain.helpers.NetworkHelper
 import com.mvproject.tvprogramguide.domain.usecases.CleanProgramsUseCase
 import com.mvproject.tvprogramguide.domain.usecases.UpdateChannelsInfoUseCase
-import com.mvproject.tvprogramguide.utils.AppConstants
-import com.mvproject.tvprogramguide.utils.CHANNEL_COUNT
-import com.mvproject.tvprogramguide.utils.CHANNEL_INDEX
-import com.mvproject.tvprogramguide.utils.DOWNLOAD_PROGRAMS
-import com.mvproject.tvprogramguide.utils.buildFullUpdateRequest
+import com.mvproject.tvprogramguide.domain.workers.FullUpdateProgramsWorker
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -29,7 +25,7 @@ class MainViewModel(
     preferenceRepository: PreferenceRepository,
     private val updateChannelsInfoUseCase: UpdateChannelsInfoUseCase,
     private val cleanProgramsUseCase: CleanProgramsUseCase,
-    ) : ViewModel() {
+) : ViewModel() {
     private val fullUpdateWorkInfoFlow =
         workManager.getWorkInfosForUniqueWorkFlow(DOWNLOAD_PROGRAMS)
 
@@ -50,12 +46,6 @@ class MainViewModel(
                 } else {
                     val workInfo = state.first()
                     setUpdatingState(workInfo.state != WorkInfo.State.SUCCEEDED)
-                    if (workInfo.state == WorkInfo.State.RUNNING) {
-                        val progress = workInfo.progress
-                        val current = progress.getInt(CHANNEL_INDEX, AppConstants.COUNT_ZERO)
-                        val count = progress.getInt(CHANNEL_COUNT, AppConstants.COUNT_ZERO)
-                        Timber.i("testing fullUpdateWorkInfoFlow worker channel update $current/$count")
-                    }
                 }
             }.launchIn(viewModelScope)
 
@@ -70,17 +60,22 @@ class MainViewModel(
             }
 
             if (plannedUpdateRequired || manualUpdateRequired) {
-                startProgramsUpdate(requestForUpdate = buildFullUpdateRequest())
+                startProgramsUpdate()
             }
         }.launchIn(viewModelScope)
 
-       viewModelScope.launch {
-           cleanProgramsUseCase()
-       }
+        viewModelScope.launch {
+            cleanProgramsUseCase()
+        }
     }
 
-    private fun startProgramsUpdate(requestForUpdate: OneTimeWorkRequest) {
+    private fun startProgramsUpdate() {
         if (networkHelper.isNetworkConnected() && !isUpdating) {
+            val requestForUpdate = OneTimeWorkRequest
+                .Builder(FullUpdateProgramsWorker::class.java)
+                .build()
+
+
             workManager.enqueueUniqueWork(
                 DOWNLOAD_PROGRAMS,
                 ExistingWorkPolicy.KEEP,
@@ -95,5 +90,9 @@ class MainViewModel(
 
     private fun setUpdatingState(state: Boolean) {
         isUpdating = state
+    }
+
+    private companion object {
+        const val DOWNLOAD_PROGRAMS = "DOWNLOAD_PROGRAMS"
     }
 }

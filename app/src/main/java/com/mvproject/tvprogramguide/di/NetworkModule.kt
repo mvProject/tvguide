@@ -1,81 +1,11 @@
 package com.mvproject.tvprogramguide.di
 
-import com.mvproject.tvprogramguide.data.network.BASE_URL
-import com.mvproject.tvprogramguide.data.network.EpgService
-import com.mvproject.tvprogramguide.utils.AppConstants.TIMEOUT_SECONDS
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
+import com.mvproject.tvprogramguide.data.network.NetworkClient.createHttpClient
+import io.ktor.client.HttpClient
 import org.koin.dsl.module
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
-import kotlin.time.Duration.Companion.seconds
-
-/*@Module
-@InstallIn(SingletonComponent::class)
-object NetworkModule {
-
-    @Provides
-    @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder()
-            .connectTimeout(TIMEOUT_SECONDS.seconds.inWholeMilliseconds, TimeUnit.SECONDS)
-            .readTimeout(TIMEOUT_SECONDS.seconds.inWholeMilliseconds, TimeUnit.SECONDS)
-            .addInterceptor(loggingInterceptor)
-            .build()
-    }
-
-    private val loggingInterceptor = HttpLoggingInterceptor().apply {
-        setLevel(HttpLoggingInterceptor.Level.BODY)
-    }
-
-    @Provides
-    @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-            .client(okHttpClient)
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideEndpointService(retrofit: Retrofit): EpgService {
-        return retrofit.create(EpgService::class.java)
-    }
-}*/
 
 val networkModule = module {
-    single<OkHttpClient> {
-        val loggingInterceptor = HttpLoggingInterceptor().apply {
-            setLevel(HttpLoggingInterceptor.Level.BODY)
-        }
-
-        OkHttpClient.Builder()
-            .connectTimeout(TIMEOUT_SECONDS.seconds.inWholeMilliseconds, TimeUnit.SECONDS)
-            .readTimeout(TIMEOUT_SECONDS.seconds.inWholeMilliseconds, TimeUnit.SECONDS)
-            .addInterceptor(loggingInterceptor)
-            .build()
+    single<HttpClient> {
+        createHttpClient()
     }
-
-    single<Retrofit> {
-        provideRetrofit(get())
-    }
-
-    single<EpgService> {
-        provideEndpointService(get())
-    }
-}
-
-fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-    return Retrofit.Builder()
-        .client(okHttpClient)
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-}
-
-fun provideEndpointService(retrofit: Retrofit): EpgService {
-    return retrofit.create(EpgService::class.java)
 }

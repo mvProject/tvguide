@@ -1,7 +1,8 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.datasource.ProgramDataSource
-import com.mvproject.tvprogramguide.data.model.response.ProgramDTO
+import com.mvproject.tvprogramguide.data.model.parse.ProgramDTO
+import com.mvproject.tvprogramguide.data.network.NetworkClient.EPG_FILE
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.data.repository.ProgramRepository
 import com.mvproject.tvprogramguide.utils.AppConstants.empty
@@ -30,17 +31,22 @@ class UpdateProgramsUseCase(
      * 3. Groups programs by channel and updates the repository.
      * 4. Updates the last update time and update required state in preferences.
      *
-     * @param channelId The ID of the channel to update programs for (currently unused).
      */
-    suspend operator fun invoke(channelId: String) {
+    suspend operator fun invoke(onNextId: () -> Unit) {
         val currentDate = TimeUtils.actualDate
         var programmeCount = 0
         val programsDto = mutableListOf<ProgramDTO>()
         var currentId = String.empty
 
-        programDataSource.downloadAndParseXml("epg2.xml.gz") { programme ->
+        programDataSource.downloadAndParseXml(url = EPG_FILE) { programme ->
             val start = parseToInstant(programme.start)
             val end = parseToInstant(programme.stop)
+
+            if (currentId.isBlank() || currentId != programme.channel) {
+                currentId = programme.channel
+                onNextId()
+            }
+
             if (end > currentDate) {
                 programmeCount++
                 val dto = ProgramDTO(
@@ -49,32 +55,26 @@ class UpdateProgramsUseCase(
                     title = programme.title,
                     description = programme.desc ?: String.empty,
                 )
-                // Group programs by channel and update repository
-                if (currentId.isBlank()) {
-                    currentId = programme.channel
+
+                if (programme.channel == currentId) {
                     programsDto.add(dto)
                 } else {
-                    if (programme.channel == currentId) {
-                        programsDto.add(dto)
-                    } else {
-                        if (programsDto.isNotEmpty()) {
-                            programRepository.updatePrograms(
-                                channelId = currentId,
-                                programs = programsDto,
-                            )
-                        }
-                        programsDto.clear()
-                        currentId = programme.channel
-                        programsDto.add(dto)
+                    if (programsDto.isNotEmpty()) {
+                        programRepository.updatePrograms(
+                            channelId = currentId,
+                            programs = programsDto,
+                        )
                     }
+                    programsDto.clear()
+                    programsDto.add(dto)
                 }
             }
-            if (programmeCount>0 && programmeCount % 10000 == 0) {
+            if (programmeCount > 0 && programmeCount % 10000 == 0) {
                 Timber.d("testing Parsed $programmeCount programmes")
             }
         }
 
-        if (programmeCount>0) {
+        if (programmeCount > 0) {
             Timber.w("testing Finished parsing. Total programmes: $programmeCount")
             preferenceRepository.apply {
                 setProgramsUpdateLastTime(timeInMillis = currentDate)

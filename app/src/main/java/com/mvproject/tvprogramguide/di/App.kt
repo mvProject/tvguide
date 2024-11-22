@@ -4,8 +4,6 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.media.AudioAttributes
-import android.media.RingtoneManager
 import android.os.Build
 import coil.ImageLoader
 import coil.ImageLoaderFactory
@@ -47,7 +45,7 @@ class App :
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationManager =
-                applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
+                applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
             val updateChannel = NotificationChannel(
                 UPDATE_NOTIFICATION_CHANNEL_ID,
@@ -55,23 +53,14 @@ class App :
                 NotificationManager.IMPORTANCE_DEFAULT
             )
 
-            val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-
-            val myAudioAttributes = AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .build()
-
             val schedulingChannel = NotificationChannel(
                 PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_ID,
                 PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_NAME,
                 NotificationManager.IMPORTANCE_DEFAULT
-            ).apply {
-                setSound(soundUri, myAudioAttributes)
-            }
+            )
 
-            notificationManager?.createNotificationChannel(updateChannel)
-            notificationManager?.createNotificationChannel(schedulingChannel)
+            notificationManager.createNotificationChannel(updateChannel)
+            notificationManager.createNotificationChannel(schedulingChannel)
         }
     }
 
@@ -92,7 +81,7 @@ class App :
                     .directory(cacheDir)
                     .build()
             }
-           // .logger(DebugLogger())
+            // .logger(DebugLogger())
             .build()
     }
 }

@@ -127,8 +127,6 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.json)
 
-    implementation(libs.bundles.network)
-
     implementation(libs.kotlinx.coroutines.core)
 
     implementation(libs.bundles.coil)
@@ -137,8 +135,6 @@ dependencies {
     implementation(libs.bundles.compose)
 
     implementation(libs.bundles.lifecycleCompose)
-
- //   implementation(libs.bundles.navHiltCompose)
 
     implementation(libs.composeNavigation)
 
@@ -153,6 +149,8 @@ dependencies {
     implementation(libs.bundles.playUpdate)
 
     implementation(libs.bundles.ksoup)
+
+    implementation(libs.bundles.ktor)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
@@ -175,10 +173,6 @@ dependencies {
 
     debugImplementation(libs.bundles.testDebugCompose)
 }
-
-/*task("printVersionName"){
-    println("${rootProject.name}_${project.android.defaultConfig.name}")
-}*/
 
 tasks.register("printVersionName") {
     println("${rootProject.name}_${project.android.defaultConfig.versionName}")

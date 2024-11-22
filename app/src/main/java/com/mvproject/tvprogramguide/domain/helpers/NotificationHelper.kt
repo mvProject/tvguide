@@ -1,6 +1,7 @@
 package com.mvproject.tvprogramguide.domain.helpers
 
 import android.content.Context
+import android.media.RingtoneManager
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.mvproject.tvprogramguide.R
@@ -22,6 +23,8 @@ class NotificationHelper(private val context: Context) {
      */
     fun showScheduledProgramNotification(id: Int, programTitle: String, channelTitle: String) {
         try {
+            val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+
             val builder = NotificationCompat.Builder(
                 context,
                 PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_ID
@@ -31,6 +34,7 @@ class NotificationHelper(private val context: Context) {
                 .setContentText(programTitle)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
+                .setSound(soundUri)
 
             NotificationManagerCompat.from(context).notify(id, builder.build())
         } catch (ex: SecurityException) {
@@ -40,52 +44,7 @@ class NotificationHelper(private val context: Context) {
         }
     }
 
-    /**
-     * Dismisses a specific notification for a scheduled TV program.
-     *
-     * @param id The unique identifier of the notification to be dismissed.
-     */
-/*    fun hideScheduledProgramNotification(id: Int) {
-        try {
-            NotificationManagerCompat.from(context).cancel(id)
-        } catch (ex: SecurityException) {
-            Timber.e("security exception ${ex.message}")
-        } catch (ex: Exception) {
-            Timber.e("exception ${ex.message}")
-        }
-    }*/
-
-    /**
-     * Creates and shows a status notification, displayed as a heads-up notification if possible.
-     * This is typically used for update-related notifications.
-     *
-     * @param message The message to be displayed in the notification.
-     */
-/*    fun makeStatusNotification(message: String) {
-        try {
-            val builder = NotificationCompat.Builder(context, UPDATE_NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notify)
-                .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setVibrate(LongArray(0))
-
-            NotificationManagerCompat.from(context).notify(UPDATE_NOTIFICATION_ID, builder.build())
-        } catch (ex: SecurityException) {
-            Timber.e("security exception ${ex.message}")
-        } catch (ex: Exception) {
-            Timber.e("exception ${ex.message}")
-        }
-    }*/
-
-    /**
-     * Dismisses the current status notification.
-     * This is typically used to hide the update-related notification.
-     */
-/*    fun hideStatusNotification() {
-        NotificationManagerCompat.from(context).cancel(UPDATE_NOTIFICATION_ID)
-    }*/
-
-     companion object {
+    companion object {
         const val PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_NAME = "Schedule Notifications "
         const val PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_ID = "Program Schedule"
     }

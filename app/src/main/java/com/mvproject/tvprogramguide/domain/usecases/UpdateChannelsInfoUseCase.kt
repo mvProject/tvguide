@@ -44,7 +44,7 @@ class UpdateChannelsInfoUseCase(
                     names.forEach { name ->
                         add(
                             AvailableChannelResponse(
-                                channelNames = name,
+                                channelName = name,
                                 channelId = id,
                                 channelIcon = logo,
                             ),
