@@ -10,6 +10,8 @@ import com.mvproject.tvprogramguide.ui.screens.channels.single.navigation.naviga
 import com.mvproject.tvprogramguide.ui.screens.channels.single.navigation.singleChannelScreen
 import com.mvproject.tvprogramguide.ui.screens.settings.app.navigation.navigateToSettingsApp
 import com.mvproject.tvprogramguide.ui.screens.settings.app.navigation.settingsAppScreen
+import com.mvproject.tvprogramguide.ui.screens.settings.backup.navigation.navigateToSettingsBackup
+import com.mvproject.tvprogramguide.ui.screens.settings.backup.navigation.settingsBackupScreen
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.navigation.navigateToSettingsChannel
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.navigation.settingsChannelScreen
 import com.mvproject.tvprogramguide.ui.screens.settings.general.navigation.navigateToSettingsGeneral
@@ -40,6 +42,7 @@ fun NavigationHost(
             onNavigateBack = navController::navigateToBack,
             onNavigateAppSettings = navController::navigateToSettingsApp,
             onNavigateChannelSettings = navController::navigateToChannelList,
+            onNavigateBackupSettings = navController::navigateToSettingsBackup,
         )
 
         settingsAppScreen(
@@ -54,6 +57,10 @@ fun NavigationHost(
         settingsChannelScreen(
             onNavigateBack = navController::navigateToBack,
         )
+
+        settingsBackupScreen(
+            onNavigateBack = navController::navigateToBack,
+        )
     }
 }
 
@@ -62,6 +69,6 @@ val NavController.canNavigate: Boolean
 
 fun NavController.navigateToBack() {
     if (canNavigate) {
-        popBackStack()
+        navigateUp()
     }
 }

@@ -20,7 +20,7 @@ android {
         minSdk = 24
         targetSdk = 34
         versionCode = 90
-        versionName = "0.9.2"
+        versionName = "0.9.3"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         resourceConfigurations.addAll(
@@ -151,6 +151,8 @@ dependencies {
     implementation(libs.bundles.ksoup)
 
     implementation(libs.bundles.ktor)
+
+    implementation(libs.bundles.credentials)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)

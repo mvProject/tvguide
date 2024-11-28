@@ -4,6 +4,7 @@ import com.mvproject.tvprogramguide.ui.screens.channels.selected.ChannelViewMode
 import com.mvproject.tvprogramguide.ui.screens.channels.single.SingleChannelViewModel
 import com.mvproject.tvprogramguide.ui.screens.main.viewmodel.MainViewModel
 import com.mvproject.tvprogramguide.ui.screens.settings.app.AppSettingsViewModel
+import com.mvproject.tvprogramguide.ui.screens.settings.backup.SettingsBackupViewModel
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.ChannelSettingsViewModel
 import com.mvproject.tvprogramguide.ui.screens.usercustomlist.ChannelListViewModel
 import org.koin.core.module.dsl.viewModelOf
@@ -16,4 +17,5 @@ val viewModelsModule = module {
     viewModelOf(::ChannelListViewModel)
     viewModelOf(::AppSettingsViewModel)
     viewModelOf(::ChannelSettingsViewModel)
+    viewModelOf(::SettingsBackupViewModel)
 }

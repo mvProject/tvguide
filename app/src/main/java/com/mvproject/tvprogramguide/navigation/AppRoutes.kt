@@ -17,6 +17,9 @@ sealed class AppRoutes {
     data object SettingsGeneral : AppRoutes()
 
     @Serializable
+    data object SettingsBackup : AppRoutes()
+
+    @Serializable
     data class ChannelSettings(
         val userListName: String,
     ) : AppRoutes()

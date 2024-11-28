@@ -3,6 +3,8 @@ package com.mvproject.tvprogramguide.utils
 import kotlinx.serialization.json.Json
 
 object AppConstants {
+    const val WEB_CLIENT_ID =
+        "941960553843-1tdbqvfs29nodkl05fckdecr7rtlj7o7.apps.googleusercontent.com"
     const val NO_VALUE_LONG = -1L
     const val NO_VALUE_INT = -1
 

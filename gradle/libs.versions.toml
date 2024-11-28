@@ -66,6 +66,9 @@ mockk = "1.13.5"
 review = "2.0.1"
 app-update = "2.1.0"
 
+googleid = "1.1.0"
+credentials = "1.2.2"
+
 # android test libraries
 testAndroidJunitExt = "1.2.1"
 testAndroidEspresso = "3.6.1"
@@ -164,6 +167,9 @@ app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.re
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
+firebase-auth = { module = "com.google.firebase:firebase-auth-ktx" }
+
+googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 
 # test libraries
 testJunit = { module = "junit:junit", version.ref = "testJunit" }
@@ -179,6 +185,9 @@ testAndroidEspresso = { module = "androidx.test.espresso:espresso-core", version
 
 # Serialization
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization-json" }
+
+androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
+androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
 
 [bundles]
 
@@ -257,7 +266,8 @@ testDebugCompose = [
 
 firebase = [
     "firebase-analytics",
-    "firebase-crashlytics"
+    "firebase-crashlytics",
+    "firebase-auth"
 ]
 
 kotest = [
@@ -268,5 +278,11 @@ kotest = [
 ksoup = [
     "ksoup",
     "ksoup-network"
+]
+
+credentials = [
+    "androidx-credentials",
+    "androidx-credentials-play-services-auth",
+    "googleid"
 ]
 
