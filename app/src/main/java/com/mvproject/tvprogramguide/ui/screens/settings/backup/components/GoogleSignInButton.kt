@@ -18,10 +18,10 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.mvproject.tvprogramguide.BuildConfig
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.ui.screens.settings.backup.action.BackupAction
 import com.mvproject.tvprogramguide.ui.theme.dimens
-import com.mvproject.tvprogramguide.utils.AppConstants.WEB_CLIENT_ID
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -39,7 +39,7 @@ fun GoogleSignInButton(onAction: (BackupAction) -> Unit) {
         onClick = {
             val googleOption = GetGoogleIdOption.Builder()
                 .setFilterByAuthorizedAccounts(false)
-                .setServerClientId(WEB_CLIENT_ID)
+                .setServerClientId(BuildConfig.WEB_CLIENT_ID)
                 .build()
 
             val request = GetCredentialRequest.Builder()
