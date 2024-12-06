@@ -5,9 +5,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
+import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
 import com.mvproject.tvprogramguide.domain.usecases.GetAvailableChannels
 import com.mvproject.tvprogramguide.domain.usecases.GetSelectedChannels
-import com.mvproject.tvprogramguide.domain.usecases.SaveChannelsSelection
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.action.ChannelsAction
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.navigation.SettingsChannelArgs
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.state.ChannelSettingsState
@@ -24,7 +24,7 @@ class ChannelSettingsViewModel(
     savedStateHandle: SavedStateHandle,
     private val getSelectedChannels: GetSelectedChannels,
     private val getAvailableChannels: GetAvailableChannels,
-    private val saveChannelsSelection: SaveChannelsSelection,
+    private val selectedChannelRepository: SelectedChannelRepository
 ) : ViewModel() {
     private val _viewState = MutableStateFlow(ChannelSettingsState())
     val viewState = _viewState.asStateFlow()
@@ -133,10 +133,9 @@ class ChannelSettingsViewModel(
 
     fun applyChanges() {
         viewModelScope.launch {
-            saveChannelsSelection(
+            selectedChannelRepository.addChannels(
                 listName = name,
-                channels = selected.value,
-                //  channelsForUpdate = channelsForUpdate
+                selectedChannels = selected.value,
             )
             _viewState.update { state ->
                 state.copy(isComplete = true)

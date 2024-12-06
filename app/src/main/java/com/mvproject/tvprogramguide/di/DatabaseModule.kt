@@ -9,49 +9,6 @@ import com.mvproject.tvprogramguide.data.database.dao.ProgramDao
 import com.mvproject.tvprogramguide.data.database.dao.SelectedChannelDao
 import org.koin.dsl.module
 
-/*@Module
-@InstallIn(SingletonComponent::class)
-object DatabaseModule {
-
-    @Provides
-    @Singleton
-    fun provideAppDatabase(application: Application): AppDatabase {
-        return Room
-            .databaseBuilder(
-                application,
-                AppDatabase::class.java,
-                DATABASE
-            )
-            .fallbackToDestructiveMigration()
-            .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideAllChannelDao(appDatabase: AppDatabase): AllChannelDao {
-        return appDatabase.allChannelDao()
-    }
-
-    @Provides
-    @Singleton
-    fun provideProgramDao(appDatabase: AppDatabase): ProgramDao {
-        return appDatabase.programDao()
-    }
-
-    @Provides
-    @Singleton
-    fun provideSelectedChannelDao(appDatabase: AppDatabase): SelectedChannelDao {
-        return appDatabase.selectedChannelDao()
-    }
-
-    @Provides
-    @Singleton
-    fun provideUserChannelsListDao(appDatabase: AppDatabase): ChannelsListDao {
-        return appDatabase.userChannelsListDao()
-    }
-}*/
-
-
 val databaseModule = module {
     single<AppDatabase> {
         Room

@@ -16,11 +16,21 @@ android {
     namespace = "com.mvproject.tvprogramguide"
     compileSdk = 34
 
+    val projectProperties = readProperties(file("../keystore.properties"))
+    signingConfigs {
+        register("configRelease").configure {
+            storeFile = file(projectProperties["storeFile"] as String)
+            storePassword = projectProperties["storePassword"] as String
+            keyAlias = projectProperties["keyAlias"] as String
+            keyPassword = projectProperties["keyPassword"] as String
+        }
+    }
+
     defaultConfig {
         minSdk = 24
         targetSdk = 34
         versionCode = 90
-        versionName = "0.9.3"
+        versionName = "0.9.5"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         resourceConfigurations.addAll(
@@ -49,16 +59,18 @@ android {
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
-    }
-
-    val projectProperties = readProperties(file("../keystore.properties"))
-    signingConfigs {
-        register("configRelease").configure {
-            storeFile = file(projectProperties["storeFile"] as String)
-            storePassword = projectProperties["storePassword"] as String
-            keyAlias = projectProperties["keyAlias"] as String
-            keyPassword = projectProperties["keyPassword"] as String
-        }
+        val firebaseProperties = readProperties(file("../firebase.properties"))
+        buildConfigField(
+            "String",
+            "FIREBASE_DATABASE_URL",
+            firebaseProperties["FIREBASE_DATABASE_URL"] as String
+        )
+        buildConfigField(
+            "String",
+            "FIREBASE_DATABASE_TABLE",
+            firebaseProperties["FIREBASE_DATABASE_TABLE"] as String
+        )
+        buildConfigField("String", "WEB_CLIENT_ID", firebaseProperties["WEB_CLIENT_ID"] as String)
     }
 
     buildTypes {
@@ -95,6 +107,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     packaging {

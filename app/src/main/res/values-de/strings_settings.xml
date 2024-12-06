@@ -2,6 +2,12 @@
     <string name="settings_title">Einstellungen</string>
     <string name="settings_channels_settings_title">Kanaleinstellungen</string>
     <string name="settings_app_settings_title">Anwendungseinstellungen</string>
+    <string name="settings_backup_settings_title">Sicherung</string>
+    <string name="btn_backup_create">Backup erstellen</string>
+    <string name="btn_backup_restore">Backup wiederherstellen</string>
+    <string name="btn_profile_login">Mit Google anmelden</string>
+    <string name="btn_profile_logout">Abmelden</string>
+    <string name="btn_profile_login_requirement">Sie müssen sich anmelden, um fortzufahren</string>
 
     <string name="settings_updates_title">Aktualisierungszeitraum (Tage)</string>
     <string name="settings_theme_title">Thema</string>

@@ -2,6 +2,12 @@
     <string name="settings_title">postavke</string>
     <string name="settings_channels_settings_title">Postavke kanala</string>
     <string name="settings_app_settings_title">Postavke aplikacije</string>
+    <string name="settings_backup_settings_title">Sigurnosna kopija</string>
+    <string name="btn_backup_create">Stvori sigurnosnu kopiju</string>
+    <string name="btn_backup_restore">Vrati sigurnosnu kopiju</string>
+    <string name="btn_profile_login">Prijava putem Googlea</string>
+    <string name="btn_profile_logout">Odjava</string>
+    <string name="btn_profile_login_requirement">Morate se prijaviti za nastavak</string>
 
     <string name="settings_updates_title">Razdoblje ažuriranja (dani)</string>
     <string name="settings_theme_title">Tema</string>

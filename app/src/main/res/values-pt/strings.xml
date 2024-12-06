@@ -30,4 +30,7 @@
     <string name="onboard_description_user_list_create">Capacidade de criar várias listas com diferentes canais por conveniência</string>
     <string name="onboard_description_user_list_switch">Alterne rapidamente entre diferentes listas de usuários</string>
     <string name="onboard_description_notification">Capacidade de definir lembretes para que você não perca a visualização do programa no futuro</string>
+
+    <string name="title_backup_mode_create">Criar</string>
+    <string name="title_backup_mode_restore">Restaurar</string>
 </resources>

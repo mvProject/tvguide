@@ -2,6 +2,12 @@
     <string name="settings_title">Setări</string>
     <string name="settings_channels_settings_title">Setări de canal</string>
     <string name="settings_app_settings_title">Setările aplicației</string>
+    <string name="settings_backup_settings_title">Copie de rezervă</string>
+    <string name="btn_backup_create">Creează copie de rezervă</string>
+    <string name="btn_backup_restore">Restaurează copia de rezervă</string>
+    <string name="btn_profile_login">Conectare cu Google</string>
+    <string name="btn_profile_logout">Deconectare</string>
+    <string name="btn_profile_login_requirement">Trebuie să vă conectați pentru a continua</string>
 
     <string name="settings_updates_title">Perioada de actualizare (zile)</string>
     <string name="settings_theme_title">Subiect</string>

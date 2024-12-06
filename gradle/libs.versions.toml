@@ -1,8 +1,8 @@
 [versions]
 # plugins
-kotlin = "2.0.21"
+kotlin = "2.1.0"
 gradle = "8.5.2"
-ksp = "2.0.21-1.0.25"
+ksp = "2.1.0-1.0.29"
 crashlyticsGradle = "3.0.2"
 ktLint = "10.3.0"
 googleServices = "4.4.2"
@@ -168,6 +168,7 @@ firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.r
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth-ktx" }
+firebase-database = { module = "com.google.firebase:firebase-database" }
 
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 
@@ -267,7 +268,8 @@ testDebugCompose = [
 firebase = [
     "firebase-analytics",
     "firebase-crashlytics",
-    "firebase-auth"
+    "firebase-auth",
+    "firebase-database"
 ]
 
 kotest = [

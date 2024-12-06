@@ -30,4 +30,7 @@
     <string name="onboard_description_user_list_create">Kolaylık sağlamak için farklı kanallarla birden fazla liste oluşturabilme</string>
     <string name="onboard_description_user_list_switch">Farklı kullanıcı listeleri arasında hızla geçiş yapın</string>
     <string name="onboard_description_notification">Gelecekte programı izlemeyi kaçırmamak için hatırlatıcı ayarlama yeteneği</string>
+
+    <string name="title_backup_mode_create">Oluştur</string>
+    <string name="title_backup_mode_restore">Geri Yükle</string>
 </resources>

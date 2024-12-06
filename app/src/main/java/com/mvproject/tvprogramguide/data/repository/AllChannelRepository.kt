@@ -25,6 +25,18 @@ class AllChannelRepository(
             .getChannels()
             .map { item -> item.asSelectionFromAvailable() }
 
+
+    /**
+     * Loads specific channels from the database based on their IDs and maps them to SelectionChannel objects.
+     *
+     * @param selectedIds List of channel IDs to retrieve from the database
+     * @return A list of SelectionChannel objects representing the channels matching the provided IDs
+     */
+    suspend fun loadChannelsById(selectedIds: List<String>): List<SelectionChannel> =
+        allChannelDao
+            .getChannelsById(selectedIds = selectedIds)
+            .map { item -> item.asSelectionFromAvailable() }
+
     /**
      * Updates the channels in the database with a new list of AvailableChannelResponse objects.
      * This operation is performed as a transaction to ensure data consistency.

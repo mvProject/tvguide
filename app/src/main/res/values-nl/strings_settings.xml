@@ -2,6 +2,12 @@
     <string name="settings_title">Instellingen</string>
     <string name="settings_channels_settings_title">Kanaalinstellingen</string>
     <string name="settings_app_settings_title">Applicatie instellingen</string>
+    <string name="settings_backup_settings_title">Back-up</string>
+    <string name="btn_backup_create">Back-up maken</string>
+    <string name="btn_backup_restore">Back-up herstellen</string>
+    <string name="btn_profile_login">Inloggen met Google</string>
+    <string name="btn_profile_logout">Uitloggen</string>
+    <string name="btn_profile_login_requirement">U moet inloggen om door te gaan</string>
 
     <string name="settings_updates_title">Updateperiode (dagen)</string>
     <string name="settings_theme_title">Onderwerp</string>

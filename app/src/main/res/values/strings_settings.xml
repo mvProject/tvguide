@@ -8,7 +8,7 @@
     <string name="btn_backup_restore">Restore Backup</string>
     <string name="btn_profile_login">Sign with Google</string>
     <string name="btn_profile_logout">Log out</string>
-    <string name="btn_profile_login_requirement">Log out</string>
+    <string name="btn_profile_login_requirement">You need to log in, if you want to continue</string>
 
     <string name="settings_updates_title">Update period (days)</string>
     <string name="settings_theme_title">Theme</string>

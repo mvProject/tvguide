@@ -12,30 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import org.koin.dsl.module
 
-/*
-@Module
-@InstallIn(SingletonComponent::class)
-object DataStoreModule {
-
-    private const val TVGUIDE_PREFERENCES = "tvguide_preferences"
-
-    @Singleton
-    @Provides
-    fun providePreferencesDataStore(
-        @ApplicationContext appContext: Context
-    ): DataStore<Preferences> {
-        return PreferenceDataStoreFactory.create(
-            corruptionHandler = ReplaceFileCorruptionHandler(
-                produceNewData = { emptyPreferences() }
-            ),
-            scope = CoroutineScope(Dispatchers.IO + SupervisorJob()),
-            produceFile = { appContext.preferencesDataStoreFile(TVGUIDE_PREFERENCES) }
-        )
-    }
-}
-*/
-
-
 val datastoreModule = module {
     single { providePreferencesDataStore(get()) }
 }
