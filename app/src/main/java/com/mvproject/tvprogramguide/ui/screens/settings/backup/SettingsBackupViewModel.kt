@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.mvproject.tvprogramguide.data.model.backup.TvBackup
 import com.mvproject.tvprogramguide.data.repository.BackupRepository
 import com.mvproject.tvprogramguide.data.repository.ChannelListRepository
 import com.mvproject.tvprogramguide.domain.usecases.BackupCreateUseCase
@@ -121,13 +122,12 @@ class SettingsBackupViewModel(
                 }
 
                 BackupState.BackupMode.RESTORE -> {
-                    backupRepository.getBackup()?.let { backup ->
-                        _viewState.update {
-                            it.copy(
-                                mode = mode,
-                                restoreData = RestoreData(tvBackup = backup)
-                            )
-                        }
+                    val backup = backupRepository.getBackup() ?: TvBackup()
+                    _viewState.update {
+                        it.copy(
+                            mode = mode,
+                            restoreData = RestoreData(tvBackup = backup)
+                        )
                     }
                 }
             }
