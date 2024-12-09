@@ -2,6 +2,12 @@
     <string name="settings_title">Iestatījumi</string>
     <string name="settings_channels_settings_title">Kanāla iestatījumi</string>
     <string name="settings_app_settings_title">Lietojumprogrammas iestatījumi</string>
+    <string name="settings_backup_settings_title">Dublējums</string>
+    <string name="btn_backup_create">Izveidot dublējumu</string>
+    <string name="btn_backup_restore">Atjaunot dublējumu</string>
+    <string name="btn_profile_login">Pierakstīties ar Google</string>
+    <string name="btn_profile_logout">Izrakstīties</string>
+    <string name="btn_profile_login_requirement">Lai turpinātu, jums jāpierakstās</string>
 
     <string name="settings_updates_title">Atjaunināšanas periods (dienas)</string>
     <string name="settings_theme_title">Temats</string>

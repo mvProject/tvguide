@@ -30,4 +30,7 @@
     <string name="onboard_description_user_list_create">Mogućnost stvaranja više popisa s različitim kanalima radi praktičnosti</string>
     <string name="onboard_description_user_list_switch">Brzo prebacivanje između različitih popisa korisnika</string>
     <string name="onboard_description_notification">Mogućnost postavljanja podsjetnika kako ubuduće ne biste propustili pogledati program</string>
+
+    <string name="title_backup_mode_create">Stvoriti</string>
+    <string name="title_backup_mode_restore">Vratiti</string>
 </resources>

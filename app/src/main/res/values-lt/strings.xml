@@ -30,4 +30,7 @@
     <string name="onboard_description_user_list_create">Patogumui galimybė sudaryti kelis sąrašus su skirtingais kanalais</string>
     <string name="onboard_description_user_list_switch">Greitai perjunkite skirtingus vartotojų sąrašus</string>
     <string name="onboard_description_notification">Galimybė nustatyti priminimus, kad nepraleistumėte programos peržiūros ateityje</string>
+
+    <string name="title_backup_mode_create">Sukurti</string>
+    <string name="title_backup_mode_restore">Atkurti</string>
 </resources>

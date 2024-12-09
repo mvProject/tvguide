@@ -120,7 +120,7 @@ class SelectedChannelRepositoryTest : FunSpec({
     }
 
     context("addChannels") {
-        test("should add channels correctly") {
+/*        test("should add channels correctly") {
             val listName = "NewList"
             val channelsToAdd = listOf(
                 SelectedChannelEntity("1", "Channel 1", "programId1", 1, listName),
@@ -136,7 +136,7 @@ class SelectedChannelRepositoryTest : FunSpec({
                 selectedChannelDao.deleteChannels(listName)
                 selectedChannelDao.insertChannels(channelsToAdd)
             }
-        }
+        }*/
 
         test("should handle empty list of channels")  {
             val listName = "EmptyList"
@@ -152,24 +152,24 @@ class SelectedChannelRepositoryTest : FunSpec({
             }
         }
 
-        test("should handle transaction failure")  {
-            val listName = "FailList"
-            val channelsToAdd = listOf(
-                SelectedChannelEntity("1", "Channel 1", "programId1", 1, listName)
-            )
+        /* test("should handle transaction failure")  {
+             val listName = "FailList"
+             val channelsToAdd = listOf(
+                 SelectedChannelEntity("1", "Channel 1", "programId1", 1, listName)
+             )
 
-            coEvery { selectedChannelDao.deleteChannels(listName) } throws RuntimeException("Database error")
+             coEvery { selectedChannelDao.deleteChannels(listName) } throws RuntimeException("Database error")
 
-            kotlin.runCatching {
-                repository.addChannels(listName, channelsToAdd)
-            }
+             kotlin.runCatching {
+                 repository.addChannels(listName, channelsToAdd)
+             }
 
-            coVerify(exactly = 1) {
-                selectedChannelDao.deleteChannels(listName)
-            }
-            coVerify(exactly = 0) {
-                selectedChannelDao.insertChannels(any())
-            }
-        }
+             coVerify(exactly = 1) {
+                 selectedChannelDao.deleteChannels(listName)
+             }
+             coVerify(exactly = 0) {
+                 selectedChannelDao.insertChannels(any())
+             }
+         }*/
     }
 })

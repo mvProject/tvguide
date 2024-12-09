@@ -30,4 +30,7 @@
     <string name="onboard_description_user_list_create">Possibilità di creare più elenchi con diversi canali per comodità</string>
     <string name="onboard_description_user_list_switch">Passa rapidamente tra diversi elenchi di utenti</string>
     <string name="onboard_description_notification">Possibilità di impostare promemoria in modo da non perdere la visualizzazione del programma in futuro</string>
+
+    <string name="title_backup_mode_create">Creare</string>
+    <string name="title_backup_mode_restore">Ripristinare</string>
 </resources>

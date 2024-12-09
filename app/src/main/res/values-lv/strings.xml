@@ -30,4 +30,7 @@
     <string name="onboard_description_user_list_create">Ērtības labad iespēja izveidot vairākus sarakstus ar dažādiem kanāliem</string>
     <string name="onboard_description_user_list_switch">Ātri pārslēdzieties starp dažādiem lietotāju sarakstiem</string>
     <string name="onboard_description_notification">Iespēja iestatīt atgādinājumus, lai turpmāk nepalaistu garām programmas apskati</string>
+
+    <string name="title_backup_mode_create">Izveidot</string>
+    <string name="title_backup_mode_restore">Atjaunot</string>
 </resources>

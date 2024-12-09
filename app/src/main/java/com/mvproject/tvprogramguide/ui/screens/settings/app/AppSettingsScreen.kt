@@ -23,7 +23,7 @@ import com.mvproject.tvprogramguide.ui.screens.settings.app.action.AppSettingsAc
 import com.mvproject.tvprogramguide.ui.theme.dimens
 
 @Composable
-fun AppSettingsScreen(
+internal fun AppSettingsScreen(
     viewModel: AppSettingsViewModel,
     onNavigateBack: () -> Unit,
 ) {
@@ -32,16 +32,16 @@ fun AppSettingsScreen(
         containerColor = MaterialTheme.colorScheme.inverseOnSurface,
         topBar = {
             ToolbarWithBack(
-                title = stringResource(id = R.string.settings_title),
+                title = stringResource(id = R.string.settings_app_settings_title),
                 onBackClick = onNavigateBack,
             )
         },
     ) { contentPadding ->
         Column(
             modifier =
-                Modifier
-                    .padding(contentPadding)
-                    .fillMaxSize(),
+            Modifier
+                .padding(contentPadding)
+                .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size8),
         ) {
             val settings by viewModel.settingsState.collectAsState()

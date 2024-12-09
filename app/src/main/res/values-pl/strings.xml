@@ -30,4 +30,7 @@
     <string name="onboard_description_user_list_create">Możliwość tworzenia wielu list z różnymi kanałami dla wygody</string>
     <string name="onboard_description_user_list_switch">Szybko przełączaj się między różnymi listami użytkowników</string>
     <string name="onboard_description_notification">Możliwość ustawienia przypomnień, aby nie przegapić oglądania programu w przyszłości</string>
+
+    <string name="title_backup_mode_create">Utworzyć</string>
+    <string name="title_backup_mode_restore">Przywrócić</string>
 </resources>

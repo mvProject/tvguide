@@ -2,6 +2,12 @@
     <string name="settings_title">Ayarlar</string>
     <string name="settings_channels_settings_title">Kanal ayarları</string>
     <string name="settings_app_settings_title">Uygulama ayarları</string>
+    <string name="settings_backup_settings_title">Yedekleme</string>
+    <string name="btn_backup_create">Yedek Oluştur</string>
+    <string name="btn_backup_restore">Yedeği Geri Yükle</string>
+    <string name="btn_profile_login">Google ile Giriş Yap</string>
+    <string name="btn_profile_logout">Çıkış Yap</string>
+    <string name="btn_profile_login_requirement">Devam etmek için giriş yapmalısınız</string>
 
     <string name="settings_updates_title">Güncelleme süresi (gün)</string>
     <string name="settings_theme_title">Başlık</string>

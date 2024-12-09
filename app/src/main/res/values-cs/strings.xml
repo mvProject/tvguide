@@ -30,4 +30,7 @@
     <string name="onboard_description_user_list_create">Schopnost vytvářet více seznamů s různými kanály pro pohodlí</string>
     <string name="onboard_description_user_list_switch">Rychlé přepínání mezi různými seznamy uživatelů</string>
     <string name="onboard_description_notification">Možnost nastavit připomenutí, abyste v budoucnu nezmeškali sledování programu</string>
+
+    <string name="title_backup_mode_create">Vytvořit</string>
+    <string name="title_backup_mode_restore">Obnovit</string>
 </resources>

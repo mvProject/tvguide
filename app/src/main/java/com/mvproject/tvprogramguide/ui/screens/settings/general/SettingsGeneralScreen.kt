@@ -2,6 +2,7 @@ package com.mvproject.tvprogramguide.ui.screens.settings.general
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -12,16 +13,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
+import com.mvproject.tvprogramguide.ui.components.views.AppVersion
+import com.mvproject.tvprogramguide.ui.components.views.MailText
 import com.mvproject.tvprogramguide.ui.components.views.SettingsMenu
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 
 @Composable
-fun SettingsGeneralScreen(
+internal fun SettingsGeneralScreen(
     onNavigateBack: () -> Unit = {},
     onNavigateChannelSettings: () -> Unit = {},
     onNavigateAppSettings: () -> Unit = {},
+    onNavigateBackupSettings: () -> Unit = {},
 ) {
+
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = MaterialTheme.colorScheme.inverseOnSurface,
@@ -35,10 +41,10 @@ fun SettingsGeneralScreen(
     ) { paddingValues ->
         Column(
             modifier =
-                Modifier
-                    .padding(paddingValues)
-                    .fillMaxSize()
-                    .padding(vertical = MaterialTheme.dimens.size8),
+            Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+                .padding(vertical = MaterialTheme.dimens.size8),
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size8),
         ) {
             SettingsMenu(
@@ -50,13 +56,24 @@ fun SettingsGeneralScreen(
                 title = stringResource(id = R.string.settings_app_settings_title),
                 onAction = onNavigateAppSettings,
             )
+
+            SettingsMenu(
+                title = stringResource(id = R.string.settings_backup_settings_title),
+                onAction = onNavigateBackupSettings,
+            )
+
+            Spacer(modifier = Modifier.weight(MaterialTheme.dimens.weight1))
+
+            MailText()
+
+            AppVersion()
         }
     }
 }
 
 @PreviewLightDark
 @Composable
-fun SettingsOptionsViewDark() {
+private fun SettingsGeneralPreview() {
     TvGuideTheme {
         SettingsGeneralScreen()
     }

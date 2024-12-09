@@ -30,4 +30,8 @@
     <string name="onboard_description_user_list_create">Ability to create multiple lists with different channels for convenience</string>
     <string name="onboard_description_user_list_switch">Quickly switch between different custom lists</string>
     <string name="onboard_description_notification">Possibility to set a reminder, so as not to miss watching the program in the future</string>
+
+
+    <string name="title_backup_mode_create">Create</string>
+    <string name="title_backup_mode_restore">Restore</string>
 </resources>

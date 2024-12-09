@@ -14,6 +14,9 @@ interface AllChannelDao {
     @Query("SELECT * FROM all_channels")
     suspend fun getChannels(): List<AvailableChannelEntity>
 
+    @Query("SELECT * FROM all_channels WHERE id IN (:selectedIds)")
+    suspend fun getChannelsById(selectedIds: List<String>): List<AvailableChannelEntity>
+
     @Query("DELETE FROM all_channels")
     suspend fun deleteChannels()
 }

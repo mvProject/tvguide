@@ -30,4 +30,7 @@
     <string name="onboard_description_user_list_create">Abilitatea de a crea mai multe liste cu canale diferite pentru comoditate</string>
     <string name="onboard_description_user_list_switch">Comutați rapid între diferite liste de utilizatori</string>
     <string name="onboard_description_notification">Posibilitatea de a seta mementouri, astfel încât să nu ratați vizionarea programului în viitor</string>
+
+    <string name="title_backup_mode_create">Crea</string>
+    <string name="title_backup_mode_restore">Restabili</string>
 </resources>

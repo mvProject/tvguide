@@ -30,4 +30,7 @@
     <string name="onboard_description_user_list_create">Можливість створити кілька списків із різними каналами для зручності</string>
     <string name="onboard_description_user_list_switch">Швидко перемикайтеся між різними списками користувача</string>
     <string name="onboard_description_notification">Можливість встановити нагадування, щоб не пропустити перегляд програми в майбутньому</string>
+
+    <string name="title_backup_mode_create">Створити</string>
+    <string name="title_backup_mode_restore">Відновити</string>
 </resources>

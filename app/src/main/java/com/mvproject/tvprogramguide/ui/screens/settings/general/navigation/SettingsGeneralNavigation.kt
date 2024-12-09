@@ -22,6 +22,7 @@ fun NavGraphBuilder.settingsGeneralScreen(
     onNavigateBack: () -> Unit,
     onNavigateAppSettings: () -> Unit,
     onNavigateChannelSettings: () -> Unit,
+    onNavigateBackupSettings: () -> Unit,
 ) {
     composable<AppRoutes.SettingsGeneral>(
         enterTransition = {
@@ -41,6 +42,7 @@ fun NavGraphBuilder.settingsGeneralScreen(
             onNavigateBack = onNavigateBack,
             onNavigateAppSettings = onNavigateAppSettings,
             onNavigateChannelSettings = onNavigateChannelSettings,
+            onNavigateBackupSettings = onNavigateBackupSettings
         )
     }
 }

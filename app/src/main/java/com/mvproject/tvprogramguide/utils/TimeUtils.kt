@@ -2,18 +2,24 @@ package com.mvproject.tvprogramguide.utils
 
 import android.annotation.SuppressLint
 import com.mvproject.tvprogramguide.data.database.entity.ProgramEntity
+import com.mvproject.tvprogramguide.utils.AppConstants.empty
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.format
+import kotlinx.datetime.format.FormatStringsInDatetimeFormats
+import kotlinx.datetime.format.byUnicodePattern
 import kotlinx.datetime.format.char
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 
 /**
  * Utility object providing helper functions for time-related operations.
+ * Handles time zone conversions, date-time parsing, and formatting for the TV program guide.
+ * Supports multiple time zones including Berlin, Moscow, and the system default.
  */
 object TimeUtils {
     private val tzSourceBerlin = TimeZone.of("Europe/Berlin")
@@ -30,7 +36,8 @@ object TimeUtils {
                 .toEpochMilliseconds()
 
     /**
-     * Date format for parsing and formatting dates in the format dd/MM/yyyy.
+     * Formats for parsing and formatting dates in dd/MM/yyyy pattern.
+     * Used for consistent date handling throughout the application.
      */
     private val dateFormat =
         LocalDate.Format {
@@ -42,7 +49,8 @@ object TimeUtils {
         }
 
     /**
-     * Time format for parsing and formatting times in the format HH:mm.
+     * Formats for parsing and formatting times in HH:mm pattern.
+     * Used for consistent time handling throughout the application.
      */
     private val timeFormat =
         LocalTime.Format {
@@ -52,11 +60,12 @@ object TimeUtils {
         }
 
     /**
-     * Calculates the progress of a program based on its start and end times.
+     * Calculates the current playback progress of a program.
+     * Returns a value between 0.0 (not started) and 1.0 (completed).
      *
-     * @param startTime The start time of the program in milliseconds.
-     * @param endTime The end time of the program in milliseconds.
-     * @return A float value representing the progress (0.0 to 1.0).
+     * @param startTime Program start time in milliseconds
+     * @param endTime Program end time in milliseconds
+     * @return Float value representing progress percentage (0.0 to 1.0)
      */
     fun calculateProgramProgress(
         startTime: Long,
@@ -73,10 +82,11 @@ object TimeUtils {
     }
 
     /**
-     * Extension function to correct the time zone of a ProgramEntity.
+     * Adjusts program times to correct time zone.
+     * Converts times between the current system time zone and Moscow time zone.
      *
-     * @receiver ProgramEntity The program entity to be corrected.
-     * @return A new ProgramEntity with corrected time zone.
+     * @receiver ProgramEntity The program entity to be adjusted
+     * @return ProgramEntity with corrected start and end times
      */
     fun ProgramEntity.correctTimeZone(): ProgramEntity {
         val startInstant = Instant.fromEpochMilliseconds(this.dateTimeStart)
@@ -124,10 +134,15 @@ object TimeUtils {
             return Pair(startInstant.toEpochMilliseconds(), endInstant.toEpochMilliseconds())
         }*/
     /**
-     * Rounds a time string to the nearest 5 minutes.
+     * Rounds a time string to the nearest 5-minute interval.
+     * Examples:
+     * - "10:21" becomes "10:20"
+     * - "10:24" becomes "10:25"
+     * - "10:57" becomes "11:00"
      *
-     * @param time The time string in format "HH:mm".
-     * @return A rounded time string in format "HH:mm".
+     * @param time Time string in "HH:mm" format
+     * @return Rounded time string in "HH:mm" format
+     * @throws IllegalArgumentException if hour value is greater than 23
      */
     @SuppressLint("DefaultLocale")
     fun roundTimeString(time: String): String {
@@ -159,10 +174,10 @@ object TimeUtils {
     }
 
     /**
-     * Extracts the date from a string in format "yyyyMMddHHmm".
+     * Extracts date components from a datetime string.
      *
-     * @param input The input string.
-     * @return A date string in format "dd/MM/yyyy".
+     * @param input String in "yyyyMMddHHmm" format
+     * @return Formatted date string in "dd/MM/yyyy" format
      */
     @SuppressLint("DefaultLocale")
     fun extractDate(input: String): String {
@@ -173,10 +188,10 @@ object TimeUtils {
     }
 
     /**
-     * Extracts the time from a string in format "yyyyMMddHHmm".
+     * Extracts time components from a datetime string.
      *
-     * @param input The input string.
-     * @return A time string in format "HH:mm".
+     * @param input String in "yyyyMMddHHmm" format
+     * @return Formatted time string in "HH:mm" format
      */
     @SuppressLint("DefaultLocale")
     fun extractTime(input: String): String {
@@ -186,10 +201,11 @@ object TimeUtils {
     }
 
     /**
-     * Parses a date-time string to an Instant (epoch milliseconds).
+     * Converts a datetime string to epoch milliseconds.
+     * Parses the input string and converts it to Moscow timezone.
      *
-     * @param input The input string in format "yyyyMMddHHmm".
-     * @return The parsed time as epoch milliseconds.
+     * @param input String in "yyyyMMddHHmm" format
+     * @return Epoch milliseconds in Moscow timezone
      */
     fun parseToInstant(input: String): Long {
         val date = extractDate(input)
@@ -200,6 +216,28 @@ object TimeUtils {
 
         val localDateTime = LocalDateTime(localDate, localTime)
         return localDateTime.toInstant(tzSourceMoscow).toEpochMilliseconds()
+    }
+
+    /**
+     * Formats a timestamp to a human-readable date-time string.
+     *
+     * @receiver Long The timestamp in milliseconds
+     * @return A formatted string in pattern "dd/MM/yyyy - HH:mm" or empty string if parsing fails
+     */
+    @OptIn(FormatStringsInDatetimeFormats::class)
+    fun Long.toFormattedDateTime(): String {
+        return try {
+            val instant = Instant.fromEpochMilliseconds(this)
+            val dateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
+
+            dateTime.format(
+                LocalDateTime.Format {
+                    byUnicodePattern("dd/MM/yyyy - HH:mm")
+                }
+            )
+        } catch (e: Exception) {
+            String.empty
+        }
     }
 }
 
