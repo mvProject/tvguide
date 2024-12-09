@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.screens.usercustomlist
+package com.mvproject.tvprogramguide.ui.screens.channellist
 
 import android.app.Activity
 import androidx.compose.foundation.layout.Arrangement
@@ -31,7 +31,7 @@ import com.mvproject.tvprogramguide.ui.components.dialogs.ShowAddNewDialog
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
 import com.mvproject.tvprogramguide.ui.components.views.ChannelListItem
 import com.mvproject.tvprogramguide.ui.components.views.NoItemsScreen
-import com.mvproject.tvprogramguide.ui.screens.usercustomlist.action.ChannelListAction
+import com.mvproject.tvprogramguide.ui.screens.channellist.action.ChannelListAction
 import com.mvproject.tvprogramguide.ui.theme.dimens
 
 @Composable
@@ -87,34 +87,34 @@ private fun ChannelListScreen(
     ) { inner ->
         Column(
             modifier =
-                Modifier
-                    .padding(inner)
-                    .imePadding(),
+            Modifier
+                .padding(inner)
+                .imePadding(),
         ) {
             when {
                 userLists.isEmpty() -> {
-                    NoItemsScreen(
-                        title = stringResource(id = R.string.msg_user_lists_empty),
-                    )
+                    NoItemsScreen(title = stringResource(id = R.string.msg_user_lists_empty))
                 }
 
                 else -> {
                     LazyColumn(
                         modifier = Modifier.fillMaxHeight(),
                         verticalArrangement =
-                            Arrangement.spacedBy(
-                                MaterialTheme.dimens.size8,
-                            ),
+                        Arrangement.spacedBy(
+                            MaterialTheme.dimens.size8,
+                        ),
                         contentPadding =
-                            PaddingValues(
-                                vertical = MaterialTheme.dimens.size8,
-                                horizontal = MaterialTheme.dimens.size4,
-                            ),
+                        PaddingValues(
+                            vertical = MaterialTheme.dimens.size8,
+                            horizontal = MaterialTheme.dimens.size4,
+                        ),
                     ) {
                         items(userLists) { item ->
                             ChannelListItem(
                                 listName = item.listName,
+                                isSelected = item.isSelected,
                                 onItemAction = { onItemClick(item.listName) },
+                                onItemSelect = { onAction(ChannelListAction.SelectList(item)) },
                                 onDeleteAction = { onAction(ChannelListAction.DeleteList(item)) },
                             )
                         }

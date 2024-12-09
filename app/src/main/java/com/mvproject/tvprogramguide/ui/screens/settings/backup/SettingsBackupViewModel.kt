@@ -121,15 +121,13 @@ class SettingsBackupViewModel(
                 }
 
                 BackupState.BackupMode.RESTORE -> {
-                    val backup = backupRepository.getBackup()?.let {
-                        RestoreData(tvBackup = it)
-                    } ?: RestoreData()
-
-                    _viewState.update {
-                        it.copy(
-                            mode = mode,
-                            restoreData = backup
-                        )
+                    backupRepository.getBackup()?.let { backup ->
+                        _viewState.update {
+                            it.copy(
+                                mode = mode,
+                                restoreData = RestoreData(tvBackup = backup)
+                            )
+                        }
                     }
                 }
             }

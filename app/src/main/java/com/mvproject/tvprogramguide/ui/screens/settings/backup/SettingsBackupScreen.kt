@@ -38,6 +38,7 @@ import com.mvproject.tvprogramguide.ui.screens.settings.backup.components.Google
 import com.mvproject.tvprogramguide.ui.screens.settings.backup.state.BackupState
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
+import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO_LONG
 import com.mvproject.tvprogramguide.utils.TimeUtils.toFormattedDateTime
 
 @Composable
@@ -184,38 +185,40 @@ private fun SettingsBackupScreen(
                                         .weight(MaterialTheme.dimens.weight1)
                                         .padding(horizontal = MaterialTheme.dimens.size8)
                                 ) {
-                                    ListItem(
-                                        headlineContent = {
-                                            Text(
-                                                modifier = Modifier.fillMaxWidth(),
-                                                text = stringResource(R.string.settings_backup_settings_title)
-                                            )
-                                        },
-                                        supportingContent = {
-                                            Text(
-                                                modifier = Modifier.fillMaxWidth(),
-                                                style = MaterialTheme.typography.labelMedium,
-                                                color = MaterialTheme.colorScheme.outline,
-                                                text = state.restoreData.tvBackup.timeStamp.toFormattedDateTime()
-                                            )
-                                        },
-                                        trailingContent = {
-                                            Checkbox(
-                                                checked = state.restoreData.isSelected,
-                                                onCheckedChange = {
-                                                    onAction(BackupAction.SelectForRestore)
-                                                },
-                                                colors = CheckboxDefaults.colors(
-                                                    checkmarkColor = MaterialTheme.colorScheme.inverseOnSurface,
-                                                    checkedColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                                    uncheckedColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                    if (state.restoreData.tvBackup.timeStamp > COUNT_ZERO_LONG) {
+                                        ListItem(
+                                            headlineContent = {
+                                                Text(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    text = stringResource(R.string.settings_backup_settings_title)
                                                 )
+                                            },
+                                            supportingContent = {
+                                                Text(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    style = MaterialTheme.typography.labelMedium,
+                                                    color = MaterialTheme.colorScheme.outline,
+                                                    text = state.restoreData.tvBackup.timeStamp.toFormattedDateTime()
+                                                )
+                                            },
+                                            trailingContent = {
+                                                Checkbox(
+                                                    checked = state.restoreData.isSelected,
+                                                    onCheckedChange = {
+                                                        onAction(BackupAction.SelectForRestore)
+                                                    },
+                                                    colors = CheckboxDefaults.colors(
+                                                        checkmarkColor = MaterialTheme.colorScheme.inverseOnSurface,
+                                                        checkedColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                        uncheckedColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                                    )
+                                                )
+                                            },
+                                            colors = ListItemDefaults.colors(
+                                                containerColor = MaterialTheme.colorScheme.inverseOnSurface
                                             )
-                                        },
-                                        colors = ListItemDefaults.colors(
-                                            containerColor = MaterialTheme.colorScheme.inverseOnSurface
                                         )
-                                    )
+                                    }
                                 }
                             }
                         }

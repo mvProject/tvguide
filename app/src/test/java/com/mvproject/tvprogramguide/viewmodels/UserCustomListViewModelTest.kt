@@ -3,8 +3,9 @@ package com.mvproject.tvprogramguide.viewmodels
 import com.mvproject.tvprogramguide.data.repository.ChannelListRepository
 import com.mvproject.tvprogramguide.domain.usecases.AddChannelListUseCase
 import com.mvproject.tvprogramguide.domain.usecases.DeleteChannelListUseCase
-import com.mvproject.tvprogramguide.ui.screens.usercustomlist.ChannelListViewModel
-import com.mvproject.tvprogramguide.ui.screens.usercustomlist.action.ChannelListAction
+import com.mvproject.tvprogramguide.domain.usecases.SelectChannelListUseCase
+import com.mvproject.tvprogramguide.ui.screens.channellist.ChannelListViewModel
+import com.mvproject.tvprogramguide.ui.screens.channellist.action.ChannelListAction
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
@@ -16,14 +17,20 @@ class UserCustomListViewModelTest : StringSpec({
     lateinit var channelListRepository: ChannelListRepository
     lateinit var addChannelListUseCase: AddChannelListUseCase
     lateinit var deleteChannelListUseCase: DeleteChannelListUseCase
+    lateinit var selectChannelListUseCase: SelectChannelListUseCase
     lateinit var channelListViewModel: ChannelListViewModel
 
     beforeTest {
         channelListRepository = mockk<ChannelListRepository>()
         addChannelListUseCase = mockk<AddChannelListUseCase>()
         deleteChannelListUseCase = mockk<DeleteChannelListUseCase>()
-        channelListViewModel =
-            ChannelListViewModel(channelListRepository, addChannelListUseCase, deleteChannelListUseCase)
+        selectChannelListUseCase = mockk<SelectChannelListUseCase>()
+        channelListViewModel = ChannelListViewModel(
+            channelListRepository,
+            addChannelListUseCase,
+            deleteChannelListUseCase,
+            selectChannelListUseCase
+        )
     }
 
     afterTest {
@@ -54,28 +61,28 @@ class UserCustomListViewModelTest : StringSpec({
     }
 
     // todo fix tests
-   /* "action delete called" {
-        coEvery {
-            channelListRepository.loadChannelsListsAsFlow()
-        } answers {
-            flow {
-                emit(listOf())
-            }
-        }
+    /* "action delete called" {
+         coEvery {
+             channelListRepository.loadChannelsListsAsFlow()
+         } answers {
+             flow {
+                 emit(listOf())
+             }
+         }
 
-        channelListViewModel.processAction(
-            ChannelListAction.DeleteList(
-                ChannelList(
-                    1,
-                    "test",
-                    false
-                ),
-            ),
-        )
+         channelListViewModel.processAction(
+             ChannelListAction.DeleteList(
+                 ChannelList(
+                     1,
+                     "test",
+                     false
+                 ),
+             ),
+         )
 
-        coVerify(exactly = 1) {
-            deleteChannelListUseCase.invoke(ChannelList(1, "test", false))
-            channelListRepository.loadChannelsLists()
-        }
-    }*/
+         coVerify(exactly = 1) {
+             deleteChannelListUseCase.invoke(ChannelList(1, "test", false))
+             channelListRepository.loadChannelsLists()
+         }
+     }*/
 })
