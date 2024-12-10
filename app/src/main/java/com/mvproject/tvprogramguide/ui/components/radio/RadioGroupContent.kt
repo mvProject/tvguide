@@ -38,8 +38,8 @@ fun RadioGroupContent(
                         selected = (item == selectedOption),
                         colors =
                         RadioButtonDefaults.colors(
-                            selectedColor = MaterialTheme.colorScheme.tertiary,
-                            unselectedColor = MaterialTheme.colorScheme.onSurface,
+                            selectedColor = MaterialTheme.colorScheme.onSurface,
+                            unselectedColor = MaterialTheme.colorScheme.outline,
                         ),
                         onClick = {
                             onOptionSelected(item)
@@ -56,9 +56,9 @@ fun RadioGroupContent(
                             MaterialTheme.typography.bodyMedium
                         },
                         color = if (item == selectedOption) {
-                            MaterialTheme.colorScheme.tertiary
-                        } else {
                             MaterialTheme.colorScheme.onSurface
+                        } else {
+                            MaterialTheme.colorScheme.outline
                         },
                     )
                 }

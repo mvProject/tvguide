@@ -5,8 +5,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.NavigateBefore
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,18 +32,16 @@ fun ToolbarWithBack(
             )
         },
         navigationIcon = {
-            FilledIconButton(
-                onClick = onBackClick,
+            IconButton(
                 modifier = Modifier.padding(MaterialTheme.dimens.size8),
-                colors =
-                    IconButtonDefaults.filledIconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.surface,
-                        contentColor = MaterialTheme.colorScheme.onSurface,
-                    ),
+                onClick = onBackClick,
+                colors = IconButtonDefaults.iconButtonColors(
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                )
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.NavigateBefore,
-                    contentDescription = "Back",
+                    contentDescription = Icons.AutoMirrored.Filled.NavigateBefore.name
                 )
             }
         },

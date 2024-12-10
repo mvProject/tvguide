@@ -6,8 +6,8 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,34 +38,32 @@ fun ToolbarWithOptions(
         },
         navigationIcon = {
             if (isSelectEnabled) {
-                FilledIconButton(
-                    onClick = onSelectClick,
+                IconButton(
                     modifier = Modifier.padding(MaterialTheme.dimens.size8),
-                    colors = IconButtonDefaults.filledIconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.surface,
+                    onClick = onSelectClick,
+                    colors = IconButtonDefaults.iconButtonColors(
                         contentColor = MaterialTheme.colorScheme.onSurface
                     )
                 ) {
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
-                        contentDescription = "Back",
+                        contentDescription = Icons.Default.ArrowDropDown.name
                     )
                 }
             }
         },
         scrollBehavior = scrollBehavior,
         actions = {
-            FilledIconButton(
-                onClick = onSettingsClick,
+            IconButton(
                 modifier = Modifier.padding(MaterialTheme.dimens.size8),
-                colors = IconButtonDefaults.filledIconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
+                onClick = onSettingsClick,
+                colors = IconButtonDefaults.iconButtonColors(
                     contentColor = MaterialTheme.colorScheme.onSurface
                 )
             ) {
                 Icon(
                     imageVector = Icons.Default.Settings,
-                    contentDescription = "Back",
+                    contentDescription = Icons.Default.Settings.name
                 )
             }
         },
@@ -79,7 +77,7 @@ fun ToolbarWithOptions(
 @Preview
 @Composable
 fun ToolbarWithOptionsView() {
-    TvGuideTheme() {
+    TvGuideTheme {
         ToolbarWithOptions(title = "TetstTitle")
     }
 }

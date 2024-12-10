@@ -6,8 +6,8 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
@@ -30,17 +30,13 @@ fun ChannelListItem(
     onItemAction: () -> Unit = {},
     onDeleteAction: () -> Unit = {},
 ) {
-    val contentColor = if (isSelected)
-        MaterialTheme.colorScheme.tertiary
-    else
-        MaterialTheme.colorScheme.onSurface
+    val contentColor = if (isSelected) MaterialTheme.colorScheme.onSurface
+    else MaterialTheme.colorScheme.outline
 
     ListItem(
-        modifier =
-        modifier
+        modifier = modifier
             .combinedClickable(
-                onClick = onItemAction,
-                onLongClick = onItemSelect
+                onClick = onItemAction, onLongClick = onItemSelect
             )
             .border(
                 width = MaterialTheme.dimens.size1,
@@ -48,33 +44,25 @@ fun ChannelListItem(
                 shape = MaterialTheme.shapes.extraSmall,
             )
             .clip(MaterialTheme.shapes.extraSmall),
-        colors =
-        ListItemDefaults.colors(
+        colors = ListItemDefaults.colors(
             containerColor = MaterialTheme.colorScheme.inverseOnSurface,
         ),
         headlineContent = {
             Text(
-                text = listName,
-                style = if (isSelected)
-                    MaterialTheme.typography.titleLarge
-                else
-                    MaterialTheme.typography.titleMedium,
-                color = contentColor
+                text = listName, style = if (isSelected) MaterialTheme.typography.titleLarge
+                else MaterialTheme.typography.titleMedium, color = contentColor
             )
         },
         trailingContent = {
-            FilledIconButton(
+            IconButton(
                 onClick = onDeleteAction,
-                colors =
-                IconButtonDefaults.filledIconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.outline,
-                    contentColor = MaterialTheme.colorScheme.inverseOnSurface,
-                ),
+                colors = IconButtonDefaults.iconButtonColors(
+                    contentColor = contentColor
+                )
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Delete,
-                    contentDescription = "Delete",
-                    tint = contentColor
+                    contentDescription = Icons.Outlined.Delete.name
                 )
             }
         },
