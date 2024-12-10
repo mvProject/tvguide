@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.screens.usercustomlist.navigation
+package com.mvproject.tvprogramguide.ui.screens.channellist.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
@@ -9,8 +9,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.mvproject.tvprogramguide.navigation.AppRoutes
 import com.mvproject.tvprogramguide.navigation.canNavigate
-import com.mvproject.tvprogramguide.ui.screens.usercustomlist.ChannelListScreen
-import com.mvproject.tvprogramguide.ui.screens.usercustomlist.ChannelListViewModel
+import com.mvproject.tvprogramguide.ui.screens.channellist.ChannelListScreen
+import com.mvproject.tvprogramguide.ui.screens.channellist.ChannelListViewModel
 import com.mvproject.tvprogramguide.utils.AppConstants
 import org.koin.compose.viewmodel.koinViewModel
 

@@ -5,6 +5,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.mvproject.tvprogramguide.ui.screens.channellist.navigation.channelListScreen
+import com.mvproject.tvprogramguide.ui.screens.channellist.navigation.navigateToChannelList
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.navigation.selectedChannelsScreen
 import com.mvproject.tvprogramguide.ui.screens.channels.single.navigation.navigateToSingleChannel
 import com.mvproject.tvprogramguide.ui.screens.channels.single.navigation.singleChannelScreen
@@ -16,8 +18,6 @@ import com.mvproject.tvprogramguide.ui.screens.settings.channels.navigation.navi
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.navigation.settingsChannelScreen
 import com.mvproject.tvprogramguide.ui.screens.settings.general.navigation.navigateToSettingsGeneral
 import com.mvproject.tvprogramguide.ui.screens.settings.general.navigation.settingsGeneralScreen
-import com.mvproject.tvprogramguide.ui.screens.usercustomlist.navigation.channelListScreen
-import com.mvproject.tvprogramguide.ui.screens.usercustomlist.navigation.navigateToChannelList
 
 @Composable
 fun NavigationHost(
