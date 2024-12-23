@@ -157,9 +157,9 @@ dependencies {
 
     implementation(libs.kotlinxDatetime)
 
-    implementation(libs.bundles.playReview)
-
-    implementation(libs.bundles.playUpdate)
+    // implementation(libs.bundles.playReview)
+//
+    // implementation(libs.bundles.playUpdate)
 
     implementation(libs.bundles.ksoup)
 

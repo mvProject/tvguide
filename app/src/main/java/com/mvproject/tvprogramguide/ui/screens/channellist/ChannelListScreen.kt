@@ -1,6 +1,5 @@
 package com.mvproject.tvprogramguide.ui.screens.channellist
 
-import android.app.Activity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -21,10 +20,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.android.play.core.review.ReviewManagerFactory
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.model.domain.ChannelList
 import com.mvproject.tvprogramguide.ui.components.dialogs.ShowAddNewDialog
@@ -40,7 +37,7 @@ fun ChannelListScreen(
     onNavigateItem: (String) -> Unit,
     onNavigateBack: () -> Unit,
 ) {
-    ShowFeedback()
+    // ShowFeedback()
 
     val state by viewModel.customs.collectAsStateWithLifecycle()
 
@@ -129,7 +126,9 @@ private fun ChannelListScreen(
     }
 }
 
-@Composable
+// todo review disabled
+
+/*@Composable
 private fun ShowFeedback() {
     val context = LocalContext.current as Activity
     val reviewManager = ReviewManagerFactory.create(context)
@@ -140,4 +139,4 @@ private fun ShowFeedback() {
                 reviewManager.launchReviewFlow(context, task.result)
             }
         }
-}
+}*/
