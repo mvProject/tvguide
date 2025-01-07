@@ -36,15 +36,32 @@ class SelectedChannelsWithPrograms(
             selectedChannelRepository.loadSelectedChannelsAsFlow(),
             preferenceRepository.loadAppSettings()
         ) { selectedChannels, settings ->
+
+            val isBrokenChannelsExists =
+                selectedChannels.any { it.channelName.isBlank() && it.channelIcon.isBlank() }
+
+            val actualChannels = if (isBrokenChannelsExists)
+                selectedChannels.filter { it.channelName.isNotBlank() && it.channelIcon.isNotBlank() }
+            else selectedChannels
+
             // Extract program IDs of selected channels
             val selectedChannelIds =
-                selectedChannels.map { item -> item.programId }
+                actualChannels.map { item -> item.programId }
 
             val programsWithChannels =
                 programRepository.loadProgramsForChannels(channelsIds = selectedChannelIds)
+
+            if (isBrokenChannelsExists) {
+                val parentList = actualChannels.first().parentList
+                selectedChannelRepository.addChannels(
+                    listName = parentList,
+                    selectedChannels = actualChannels
+                )
+            }
+
             // Transform data into SelectedChannelWithPrograms objects
             programsWithChannels.toSelectedChannelWithPrograms(
-                alreadySelected = selectedChannels,
+                alreadySelected = actualChannels,
                 itemsCount = settings.programsViewCount,
             )
         }
