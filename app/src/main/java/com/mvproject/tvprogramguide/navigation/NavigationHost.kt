@@ -1,5 +1,7 @@
 package com.mvproject.tvprogramguide.navigation
 
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
@@ -19,48 +21,55 @@ import com.mvproject.tvprogramguide.ui.screens.settings.channels.navigation.sett
 import com.mvproject.tvprogramguide.ui.screens.settings.general.navigation.navigateToSettingsGeneral
 import com.mvproject.tvprogramguide.ui.screens.settings.general.navigation.settingsGeneralScreen
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun NavigationHost(
     navController: NavHostController,
     startScreen: AppRoutes,
 ) {
-    NavHost(
-        navController = navController,
-        startDestination = startScreen,
-    ) {
-        selectedChannelsScreen(
-            onNavigateSingleChannel = navController::navigateToSingleChannel,
-            onNavigateSettings = navController::navigateToSettingsGeneral,
-            onNavigateChannelsList = navController::navigateToChannelList,
-        )
+    SharedTransitionLayout {
+        NavHost(
+            navController = navController,
+            startDestination = startScreen,
+        ) {
+            selectedChannelsScreen(
+                sharedTransitionScope = this@SharedTransitionLayout,
+                onNavigateSingleChannel = navController::navigateToSingleChannel,
+                onNavigateSettings = navController::navigateToSettingsGeneral,
+                onNavigateChannelsList = navController::navigateToChannelList,
+            )
 
-        singleChannelScreen(
-            onNavigateBack = navController::navigateToBack,
-        )
+            singleChannelScreen(
+                sharedTransitionScope = this@SharedTransitionLayout,
+                onNavigateBack = navController::navigateToBack,
+            )
 
-        settingsGeneralScreen(
-            onNavigateBack = navController::navigateToBack,
-            onNavigateAppSettings = navController::navigateToSettingsApp,
-            onNavigateChannelSettings = navController::navigateToChannelList,
-            onNavigateBackupSettings = navController::navigateToSettingsBackup,
-        )
+            settingsGeneralScreen(
+                onNavigateBack = navController::navigateToBack,
+                onNavigateAppSettings = navController::navigateToSettingsApp,
+                onNavigateChannelSettings = navController::navigateToChannelList,
+                onNavigateBackupSettings = navController::navigateToSettingsBackup,
+            )
 
-        settingsAppScreen(
-            onNavigateBack = navController::navigateToBack,
-        )
+            settingsAppScreen(
+                onNavigateBack = navController::navigateToBack,
+            )
 
-        channelListScreen(
-            onNavigateBack = navController::navigateToBack,
-            onNavigateItem = navController::navigateToSettingsChannel,
-        )
+            channelListScreen(
+                sharedTransitionScope = this@SharedTransitionLayout,
+                onNavigateBack = navController::navigateToBack,
+                onNavigateItem = navController::navigateToSettingsChannel,
+            )
 
-        settingsChannelScreen(
-            onNavigateBack = navController::navigateToBack,
-        )
+            settingsChannelScreen(
+                sharedTransitionScope = this@SharedTransitionLayout,
+                onNavigateBack = navController::navigateToBack,
+            )
 
-        settingsBackupScreen(
-            onNavigateBack = navController::navigateToBack,
-        )
+            settingsBackupScreen(
+                onNavigateBack = navController::navigateToBack,
+            )
+        }
     }
 }
 

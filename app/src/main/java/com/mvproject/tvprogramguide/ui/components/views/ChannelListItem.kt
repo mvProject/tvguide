@@ -1,5 +1,10 @@
 package com.mvproject.tvprogramguide.ui.components.views
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
@@ -19,13 +24,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
+import com.mvproject.tvprogramguide.utils.closeControlAnimation
+import com.mvproject.tvprogramguide.utils.openControlAnimation
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalSharedTransitionApi::class)
 @Composable
 fun ChannelListItem(
     modifier: Modifier = Modifier,
     listName: String,
     isSelected: Boolean = false,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     onItemSelect: () -> Unit = {},
     onItemAction: () -> Unit = {},
     onDeleteAction: () -> Unit = {},
@@ -33,53 +42,70 @@ fun ChannelListItem(
     val contentColor = if (isSelected) MaterialTheme.colorScheme.onSurface
     else MaterialTheme.colorScheme.outline
 
-    ListItem(
-        modifier = modifier
-            .combinedClickable(
-                onClick = onItemAction, onLongClick = onItemSelect
-            )
-            .border(
-                width = MaterialTheme.dimens.size1,
-                color = MaterialTheme.colorScheme.outline,
-                shape = MaterialTheme.shapes.extraSmall,
-            )
-            .clip(MaterialTheme.shapes.extraSmall),
-        colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.inverseOnSurface,
-        ),
-        headlineContent = {
-            Text(
-                text = listName, style = if (isSelected) MaterialTheme.typography.titleLarge
-                else MaterialTheme.typography.titleMedium, color = contentColor
-            )
-        },
-        trailingContent = {
-            IconButton(
-                onClick = onDeleteAction,
-                colors = IconButtonDefaults.iconButtonColors(
-                    contentColor = contentColor
+    with(sharedTransitionScope) {
+        ListItem(
+            modifier = modifier
+                .sharedBounds(
+                    sharedContentState = rememberSharedContentState(key = listName),
+                    animatedVisibilityScope = animatedVisibilityScope,
+                    enter = openControlAnimation,
+                    exit = closeControlAnimation,
                 )
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Delete,
-                    contentDescription = Icons.Outlined.Delete.name
+                .combinedClickable(
+                    onClick = onItemAction, onLongClick = onItemSelect
                 )
-            }
-        },
-    )
+                .border(
+                    width = MaterialTheme.dimens.size1,
+                    color = MaterialTheme.colorScheme.outline,
+                    shape = MaterialTheme.shapes.extraSmall,
+                )
+                .clip(MaterialTheme.shapes.extraSmall),
+            colors = ListItemDefaults.colors(
+                containerColor = MaterialTheme.colorScheme.inverseOnSurface,
+            ),
+            headlineContent = {
+                Text(
+                    text = listName, style = if (isSelected) MaterialTheme.typography.titleLarge
+                    else MaterialTheme.typography.titleMedium, color = contentColor
+                )
+            },
+            trailingContent = {
+                IconButton(
+                    onClick = onDeleteAction,
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = contentColor
+                    )
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Delete,
+                        contentDescription = Icons.Outlined.Delete.name
+                    )
+                }
+            },
+        )
+    }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 @PreviewLightDark
 private fun ChannelListItemPreview() {
     TvGuideTheme {
-        Column {
-            ChannelListItem(
-                listName = "Channel1",
-            )
-            ChannelListItem(
-                listName = "Channel2",
-            )
+        SharedTransitionLayout {
+            AnimatedVisibility(visible = true) {
+                Column {
+                    ChannelListItem(
+                        listName = "Channel1",
+                        sharedTransitionScope = this@SharedTransitionLayout,
+                        animatedVisibilityScope = this@AnimatedVisibility,
+                    )
+                    ChannelListItem(
+                        listName = "Channel2",
+                        sharedTransitionScope = this@SharedTransitionLayout,
+                        animatedVisibilityScope = this@AnimatedVisibility,
+                    )
+                }
+            }
         }
     }
 }

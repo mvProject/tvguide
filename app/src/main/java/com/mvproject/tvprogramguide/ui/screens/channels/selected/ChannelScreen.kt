@@ -1,5 +1,8 @@
 package com.mvproject.tvprogramguide.ui.screens.channels.selected
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -38,14 +41,15 @@ import com.mvproject.tvprogramguide.ui.screens.channels.selected.components.OnBo
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.state.ChannelsViewState
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.utils.AppConstants.REFRESH_DELAY
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun ChannelScreen(
     viewModel: ChannelViewModel,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     onNavigateSingleChannel: (String, String) -> Unit,
     onNavigateSettings: () -> Unit,
     onNavigateChannelsList: () -> Unit,
@@ -54,6 +58,8 @@ fun ChannelScreen(
 
     ChannelScreen(
         viewState = viewState,
+        sharedTransitionScope = sharedTransitionScope,
+        animatedVisibilityScope = animatedVisibilityScope,
         onAction = viewModel::processAction,
         onNavigateSingleChannel = onNavigateSingleChannel,
         onNavigateSettings = onNavigateSettings,
@@ -62,10 +68,12 @@ fun ChannelScreen(
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @Composable
 private fun ChannelScreen(
     viewState: ChannelsViewState,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     onAction: (ChannelsViewAction) -> Unit,
     onNavigateSingleChannel: (String, String) -> Unit,
     onNavigateSettings: () -> Unit,
@@ -162,6 +170,8 @@ private fun ChannelScreen(
                     ChannelList(
                         singleChannelPrograms = viewState.channels,
                         listState = listState,
+                        sharedTransitionScope = sharedTransitionScope,
+                        animatedVisibilityScope = animatedVisibilityScope,
                         onChannelClick = { channel ->
                             onNavigateSingleChannel(
                                 channel.programId,

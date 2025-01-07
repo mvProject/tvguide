@@ -1,9 +1,7 @@
 package com.mvproject.tvprogramguide.ui.screens.settings.channels.navigation
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -13,7 +11,6 @@ import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_USER_LIST_N
 import com.mvproject.tvprogramguide.navigation.canNavigate
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.ChannelSettingsScreen
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.ChannelSettingsViewModel
-import com.mvproject.tvprogramguide.utils.AppConstants
 import org.koin.compose.viewmodel.koinViewModel
 
 fun NavController.navigateToSettingsChannel(userListName: String) {
@@ -27,25 +24,18 @@ internal class SettingsChannelArgs(val userListName: String) {
             this(userListName = checkNotNull(savedStateHandle[ARGUMENT_USER_LIST_NAME]) as String)
 }
 
-fun NavGraphBuilder.settingsChannelScreen(onNavigateBack: () -> Unit) {
-    composable<AppRoutes.ChannelSettings>(
-        enterTransition = {
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(AppConstants.ANIM_DURATION_600),
-            ) + fadeIn(animationSpec = tween(AppConstants.ANIM_DURATION_600))
-        },
-        exitTransition = {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(AppConstants.ANIM_DURATION_600),
-            ) + fadeOut(animationSpec = tween(AppConstants.ANIM_DURATION_600))
-        },
-    ) {
+@OptIn(ExperimentalSharedTransitionApi::class)
+fun NavGraphBuilder.settingsChannelScreen(
+    sharedTransitionScope: SharedTransitionScope,
+    onNavigateBack: () -> Unit
+) {
+    composable<AppRoutes.ChannelSettings> {
         val channelSettingsViewModel = koinViewModel<ChannelSettingsViewModel>()
 
         ChannelSettingsScreen(
             viewModel = channelSettingsViewModel,
+            sharedTransitionScope = sharedTransitionScope,
+            animatedVisibilityScope = this,
             onNavigateBack = onNavigateBack,
         )
     }

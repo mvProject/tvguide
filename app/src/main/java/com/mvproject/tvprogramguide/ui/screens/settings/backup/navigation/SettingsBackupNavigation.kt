@@ -1,6 +1,5 @@
 package com.mvproject.tvprogramguide.ui.screens.settings.backup.navigation
 
-import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -25,16 +24,10 @@ fun NavGraphBuilder.settingsBackupScreen(
 ) {
     composable<AppRoutes.SettingsBackup>(
         enterTransition = {
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(AppConstants.ANIM_DURATION_600),
-            ) + fadeIn(animationSpec = tween(AppConstants.ANIM_DURATION_600))
+            fadeIn(animationSpec = tween(AppConstants.ANIM_DURATION_600))
         },
         exitTransition = {
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(AppConstants.ANIM_DURATION_600),
-            ) + fadeOut(animationSpec = tween(AppConstants.ANIM_DURATION_600))
+            fadeOut(animationSpec = tween(AppConstants.ANIM_DURATION_600))
         },
     ) {
         val viewModel = koinViewModel<SettingsBackupViewModel>()

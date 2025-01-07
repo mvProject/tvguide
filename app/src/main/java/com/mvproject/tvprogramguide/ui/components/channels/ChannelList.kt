@@ -1,5 +1,8 @@
 package com.mvproject.tvprogramguide.ui.components.channels
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -21,58 +24,59 @@ import com.mvproject.tvprogramguide.ui.components.views.ChannelItem
 import com.mvproject.tvprogramguide.ui.components.views.ProgramItem
 import com.mvproject.tvprogramguide.ui.theme.dimens
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalSharedTransitionApi::class)
 @Composable
 fun ChannelList(
     listState: LazyListState,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     singleChannelPrograms: List<SelectedChannelWithPrograms>,
     onChannelClick: (SelectionChannel) -> Unit,
     onScheduleClick: (String, Program) -> Unit,
 ) {
-/*    Crossfade(
-        targetState = singleChannelPrograms,
-        label = "ChannelList",
-    ) { data ->*/
-        LazyColumn(
-            modifier =
-            Modifier
-                .fillMaxHeight(),
-            contentPadding = PaddingValues(horizontal = MaterialTheme.dimens.size4),
-            state = listState,
-        ) {
-            singleChannelPrograms.forEach { item ->
-                stickyHeader(
-                    key = item.selectedChannel.channelId,
+    LazyColumn(
+        modifier =
+        Modifier
+            .fillMaxHeight(),
+        contentPadding = PaddingValues(horizontal = MaterialTheme.dimens.size4),
+        state = listState,
+    ) {
+        singleChannelPrograms.forEach { item ->
+            stickyHeader(
+                key = item.selectedChannel.channelId,
+            ) {
+                ChannelItem(
+                    channelName = item.selectedChannel.channelName,
+                    channelLogo = item.selectedChannel.channelIcon,
+                    sharedTransitionScope = sharedTransitionScope,
+                    animatedVisibilityScope = animatedVisibilityScope,
                 ) {
-                    ChannelItem(
-                        channelName = item.selectedChannel.channelName,
-                        channelLogo = item.selectedChannel.channelIcon,
-                    ) {
+                    if (item.programs.isNotEmpty()) {
                         onChannelClick(item.selectedChannel)
                     }
                 }
-                if (item.programs.isEmpty()) {
-                    item {
-                        Text(
-                            text = stringResource(id = R.string.msg_no_epg_found),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = MaterialTheme.dimens.size10)
-                                .padding(start = MaterialTheme.dimens.size16),
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
-                    }
-                } else {
-                    items(
-                        items = item.programs,
-                        key = { program -> program.programId + item.selectedChannel.channelId},
-                    ) { program ->
-                        ProgramItem(program = program) {
-                            onScheduleClick(item.selectedChannel.channelName, program)
-                        }
+            }
+            if (item.programs.isEmpty()) {
+                item {
+                    Text(
+                        text = stringResource(id = R.string.msg_no_epg_found),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = MaterialTheme.dimens.size10)
+                            .padding(start = MaterialTheme.dimens.size16),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
+            } else {
+                items(
+                    items = item.programs,
+                    key = { program -> program.programId + item.selectedChannel.channelId },
+                ) { program ->
+                    ProgramItem(program = program) {
+                        onScheduleClick(item.selectedChannel.channelName, program)
                     }
                 }
             }
         }
-    //}
+    }
 }

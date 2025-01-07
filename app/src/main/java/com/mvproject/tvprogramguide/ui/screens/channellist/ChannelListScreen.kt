@@ -1,5 +1,8 @@
 package com.mvproject.tvprogramguide.ui.screens.channellist
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,9 +34,12 @@ import com.mvproject.tvprogramguide.ui.components.views.NoItemsScreen
 import com.mvproject.tvprogramguide.ui.screens.channellist.action.ChannelListAction
 import com.mvproject.tvprogramguide.ui.theme.dimens
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun ChannelListScreen(
     viewModel: ChannelListViewModel,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     onNavigateItem: (String) -> Unit,
     onNavigateBack: () -> Unit,
 ) {
@@ -43,15 +49,20 @@ fun ChannelListScreen(
 
     ChannelListScreen(
         userLists = state,
+        sharedTransitionScope = sharedTransitionScope,
+        animatedVisibilityScope = animatedVisibilityScope,
         onAction = viewModel::processAction,
         onItemClick = onNavigateItem,
         onBackClick = onNavigateBack,
     )
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 private fun ChannelListScreen(
     userLists: List<ChannelList>,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     onAction: (action: ChannelListAction) -> Unit,
     onItemClick: (item: String) -> Unit,
     onBackClick: () -> Unit,
@@ -110,6 +121,8 @@ private fun ChannelListScreen(
                             ChannelListItem(
                                 listName = item.listName,
                                 isSelected = item.isSelected,
+                                sharedTransitionScope = sharedTransitionScope,
+                                animatedVisibilityScope = animatedVisibilityScope,
                                 onItemAction = { onItemClick(item.listName) },
                                 onItemSelect = { onAction(ChannelListAction.SelectList(item)) },
                                 onDeleteAction = { onAction(ChannelListAction.DeleteList(item)) },

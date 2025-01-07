@@ -1,8 +1,7 @@
 package com.mvproject.tvprogramguide.ui.screens.channels.single.navigation
 
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -13,7 +12,6 @@ import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_CHANNEL_NAM
 import com.mvproject.tvprogramguide.navigation.canNavigate
 import com.mvproject.tvprogramguide.ui.screens.channels.single.SingleChannelScreen
 import com.mvproject.tvprogramguide.ui.screens.channels.single.SingleChannelViewModel
-import com.mvproject.tvprogramguide.utils.AppConstants
 import org.koin.compose.viewmodel.koinViewModel
 
 fun NavController.navigateToSingleChannel(
@@ -35,19 +33,18 @@ internal class SingleChannelArgs(
     )
 }
 
-fun NavGraphBuilder.singleChannelScreen(onNavigateBack: () -> Unit) {
-    composable<AppRoutes.SingleChannel>(
-        enterTransition = {
-            fadeIn(animationSpec = tween(AppConstants.ANIM_DURATION_600))
-        },
-        exitTransition = {
-            fadeOut(animationSpec = tween(AppConstants.ANIM_DURATION_600))
-        },
-    ) {
+@OptIn(ExperimentalSharedTransitionApi::class)
+fun NavGraphBuilder.singleChannelScreen(
+    sharedTransitionScope: SharedTransitionScope,
+    onNavigateBack: () -> Unit
+) {
+    composable<AppRoutes.SingleChannel> {
         val singleChannelViewModel = koinViewModel<SingleChannelViewModel>()
 
         SingleChannelScreen(
             viewModel = singleChannelViewModel,
+            sharedTransitionScope = sharedTransitionScope,
+            animatedVisibilityScope = this,
             onNavigateBack = onNavigateBack,
         )
     }

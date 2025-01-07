@@ -2,6 +2,9 @@ package com.mvproject.tvprogramguide.ui.screens.settings.channels
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Animatable
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,11 +37,17 @@ import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO_FLOAT
 import com.mvproject.tvprogramguide.utils.AppConstants.SELECTED_CHANNELS_PAGE
+import com.mvproject.tvprogramguide.utils.closeScreenAnimation
+import com.mvproject.tvprogramguide.utils.openScreenAnimation
+import com.mvproject.tvprogramguide.utils.slideOutDetailsBoundsTransform
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun ChannelSettingsScreen(
     viewModel: ChannelSettingsViewModel,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     onNavigateBack: () -> Unit = {},
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -84,109 +93,120 @@ fun ChannelSettingsScreen(
             )
         },
     ) { padding ->
-
-        Column(modifier = Modifier.padding(padding)) {
-            TabRow(
-                selectedTabIndex = pagerState.currentPage,
-                modifier =
+        with(sharedTransitionScope) {
+            Column(
+                modifier = Modifier
+                    .padding(padding)
+                    .sharedBounds(
+                        sharedContentState = rememberSharedContentState(key = viewModel.name),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        enter = openScreenAnimation,
+                        exit = closeScreenAnimation,
+                        boundsTransform = slideOutDetailsBoundsTransform,
+                    ),
+            ) {
+                TabRow(
+                    selectedTabIndex = pagerState.currentPage,
+                    modifier =
                     Modifier
                         .padding(MaterialTheme.dimens.size4)
                         .clip(MaterialTheme.shapes.medium),
-                containerColor = MaterialTheme.colorScheme.inverseOnSurface,
-                indicator = {},
-                divider = {},
-            ) {
-                tabItems.forEachIndexed { index, title ->
-                    val tabColor = remember { Animatable(activeTabColor) }
-                    val textColor = remember { Animatable(activeTextColor) }
+                    containerColor = MaterialTheme.colorScheme.inverseOnSurface,
+                    indicator = {},
+                    divider = {},
+                ) {
+                    tabItems.forEachIndexed { index, title ->
+                        val tabColor = remember { Animatable(activeTabColor) }
+                        val textColor = remember { Animatable(activeTextColor) }
 
-                    LaunchedEffect(pagerState.currentPage == index) {
-                        val selectedTabColor =
-                            if (pagerState.currentPage == index) {
-                                activeTabColor
-                            } else {
-                                inActiveTabColor
-                            }
+                        LaunchedEffect(pagerState.currentPage == index) {
+                            val selectedTabColor =
+                                if (pagerState.currentPage == index) {
+                                    activeTabColor
+                                } else {
+                                    inActiveTabColor
+                                }
 
-                        tabColor.animateTo(selectedTabColor)
+                            tabColor.animateTo(selectedTabColor)
 
-                        val selectedTextColor =
-                            if (pagerState.currentPage == index) {
-                                activeTextColor
-                            } else {
-                                inActiveTextColor
-                            }
-                        textColor.animateTo(selectedTextColor)
-                    }
+                            val selectedTextColor =
+                                if (pagerState.currentPage == index) {
+                                    activeTextColor
+                                } else {
+                                    inActiveTextColor
+                                }
+                            textColor.animateTo(selectedTextColor)
+                        }
 
-                    Tab(
-                        modifier =
+                        Tab(
+                            modifier =
                             Modifier
                                 .clip(MaterialTheme.shapes.medium)
                                 .drawBehind {
                                     drawRect(color = tabColor.value)
                                 },
-                        selected = pagerState.currentPage == index,
-                        onClick = {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(index)
-                            }
-                        },
-                        text = {
-                            val textStyle =
-                                if (pagerState.currentPage == index) {
-                                    MaterialTheme.typography.titleMedium
-                                } else {
-                                    MaterialTheme.typography.bodyMedium
+                            selected = pagerState.currentPage == index,
+                            onClick = {
+                                coroutineScope.launch {
+                                    pagerState.animateScrollToPage(index)
                                 }
-                            Text(
-                                text = title,
-                                style = textStyle,
-                                color = textColor.value,
-                            )
-                        },
-                    )
-                }
-            }
-
-            val channelsList by remember {
-                derivedStateOf {
-                    if (viewState.searchString.length > COUNT_ONE) {
-                        viewModel.allChannels.filter {
-                            it.channelName.contains(viewState.searchString, true)
-                        }
-                    } else {
-                        viewModel.allChannels
+                            },
+                            text = {
+                                val textStyle =
+                                    if (pagerState.currentPage == index) {
+                                        MaterialTheme.typography.titleMedium
+                                    } else {
+                                        MaterialTheme.typography.bodyMedium
+                                    }
+                                Text(
+                                    text = title,
+                                    style = textStyle,
+                                    color = textColor.value,
+                                )
+                            },
+                        )
                     }
                 }
-            }
 
-            HorizontalPager(
-                modifier = Modifier,
-                state = pagerState,
-                pageNestedScrollConnection =
+                val channelsList by remember {
+                    derivedStateOf {
+                        if (viewState.searchString.length > COUNT_ONE) {
+                            viewModel.allChannels.filter {
+                                it.channelName.contains(viewState.searchString, true)
+                            }
+                        } else {
+                            viewModel.allChannels
+                        }
+                    }
+                }
+
+                HorizontalPager(
+                    modifier = Modifier,
+                    state = pagerState,
+                    pageNestedScrollConnection =
                     PagerDefaults.pageNestedScrollConnection(
                         state = pagerState,
                         orientation = Orientation.Horizontal,
                     ),
-                pageContent = { page ->
-                    when (page) {
-                        SELECTED_CHANNELS_PAGE -> {
-                            SelectedChannelsPage(
-                                selectedChannels = selected,
-                                onAction = viewModel::processAction,
-                            )
-                        }
+                    pageContent = { page ->
+                        when (page) {
+                            SELECTED_CHANNELS_PAGE -> {
+                                SelectedChannelsPage(
+                                    selectedChannels = selected,
+                                    onAction = viewModel::processAction,
+                                )
+                            }
 
-                        else -> {
-                            AvailableChannelsPage(
-                                selectedChannels = channelsList,
-                                onAction = viewModel::processAction,
-                            )
+                            else -> {
+                                AvailableChannelsPage(
+                                    selectedChannels = channelsList,
+                                    onAction = viewModel::processAction,
+                                )
+                            }
                         }
-                    }
-                },
-            )
+                    },
+                )
+            }
         }
     }
 }

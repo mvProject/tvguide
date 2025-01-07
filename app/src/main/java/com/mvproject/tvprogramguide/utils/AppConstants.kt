@@ -26,6 +26,7 @@ object AppConstants {
     const val ANIM_DURATION_200 = 200
     const val ANIM_DURATION_300 = 300
     const val ANIM_DURATION_600 = 600
+    const val ANIM_DURATION_750 = 750
     const val ANIM_DURATION_900 = 900
 
     // const val OPACITY_30 = 0.3f
