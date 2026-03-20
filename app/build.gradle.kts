@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
 @Suppress("DSL_SCOPE_VIOLATION")
@@ -33,8 +34,8 @@ android {
         versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        resourceConfigurations.addAll(
-            listOf(
+        androidResources {
+            localeFilters += listOf(
                 "en",
                 "cs",
                 "de",
@@ -51,11 +52,8 @@ android {
                 "ru",
                 "tr",
                 "uk",
-            ),
-        )
-
-        vectorDrawables.useSupportLibrary = true
-
+            )
+        }
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
@@ -101,8 +99,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
+        }
     }
 
     buildFeatures {
@@ -142,20 +142,22 @@ dependencies {
 
     implementation(libs.kotlinx.coroutines.core)
 
-    implementation(libs.bundles.coil)
+    // image
+    implementation(libs.coil.compose)
 
+    // Compose
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.bundles.compose)
-
-    implementation(libs.bundles.lifecycleCompose)
-
-    implementation(libs.composeNavigation)
+    implementation(libs.bundles.compose.core)
+    implementation(libs.bundles.compose.lifecycle)
+    implementation(libs.bundles.compose.material.icons)
 
     implementation(libs.startUp)
 
     implementation(libs.bundles.workManager)
 
-    implementation(libs.kotlinxDatetime)
+    implementation(libs.kotlinx.collections.immutable)
+
+    implementation(libs.kotlinx.datetime)
 
     // implementation(libs.bundles.playReview)
 //
@@ -173,15 +175,17 @@ dependencies {
     implementation(platform(libs.koin.bom))
     implementation(libs.bundles.koin)
 
+    // Room Database
     implementation(libs.bundles.room)
-    ksp(libs.roomCompiler)
+    ksp(libs.room.compiler)
 
-    implementation(libs.accompanistPermissions)
+    implementation(libs.accompanist.permissions)
 
     testImplementation(libs.testJunit)
 
     implementation(libs.bundles.kotest)
 
+    implementation(libs.turbine)
     testImplementation(libs.mockk)
 
     implementation(libs.bundles.testAndroid)

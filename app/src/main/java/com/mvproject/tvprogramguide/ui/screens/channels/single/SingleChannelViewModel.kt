@@ -6,16 +6,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
-import com.mvproject.tvprogramguide.domain.usecases.GetProgramsByChannel
-import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramSchedule
+import com.mvproject.tvprogramguide.domain.usecases.GetProgramsByChannelUseCase
+import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramScheduleUseCase
 import com.mvproject.tvprogramguide.ui.screens.channels.single.navigation.SingleChannelArgs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SingleChannelViewModel(
     savedStateHandle: SavedStateHandle,
-    private val getProgramsByChannel: GetProgramsByChannel,
-    private val toggleProgramSchedule: ToggleProgramSchedule,
+    private val getProgramsByChannel: GetProgramsByChannelUseCase,
+    private val toggleProgramSchedule: ToggleProgramScheduleUseCase,
 ) : ViewModel() {
     private val singleChannelArgs = SingleChannelArgs(savedStateHandle)
 

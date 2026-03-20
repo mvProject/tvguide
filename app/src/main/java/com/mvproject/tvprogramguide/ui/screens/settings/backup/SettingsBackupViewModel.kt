@@ -2,11 +2,10 @@ package com.mvproject.tvprogramguide.ui.screens.settings.backup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
+import com.google.firebase.auth.FirebaseAuth
 import com.mvproject.tvprogramguide.data.model.backup.TvBackup
-import com.mvproject.tvprogramguide.data.repository.BackupRepository
-import com.mvproject.tvprogramguide.data.repository.ChannelListRepository
+import com.mvproject.tvprogramguide.domain.contract.IBackupRepository
+import com.mvproject.tvprogramguide.domain.contract.IChannelListRepository
 import com.mvproject.tvprogramguide.domain.usecases.BackupCreateUseCase
 import com.mvproject.tvprogramguide.domain.usecases.BackupRestoreUseCase
 import com.mvproject.tvprogramguide.ui.screens.settings.backup.action.BackupAction
@@ -19,26 +18,22 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SettingsBackupViewModel(
-    private val channelListRepository: ChannelListRepository,
-    private val backupRepository: BackupRepository,
+    private val channelListRepository: IChannelListRepository,
+    private val backupRepository: IBackupRepository,
     private val backupCreateUseCase: BackupCreateUseCase,
-    private val backupRestoreUseCase: BackupRestoreUseCase
+    private val backupRestoreUseCase: BackupRestoreUseCase,
+    private val auth: FirebaseAuth,
 ) : ViewModel() {
-    private val auth = Firebase.auth
 
     private val _viewState = MutableStateFlow(BackupState(isUserLogged = auth.currentUser != null))
     val viewState = _viewState.asStateFlow()
 
     init {
         viewModelScope.launch {
-
             val backupData = channelListRepository
                 .loadChannelsLists()
                 .map { BackupData(name = it.listName) }
-
-            _viewState.update {
-                it.copy(backupData = backupData)
-            }
+            _viewState.update { it.copy(backupData = backupData) }
         }
     }
 
@@ -53,26 +48,17 @@ class SettingsBackupViewModel(
     }
 
     private fun login() {
-        viewModelScope.launch {
-            _viewState.update {
-                it.copy(isUserLogged = true)
-            }
-        }
+        viewModelScope.launch { _viewState.update { it.copy(isUserLogged = true) } }
     }
 
     private fun logout() {
-        viewModelScope.launch {
-            _viewState.update {
-                it.copy(isUserLogged = false)
-            }
-        }
+        viewModelScope.launch { _viewState.update { it.copy(isUserLogged = false) } }
     }
 
     private fun createBackup() {
         viewModelScope.launch {
             val lists = viewState.value.backupData.filter { it.isSelected }.map { it.name }
             val tvBackup = backupCreateUseCase(lists = lists)
-
             backupRepository.saveBackup(tvBackup = tvBackup)
         }
     }
@@ -98,29 +84,19 @@ class SettingsBackupViewModel(
     private fun selectForRestore() {
         viewModelScope.launch {
             _viewState.update { state ->
-                val tvBackup = state.restoreData
-                    .copy(isSelected = !state.restoreData.isSelected)
-                state.copy(restoreData = tvBackup)
+                state.copy(restoreData = state.restoreData.copy(isSelected = !state.restoreData.isSelected))
             }
         }
     }
 
     private fun setBackupMode(mode: BackupState.BackupMode) {
         viewModelScope.launch {
-
             when (mode) {
                 BackupState.BackupMode.CREATE -> {
                     val playlists = channelListRepository.loadChannelsLists()
                         .map { BackupData(name = it.listName) }
-
-                    _viewState.update {
-                        it.copy(
-                            mode = mode,
-                            backupData = playlists
-                        )
-                    }
+                    _viewState.update { it.copy(mode = mode, backupData = playlists) }
                 }
-
                 BackupState.BackupMode.RESTORE -> {
                     val backup = backupRepository.getBackup() ?: TvBackup()
                     _viewState.update {

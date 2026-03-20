@@ -13,6 +13,7 @@ import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.domain.usecases.UpdateProgramsUseCase
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
+import com.mvproject.tvprogramguide.utils.AppConstants.TOTAL_CHANNELS_COUNT
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
@@ -57,7 +58,7 @@ class FullUpdateProgramsWorker(
             setOnlyAlertOnce(true)
         }
 
-        val channelsCount = 2300
+        val channelsCount = TOTAL_CHANNELS_COUNT
         var current = COUNT_ZERO
 
         setForeground(

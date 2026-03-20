@@ -22,9 +22,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
@@ -88,7 +89,7 @@ fun ChannelSelectableItem(
                     .size(MaterialTheme.dimens.size38)
                     .background(
                         color =
-                        MaterialTheme.colorScheme.outline,
+                            MaterialTheme.colorScheme.outline,
                         shape = MaterialTheme.shapes.extraSmall,
                     ),
             )
@@ -115,6 +116,17 @@ fun ChannelSelectableItem(
             }
         },
     )
+}
+
+@Composable
+fun AsyncImage(
+    model: String,
+    placeholder: Painter,
+    error: Painter,
+    contentDescription: String,
+    modifier: Modifier
+) {
+    TODO("Not yet implemented")
 }
 
 @Composable

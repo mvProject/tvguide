@@ -5,11 +5,14 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import coil.ImageLoader
-import coil.ImageLoaderFactory
-import coil.disk.DiskCache
-import coil.memory.MemoryCache
-import coil.request.CachePolicy
+import coil3.ImageLoader
+import coil3.PlatformContext
+import coil3.SingletonImageLoader
+import coil3.disk.DiskCache
+import coil3.disk.directory
+import coil3.memory.MemoryCache
+import coil3.request.CachePolicy
+import coil3.request.crossfade
 import com.mvproject.tvprogramguide.domain.helpers.NotificationHelper.Companion.PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_ID
 import com.mvproject.tvprogramguide.domain.helpers.NotificationHelper.Companion.PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_NAME
 import com.mvproject.tvprogramguide.domain.workers.FullUpdateProgramsWorker.Companion.UPDATE_NOTIFICATION_CHANNEL_ID
@@ -21,7 +24,7 @@ import org.koin.core.component.KoinComponent
 import timber.log.Timber
 
 class App :
-    Application(), ImageLoaderFactory, KoinComponent {
+    Application(), SingletonImageLoader.Factory, KoinComponent {
 
     override fun onCreate() {
         super.onCreate()
@@ -45,7 +48,7 @@ class App :
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationManager =
-                applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                applicationContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
             val updateChannel = NotificationChannel(
                 UPDATE_NOTIFICATION_CHANNEL_ID,
@@ -64,13 +67,13 @@ class App :
         }
     }
 
-    override fun newImageLoader(): ImageLoader {
+    override fun newImageLoader(context: PlatformContext): ImageLoader {
         return ImageLoader(this).newBuilder()
             .crossfade(true)
             .memoryCachePolicy(CachePolicy.ENABLED)
             .memoryCache {
-                MemoryCache.Builder(this)
-                    .maxSizePercent(0.1)
+                MemoryCache.Builder()
+                    .maxSizePercent(this, 0.1)
                     .strongReferencesEnabled(true)
                     .build()
             }

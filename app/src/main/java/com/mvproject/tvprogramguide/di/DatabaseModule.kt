@@ -1,8 +1,6 @@
 package com.mvproject.tvprogramguide.di
 
-import androidx.room.Room
 import com.mvproject.tvprogramguide.data.database.AppDatabase
-import com.mvproject.tvprogramguide.data.database.DbConstants.DATABASE
 import com.mvproject.tvprogramguide.data.database.dao.AllChannelDao
 import com.mvproject.tvprogramguide.data.database.dao.ChannelsListDao
 import com.mvproject.tvprogramguide.data.database.dao.ProgramDao
@@ -11,14 +9,7 @@ import org.koin.dsl.module
 
 val databaseModule = module {
     single<AppDatabase> {
-        Room
-            .databaseBuilder(
-                get(),
-                AppDatabase::class.java,
-                DATABASE
-            )
-            .fallbackToDestructiveMigration()
-            .build()
+        AppDatabase.createDataBase(get())
     }
 
     single<AllChannelDao> { get<AppDatabase>().allChannelDao() }

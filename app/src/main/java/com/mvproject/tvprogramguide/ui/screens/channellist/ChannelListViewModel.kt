@@ -2,7 +2,7 @@ package com.mvproject.tvprogramguide.ui.screens.channellist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mvproject.tvprogramguide.data.repository.ChannelListRepository
+import com.mvproject.tvprogramguide.domain.contract.IChannelListRepository
 import com.mvproject.tvprogramguide.domain.usecases.AddChannelListUseCase
 import com.mvproject.tvprogramguide.domain.usecases.DeleteChannelListUseCase
 import com.mvproject.tvprogramguide.domain.usecases.SelectChannelListUseCase
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ChannelListViewModel(
-    private val channelListRepository: ChannelListRepository,
+    private val channelListRepository: IChannelListRepository,
     private val addChannelListUseCase: AddChannelListUseCase,
     private val deleteChannelListUseCase: DeleteChannelListUseCase,
     private val selectChannelListUseCase: SelectChannelListUseCase,

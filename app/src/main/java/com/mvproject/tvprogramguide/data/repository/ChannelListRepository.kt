@@ -5,6 +5,7 @@ import com.mvproject.tvprogramguide.data.database.entity.ChannelsListEntity
 import com.mvproject.tvprogramguide.data.mappers.Mappers.asChannelLists
 import com.mvproject.tvprogramguide.data.mappers.Mappers.toChannelsListEntity
 import com.mvproject.tvprogramguide.data.model.domain.ChannelList
+import com.mvproject.tvprogramguide.domain.contract.IChannelListRepository
 import kotlinx.coroutines.flow.map
 import kotlin.random.Random
 
@@ -15,13 +16,13 @@ import kotlin.random.Random
  */
 class ChannelListRepository(
     private val channelsListDao: ChannelsListDao,
-) {
+) : IChannelListRepository {
     /**
      * Loads channel lists as a Flow, mapping database entities to domain models.
      *
      * @return A Flow of List<ChannelList> representing all channel lists.
      */
-    fun loadChannelsListsAsFlow() =
+    override fun loadChannelsListsAsFlow() =
         channelsListDao
             .getChannelsListsAsFlow()
             .map { entities ->
@@ -33,7 +34,7 @@ class ChannelListRepository(
      *
      * @return A List<ChannelList> representing all channel lists.
      */
-    suspend fun loadChannelsLists() =
+    override suspend fun loadChannelsLists() =
         channelsListDao
             .getChannelsLists()
             .asChannelLists()
@@ -43,7 +44,7 @@ class ChannelListRepository(
      *
      * @param name The name of the new channel list.
      */
-    suspend fun addChannelsList(name: String) {
+    override suspend fun addChannelsList(name: String) {
         if (name.isNotEmpty()) {
             val listItem =
                 ChannelsListEntity(
@@ -60,7 +61,7 @@ class ChannelListRepository(
      *
      * @param list The ChannelList to be added.
      */
-    suspend fun addChannelList(list: ChannelList) {
+    override suspend fun addChannelList(list: ChannelList) {
         channelsListDao.addChannelsList(channelList = list.toChannelsListEntity())
     }
 
@@ -69,7 +70,7 @@ class ChannelListRepository(
      *
      * @param lists The List<ChannelList> to be added.
      */
-    suspend fun addChannelLists(lists: List<ChannelList>) {
+    override suspend fun addChannelLists(lists: List<ChannelList>) {
         val channelsLists = lists.map { it.toChannelsListEntity() }
         channelsListDao.addChannelsLists(channelLists = channelsLists)
     }
@@ -79,7 +80,7 @@ class ChannelListRepository(
      *
      * @param item The ChannelList to be deleted.
      */
-    suspend fun deleteList(item: ChannelList) {
+    override suspend fun deleteList(item: ChannelList) {
         channelsListDao.deleteSingleChannelsList(channelId = item.id)
     }
 }

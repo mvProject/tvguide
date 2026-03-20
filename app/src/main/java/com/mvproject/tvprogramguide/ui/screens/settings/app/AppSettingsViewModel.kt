@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mvproject.tvprogramguide.data.model.settings.AppSettingsModel
 import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
-import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
+import com.mvproject.tvprogramguide.domain.contract.IPreferenceRepository
 import com.mvproject.tvprogramguide.ui.screens.settings.app.action.AppSettingsAction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class AppSettingsViewModel(
-    private val preferenceRepository: PreferenceRepository
+    private val preferenceRepository: IPreferenceRepository
 ) : ViewModel() {
 
     val settingsState by lazy {

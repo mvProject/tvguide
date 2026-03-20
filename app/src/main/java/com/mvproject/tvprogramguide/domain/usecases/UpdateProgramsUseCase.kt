@@ -1,10 +1,10 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
-import com.mvproject.tvprogramguide.data.datasource.ProgramDataSource
 import com.mvproject.tvprogramguide.data.model.parse.ProgramDTO
 import com.mvproject.tvprogramguide.data.network.NetworkClient.EPG_FILE2
-import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
-import com.mvproject.tvprogramguide.data.repository.ProgramRepository
+import com.mvproject.tvprogramguide.domain.contract.IPreferenceRepository
+import com.mvproject.tvprogramguide.domain.contract.IProgramDataSource
+import com.mvproject.tvprogramguide.domain.contract.IProgramRepository
 import com.mvproject.tvprogramguide.utils.AppConstants.empty
 import com.mvproject.tvprogramguide.utils.TimeUtils
 import com.mvproject.tvprogramguide.utils.TimeUtils.parseToInstant
@@ -18,9 +18,9 @@ import timber.log.Timber
  * @property programDataSource The data source for downloading and parsing program data.
  */
 class UpdateProgramsUseCase(
-    private val preferenceRepository: PreferenceRepository,
-    private val programRepository: ProgramRepository,
-    private val programDataSource: ProgramDataSource,
+    private val preferenceRepository: IPreferenceRepository,
+    private val programRepository: IProgramRepository,
+    private val programDataSource: IProgramDataSource,
 ) {
     /**
      * Updates the TV program information from a remote source.

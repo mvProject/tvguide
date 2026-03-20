@@ -3,10 +3,10 @@ package com.mvproject.tvprogramguide.domain.usecases
 import com.mvproject.tvprogramguide.data.model.backup.TvBackup
 import com.mvproject.tvprogramguide.data.model.domain.ChannelList
 import com.mvproject.tvprogramguide.data.model.settings.AppSettingsModel
-import com.mvproject.tvprogramguide.data.repository.AllChannelRepository
-import com.mvproject.tvprogramguide.data.repository.ChannelListRepository
-import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
-import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
+import com.mvproject.tvprogramguide.domain.contract.IAllChannelRepository
+import com.mvproject.tvprogramguide.domain.contract.IChannelListRepository
+import com.mvproject.tvprogramguide.domain.contract.IPreferenceRepository
+import com.mvproject.tvprogramguide.domain.contract.ISelectedChannelRepository
 import com.mvproject.tvprogramguide.utils.ChannelUtils.updateOrders
 
 /**
@@ -23,10 +23,10 @@ import com.mvproject.tvprogramguide.utils.ChannelUtils.updateOrders
  * @property selectedChannelRepository Repository for managing selected channels
  */
 class BackupRestoreUseCase(
-    private val preferenceRepository: PreferenceRepository,
-    private val channelListRepository: ChannelListRepository,
-    private val allChannelRepository: AllChannelRepository,
-    private val selectedChannelRepository: SelectedChannelRepository,
+    private val preferenceRepository: IPreferenceRepository,
+    private val channelListRepository: IChannelListRepository,
+    private val allChannelRepository: IAllChannelRepository,
+    private val selectedChannelRepository: ISelectedChannelRepository,
 ) {
     /**
      * Executes the backup restoration process.
