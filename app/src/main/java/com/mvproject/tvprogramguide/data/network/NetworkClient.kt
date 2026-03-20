@@ -1,5 +1,6 @@
 package com.mvproject.tvprogramguide.data.network
 
+import com.mvproject.tvprogramguide.BuildConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.HttpTimeout
@@ -16,13 +17,14 @@ object NetworkClient {
 
     const val EPG_FILE_PRIMARY = "https://iptvx.one/EPG_NOARCH.xml.gz"
     const val EPG_FILE2 = "http://epg.one/epg2.xml.gz"
-    const val EPG_FILE = "http://epg.one/epg.xml.gz"
 
     fun createHttpClient(): HttpClient {
         return HttpClient(OkHttp).config {
-            install(Logging) {
-                logger = Logger.SIMPLE
-                level = LogLevel.ALL
+            if (BuildConfig.DEBUG) {
+                install(Logging) {
+                    logger = Logger.SIMPLE
+                    level = LogLevel.ALL
+                }
             }
 
             install(ContentEncoding) {
@@ -40,9 +42,9 @@ object NetworkClient {
             }
 
             install(HttpTimeout) {
-                requestTimeoutMillis = 30_000
+                requestTimeoutMillis = 60_000
                 connectTimeoutMillis = 15_000
-                socketTimeoutMillis = 30_000
+                socketTimeoutMillis = 120_000
             }
         }
     }

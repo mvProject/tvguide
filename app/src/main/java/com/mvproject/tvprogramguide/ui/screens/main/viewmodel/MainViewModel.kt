@@ -49,10 +49,6 @@ class MainViewModel(
                 }
             }.launchIn(viewModelScope)
 
-        viewModelScope.launch {
-            updateChannelsInfoUseCase()
-        }
-
 
         combine(
             preferenceRepository.isNeedAvailableChannelsUpdate,
@@ -60,9 +56,9 @@ class MainViewModel(
             preferenceRepository.getProgramsUpdateRequiredState()
         ) { channelsUpdateRequired, plannedUpdateRequired, manualUpdateRequired ->
 
-            /*      if (channelsUpdateRequired) {
-                      updateChannelsInfoUseCase()
-                  }*/
+            if (channelsUpdateRequired) {
+                updateChannelsInfoUseCase()
+            }
 
             if (plannedUpdateRequired || manualUpdateRequired) {
                 startProgramsUpdate()
