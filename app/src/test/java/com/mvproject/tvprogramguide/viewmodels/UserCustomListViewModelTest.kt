@@ -32,10 +32,10 @@ class UserCustomListViewModelTest : StringSpec({
             selectChannelListUseCase
         )
     }
-
-    afterTest {
-        println("test ${it.a.name.testName} complete status is ${it.b.isSuccess}")
-    }
+    // todo fix tests
+    /*   afterTest {
+           println("test ${it.a.name.testName} complete status is ${it.b.isSuccess}")
+       }*/
 
     "viewmodel calls" {
         withClue("viewmodel init calls") {

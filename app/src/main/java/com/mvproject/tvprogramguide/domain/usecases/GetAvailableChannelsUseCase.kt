@@ -1,8 +1,8 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
-import com.mvproject.tvprogramguide.data.repository.AllChannelRepository
-import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
+import com.mvproject.tvprogramguide.domain.contract.IAllChannelRepository
+import com.mvproject.tvprogramguide.domain.contract.ISelectedChannelRepository
 
 /**
  * Use case for retrieving available channels, including their selection status for a specific list.
@@ -10,9 +10,9 @@ import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
  * @property allChannelRepository The repository for accessing all available channels.
  * @property selectedChannelRepository The repository for accessing selected channels.
  */
-class GetAvailableChannels(
-    private val allChannelRepository: AllChannelRepository,
-    private val selectedChannelRepository: SelectedChannelRepository,
+class GetAvailableChannelsUseCase(
+    private val allChannelRepository: IAllChannelRepository,
+    private val selectedChannelRepository: ISelectedChannelRepository,
 ) {
     /**
      * Retrieves and processes the list of available channels, marking their selection status.
@@ -32,17 +32,13 @@ class GetAvailableChannels(
 
         val favoriteChannels = selectedChannelRepository.loadSelectedChannels(listName = listName)
 
-        val selectedIds = favoriteChannels.map { it.channelId }
+        val selectedIds = favoriteChannels.mapTo(HashSet()) { it.channelId }
         // Map available channels, updating their selection status and parent list
-        val mappedChannels =
-            availableChannels
-                .map { chn ->
-                    chn.copy(
-                        isSelected = chn.channelId in selectedIds,
-                        parentList = listName,
-                    )
-                }
-
-        return mappedChannels
+        return availableChannels.map { chn ->
+            chn.copy(
+                isSelected = chn.channelId in selectedIds,
+                parentList = listName,
+            )
+        }
     }
 }

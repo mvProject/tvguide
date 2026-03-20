@@ -1,7 +1,7 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.model.domain.Program
-import com.mvproject.tvprogramguide.data.repository.ProgramRepository
+import com.mvproject.tvprogramguide.domain.contract.IProgramRepository
 import com.mvproject.tvprogramguide.domain.helpers.ProgramSchedulerHelper
 
 /**
@@ -10,8 +10,8 @@ import com.mvproject.tvprogramguide.domain.helpers.ProgramSchedulerHelper
  * @property programRepository The repository for managing program data.
  * @property programSchedulerHelper The helper for scheduling program alarms.
  */
-class ToggleProgramSchedule(
-    private val programRepository: ProgramRepository,
+class ToggleProgramScheduleUseCase(
+    private val programRepository: IProgramRepository,
     private val programSchedulerHelper: ProgramSchedulerHelper,
 ) {
     /**

@@ -14,6 +14,7 @@ import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifyOrder
+import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
@@ -120,23 +121,24 @@ class SelectedChannelRepositoryTest : FunSpec({
     }
 
     context("addChannels") {
-/*        test("should add channels correctly") {
+        test("should add channels correctly") {
             val listName = "NewList"
             val channelsToAdd = listOf(
-                SelectedChannelEntity("1", "Channel 1", "programId1", 1, listName),
-                SelectedChannelEntity("2", "Channel 2", "programId2", 2, listName)
+                SelectionChannel("1", "programId1", "Channel 1", "logo1.png"),
+                SelectionChannel("2", "programId2", "Channel 2", "logo2.png")
             )
 
             coEvery { selectedChannelDao.deleteChannels(listName) } just Runs
-            coEvery { selectedChannelDao.insertChannels(channelsToAdd) } just Runs
+            coEvery { selectedChannelDao.insertChannels(any()) } just Runs
 
             repository.addChannels(listName, channelsToAdd)
 
             coVerifyOrder {
                 selectedChannelDao.deleteChannels(listName)
-                selectedChannelDao.insertChannels(channelsToAdd)
+                selectedChannelDao.insertChannels(any())
             }
-        }*/
+            confirmVerified(selectedChannelDao)
+        }
 
         test("should handle empty list of channels")  {
             val listName = "EmptyList"
@@ -150,26 +152,8 @@ class SelectedChannelRepositoryTest : FunSpec({
                 selectedChannelDao.deleteChannels(listName)
                 selectedChannelDao.insertChannels(emptyList())
             }
+            confirmVerified(selectedChannelDao)
         }
 
-        /* test("should handle transaction failure")  {
-             val listName = "FailList"
-             val channelsToAdd = listOf(
-                 SelectedChannelEntity("1", "Channel 1", "programId1", 1, listName)
-             )
-
-             coEvery { selectedChannelDao.deleteChannels(listName) } throws RuntimeException("Database error")
-
-             kotlin.runCatching {
-                 repository.addChannels(listName, channelsToAdd)
-             }
-
-             coVerify(exactly = 1) {
-                 selectedChannelDao.deleteChannels(listName)
-             }
-             coVerify(exactly = 0) {
-                 selectedChannelDao.insertChannels(any())
-             }
-         }*/
     }
 })
