@@ -41,10 +41,7 @@ class FullUpdateProgramsWorker(
     @RequiresApi(Build.VERSION_CODES.Q)
     override suspend fun doWork(): Result {
 
-        Timber.d("testing FullUpdateProgramsWorker start update")
-
-        val channelsCount = 2300
-        var current = COUNT_ZERO
+        Timber.d("FullUpdateProgramsWorker start update")
 
         val notificationManager =
             applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -60,6 +57,9 @@ class FullUpdateProgramsWorker(
             setOnlyAlertOnce(true)
         }
 
+        val channelsCount = 2300
+        var current = COUNT_ZERO
+
         setForeground(
             ForegroundInfo(
                 UPDATE_NOTIFICATION_ID,
@@ -67,33 +67,45 @@ class FullUpdateProgramsWorker(
                 FOREGROUND_SERVICE_TYPE_DATA_SYNC
             )
         )
-
-        updateProgramsUseCase {
-            current += COUNT_ONE
-            val progress = ((current / channelsCount.toFloat()) * 100).toInt()
-
-            updateNotificationBuilder.apply {
-                setProgress(channelsCount, current, false)
-                setContentText("Updating: $progress%")
-            }
-
-            notificationManager.notify(UPDATE_NOTIFICATION_ID, updateNotificationBuilder.build())
+        updateNotificationBuilder.apply {
+            setProgress(channelsCount, current, false)
+            setContentText("Updating: $current%")
         }
 
-        // Update notification to show completion
-        //updateNotificationBuilder.setContentText("Update complete")
-        //    .setProgress(COUNT_ZERO, COUNT_ZERO, false)
-        //notificationManager.notify(UPDATE_NOTIFICATION_ID, updateNotificationBuilder.build())
+        if (runAttemptCount >= MAX_RUN_ATTEMPTS) {
+            Timber.e("FullUpdateProgramsWorker giving up after $runAttemptCount attempts")
+            return Result.failure()
+        }
 
-        Timber.w("testing FullUpdateProgramsWorker end update")
+        return try {
+            updateProgramsUseCase {
+                current += COUNT_ONE
+                val progress = ((current / channelsCount.toFloat()) * 100).toInt()
 
-        return Result.success()
+                updateNotificationBuilder.apply {
+                    setProgress(channelsCount, current, false)
+                    setContentText("Updating: $progress%")
+                }
+
+                notificationManager.notify(
+                    UPDATE_NOTIFICATION_ID,
+                    updateNotificationBuilder.build()
+                )
+            }
+
+            Timber.d("FullUpdateProgramsWorker end update")
+            Result.success()
+        } catch (ex: Exception) {
+            Timber.e("FullUpdateProgramsWorker failed (attempt ${runAttemptCount + 1}/$MAX_RUN_ATTEMPTS): ${ex.message}")
+            Result.retry()
+        }
     }
 
     companion object {
         const val UPDATE_NOTIFICATION_CHANNEL_ID = "Download Updates"
         const val UPDATE_NOTIFICATION_CHANNEL_NAME = "Update Notifications"
         const val UPDATE_NOTIFICATION_ID = 1001
+        private const val MAX_RUN_ATTEMPTS = 3
     }
 }
 

@@ -49,6 +49,7 @@ class MainViewModel(
                 }
             }.launchIn(viewModelScope)
 
+
         combine(
             preferenceRepository.isNeedAvailableChannelsUpdate,
             preferenceRepository.isNeedFullProgramsUpdate,
