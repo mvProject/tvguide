@@ -2,7 +2,7 @@ package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.datasource.ProgramDataSource
 import com.mvproject.tvprogramguide.data.model.parse.ProgramDTO
-import com.mvproject.tvprogramguide.data.network.NetworkClient.EPG_FILE
+import com.mvproject.tvprogramguide.data.network.NetworkClient.EPG_FILE2
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.data.repository.ProgramRepository
 import com.mvproject.tvprogramguide.utils.AppConstants.empty
@@ -38,7 +38,7 @@ class UpdateProgramsUseCase(
         val programsDto = mutableListOf<ProgramDTO>()
         var currentId = String.empty
 
-        programDataSource.downloadAndParseXml(url = EPG_FILE) { programme ->
+        programDataSource.downloadAndParseXml(url = EPG_FILE2) { programme ->
             val start = parseToInstant(programme.start)
             val end = parseToInstant(programme.stop)
 

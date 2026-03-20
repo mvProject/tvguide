@@ -4,6 +4,7 @@ import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithProgram
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.data.repository.ProgramRepository
 import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
+import com.mvproject.tvprogramguide.utils.AppConstants.empty
 import com.mvproject.tvprogramguide.utils.ProgramUtils.toSelectedChannelWithPrograms
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -52,7 +53,7 @@ class SelectedChannelsWithPrograms(
                 programRepository.loadProgramsForChannels(channelsIds = selectedChannelIds)
 
             if (isBrokenChannelsExists) {
-                val parentList = actualChannels.first().parentList
+                val parentList = actualChannels.firstOrNull()?.parentList ?: String.empty
                 selectedChannelRepository.addChannels(
                     listName = parentList,
                     selectedChannels = actualChannels

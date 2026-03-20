@@ -16,7 +16,7 @@ fun AppVersion(
     val context = LocalContext.current
     val appVersion = try {
         val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-        packageInfo.versionName
+        packageInfo.versionName ?: String.empty
     } catch (e: Exception) {
         String.empty
     }

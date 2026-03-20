@@ -3,7 +3,6 @@ package com.mvproject.tvprogramguide.domain.usecases
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.repository.ProgramRepository
 import com.mvproject.tvprogramguide.domain.helpers.ProgramSchedulerHelper
-import kotlin.random.Random
 
 /**
  * Use case for toggling the schedule state of a program.
@@ -35,7 +34,8 @@ class ToggleProgramSchedule(
         val selectedProgram =
             if (program.scheduledId == null) {
                 // Program is not scheduled, create a new schedule
-                val id = Random.nextLong()
+                val id =
+                    program.dateTimeStart + program.dateTimeEnd + program.title.hashCode() + program.channel.hashCode()
                 val scheduled = program.copy(scheduledId = id)
                 programSchedulerHelper.scheduleProgramAlarm(
                     programSchedule = scheduled,

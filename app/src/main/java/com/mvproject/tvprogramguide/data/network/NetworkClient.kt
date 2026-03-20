@@ -14,7 +14,9 @@ import kotlinx.serialization.json.Json
 
 object NetworkClient {
 
-    const val EPG_FILE = "http://epg.one/epg2.xml.gz"
+    const val EPG_FILE_PRIMARY = "https://iptvx.one/EPG_NOARCH.xml.gz"
+    const val EPG_FILE2 = "http://epg.one/epg2.xml.gz"
+    const val EPG_FILE = "http://epg.one/epg.xml.gz"
 
     fun createHttpClient(): HttpClient {
         return HttpClient(OkHttp).config {
@@ -37,7 +39,11 @@ object NetworkClient {
                 )
             }
 
-            install(HttpTimeout)
+            install(HttpTimeout) {
+                requestTimeoutMillis = 30_000
+                connectTimeoutMillis = 15_000
+                socketTimeoutMillis = 30_000
+            }
         }
     }
 }

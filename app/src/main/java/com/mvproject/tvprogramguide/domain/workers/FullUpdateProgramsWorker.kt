@@ -43,9 +43,6 @@ class FullUpdateProgramsWorker(
 
         Timber.d("testing FullUpdateProgramsWorker start update")
 
-        val channelsCount = 2300
-        var current = COUNT_ZERO
-
         val notificationManager =
             applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -60,6 +57,9 @@ class FullUpdateProgramsWorker(
             setOnlyAlertOnce(true)
         }
 
+        val channelsCount = 2300
+        var current = COUNT_ZERO
+
         setForeground(
             ForegroundInfo(
                 UPDATE_NOTIFICATION_ID,
@@ -67,6 +67,10 @@ class FullUpdateProgramsWorker(
                 FOREGROUND_SERVICE_TYPE_DATA_SYNC
             )
         )
+        updateNotificationBuilder.apply {
+            setProgress(channelsCount, current, false)
+            setContentText("Updating: $current%")
+        }
 
         updateProgramsUseCase {
             current += COUNT_ONE
@@ -79,11 +83,6 @@ class FullUpdateProgramsWorker(
 
             notificationManager.notify(UPDATE_NOTIFICATION_ID, updateNotificationBuilder.build())
         }
-
-        // Update notification to show completion
-        //updateNotificationBuilder.setContentText("Update complete")
-        //    .setProgress(COUNT_ZERO, COUNT_ZERO, false)
-        //notificationManager.notify(UPDATE_NOTIFICATION_ID, updateNotificationBuilder.build())
 
         Timber.w("testing FullUpdateProgramsWorker end update")
 

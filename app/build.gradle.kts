@@ -14,7 +14,7 @@ plugins {
 
 android {
     namespace = "com.mvproject.tvprogramguide"
-    compileSdk = 34
+    compileSdk = 35
 
     val projectProperties = readProperties(file("../keystore.properties"))
     signingConfigs {
@@ -27,8 +27,8 @@ android {
     }
 
     defaultConfig {
-        minSdk = 24
-        targetSdk = 34
+        minSdk = 26
+        targetSdk = 35
         versionCode = 90
         versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

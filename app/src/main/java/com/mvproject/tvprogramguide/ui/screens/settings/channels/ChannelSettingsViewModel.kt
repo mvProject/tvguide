@@ -15,7 +15,9 @@ import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
 import com.mvproject.tvprogramguide.utils.ChannelUtils.updateOrders
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -27,7 +29,11 @@ class ChannelSettingsViewModel(
     private val selectedChannelRepository: SelectedChannelRepository
 ) : ViewModel() {
     private val _viewState = MutableStateFlow(ChannelSettingsState())
-    val viewState = _viewState.asStateFlow()
+    val viewState = _viewState.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(3000L),
+        ChannelSettingsState()
+    )
 
     val allChannels = mutableStateListOf<SelectionChannel>()
 

@@ -2,8 +2,8 @@ package com.mvproject.tvprogramguide.ui.screens.settings.backup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.mvproject.tvprogramguide.data.model.backup.TvBackup
 import com.mvproject.tvprogramguide.data.repository.BackupRepository
 import com.mvproject.tvprogramguide.data.repository.ChannelListRepository

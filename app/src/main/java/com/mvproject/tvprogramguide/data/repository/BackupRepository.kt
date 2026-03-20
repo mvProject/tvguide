@@ -1,14 +1,13 @@
 package com.mvproject.tvprogramguide.data.repository
 
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.database.database
 import com.mvproject.tvprogramguide.BuildConfig
 import com.mvproject.tvprogramguide.data.model.backup.TvBackup
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import timber.log.Timber
 

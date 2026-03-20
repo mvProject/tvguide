@@ -13,8 +13,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.ui.screens.settings.backup.action.BackupAction
 import com.mvproject.tvprogramguide.ui.theme.dimens

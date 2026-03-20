@@ -7,23 +7,21 @@ import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
 import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
 import com.mvproject.tvprogramguide.ui.screens.settings.app.action.AppSettingsAction
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class AppSettingsViewModel(
     private val preferenceRepository: PreferenceRepository
 ) : ViewModel() {
 
-    private var _settingsState = MutableStateFlow(AppSettingsModel())
-    val settingsState = _settingsState.asStateFlow()
-
-    init {
-        viewModelScope.launch(Dispatchers.IO) {
-            preferenceRepository.loadAppSettings().collect { settings ->
-                _settingsState.value = settings
-            }
-        }
+    val settingsState by lazy {
+        preferenceRepository.loadAppSettings()
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(3000L),
+                AppSettingsModel()
+            )
     }
 
     val getThemeDefaultSelectedIndex
