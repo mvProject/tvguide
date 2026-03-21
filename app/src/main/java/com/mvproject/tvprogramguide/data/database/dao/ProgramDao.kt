@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Upsert
 import com.mvproject.tvprogramguide.data.database.entity.ProgramEntity
 
@@ -23,6 +24,12 @@ interface ProgramDao {
 
     @Query("DELETE FROM programs WHERE dateTimeEnd < :timeStamp")
     suspend fun deleteProgramsByDate(timeStamp: Long)
+
+    @Transaction
+    suspend fun replacePrograms(channelId: String, programs: List<ProgramEntity>) {
+        deletePrograms(channelId)
+        insertPrograms(programs)
+    }
 
     @Upsert
     suspend fun updateProgram(programForUpdate: ProgramEntity)

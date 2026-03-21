@@ -7,8 +7,10 @@ import com.mvproject.tvprogramguide.domain.contract.ISelectedChannelRepository
 import com.mvproject.tvprogramguide.utils.AppConstants.empty
 import com.mvproject.tvprogramguide.utils.ProgramUtils.toSelectedChannelWithPrograms
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 
 /**
  * Use case for retrieving selected channels with their associated programs.
@@ -37,9 +39,11 @@ class GetSelectedChannelsWithProgramsUseCase(
         return selectedChannelRepository.loadSelectedChannelsAsFlow()
             .map { selectedChannels ->
                 // Single pass: partition into broken and valid channels
-                val (broken, valid) = selectedChannels.partition {
-                    it.channelName.isBlank() && it.channelIcon.isBlank()
-                }
+                selectedChannels.partition { it.channelName.isBlank() && it.channelIcon.isBlank() }
+            }
+            .onEach { (broken, valid) ->
+                // Side effect kept out of the transform: write only when cleanup is needed.
+                // The resulting DB emission will have no broken channels, so this runs at most once.
                 if (broken.isNotEmpty()) {
                     val parentList = valid.firstOrNull()?.parentList ?: String.empty
                     selectedChannelRepository.addChannels(
@@ -47,8 +51,9 @@ class GetSelectedChannelsWithProgramsUseCase(
                         selectedChannels = valid,
                     )
                 }
-                valid
             }
+            .map { (_, valid) -> valid }
+            .distinctUntilChanged()
             .flatMapLatest { actualChannels ->
                 // DB query only runs when channels change, not on every settings change
                 val ids = actualChannels.map { it.programId }
