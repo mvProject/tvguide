@@ -7,7 +7,7 @@ import org.gradle.kotlin.dsl.configure
 class AndroidApplicationComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         with(pluginManager) {
-            apply("tvguide.android.application")
+            apply("mvproject.android.application")
             apply("org.jetbrains.kotlin.plugin.compose")
         }
 

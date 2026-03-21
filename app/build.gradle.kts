@@ -1,12 +1,7 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.android.kotlin)
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.ksp)
+    alias(libs.plugins.mvproject.android.application.compose)
     alias(libs.plugins.firebase.crashlitycs)
     alias(libs.plugins.gms.googleServices)
     alias(libs.plugins.kotlin.parcelize)
@@ -15,7 +10,6 @@ plugins {
 
 android {
     namespace = "com.mvproject.tvprogramguide"
-    compileSdk = 35
 
     val projectProperties = readProperties(file("../keystore.properties"))
     signingConfigs {
@@ -28,11 +22,8 @@ android {
     }
 
     defaultConfig {
-        minSdk = 26
-        targetSdk = 35
         versionCode = 90
         versionName = "1.0.0"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         androidResources {
             localeFilters += listOf(
@@ -94,35 +85,12 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlin {
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_17
-        }
-    }
-
     buildFeatures {
-        compose = true
         buildConfig = true
     }
 
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-            excludes += "**/attach_hotspot_windows.dll"
-            excludes += "META-INF/licenses/**"
-            excludes += "META-INF/**.md"
-        }
-    }
-
     testOptions {
-        unitTests.all {
-            it.useJUnitPlatform()
-        }
+        unitTests.all { it.useJUnitPlatform() }
     }
 }
 
@@ -134,8 +102,6 @@ fun readProperties(propertiesFile: File) =
     }
 
 dependencies {
-    implementation(libs.bundles.appLibraries)
-
     implementation(libs.dataStore)
 
     implementation(libs.kotlinx.serialization.json)
@@ -145,11 +111,8 @@ dependencies {
     // image
     implementation(libs.coil.compose)
 
-    // Compose
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.bundles.compose.core)
-    implementation(libs.bundles.compose.lifecycle)
-    implementation(libs.bundles.compose.material.icons)
+    // navigation (not provided by convention plugin)
+    implementation(libs.androidx.compose.navigation)
 
     implementation(libs.startUp)
 

@@ -1,9 +1,6 @@
 package common
 
 import com.android.build.api.dsl.CommonExtension
-import debugImplementation
-import implementation
-import libs
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
