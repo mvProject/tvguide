@@ -2,51 +2,46 @@ package com.mvproject.tvprogramguide.utils
 
 import androidx.compose.animation.BoundsTransform
 import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
-import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.ui.geometry.Rect
-import com.mvproject.tvprogramguide.utils.AppConstants.ANIM_DURATION_750
 
-val openControlAnimation = fadeIn(animationSpec = tween(ANIM_DURATION_750))
-val closeControlAnimation = fadeOut(animationSpec = tween(ANIM_DURATION_750))
+// NavHost default transitions (Material 3 Emphasized motion)
+val navEnterTransition =
+    fadeIn(tween(300, easing = FastOutSlowInEasing)) +
+            scaleIn(tween(300, easing = FastOutSlowInEasing), initialScale = 0.92f)
 
-val openScreenAnimation = fadeIn(tween(ANIM_DURATION_750)) +
-        slideInVertically(
-            animationSpec = tween(ANIM_DURATION_750),
-            initialOffsetY = { it },
-        )
+val navExitTransition =
+    fadeOut(tween(200, easing = FastOutLinearInEasing))
 
-val closeScreenAnimation = fadeOut(tween(ANIM_DURATION_750)) +
-        slideOutVertically(
-            animationSpec = tween(ANIM_DURATION_750),
-            targetOffsetY = { it },
-        )
+val navPopEnterTransition =
+    fadeIn(tween(300, easing = FastOutSlowInEasing))
 
+val navPopExitTransition =
+    fadeOut(tween(200, easing = FastOutLinearInEasing)) +
+            scaleOut(tween(200, easing = FastOutLinearInEasing), targetScale = 0.92f)
 
+// Content transitions inside sharedBounds (Container Transform)
+// The BoundsTransform spring handles spatial movement; content just fades subtly
+val sharedBoundsEnter = fadeIn(tween(150, easing = LinearEasing))
+val sharedBoundsExit = fadeOut(tween(75, easing = LinearEasing))
+
+// Spring BoundsTransform for Container Transform morphing (M3 Emphasized)
 @OptIn(ExperimentalSharedTransitionApi::class)
-val slideOutDetailsBoundsTransform =
-    BoundsTransform { initialBounds, targetBounds ->
-        if (targetBounds.size.width < initialBounds.size.width) {
-            keyframes {
-                durationMillis = ANIM_DURATION_750
-                Rect(
-                    top = targetBounds.top,
-                    bottom = targetBounds.bottom,
-                    left = initialBounds.left,
-                    right = initialBounds.right,
-                ) atFraction 1.0f
-            }
-        } else {
-            spring(
-                stiffness = Spring.StiffnessMediumLow,
-                visibilityThreshold = Rect.VisibilityThreshold,
-            )
-        }
+val containerTransformBoundsTransform =
+    BoundsTransform { _, _ ->
+        spring(
+            dampingRatio = Spring.DampingRatioNoBouncy,
+            stiffness = Spring.StiffnessMediumLow,
+            visibilityThreshold = Rect.VisibilityThreshold,
+        )
     }

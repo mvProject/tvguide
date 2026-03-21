@@ -20,8 +20,9 @@ import coil3.compose.AsyncImage
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
-import com.mvproject.tvprogramguide.utils.closeControlAnimation
-import com.mvproject.tvprogramguide.utils.openControlAnimation
+import com.mvproject.tvprogramguide.utils.containerTransformBoundsTransform
+import com.mvproject.tvprogramguide.utils.sharedBoundsEnter
+import com.mvproject.tvprogramguide.utils.sharedBoundsExit
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -39,8 +40,9 @@ fun ChannelItem(
                 .sharedBounds(
                     sharedContentState = rememberSharedContentState(key = channelName),
                     animatedVisibilityScope = animatedVisibilityScope,
-                    enter = openControlAnimation,
-                    exit = closeControlAnimation,
+                    enter = sharedBoundsEnter,
+                    exit = sharedBoundsExit,
+                    boundsTransform = containerTransformBoundsTransform,
                 )
                 .clickable(onClick = onClickAction)
                 .clip(MaterialTheme.shapes.extraSmall),

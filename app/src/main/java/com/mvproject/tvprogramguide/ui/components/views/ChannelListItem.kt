@@ -24,8 +24,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
-import com.mvproject.tvprogramguide.utils.closeControlAnimation
-import com.mvproject.tvprogramguide.utils.openControlAnimation
+import com.mvproject.tvprogramguide.utils.containerTransformBoundsTransform
+import com.mvproject.tvprogramguide.utils.sharedBoundsEnter
+import com.mvproject.tvprogramguide.utils.sharedBoundsExit
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalSharedTransitionApi::class)
 @Composable
@@ -48,8 +49,9 @@ fun ChannelListItem(
                 .sharedBounds(
                     sharedContentState = rememberSharedContentState(key = listName),
                     animatedVisibilityScope = animatedVisibilityScope,
-                    enter = openControlAnimation,
-                    exit = closeControlAnimation,
+                    enter = sharedBoundsEnter,
+                    exit = sharedBoundsExit,
+                    boundsTransform = containerTransformBoundsTransform,
                 )
                 .combinedClickable(
                     onClick = onItemAction, onLongClick = onItemSelect
