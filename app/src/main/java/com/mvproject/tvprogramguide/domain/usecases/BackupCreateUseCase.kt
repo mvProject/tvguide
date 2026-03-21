@@ -34,9 +34,10 @@ class BackupCreateUseCase(
         val settings = preferenceRepository.loadAppSettings().first()
         val playlists = channelListRepository.loadChannelsLists()
 
+        val playlistByName = playlists.associateBy { it.listName }
         val channelsContent = buildList {
             lists.forEach { name ->
-                playlists.firstOrNull { it.listName == name }?.let { playlist ->
+                playlistByName[name]?.let { playlist ->
                     val channels = selectedChannelRepository
                         .loadSelectedChannels(listName = playlist.listName)
                         .sortedBy { item -> item.order }

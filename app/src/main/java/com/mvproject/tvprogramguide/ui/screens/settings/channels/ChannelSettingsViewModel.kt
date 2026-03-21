@@ -133,7 +133,7 @@ class ChannelSettingsViewModel(
     }
 
     fun applyChanges() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             selectedChannelRepository.addChannels(
                 listName = name,
                 selectedChannels = selected.value,

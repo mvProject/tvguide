@@ -10,16 +10,14 @@ import java.util.Locale
 
 private const val TARGET_DATE_FORMAT = "dd MM yyyy"
 
+private val dateFormatter = SimpleDateFormat(TARGET_DATE_FORMAT, Locale.getDefault())
+
 /**
  * Converts a Long timestamp to a readable date format.
  *
  * @return A string representation of the date in the format "dd MM yyyy".
  */
-fun Long.convertDateToReadableFormat(): String =
-    SimpleDateFormat(
-        TARGET_DATE_FORMAT,
-        Locale.getDefault(),
-    ).format(this)
+fun Long.convertDateToReadableFormat(): String = dateFormatter.format(this)
 
 
 /**

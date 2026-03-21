@@ -13,21 +13,21 @@ import com.mvproject.tvprogramguide.domain.usecases.SelectChannelListUseCase
 import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramScheduleUseCase
 import com.mvproject.tvprogramguide.domain.usecases.UpdateChannelsInfoUseCase
 import com.mvproject.tvprogramguide.domain.usecases.UpdateProgramsUseCase
-import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
 val useCaseModule = module {
-    singleOf(::AddChannelListUseCase)
-    singleOf(::CleanProgramsUseCase)
-    singleOf(::DeleteChannelListUseCase)
-    singleOf(::GetAvailableChannelsUseCase)
-    singleOf(::GetProgramsByChannelUseCase)
-    singleOf(::GetSelectedChannelsUseCase)
-    singleOf(::SelectChannelListUseCase)
-    singleOf(::GetSelectedChannelsWithProgramsUseCase)
-    singleOf(::ToggleProgramScheduleUseCase)
-    singleOf(::UpdateChannelsInfoUseCase)
-    singleOf(::UpdateProgramsUseCase)
-    singleOf(::BackupCreateUseCase)
-    singleOf(::BackupRestoreUseCase)
+    factoryOf(::AddChannelListUseCase)
+    factoryOf(::CleanProgramsUseCase)
+    factoryOf(::DeleteChannelListUseCase)
+    factoryOf(::GetAvailableChannelsUseCase)
+    factoryOf(::GetProgramsByChannelUseCase)
+    factoryOf(::GetSelectedChannelsUseCase)
+    factoryOf(::SelectChannelListUseCase)
+    factoryOf(::GetSelectedChannelsWithProgramsUseCase)
+    factoryOf(::ToggleProgramScheduleUseCase)
+    factoryOf(::UpdateChannelsInfoUseCase)
+    factoryOf(::UpdateProgramsUseCase)
+    factoryOf(::BackupCreateUseCase)
+    factoryOf(::BackupRestoreUseCase)
 }

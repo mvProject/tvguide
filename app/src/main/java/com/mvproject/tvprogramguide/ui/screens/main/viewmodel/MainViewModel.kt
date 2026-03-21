@@ -12,11 +12,13 @@ import com.mvproject.tvprogramguide.domain.helpers.NetworkHelper
 import com.mvproject.tvprogramguide.domain.usecases.CleanProgramsUseCase
 import com.mvproject.tvprogramguide.domain.usecases.UpdateChannelsInfoUseCase
 import com.mvproject.tvprogramguide.domain.workers.FullUpdateProgramsWorker
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class MainViewModel(
@@ -57,7 +59,7 @@ class MainViewModel(
         ) { channelsUpdateRequired, plannedUpdateRequired, manualUpdateRequired ->
 
             if (channelsUpdateRequired) {
-                updateChannelsInfoUseCase()
+                withContext(Dispatchers.IO) { updateChannelsInfoUseCase() }
             }
 
             if (plannedUpdateRequired || manualUpdateRequired) {
@@ -65,7 +67,7 @@ class MainViewModel(
             }
         }.launchIn(viewModelScope)
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             cleanProgramsUseCase()
         }
     }
