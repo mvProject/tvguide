@@ -32,6 +32,10 @@ class SingleChannelViewModel(
     private val channelId get() = singleChannelArgs.channelId
 
     init {
+        reloadPrograms()
+    }
+
+    fun reloadPrograms() {
         viewModelScope.launch(Dispatchers.IO) {
             val programsWithChannels = getProgramsByChannel(channelId = channelId)
 

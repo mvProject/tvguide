@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -36,30 +37,23 @@ class ChannelViewModel(
     private var channelsJob: Job? = null
 
     init {
-        preferenceRepository.loadOnBoardState()
+        combine(
+            preferenceRepository.loadOnBoardState(),
+            channelListRepository.loadChannelsListsAsFlow()
+        ) { onboardState, allLists ->
+            val listName = allLists.firstOrNull { it.isSelected }?.listName ?: String.empty
+            Triple(onboardState, allLists.toImmutableList(), listName)
+        }
             .flowOn(Dispatchers.IO)
-            .onEach { onboardState ->
+            .onEach { (onboardState, playlists, listName) ->
                 _viewState.update { state ->
-                    state.copy(isOnboard = onboardState)
-                }
-
-            }.launchIn(viewModelScope)
-
-        channelListRepository.loadChannelsListsAsFlow()
-            .flowOn(Dispatchers.IO)
-            .onEach { allLists ->
-
-                _viewState.update { state ->
-                    val listName =
-                        allLists.firstOrNull { it.isSelected }?.listName ?: String.empty
-
                     state.copy(
+                        isOnboard = onboardState,
                         listName = listName,
-                        playlists = allLists.toImmutableList(),
+                        playlists = playlists,
                         isLoading = listName.isNotEmpty()
                     )
                 }
-
             }.launchIn(viewModelScope)
     }
 
@@ -78,6 +72,7 @@ class ChannelViewModel(
     }
 
     private fun startProgramsObserving() {
+        channelsJob?.cancel()
         channelsJob = selectedChannelsWithPrograms()
             .flowOn(Dispatchers.IO)
             .onEach { programs ->

@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
@@ -43,6 +44,12 @@ fun SingleChannelScreen(
     onNavigateBack: () -> Unit,
 ) {
     val selectedPrograms by viewModel.selectedPrograms.collectAsStateWithLifecycle()
+
+    LifecycleResumeEffect(Unit) {
+        viewModel.reloadPrograms()
+        onPauseOrDispose { }
+    }
+
     SingleChannelContent(
         name = viewModel.name,
         programs = selectedPrograms,
