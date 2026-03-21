@@ -2,6 +2,9 @@
 # plugins
 kotlin = "2.3.20"
 gradle = "8.12.3"
+compileSdk = "35"
+minSdk = "26"
+targetSdk = "35"
 ksp = "2.3.2"
 crashlyticsGradle = "3.0.6"
 googleServices = "4.4.4"
@@ -89,6 +92,11 @@ gms-googleServices = { id = "com.google.gms.google-services", version.ref = "goo
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlinx-serialization-plugin = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
+tvguide-android-application = { id = "tvguide.android.application" }
+tvguide-android-application-compose = { id = "tvguide.android.application.compose" }
+tvguide-android-library = { id = "tvguide.android.library" }
+tvguide-android-library-compose = { id = "tvguide.android.library.compose" }
 
 [libraries]
 # Core
@@ -198,6 +206,12 @@ testAndroidEspresso = { module = "androidx.test.espresso:espresso-core", version
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
 
+# Gradle plugin artifacts for build-logic compileOnly
+android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+compose-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+
 [bundles]
 
 appLibraries = [
@@ -226,7 +240,7 @@ workManager = [
 #    "app-update-ktx"
 #]
 
-compose_core = [
+compose-core = [
     "androidx-compose-activity",
     "androidx-compose-ui-ui",
     "androidx-compose-material3-material3",
@@ -239,7 +253,7 @@ compose-material-icons = [
     "androidx-compose-material-icons-extended"
 ]
 
-compose_lifecycle = [
+compose-lifecycle = [
     "androidx-compose-lifecycle-runtime",
     "androidx-compose-lifecycle-viewmodel"
 ]
