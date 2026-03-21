@@ -111,6 +111,12 @@ class UpdateProgramsUseCaseTest : FunSpec({
             }
             coVerify(exactly = 1) { preferenceRepository.setProgramsUpdateLastTime(timeInMillis = currentTime) }
             coVerify(exactly = 1) { preferenceRepository.setProgramsUpdateRequiredState(false) }
+            coVerify(exactly = 1) {
+                programDataSource.downloadAndParseXml(
+                    url = any(),
+                    onProgrammeParsed = any()
+                )
+            }
             // onNextId called once per new channel encountered
             assert(nextIdCount == 1) { "Expected onNextId to be called once, was $nextIdCount" }
             confirmVerified(preferenceRepository, programRepository, programDataSource)
@@ -194,6 +200,12 @@ class UpdateProgramsUseCaseTest : FunSpec({
             }
             coVerify(exactly = 1) { preferenceRepository.setProgramsUpdateLastTime(timeInMillis = currentTime) }
             coVerify(exactly = 1) { preferenceRepository.setProgramsUpdateRequiredState(false) }
+            coVerify(exactly = 1) {
+                programDataSource.downloadAndParseXml(
+                    url = any(),
+                    onProgrammeParsed = any()
+                )
+            }
             assert(nextIdCount == 2) { "Expected onNextId to be called twice, was $nextIdCount" }
             confirmVerified(preferenceRepository, programRepository, programDataSource)
         }
@@ -228,6 +240,12 @@ class UpdateProgramsUseCaseTest : FunSpec({
             coVerify(exactly = 0) { programRepository.updatePrograms(any(), any()) }
             coVerify(exactly = 0) { preferenceRepository.setProgramsUpdateLastTime(any()) }
             coVerify(exactly = 0) { preferenceRepository.setProgramsUpdateRequiredState(any()) }
+            coVerify(exactly = 1) {
+                programDataSource.downloadAndParseXml(
+                    url = any(),
+                    onProgrammeParsed = any()
+                )
+            }
             confirmVerified(preferenceRepository, programRepository, programDataSource)
         }
 
@@ -291,6 +309,12 @@ class UpdateProgramsUseCaseTest : FunSpec({
             }
             coVerify(exactly = 1) { preferenceRepository.setProgramsUpdateLastTime(timeInMillis = currentTime) }
             coVerify(exactly = 1) { preferenceRepository.setProgramsUpdateRequiredState(false) }
+            coVerify(exactly = 1) {
+                programDataSource.downloadAndParseXml(
+                    url = any(),
+                    onProgrammeParsed = any()
+                )
+            }
             // onNextId called once per channel that has valid programs
             assert(nextIdCount == 1) { "Expected onNextId to be called once, was $nextIdCount" }
             confirmVerified(preferenceRepository, programRepository, programDataSource)
@@ -311,6 +335,12 @@ class UpdateProgramsUseCaseTest : FunSpec({
             coVerify(exactly = 0) { programRepository.updatePrograms(any(), any()) }
             coVerify(exactly = 0) { preferenceRepository.setProgramsUpdateLastTime(any()) }
             coVerify(exactly = 0) { preferenceRepository.setProgramsUpdateRequiredState(any()) }
+            coVerify(exactly = 1) {
+                programDataSource.downloadAndParseXml(
+                    url = any(),
+                    onProgrammeParsed = any()
+                )
+            }
             // onNextId not called when no valid programs are parsed
             assert(nextIdCount == 0) { "Expected onNextId not to be called, was $nextIdCount" }
             confirmVerified(preferenceRepository, programRepository, programDataSource)

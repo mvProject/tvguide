@@ -62,7 +62,7 @@ class UpdateProgramsUseCase(
                             if (programsDto.isNotEmpty()) {
                                 programRepository.updatePrograms(
                                     channelId = currentId,
-                                    programs = programsDto,
+                                    programs = programsDto.toList(),
                                 )
                             }
                             programsDto.clear()
@@ -82,7 +82,7 @@ class UpdateProgramsUseCase(
 
         // Flush the last channel's batch — it never triggers the channel-change branch above
         if (programsDto.isNotEmpty()) {
-            programRepository.updatePrograms(channelId = currentId, programs = programsDto)
+            programRepository.updatePrograms(channelId = currentId, programs = programsDto.toList())
         }
 
         if (programmeCount > 0) {

@@ -1,10 +1,8 @@
 package com.mvproject.tvprogramguide.repository
 
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import app.cash.turbine.test
@@ -17,12 +15,14 @@ import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_PROGRAMS_VISIBLE_
 import com.mvproject.tvprogramguide.utils.AppConstants.NO_VALUE_LONG
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
+import io.mockk.clearMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
+import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.datetime.Clock
 import kotlin.time.Duration.Companion.days
@@ -47,7 +47,13 @@ class PreferenceRepositoryTest : FunSpec({
     beforeTest {
         dataStore = mockk()
         preferences = mockk()
+        // Stub dataStore.data before construction because isNeedFullProgramsUpdate and
+        // isNeedAvailableChannelsUpdate eagerly call loadAppSettings()/loadProgramsUpdateLastTime()
+        // etc. which access dataStore.data at construction time.
+        every { dataStore.data } returns flowOf(preferences)
         repository = PreferenceRepository(dataStore)
+        // Clear construction-time recorded calls so confirmVerified works correctly per-test.
+        clearMocks(dataStore, answers = false)
     }
 
     afterTest {
@@ -63,6 +69,7 @@ class PreferenceRepositoryTest : FunSpec({
                 awaitItem() shouldBe true
                 awaitComplete()
             }
+            verify(exactly = 1) { dataStore.data }
             confirmVerified(dataStore)
         }
 
@@ -74,6 +81,7 @@ class PreferenceRepositoryTest : FunSpec({
                 awaitItem() shouldBe false
                 awaitComplete()
             }
+            verify(exactly = 1) { dataStore.data }
             confirmVerified(dataStore)
         }
     }
@@ -85,6 +93,7 @@ class PreferenceRepositoryTest : FunSpec({
 
             val result = repository.getProgramsCleanTime()
             result shouldBe NO_VALUE_LONG
+            verify(exactly = 1) { dataStore.data }
             confirmVerified(dataStore)
         }
 
@@ -95,6 +104,7 @@ class PreferenceRepositoryTest : FunSpec({
 
             val result = repository.getProgramsCleanTime()
             result shouldBe storedTime
+            verify(exactly = 1) { dataStore.data }
             confirmVerified(dataStore)
         }
     }
@@ -116,6 +126,7 @@ class PreferenceRepositoryTest : FunSpec({
                 )
                 awaitComplete()
             }
+            verify(exactly = 1) { dataStore.data }
             confirmVerified(dataStore)
         }
 
@@ -135,6 +146,7 @@ class PreferenceRepositoryTest : FunSpec({
                 )
                 awaitComplete()
             }
+            verify(exactly = 1) { dataStore.data }
             confirmVerified(dataStore)
         }
     }
@@ -148,6 +160,7 @@ class PreferenceRepositoryTest : FunSpec({
                 awaitItem() shouldBe false
                 awaitComplete()
             }
+            verify(exactly = 1) { dataStore.data }
             confirmVerified(dataStore)
         }
 
@@ -159,6 +172,7 @@ class PreferenceRepositoryTest : FunSpec({
                 awaitItem() shouldBe true
                 awaitComplete()
             }
+            verify(exactly = 1) { dataStore.data }
             confirmVerified(dataStore)
         }
     }
@@ -249,96 +263,66 @@ class PreferenceRepositoryTest : FunSpec({
 
     context("setChannelsUpdateLastTime") {
         test("calls dataStore.edit") {
-            val editedPreferences = mockk<MutablePreferences>(relaxed = true)
-            coEvery { dataStore.edit(any()) } coAnswers {
-                val block = firstArg<suspend (MutablePreferences) -> Unit>()
-                block(editedPreferences)
-                preferences
-            }
+            coEvery { dataStore.updateData(any()) } returns preferences
 
             repository.setChannelsUpdateLastTime(12345L)
 
-            coVerify(exactly = 1) { dataStore.edit(any()) }
+            coVerify(exactly = 1) { dataStore.updateData(any()) }
             confirmVerified(dataStore)
         }
     }
 
     context("setProgramsUpdateLastTime") {
         test("calls dataStore.edit") {
-            val editedPreferences = mockk<MutablePreferences>(relaxed = true)
-            coEvery { dataStore.edit(any()) } coAnswers {
-                val block = firstArg<suspend (MutablePreferences) -> Unit>()
-                block(editedPreferences)
-                preferences
-            }
+            coEvery { dataStore.updateData(any()) } returns preferences
 
             repository.setProgramsUpdateLastTime(99999L)
 
-            coVerify(exactly = 1) { dataStore.edit(any()) }
+            coVerify(exactly = 1) { dataStore.updateData(any()) }
             confirmVerified(dataStore)
         }
     }
 
     context("setProgramsCleanTime") {
         test("calls dataStore.edit") {
-            val editedPreferences = mockk<MutablePreferences>(relaxed = true)
-            coEvery { dataStore.edit(any()) } coAnswers {
-                val block = firstArg<suspend (MutablePreferences) -> Unit>()
-                block(editedPreferences)
-                preferences
-            }
+            coEvery { dataStore.updateData(any()) } returns preferences
 
             repository.setProgramsCleanTime(77777L)
 
-            coVerify(exactly = 1) { dataStore.edit(any()) }
+            coVerify(exactly = 1) { dataStore.updateData(any()) }
             confirmVerified(dataStore)
         }
     }
 
     context("setOnBoardState") {
         test("calls dataStore.edit") {
-            val editedPreferences = mockk<MutablePreferences>(relaxed = true)
-            coEvery { dataStore.edit(any()) } coAnswers {
-                val block = firstArg<suspend (MutablePreferences) -> Unit>()
-                block(editedPreferences)
-                preferences
-            }
+            coEvery { dataStore.updateData(any()) } returns preferences
 
             repository.setOnBoardState(true)
 
-            coVerify(exactly = 1) { dataStore.edit(any()) }
+            coVerify(exactly = 1) { dataStore.updateData(any()) }
             confirmVerified(dataStore)
         }
     }
 
     context("setProgramsUpdateRequiredState") {
         test("calls dataStore.edit") {
-            val editedPreferences = mockk<MutablePreferences>(relaxed = true)
-            coEvery { dataStore.edit(any()) } coAnswers {
-                val block = firstArg<suspend (MutablePreferences) -> Unit>()
-                block(editedPreferences)
-                preferences
-            }
+            coEvery { dataStore.updateData(any()) } returns preferences
 
             repository.setProgramsUpdateRequiredState(true)
 
-            coVerify(exactly = 1) { dataStore.edit(any()) }
+            coVerify(exactly = 1) { dataStore.updateData(any()) }
             confirmVerified(dataStore)
         }
     }
 
     context("setAppSettings") {
         test("calls dataStore.edit") {
-            val editedPreferences = mockk<MutablePreferences>(relaxed = true)
-            coEvery { dataStore.edit(any()) } coAnswers {
-                val block = firstArg<suspend (MutablePreferences) -> Unit>()
-                block(editedPreferences)
-                preferences
-            }
+            coEvery { dataStore.updateData(any()) } returns preferences
 
             repository.setAppSettings(AppSettingsModel())
 
-            coVerify(exactly = 1) { dataStore.edit(any()) }
+            coVerify(exactly = 1) { dataStore.updateData(any()) }
             confirmVerified(dataStore)
         }
     }

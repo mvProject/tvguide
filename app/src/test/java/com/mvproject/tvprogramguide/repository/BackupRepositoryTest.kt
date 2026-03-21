@@ -14,6 +14,7 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
+import io.mockk.verify
 import kotlinx.serialization.json.Json
 
 class BackupRepositoryTest : FunSpec({
@@ -52,6 +53,8 @@ class BackupRepositoryTest : FunSpec({
 
             repository.saveBackup(tvBackup)
 
+            verify(exactly = 1) { auth.currentUser }
+            verify(exactly = 1) { firebaseUser.uid }
             coVerify(exactly = 1) {
                 backupDataSource.saveBackup(uid = testUid, tvBackupJson = expectedJson)
             }
@@ -63,6 +66,7 @@ class BackupRepositoryTest : FunSpec({
 
             repository.saveBackup(TvBackup())
 
+            verify(exactly = 1) { auth.currentUser }
             coVerify(exactly = 0) { backupDataSource.saveBackup(any(), any()) }
             confirmVerified(backupDataSource, auth)
         }
@@ -94,6 +98,8 @@ class BackupRepositoryTest : FunSpec({
 
             repository.saveBackup(tvBackup)
 
+            verify(exactly = 1) { auth.currentUser }
+            verify(exactly = 1) { firebaseUser.uid }
             coVerify(exactly = 1) {
                 backupDataSource.saveBackup(uid = testUid, tvBackupJson = expectedJson)
             }
@@ -117,6 +123,8 @@ class BackupRepositoryTest : FunSpec({
             result shouldNotBe null
             result shouldBe expected
 
+            verify(exactly = 1) { auth.currentUser }
+            verify(exactly = 1) { firebaseUser.uid }
             coVerify(exactly = 1) { backupDataSource.getBackup(uid = testUid) }
             confirmVerified(backupDataSource, auth, firebaseUser)
         }
@@ -132,6 +140,8 @@ class BackupRepositoryTest : FunSpec({
 
             result shouldBe null
 
+            verify(exactly = 1) { auth.currentUser }
+            verify(exactly = 1) { firebaseUser.uid }
             coVerify(exactly = 1) { backupDataSource.getBackup(uid = testUid) }
             confirmVerified(backupDataSource, auth, firebaseUser)
         }
@@ -143,6 +153,7 @@ class BackupRepositoryTest : FunSpec({
 
             result shouldBe null
 
+            verify(exactly = 1) { auth.currentUser }
             coVerify(exactly = 0) { backupDataSource.getBackup(any()) }
             confirmVerified(backupDataSource, auth)
         }
@@ -158,6 +169,8 @@ class BackupRepositoryTest : FunSpec({
 
             result shouldBe null
 
+            verify(exactly = 1) { auth.currentUser }
+            verify(exactly = 1) { firebaseUser.uid }
             coVerify(exactly = 1) { backupDataSource.getBackup(uid = testUid) }
             confirmVerified(backupDataSource, auth, firebaseUser)
         }
@@ -189,6 +202,8 @@ class BackupRepositoryTest : FunSpec({
             val result = repository.getBackup()
 
             result shouldBe expected
+            verify(exactly = 1) { auth.currentUser }
+            verify(exactly = 1) { firebaseUser.uid }
             coVerify(exactly = 1) { backupDataSource.getBackup(uid = testUid) }
             confirmVerified(backupDataSource, auth, firebaseUser)
         }

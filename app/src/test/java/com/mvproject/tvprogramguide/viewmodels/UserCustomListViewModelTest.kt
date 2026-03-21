@@ -1,5 +1,8 @@
+@file:OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+
 package com.mvproject.tvprogramguide.viewmodels
 
+import com.mvproject.tvprogramguide.data.model.domain.ChannelList
 import com.mvproject.tvprogramguide.data.repository.ChannelListRepository
 import com.mvproject.tvprogramguide.domain.usecases.AddChannelListUseCase
 import com.mvproject.tvprogramguide.domain.usecases.DeleteChannelListUseCase
@@ -11,7 +14,13 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 
 class UserCustomListViewModelTest : StringSpec({
     lateinit var channelListRepository: ChannelListRepository
@@ -21,10 +30,12 @@ class UserCustomListViewModelTest : StringSpec({
     lateinit var channelListViewModel: ChannelListViewModel
 
     beforeTest {
+        Dispatchers.setMain(UnconfinedTestDispatcher())
         channelListRepository = mockk<ChannelListRepository>()
         addChannelListUseCase = mockk<AddChannelListUseCase>()
         deleteChannelListUseCase = mockk<DeleteChannelListUseCase>()
         selectChannelListUseCase = mockk<SelectChannelListUseCase>()
+        every { channelListRepository.loadChannelsListsAsFlow() } returns flowOf(emptyList())
         channelListViewModel = ChannelListViewModel(
             channelListRepository,
             addChannelListUseCase,
@@ -32,10 +43,10 @@ class UserCustomListViewModelTest : StringSpec({
             selectChannelListUseCase
         )
     }
-    // todo fix tests
-    /*   afterTest {
-           println("test ${it.a.name.testName} complete status is ${it.b.isSuccess}")
-       }*/
+
+    afterTest {
+        Dispatchers.resetMain()
+    }
 
     "viewmodel calls" {
         withClue("viewmodel init calls") {
@@ -60,29 +71,15 @@ class UserCustomListViewModelTest : StringSpec({
         }
     }
 
-    // todo fix tests
-    /* "action delete called" {
-         coEvery {
-             channelListRepository.loadChannelsListsAsFlow()
-         } answers {
-             flow {
-                 emit(listOf())
-             }
-         }
+    "action delete called" {
+        channelListViewModel.processAction(
+            ChannelListAction.DeleteList(
+                ChannelList(1, "test", false)
+            )
+        )
 
-         channelListViewModel.processAction(
-             ChannelListAction.DeleteList(
-                 ChannelList(
-                     1,
-                     "test",
-                     false
-                 ),
-             ),
-         )
-
-         coVerify(exactly = 1) {
-             deleteChannelListUseCase.invoke(ChannelList(1, "test", false))
-             channelListRepository.loadChannelsLists()
-         }
-     }*/
+        coVerify(exactly = 1) {
+            deleteChannelListUseCase.invoke(ChannelList(1, "test", false))
+        }
+    }
 })

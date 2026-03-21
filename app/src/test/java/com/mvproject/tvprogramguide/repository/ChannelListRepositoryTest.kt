@@ -24,8 +24,6 @@ class ChannelListRepositoryTest :
         lateinit var dao: ChannelsListDao
         lateinit var repository: ChannelListRepository
 
-        val expectedResult = listOf<ChannelList>()
-
         beforeTest {
             dao = mockk<ChannelsListDao>(relaxed = true)
             repository = ChannelListRepository(dao)
@@ -95,6 +93,11 @@ class ChannelListRepositoryTest :
             withClue("single call from dao execute") {
                 val result = repository.loadChannelsLists()
 
+                val expectedResult = listOf(
+                    ChannelList(1, "list1", false),
+                    ChannelList(2, "list2", false),
+                    ChannelList(3, "list3", false),
+                )
                 result shouldBe expectedResult
 
                 coVerify(exactly = 1) {

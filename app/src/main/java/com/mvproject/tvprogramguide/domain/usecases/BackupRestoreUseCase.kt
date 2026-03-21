@@ -69,7 +69,7 @@ class BackupRestoreUseCase(
 
         val channelsLists = channelListRepository.loadChannelsLists()
 
-        if (channelsLists.none { it.isSelected }) {
+        if (channelsLists.isNotEmpty() && channelsLists.none { it.isSelected }) {
             val default = channelsLists.first().copy(isSelected = true)
             channelListRepository.addChannelList(default)
         }

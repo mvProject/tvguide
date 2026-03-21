@@ -19,7 +19,10 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.unmockkAll
 import io.mockk.verify
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 
 class GetSelectedChannelsWithProgramsUseCaseTest : FunSpec({
 
@@ -280,42 +283,46 @@ class GetSelectedChannelsWithProgramsUseCaseTest : FunSpec({
         }
 
         test("emits for each combined flow update") {
-            val channel = SelectionChannel(
-                channelId = "sel1",
-                programId = "prog_ch1",
-                channelName = "Channel 1",
-                channelIcon = "icon1.png",
-            )
-            val settings = AppSettingsModel(programsViewCount = 0)
-            val programs = listOf(
-                Program(
-                    programId = "p1",
-                    dateTimeStart = 1000L,
-                    dateTimeEnd = 2000L,
-                    channel = "prog_ch1"
-                ),
-            )
+            runTest {
+                val channel = SelectionChannel(
+                    channelId = "sel1",
+                    programId = "prog_ch1",
+                    channelName = "Channel 1",
+                    channelIcon = "icon1.png",
+                )
+                val settings = AppSettingsModel(programsViewCount = 0)
+                val programs = listOf(
+                    Program(
+                        programId = "p1",
+                        dateTimeStart = 1000L,
+                        dateTimeEnd = 2000L,
+                        channel = "prog_ch1"
+                    ),
+                )
 
-            // Two emissions from the selected channels flow
-            every { selectedChannelRepository.loadSelectedChannelsAsFlow() } returns flowOf(
-                listOf(channel),
-                listOf(channel),
-            )
-            every { preferenceRepository.loadAppSettings() } returns flowOf(settings)
-            coEvery { programRepository.loadProgramsForChannels(listOf("prog_ch1")) } returns programs
+                // Two emissions from the selected channels flow; delay(1) uses virtual time in
+                // runTest so that combine can process the first before the second arrives.
+                every { selectedChannelRepository.loadSelectedChannelsAsFlow() } returns flow {
+                    emit(listOf(channel))
+                    delay(1)
+                    emit(listOf(channel))
+                }
+                every { preferenceRepository.loadAppSettings() } returns flowOf(settings)
+                coEvery { programRepository.loadProgramsForChannels(listOf("prog_ch1")) } returns programs
 
-            useCase().test {
-                val first = awaitItem()
-                first.size shouldBe 1
-                val second = awaitItem()
-                second.size shouldBe 1
-                awaitComplete()
+                useCase().test {
+                    val first = awaitItem()
+                    first.size shouldBe 1
+                    val second = awaitItem()
+                    second.size shouldBe 1
+                    awaitComplete()
+                }
+
+                coVerify(exactly = 2) { programRepository.loadProgramsForChannels(listOf("prog_ch1")) }
+                verify(exactly = 1) { selectedChannelRepository.loadSelectedChannelsAsFlow() }
+                verify(exactly = 1) { preferenceRepository.loadAppSettings() }
+                confirmVerified(selectedChannelRepository, programRepository, preferenceRepository)
             }
-
-            coVerify(exactly = 2) { programRepository.loadProgramsForChannels(listOf("prog_ch1")) }
-            verify(exactly = 1) { selectedChannelRepository.loadSelectedChannelsAsFlow() }
-            verify(exactly = 1) { preferenceRepository.loadAppSettings() }
-            confirmVerified(selectedChannelRepository, programRepository, preferenceRepository)
         }
     }
 })
