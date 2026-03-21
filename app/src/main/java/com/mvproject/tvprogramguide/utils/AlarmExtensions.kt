@@ -6,7 +6,6 @@ import android.content.Context
 import android.os.Build
 import androidx.core.app.AlarmManagerCompat
 import timber.log.Timber
-import java.util.Calendar
 
 /**
  * Extension function to get the AlarmManager system service.
@@ -30,7 +29,7 @@ fun Context.setExactAlarm(
     operation: PendingIntent?,
     type: Int = AlarmManager.RTC_WAKEUP,
 ) {
-    val currentTime = Calendar.getInstance().timeInMillis
+    val currentTime = System.currentTimeMillis()
     if (triggerAtMillis <= currentTime) {
         Timber.w("It is not possible to set alarm in the past")
         return

@@ -18,6 +18,7 @@ object ChannelUtils {
      */
     fun List<SelectionChannel>.updateOrders() =
         this.mapIndexed { ind, chn ->
-            chn.copy(order = ind + COUNT_ONE)
+            val newOrder = ind + COUNT_ONE
+            if (chn.order == newOrder) chn else chn.copy(order = newOrder)
         }
 }
