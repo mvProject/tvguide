@@ -6,6 +6,7 @@ import com.mvproject.tvprogramguide.data.mappers.Mappers.asSelectionFromAvailabl
 import com.mvproject.tvprogramguide.data.mappers.Mappers.toAvailableChannelEntities
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
+import com.mvproject.tvprogramguide.domain.contract.IAllChannelRepository
 
 /**
  * Repository class for managing all channel-related operations.
@@ -14,13 +15,13 @@ import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
  */
 class AllChannelRepository(
     private val allChannelDao: AllChannelDao,
-) {
+) : IAllChannelRepository {
     /**
      * Loads all channels from the database and maps them to SelectionChannel objects.
      *
      * @return A list of SelectionChannel objects representing all available channels.
      */
-    suspend fun loadChannels(): List<SelectionChannel> =
+    override suspend fun loadChannels(): List<SelectionChannel> =
         allChannelDao
             .getChannels()
             .map { item -> item.asSelectionFromAvailable() }
@@ -32,7 +33,7 @@ class AllChannelRepository(
      * @param selectedIds List of channel IDs to retrieve from the database
      * @return A list of SelectionChannel objects representing the channels matching the provided IDs
      */
-    suspend fun loadChannelsById(selectedIds: List<String>): List<SelectionChannel> =
+    override suspend fun loadChannelsById(selectedIds: List<String>): List<SelectionChannel> =
         allChannelDao
             .getChannelsById(selectedIds = selectedIds)
             .map { item -> item.asSelectionFromAvailable() }
@@ -44,7 +45,7 @@ class AllChannelRepository(
      * @param channels A list of AvailableChannelResponse objects to update the database with.
      */
     @Transaction
-    suspend fun updateChannels(channels: List<AvailableChannelResponse>) {
+    override suspend fun updateChannels(channels: List<AvailableChannelResponse>) {
         allChannelDao.apply {
             deleteChannels()
             insertChannels(availableChannels = channels.toAvailableChannelEntities())

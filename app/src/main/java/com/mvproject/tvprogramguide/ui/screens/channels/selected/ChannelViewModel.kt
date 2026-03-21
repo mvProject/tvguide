@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mvproject.tvprogramguide.data.model.domain.ChannelList
 import com.mvproject.tvprogramguide.data.model.domain.Program
-import com.mvproject.tvprogramguide.data.repository.ChannelListRepository
-import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
+import com.mvproject.tvprogramguide.domain.contract.IChannelListRepository
+import com.mvproject.tvprogramguide.domain.contract.IPreferenceRepository
+import com.mvproject.tvprogramguide.domain.usecases.GetSelectedChannelsWithProgramsUseCase
 import com.mvproject.tvprogramguide.domain.usecases.SelectChannelListUseCase
-import com.mvproject.tvprogramguide.domain.usecases.SelectedChannelsWithPrograms
-import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramSchedule
+import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramScheduleUseCase
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.actions.ChannelsViewAction
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.state.ChannelsViewState
 import com.mvproject.tvprogramguide.utils.AppConstants.empty
@@ -23,10 +23,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ChannelViewModel(
-    private val channelListRepository: ChannelListRepository,
-    private val selectedChannelsWithPrograms: SelectedChannelsWithPrograms,
-    private val preferenceRepository: PreferenceRepository,
-    private val toggleProgramSchedule: ToggleProgramSchedule,
+    private val channelListRepository: IChannelListRepository,
+    private val selectedChannelsWithPrograms: GetSelectedChannelsWithProgramsUseCase,
+    private val preferenceRepository: IPreferenceRepository,
+    private val toggleProgramSchedule: ToggleProgramScheduleUseCase,
     private val selectChannelListUseCase: SelectChannelListUseCase,
 ) : ViewModel() {
     private var _viewState = MutableStateFlow(ChannelsViewState())

@@ -5,9 +5,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
-import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
-import com.mvproject.tvprogramguide.domain.usecases.GetAvailableChannels
-import com.mvproject.tvprogramguide.domain.usecases.GetSelectedChannels
+import com.mvproject.tvprogramguide.domain.contract.ISelectedChannelRepository
+import com.mvproject.tvprogramguide.domain.usecases.GetAvailableChannelsUseCase
+import com.mvproject.tvprogramguide.domain.usecases.GetSelectedChannelsUseCase
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.action.ChannelsAction
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.navigation.SettingsChannelArgs
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.state.ChannelSettingsState
@@ -20,13 +20,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class ChannelSettingsViewModel(
     savedStateHandle: SavedStateHandle,
-    private val getSelectedChannels: GetSelectedChannels,
-    private val getAvailableChannels: GetAvailableChannels,
-    private val selectedChannelRepository: SelectedChannelRepository
+    private val getSelectedChannels: GetSelectedChannelsUseCase,
+    private val getAvailableChannels: GetAvailableChannelsUseCase,
+    private val selectedChannelRepository: ISelectedChannelRepository
 ) : ViewModel() {
     private val _viewState = MutableStateFlow(ChannelSettingsState())
     val viewState = _viewState.stateIn(
@@ -130,10 +129,6 @@ class ChannelSettingsViewModel(
                         it.channelId == removeId
                     }
                 }
-        modified.forEach {
-            Timber.d("testing modified $it")
-        }
-
         return modified.updateOrders()
     }
 

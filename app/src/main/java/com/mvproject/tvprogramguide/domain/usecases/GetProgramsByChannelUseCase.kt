@@ -1,7 +1,7 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
-import com.mvproject.tvprogramguide.data.repository.ProgramRepository
+import com.mvproject.tvprogramguide.domain.contract.IProgramRepository
 import com.mvproject.tvprogramguide.utils.convertDateToReadableFormat
 
 /**
@@ -9,8 +9,8 @@ import com.mvproject.tvprogramguide.utils.convertDateToReadableFormat
  *
  * @property programRepository The repository for accessing program data.
  */
-class GetProgramsByChannel(
-    private val programRepository: ProgramRepository,
+class GetProgramsByChannelUseCase(
+    private val programRepository: IProgramRepository,
 ) {
     /**
      * Retrieves and organizes programs for a specified channel, grouped by date.
@@ -33,15 +33,11 @@ class GetProgramsByChannel(
                 program.dateTimeStart.convertDateToReadableFormat()
             }
 
-        //return buildList {
         return programsByDays.map { (day, data) ->
-            //add(
             SingleChannelWithPrograms(
                 date = day,
                 programs = data,
             )
-            // )
         }
-        // }
     }
 }

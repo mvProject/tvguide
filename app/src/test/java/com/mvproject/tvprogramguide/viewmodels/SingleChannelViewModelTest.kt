@@ -1,66 +1,127 @@
 package com.mvproject.tvprogramguide.viewmodels
 
-// class SingleChannelViewModelTest : StringSpec({
-/*    val channelName = "channelName"
-    val program = Program(0, 0, "test", "titleProgram")
+import androidx.lifecycle.SavedStateHandle
+import com.mvproject.tvprogramguide.data.model.domain.Program
+import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
+import com.mvproject.tvprogramguide.domain.usecases.GetProgramsByChannelUseCase
+import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramScheduleUseCase
+import com.mvproject.tvprogramguide.ui.screens.channels.single.SingleChannelViewModel
+import io.kotest.assertions.withClue
+import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.shouldBe
+import io.mockk.clearMocks
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
+import io.mockk.unmockkAll
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 
+@OptIn(ExperimentalCoroutinesApi::class)
+class SingleChannelViewModelTest : FunSpec({
+    val testChannelId = "testChannelId"
+    val testChannelName = "testChannelName"
+
+    lateinit var getProgramsByChannelUseCase: GetProgramsByChannelUseCase
+    lateinit var toggleProgramScheduleUseCase: ToggleProgramScheduleUseCase
     lateinit var savedStateHandle: SavedStateHandle
-    lateinit var getProgramsByChannel: GetProgramsByChannel
-    lateinit var toggleProgramSchedule: ToggleProgramSchedule
     lateinit var singleChannelViewModel: SingleChannelViewModel
 
     beforeTest {
-        getProgramsByChannel = mockk<GetProgramsByChannel>()
-        toggleProgramSchedule = mockk<ToggleProgramSchedule>()
-        savedStateHandle = mockk<SavedStateHandle>()
-        singleChannelViewModel =
-            SingleChannelViewModel(
-                savedStateHandle = savedStateHandle,
-                getProgramsByChannel = getProgramsByChannel,
-                toggleProgramSchedule = toggleProgramSchedule,
+        Dispatchers.setMain(UnconfinedTestDispatcher())
+        getProgramsByChannelUseCase = mockk<GetProgramsByChannelUseCase>()
+        toggleProgramScheduleUseCase = mockk<ToggleProgramScheduleUseCase>()
+        savedStateHandle = SavedStateHandle(
+            mapOf(
+                "channelId" to testChannelId,
+                "channelName" to testChannelName,
             )
+        )
+        coEvery { getProgramsByChannelUseCase(channelId = testChannelId) } returns emptyList()
+        singleChannelViewModel = SingleChannelViewModel(
+            savedStateHandle = savedStateHandle,
+            getProgramsByChannel = getProgramsByChannelUseCase,
+            toggleProgramSchedule = toggleProgramScheduleUseCase,
+        )
     }
 
     afterTest {
-        println("test ${it.a.name.testName} complete status is ${it.b.isSuccess}")
+        unmockkAll()
+        Dispatchers.resetMain()
     }
 
-    "viewmodel calls" {
-        withClue("viewmodel init calls") {
-            singleChannelViewModel.selectedPrograms.value shouldBe emptyList()
-            singleChannelViewModel.selectedPrograms.value shouldNotBe null
+    test("initial selectedPrograms is empty") {
+        withClue("selectedPrograms starts empty before coroutine completes") {
+            singleChannelViewModel.selectedPrograms.isEmpty() shouldBe true
         }
     }
 
-    "retrieve channels" {
-        coEvery {
-            getProgramsByChannel
-                .invoke("test")
-        } returns listOf()
-
-        singleChannelViewModel.loadPrograms("test")
-
-        coVerify(exactly = 1) {
-            getProgramsByChannel
-                .invoke("test")
+    test("name is read from savedStateHandle") {
+        withClue("name matches value provided in SavedStateHandle") {
+            singleChannelViewModel.name shouldBe testChannelName
         }
-
-        singleChannelViewModel.selectedPrograms.value.shouldBeInstanceOf<List<SingleChannelWithPrograms>>()
     }
 
-    "schedule channel and update" {
-        coEvery {
-            toggleProgramSchedule.invoke(channelName, program)
-        } just runs
+    test("programs are loaded on init via use case") {
+        runTest {
+            val program = Program(
+                programId = "p1",
+                dateTimeStart = 0L,
+                dateTimeEnd = 1000L,
+                title = "Test Program",
+                channel = testChannelId,
+            )
+            val expectedPrograms = listOf(
+                SingleChannelWithPrograms(date = "2024-01-01", programs = listOf(program))
+            )
 
-        singleChannelViewModel.toggleSchedule(channelName, program)
+            // Clear recorded calls from beforeTest VM init so coVerify(exactly=1) counts only this VM's call.
+            clearMocks(getProgramsByChannelUseCase, answers = false)
+            coEvery { getProgramsByChannelUseCase(channelId = testChannelId) } returns expectedPrograms
 
-        coVerify(exactly = 1) {
-            // sortedProgramsUseCase.updateProgramScheduleWithAlarm(program)
-            getProgramsByChannel
-                .invoke("test")
+            val vm = SingleChannelViewModel(
+                savedStateHandle = savedStateHandle,
+                getProgramsByChannel = getProgramsByChannelUseCase,
+                toggleProgramSchedule = toggleProgramScheduleUseCase,
+            )
+
+            advanceUntilIdle()
+
+            coVerify(exactly = 1) { getProgramsByChannelUseCase(channelId = testChannelId) }
+            withClue("selectedPrograms populated after init") {
+                vm.selectedPrograms.size shouldBe expectedPrograms.size
+            }
         }
+    }
 
-        singleChannelViewModel.selectedPrograms.value.shouldBeInstanceOf<List<SingleChannelWithPrograms>>()
-    }*/
-// })
+    test("toggleSchedule calls toggleProgramScheduleUseCase") {
+        runTest {
+            val program = Program(
+                programId = "p1",
+                dateTimeStart = 0L,
+                dateTimeEnd = 1000L,
+                title = "Test Program",
+                channel = testChannelId,
+            )
+            val day = SingleChannelWithPrograms(date = "2024-01-01", programs = listOf(program))
+            val scheduleId = 99L
+
+            singleChannelViewModel.selectedPrograms.add(day)
+            coEvery {
+                toggleProgramScheduleUseCase(channelName = testChannelName, program = program)
+            } returns scheduleId
+
+            singleChannelViewModel.toggleSchedule(testChannelName, program)
+            advanceUntilIdle()
+
+            coVerify(exactly = 1) {
+                toggleProgramScheduleUseCase(channelName = testChannelName, program = program)
+            }
+        }
+    }
+})

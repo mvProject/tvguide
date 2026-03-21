@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import com.mvproject.tvprogramguide.data.model.settings.AppSettingsModel
 import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
+import com.mvproject.tvprogramguide.domain.contract.IPreferenceRepository
 import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_CHANNELS_UPDATE_PERIOD
 import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_PROGRAMS_UPDATE_PERIOD
 import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_PROGRAMS_VISIBLE_COUNT
@@ -26,13 +27,13 @@ import kotlin.time.Duration.Companion.days
  */
 class PreferenceRepository(
     private val dataStore: DataStore<Preferences>,
-) {
+) : IPreferenceRepository {
     /**
      * Sets the onboarding completion state.
      *
      * @param onBoardState Boolean indicating whether onboarding is complete.
      */
-    suspend fun setOnBoardState(onBoardState: Boolean) {
+    override suspend fun setOnBoardState(onBoardState: Boolean) {
         dataStore.edit { settings ->
             settings[ON_BOARD_COMPLETE] = onBoardState
         }
@@ -43,7 +44,7 @@ class PreferenceRepository(
      *
      * @return Flow<Boolean> indicating whether onboarding is complete.
      */
-    fun loadOnBoardState() =
+    override fun loadOnBoardState() =
         dataStore.data
             .map { preferences ->
                 preferences[ON_BOARD_COMPLETE] ?: true
@@ -54,7 +55,7 @@ class PreferenceRepository(
      *
      * @return Flow<Boolean> indicating whether onboarding is complete.
      */
-    val isNeedFullProgramsUpdate =
+    override val isNeedFullProgramsUpdate =
         combine(
             loadAppSettings(),
             loadProgramsUpdateLastTime(),
@@ -69,7 +70,7 @@ class PreferenceRepository(
     /**
      * Determines if an available channels update is needed based on the last update time and update period.
      */
-    val isNeedAvailableChannelsUpdate =
+    override val isNeedAvailableChannelsUpdate =
         combine(
             loadAppSettings(),
             loadChannelsUpdateLastTime(),
@@ -85,7 +86,7 @@ class PreferenceRepository(
      *
      * @param timeInMillis The update time in milliseconds.
      */
-    suspend fun setChannelsUpdateLastTime(timeInMillis: Long) {
+    override suspend fun setChannelsUpdateLastTime(timeInMillis: Long) {
         dataStore.edit { settings ->
             settings[LAST_UPDATE_CHANNELS] = timeInMillis
         }
@@ -104,7 +105,7 @@ class PreferenceRepository(
      *
      * @param timeInMillis The update time in milliseconds.
      */
-    suspend fun setProgramsUpdateLastTime(timeInMillis: Long) {
+    override suspend fun setProgramsUpdateLastTime(timeInMillis: Long) {
         dataStore.edit { settings ->
             settings[LAST_UPDATE_PROGRAMS] = timeInMillis
         }
@@ -123,7 +124,7 @@ class PreferenceRepository(
      *
      * @param state Boolean indicating if an update is required.
      */
-    suspend fun setProgramsUpdateRequiredState(state: Boolean) {
+    override suspend fun setProgramsUpdateRequiredState(state: Boolean) {
         dataStore.edit { settings ->
             settings[PROGRAMS_UPDATE_REQUIRED] = state
         }
@@ -134,7 +135,7 @@ class PreferenceRepository(
      *
      * @return Flow<Boolean> indicating if an update is required.
      */
-    fun getProgramsUpdateRequiredState() =
+    override fun getProgramsUpdateRequiredState() =
         dataStore.data.map { preferences ->
             preferences[PROGRAMS_UPDATE_REQUIRED] ?: false
         }
@@ -144,7 +145,7 @@ class PreferenceRepository(
      *
      * @param appSettings The AppSettingsModel to be saved.
      */
-    suspend fun setAppSettings(appSettings: AppSettingsModel) {
+    override suspend fun setAppSettings(appSettings: AppSettingsModel) {
         dataStore.edit { settings ->
             settings[APP_THEME_OPTION] = appSettings.appTheme
             settings[PROGRAM_UPDATE_PERIOD_OPTION] = appSettings.programsUpdatePeriod
@@ -158,7 +159,7 @@ class PreferenceRepository(
      *
      * @return Flow<AppSettingsModel> containing the current app settings.
      */
-    fun loadAppSettings() =
+    override fun loadAppSettings() =
         dataStore.data.map { preferences ->
             val themeId = preferences[APP_THEME_OPTION] ?: AppThemeOptions.SYSTEM.id
             val programUpdatePeriod =
@@ -181,7 +182,7 @@ class PreferenceRepository(
      *
      * @param timeInMillis The clean time in milliseconds.
      */
-    suspend fun setProgramsCleanTime(timeInMillis: Long) {
+    override suspend fun setProgramsCleanTime(timeInMillis: Long) {
         dataStore.edit { settings ->
             settings[PROGRAM_CLEAN] = timeInMillis
         }
@@ -192,7 +193,7 @@ class PreferenceRepository(
      *
      * @return The clean time in milliseconds.
      */
-    suspend fun getProgramsCleanTime() =
+    override suspend fun getProgramsCleanTime() =
         dataStore.data.map { preferences ->
             preferences[PROGRAM_CLEAN] ?: NO_VALUE_LONG
         }.first()

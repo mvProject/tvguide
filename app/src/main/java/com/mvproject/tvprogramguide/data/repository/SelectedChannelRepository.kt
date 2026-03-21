@@ -5,6 +5,7 @@ import com.mvproject.tvprogramguide.data.database.dao.SelectedChannelDao
 import com.mvproject.tvprogramguide.data.mappers.Mappers.asSelectionChannelToEntity
 import com.mvproject.tvprogramguide.data.mappers.Mappers.asSelectionFromSelected
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
+import com.mvproject.tvprogramguide.domain.contract.ISelectedChannelRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -17,14 +18,14 @@ import kotlinx.coroutines.flow.map
  */
 class SelectedChannelRepository(
     private val selectedChannelDao: SelectedChannelDao,
-) {
+) : ISelectedChannelRepository {
     /**
      * Loads selected channels for a specific channel list.
      *
      * @param listName The name of the channel list to fetch selected channels for
      * @return A list of [SelectionChannel] objects representing the selected channels in the specified list
      */
-    suspend fun loadSelectedChannels(listName: String): List<SelectionChannel> =
+    override suspend fun loadSelectedChannels(listName: String): List<SelectionChannel> =
         selectedChannelDao
             .getSelectedChannels(listName = listName)
             .map { item -> item.asSelectionFromSelected() }
@@ -35,7 +36,7 @@ class SelectedChannelRepository(
      *
      * @return A [Flow] of List<[SelectionChannel]> that updates whenever the channel selection changes
      */
-    fun loadSelectedChannelsAsFlow(): Flow<List<SelectionChannel>> =
+    override fun loadSelectedChannelsAsFlow(): Flow<List<SelectionChannel>> =
         selectedChannelDao
             .getChannelsForCurrentListAsFlow()
             .map { list ->
@@ -51,7 +52,7 @@ class SelectedChannelRepository(
      * @param selectedChannels The list of channels to be saved in the specified list
      */
     @Transaction
-    suspend fun addChannels(
+    override suspend fun addChannels(
         listName: String,
         selectedChannels: List<SelectionChannel>,
     ) {

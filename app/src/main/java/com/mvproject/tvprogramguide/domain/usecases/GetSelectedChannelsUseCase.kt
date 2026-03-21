@@ -1,15 +1,15 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
-import com.mvproject.tvprogramguide.data.repository.SelectedChannelRepository
+import com.mvproject.tvprogramguide.domain.contract.ISelectedChannelRepository
 
 /**
  * Use case for retrieving selected channels for a specific list.
  *
  * @property selectedChannelRepository The repository for accessing selected channel data.
  */
-class GetSelectedChannels(
-    private val selectedChannelRepository: SelectedChannelRepository,
+class GetSelectedChannelsUseCase(
+    private val selectedChannelRepository: ISelectedChannelRepository,
 ) {
     /**
      * Retrieves and sorts the selected channels for a specified list.

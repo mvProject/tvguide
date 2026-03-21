@@ -5,12 +5,12 @@ import com.mvproject.tvprogramguide.domain.usecases.BackupCreateUseCase
 import com.mvproject.tvprogramguide.domain.usecases.BackupRestoreUseCase
 import com.mvproject.tvprogramguide.domain.usecases.CleanProgramsUseCase
 import com.mvproject.tvprogramguide.domain.usecases.DeleteChannelListUseCase
-import com.mvproject.tvprogramguide.domain.usecases.GetAvailableChannels
-import com.mvproject.tvprogramguide.domain.usecases.GetProgramsByChannel
-import com.mvproject.tvprogramguide.domain.usecases.GetSelectedChannels
+import com.mvproject.tvprogramguide.domain.usecases.GetAvailableChannelsUseCase
+import com.mvproject.tvprogramguide.domain.usecases.GetProgramsByChannelUseCase
+import com.mvproject.tvprogramguide.domain.usecases.GetSelectedChannelsUseCase
+import com.mvproject.tvprogramguide.domain.usecases.GetSelectedChannelsWithProgramsUseCase
 import com.mvproject.tvprogramguide.domain.usecases.SelectChannelListUseCase
-import com.mvproject.tvprogramguide.domain.usecases.SelectedChannelsWithPrograms
-import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramSchedule
+import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramScheduleUseCase
 import com.mvproject.tvprogramguide.domain.usecases.UpdateChannelsInfoUseCase
 import com.mvproject.tvprogramguide.domain.usecases.UpdateProgramsUseCase
 import org.koin.core.module.dsl.singleOf
@@ -20,12 +20,12 @@ val useCaseModule = module {
     singleOf(::AddChannelListUseCase)
     singleOf(::CleanProgramsUseCase)
     singleOf(::DeleteChannelListUseCase)
-    singleOf(::GetAvailableChannels)
-    singleOf(::GetProgramsByChannel)
-    singleOf(::GetSelectedChannels)
+    singleOf(::GetAvailableChannelsUseCase)
+    singleOf(::GetProgramsByChannelUseCase)
+    singleOf(::GetSelectedChannelsUseCase)
     singleOf(::SelectChannelListUseCase)
-    singleOf(::SelectedChannelsWithPrograms)
-    singleOf(::ToggleProgramSchedule)
+    singleOf(::GetSelectedChannelsWithProgramsUseCase)
+    singleOf(::ToggleProgramScheduleUseCase)
     singleOf(::UpdateChannelsInfoUseCase)
     singleOf(::UpdateProgramsUseCase)
     singleOf(::BackupCreateUseCase)

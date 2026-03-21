@@ -7,7 +7,7 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
-import com.mvproject.tvprogramguide.data.repository.PreferenceRepository
+import com.mvproject.tvprogramguide.domain.contract.IPreferenceRepository
 import com.mvproject.tvprogramguide.domain.helpers.NetworkHelper
 import com.mvproject.tvprogramguide.domain.usecases.CleanProgramsUseCase
 import com.mvproject.tvprogramguide.domain.usecases.UpdateChannelsInfoUseCase
@@ -22,7 +22,7 @@ import timber.log.Timber
 class MainViewModel(
     private val workManager: WorkManager,
     private val networkHelper: NetworkHelper,
-    preferenceRepository: PreferenceRepository,
+    preferenceRepository: IPreferenceRepository,
     private val updateChannelsInfoUseCase: UpdateChannelsInfoUseCase,
     private val cleanProgramsUseCase: CleanProgramsUseCase,
 ) : ViewModel() {

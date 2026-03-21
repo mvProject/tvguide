@@ -1,7 +1,7 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.model.domain.ChannelList
-import com.mvproject.tvprogramguide.data.repository.ChannelListRepository
+import com.mvproject.tvprogramguide.domain.contract.IChannelListRepository
 import kotlin.random.Random
 
 /**
@@ -10,7 +10,7 @@ import kotlin.random.Random
  * @property channelListRepository The repository for managing channel lists.
  */
 class AddChannelListUseCase(
-    private val channelListRepository: ChannelListRepository,
+    private val channelListRepository: IChannelListRepository,
 ) {
     /**
      * Adds a new channel list with the given name.

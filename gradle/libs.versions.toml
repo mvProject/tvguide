@@ -1,59 +1,62 @@
 [versions]
 # plugins
-kotlin = "2.1.21"
-gradle = "8.11.1"
-ksp = "2.1.21-2.0.2"
-crashlyticsGradle = "3.0.5"
-#ktLint = "10.3.0"
-googleServices = "4.4.3"
-#versionsPlugin = "0.42.0"
+kotlin = "2.3.20"
+gradle = "8.12.3"
+ksp = "2.3.2"
+crashlyticsGradle = "3.0.6"
+googleServices = "4.4.4"
 
-# production libraries
-coreKtx = "1.16.0"
-annotation = "1.9.1"
+# Core
+androidx-core = "1.16.0"
+androidx-annotation = "1.9.1"
+androidx-material = "1.12.0"
+
 timber = "5.0.1"
-material = "1.12.0"
 
-serialization-json = "1.9.0"
+# Preference
+dataStore = "1.1.7"
 
-# preferences
-dataStore = "1.1.4"
+# Room Database
+room = "2.8.4"
 
 # datetime
-datetime = "0.6.1"
+kotlinx-datetime = "0.6.1"
 
-koin = "4.0.0"
-
-ktor = "3.2.2"
+# Bom
+compose-bom = "2026.02.01"
+firebase-bom = "34.1.0"
 
 # Compose
 compose-activity = "1.10.1"
 compose-lifecycle-viewmodel = "2.9.2"
 compose-lifecycle-runtime = "2.9.2"
-compose-bom = "2025.07.00"
-#firebase-bom = "33.7.0"
-firebase-bom = "34.0.0"
 
-# navigationCompose
-composeNavigation = "2.9.2"
+# Compose Navigation
+navigation-compose = "2.9.7"
 
-# Accompanist Permissions
-accompanistPermissions = "0.37.3"
+collections-immutable = "0.4.0"
 
-# coroutines
-coroutines-core = "1.10.2"
-coroutines-android = "1.10.2"
+# DI
+koin = "4.1.1"
+
+ktor = "3.2.2"
+
+accompanist-permissions = "0.37.3"
+
+# Coroutine
+kotlinx-coroutines-core = "1.10.2"
+kotlinx-coroutines-android = "1.10.2"
+
+kotlinx-serialization-json = "1.9.0"
 
 # Image
-coil = "2.7.0"
-
-# Database
-room = "2.7.2"
+coil = "3.4.0"
+coil-compose = "3.4.0"
 
 ksoup = "0.1.5"
 
 # WorkManager
-workRuntime = "2.9.0"
+workRuntime = "2.10.2"
 
 # StartUp API
 startUp = "1.1.1"
@@ -61,8 +64,9 @@ startUp = "1.1.1"
 # test libraries
 testJunit = "4.13.2"
 
-kotest = "6.0.0.M1"
-mockk = "1.13.5"
+kotest = "6.1.7"
+mockk = "1.14.9"
+turbine = "1.2.0"
 
 #review = "2.0.2"
 #app-update = "2.1.0"
@@ -87,44 +91,51 @@ kotlinx-serialization-plugin = { id = "org.jetbrains.kotlin.plugin.serialization
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 [libraries]
-# production libraries
-coreKtx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+# Core
+androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
+androidx-material = { module = "com.google.android.material:material", version.ref = "androidx-material" }
+androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
+
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
-annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
-androidx-material = { module = "com.google.android.material:material", version.ref = "material" }
 
 # Preference
 dataStore = { module = "androidx.datastore:datastore-preferences", version.ref = "dataStore" }
 
-# DateTime
-kotlinxDatetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
+# Room Database
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 
 # Coroutine
-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines-core" }
-kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines-android" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines-core" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines-android" }
 
-androidx-compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose-activity" }
+# Serialization
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 
+# Permissions
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist-permissions" }
+
+# DateTime
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+
+# Compose
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+androidx-compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose-activity" }
 androidx-compose-ui-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-foundation-foundation = { group = "androidx.compose.foundation", name = "foundation" }
+androidx-compose-material3-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-compose-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core" }
 androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
-androidx-compose-material3-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-
 androidx-compose-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "compose-lifecycle-runtime" }
 androidx-compose-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "compose-lifecycle-viewmodel" }
+androidx-compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
 
-# Navigation
-composeNavigation = { module = "androidx.navigation:navigation-compose", version.ref = "composeNavigation" }
-
-# Database
-roomRuntime = { module = "androidx.room:room-runtime", version.ref = "room" }
-roomCompiler = { module = "androidx.room:room-compiler", version.ref = "room" }
-roomKtx = { module = "androidx.room:room-ktx", version.ref = "room" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "collections-immutable" }
 
 # DI
 koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin" }
@@ -146,11 +157,9 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 startUp = { module = "androidx.startup:startup-runtime", version.ref = "startUp" }
 
 # Coil
-coilKt = { module = "io.coil-kt:coil", version.ref = "coil" }
-coilKtCompose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
-
-# Accompanist Permissions
-accompanistPermissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+coil-core = { module = "io.coil-kt.coil3:coil-core", version.ref = "coil" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil-compose" }
 
 # WorkManager
 workRuntimeKtx = { module = "androidx.work:work-runtime", version.ref = "workRuntime" }
@@ -180,13 +189,11 @@ kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref 
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 # android test libraries
 testAndroidJunitExt = { module = "androidx.test.ext:junit", version.ref = "testAndroidJunitExt" }
 testAndroidEspresso = { module = "androidx.test.espresso:espresso-core", version.ref = "testAndroidEspresso" }
-
-# Serialization
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization-json" }
 
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
@@ -194,29 +201,15 @@ androidx-credentials-play-services-auth = { module = "androidx.credentials:crede
 [bundles]
 
 appLibraries = [
-    "coreKtx",
+    "androidx-core",
     "timber",
-    "annotation",
+    "androidx-annotation",
     "androidx-material"
 ]
 
-compose = [
-    "androidx-compose-ui-ui",
-    "androidx-compose-activity",
-    "androidx-compose-material3-material3",
-    "androidx-compose-material-icons-core",
-    "androidx-compose-material-icons-extended",
-    "androidx-compose-ui-tooling-preview"
-]
-
-coil = [
-    "coilKt",
-    "coilKtCompose"
-]
-
 room = [
-    "roomRuntime",
-    "roomKtx"
+    "room-runtime",
+    "room-ktx"
 ]
 
 workManager = [
@@ -233,7 +226,20 @@ workManager = [
 #    "app-update-ktx"
 #]
 
-lifecycleCompose = [
+compose_core = [
+    "androidx-compose-activity",
+    "androidx-compose-ui-ui",
+    "androidx-compose-material3-material3",
+    "androidx-compose-ui-tooling-preview",
+    "androidx-compose-navigation"
+]
+
+compose-material-icons = [
+    "androidx-compose-material-icons-core",
+    "androidx-compose-material-icons-extended"
+]
+
+compose_lifecycle = [
     "androidx-compose-lifecycle-runtime",
     "androidx-compose-lifecycle-viewmodel"
 ]

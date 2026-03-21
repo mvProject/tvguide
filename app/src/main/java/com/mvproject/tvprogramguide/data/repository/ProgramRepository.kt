@@ -7,6 +7,7 @@ import com.mvproject.tvprogramguide.data.mappers.Mappers.asProgramFromEntities
 import com.mvproject.tvprogramguide.data.mappers.Mappers.toEntity
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.parse.ProgramDTO
+import com.mvproject.tvprogramguide.domain.contract.IProgramRepository
 import com.mvproject.tvprogramguide.utils.TimeUtils
 
 /**
@@ -16,14 +17,14 @@ import com.mvproject.tvprogramguide.utils.TimeUtils
  */
 class ProgramRepository(
     private val programDao: ProgramDao,
-) {
+) : IProgramRepository {
     /**
      * Loads programs for multiple channels starting from the current date.
      *
      * @param channelsIds List of channel IDs to fetch programs for.
      * @return List of Program objects for the specified channels.
      */
-    suspend fun loadProgramsForChannels(channelsIds: List<String>): List<Program> {
+    override suspend fun loadProgramsForChannels(channelsIds: List<String>): List<Program> {
         return programDao
             .getSelectedChannelPrograms(
                 timeStamp = TimeUtils.actualDate,
@@ -38,7 +39,7 @@ class ProgramRepository(
      * @param channelId ID of the channel to fetch programs for.
      * @return List of Program objects for the specified channel.
      */
-    suspend fun loadProgramsForChannel(channelId: String): List<Program> {
+    override suspend fun loadProgramsForChannel(channelId: String): List<Program> {
         return programDao
             .getChannelProgramsById(
                 timeStamp = TimeUtils.actualDate,
@@ -55,7 +56,7 @@ class ProgramRepository(
      * @param programs List of ProgramDTO objects containing the new program data.
      */
     @Transaction
-    suspend fun updatePrograms(
+    override suspend fun updatePrograms(
         channelId: String,
         programs: List<ProgramDTO>,
     ) {
@@ -76,7 +77,7 @@ class ProgramRepository(
      *
      * @param date The cutoff date in milliseconds. Programs before this date will be deleted.
      */
-    suspend fun cleanProgramsBeforeDate(date: Long) {
+    override suspend fun cleanProgramsBeforeDate(date: Long) {
         programDao.deleteProgramsByDate(timeStamp = date)
     }
 
@@ -85,7 +86,7 @@ class ProgramRepository(
      *
      * @param program The Program object to be updated.
      */
-    suspend fun updateProgram(program: Program) {
+    override suspend fun updateProgram(program: Program) {
         programDao.updateProgram(programForUpdate = program.toEntity())
     }
 }

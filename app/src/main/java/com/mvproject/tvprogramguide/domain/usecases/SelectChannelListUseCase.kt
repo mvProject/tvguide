@@ -1,7 +1,7 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.model.domain.ChannelList
-import com.mvproject.tvprogramguide.data.repository.ChannelListRepository
+import com.mvproject.tvprogramguide.domain.contract.IChannelListRepository
 
 /**
  * Use case for selecting a specific channel list.
@@ -9,7 +9,7 @@ import com.mvproject.tvprogramguide.data.repository.ChannelListRepository
  * @property channelListRepository The repository for managing channel lists.
  */
 class SelectChannelListUseCase(
-    private val channelListRepository: ChannelListRepository
+    private val channelListRepository: IChannelListRepository
 ) {
     /**
      * Selects the specified channel list and updates the selection state of all lists.

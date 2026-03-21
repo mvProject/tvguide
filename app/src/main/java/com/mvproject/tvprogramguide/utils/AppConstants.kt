@@ -56,6 +56,8 @@ object AppConstants {
 
     const val TIMEOUT_SECONDS = 15
 
+    const val TOTAL_CHANNELS_COUNT = 2300
+
     val json = Json {
         prettyPrint = true
         isLenient = true

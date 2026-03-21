@@ -17,6 +17,7 @@ object NetworkClient {
 
     const val EPG_FILE_PRIMARY = "https://iptvx.one/EPG_NOARCH.xml.gz"
     const val EPG_FILE2 = "http://epg.one/epg2.xml.gz"
+    const val EPG_CHANNELS_URL = "https://epg.ott-play.com/php/show_prow.php?f=edem/edem.xml.gz"
 
     fun createHttpClient(): HttpClient {
         return HttpClient(OkHttp).config {

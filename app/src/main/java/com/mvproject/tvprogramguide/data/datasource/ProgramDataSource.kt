@@ -4,6 +4,7 @@ import android.util.Xml
 import com.fleeksoft.ksoup.Ksoup
 import com.mvproject.tvprogramguide.data.model.parse.ChannelParseModel
 import com.mvproject.tvprogramguide.data.model.parse.ProgramParseModel
+import com.mvproject.tvprogramguide.domain.contract.IProgramDataSource
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.prepareGet
@@ -24,8 +25,8 @@ import java.util.zip.GZIPInputStream
 
 class ProgramDataSource(
     private val client: HttpClient,
-) {
-    suspend fun downloadAndParseXml(
+) : IProgramDataSource {
+    override suspend fun downloadAndParseXml(
         url: String,
         onProgrammeParsed: suspend (ProgramParseModel) -> Unit
     ) = withContext(Dispatchers.IO) {
@@ -53,7 +54,7 @@ class ProgramDataSource(
         }
     }
 
-    suspend fun downloadAndParseChannels(
+    override suspend fun downloadAndParseChannels(
         url: String,
         onChannelParsed: suspend (ChannelParseModel) -> Unit
     ) = withContext(Dispatchers.IO) {
