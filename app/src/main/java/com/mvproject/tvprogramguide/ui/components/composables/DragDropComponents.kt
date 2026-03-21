@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -33,12 +34,14 @@ fun rememberDragDropState(
     onMoveEnd: () -> Unit,
     onMove: (Int, Int) -> Unit
 ): DragDropState {
+    val currentOnMoveEnd by rememberUpdatedState(onMoveEnd)
+    val currentOnMove by rememberUpdatedState(onMove)
     val scope = rememberCoroutineScope()
     val state = remember(lazyListState) {
         DragDropState(
             state = lazyListState,
-            onMoveEnd = onMoveEnd,
-            onMove = onMove,
+            onMoveEnd = { currentOnMoveEnd() },
+            onMove = { from, to -> currentOnMove(from, to) },
             scope = scope
         )
     }

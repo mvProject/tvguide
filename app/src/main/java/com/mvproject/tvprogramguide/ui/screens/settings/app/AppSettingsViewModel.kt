@@ -15,14 +15,12 @@ class AppSettingsViewModel(
     private val preferenceRepository: IPreferenceRepository
 ) : ViewModel() {
 
-    val settingsState by lazy {
-        preferenceRepository.loadAppSettings()
-            .stateIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(3000L),
-                AppSettingsModel()
-            )
-    }
+    val settingsState = preferenceRepository.loadAppSettings()
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(3000L),
+            AppSettingsModel()
+        )
 
     val getThemeDefaultSelectedIndex
         get() = AppThemeOptions.entries.indexOfFirst { it.id == settingsState.value.appTheme }

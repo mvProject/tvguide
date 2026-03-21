@@ -10,10 +10,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
 import com.mvproject.tvprogramguide.ui.components.pickers.PickerItem
@@ -21,6 +21,7 @@ import com.mvproject.tvprogramguide.ui.components.radio.RadioGroup
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
 import com.mvproject.tvprogramguide.ui.screens.settings.app.action.AppSettingsAction
 import com.mvproject.tvprogramguide.ui.theme.dimens
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 internal fun AppSettingsScreen(
@@ -44,7 +45,7 @@ internal fun AppSettingsScreen(
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.size8),
         ) {
-            val settings by viewModel.settingsState.collectAsState()
+            val settings by viewModel.settingsState.collectAsStateWithLifecycle()
 
             ListItem(
                 colors =
@@ -100,7 +101,7 @@ internal fun AppSettingsScreen(
             }
 
             val themeOptionsStrings =
-                AppThemeOptions.entries.map { stringResource(id = it.titleRes) }
+                AppThemeOptions.entries.map { stringResource(id = it.titleRes) }.toImmutableList()
 
             ListItem(
                 colors =

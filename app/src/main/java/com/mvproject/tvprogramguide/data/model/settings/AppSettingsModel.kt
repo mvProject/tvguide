@@ -1,9 +1,11 @@
 package com.mvproject.tvprogramguide.data.model.settings
 
+import androidx.compose.runtime.Immutable
 import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_CHANNELS_UPDATE_PERIOD
 import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_PROGRAMS_UPDATE_PERIOD
 import com.mvproject.tvprogramguide.utils.AppConstants.DEFAULT_PROGRAMS_VISIBLE_COUNT
 
+@Immutable
 data class AppSettingsModel(
     val channelsUpdatePeriod: Int = DEFAULT_CHANNELS_UPDATE_PERIOD,
     val programsUpdatePeriod: Int = DEFAULT_PROGRAMS_UPDATE_PERIOD,

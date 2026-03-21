@@ -12,6 +12,7 @@ import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramScheduleUseCase
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.actions.ChannelsViewAction
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.state.ChannelsViewState
 import com.mvproject.tvprogramguide.utils.AppConstants.empty
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -54,7 +55,7 @@ class ChannelViewModel(
 
                     state.copy(
                         listName = listName,
-                        playlists = allLists,
+                        playlists = allLists.toImmutableList(),
                         isLoading = listName.isNotEmpty()
                     )
                 }
@@ -80,7 +81,8 @@ class ChannelViewModel(
         channelsJob = selectedChannelsWithPrograms()
             .flowOn(Dispatchers.IO)
             .onEach { programs ->
-                val sortedPrograms = programs.sortedBy { item -> item.selectedChannel.order }
+                val sortedPrograms =
+                    programs.sortedBy { item -> item.selectedChannel.order }.toImmutableList()
 
                 _viewState.update { state ->
                     state.copy(
@@ -142,7 +144,7 @@ class ChannelViewModel(
             selectedProgramsUpdated[channelIndex] = channel.copy(programs = updatedPrograms)
 
             _viewState.update { state ->
-                state.copy(channels = selectedProgramsUpdated)
+                state.copy(channels = selectedProgramsUpdated.toImmutableList())
             }
         }
     }

@@ -15,7 +15,9 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
 import com.mvproject.tvprogramguide.ui.components.views.DateItem
 import com.mvproject.tvprogramguide.ui.components.views.ProgramItem
@@ -32,6 +34,7 @@ fun SingleChannelScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
     onNavigateBack: () -> Unit,
 ) {
+    val selectedPrograms by viewModel.selectedPrograms.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -64,7 +67,7 @@ fun SingleChannelScreen(
                     ),
                     state = listState,
                 ) {
-                    viewModel.selectedPrograms.forEach { item ->
+                    selectedPrograms.forEach { item ->
                         stickyHeader {
                             DateItem(date = item.date)
                         }

@@ -12,6 +12,7 @@ import com.mvproject.tvprogramguide.ui.screens.settings.backup.action.BackupActi
 import com.mvproject.tvprogramguide.ui.screens.settings.backup.state.BackupData
 import com.mvproject.tvprogramguide.ui.screens.settings.backup.state.BackupState
 import com.mvproject.tvprogramguide.ui.screens.settings.backup.state.RestoreData
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -33,6 +34,7 @@ class SettingsBackupViewModel(
             val backupData = channelListRepository
                 .loadChannelsLists()
                 .map { BackupData(name = it.listName) }
+                .toImmutableList()
             _viewState.update { it.copy(backupData = backupData) }
         }
     }
@@ -75,7 +77,7 @@ class SettingsBackupViewModel(
                 val playlists = state.backupData.map { list ->
                     val selection = if (list.name == name) !list.isSelected else list.isSelected
                     list.copy(name = list.name, isSelected = selection)
-                }
+                }.toImmutableList()
                 state.copy(backupData = playlists)
             }
         }
@@ -95,6 +97,7 @@ class SettingsBackupViewModel(
                 BackupState.BackupMode.CREATE -> {
                     val playlists = channelListRepository.loadChannelsLists()
                         .map { BackupData(name = it.listName) }
+                        .toImmutableList()
                     _viewState.update { it.copy(mode = mode, backupData = playlists) }
                 }
                 BackupState.BackupMode.RESTORE -> {

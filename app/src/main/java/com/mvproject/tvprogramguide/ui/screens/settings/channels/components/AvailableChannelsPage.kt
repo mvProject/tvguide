@@ -18,11 +18,12 @@ import com.mvproject.tvprogramguide.ui.components.search.SearchView
 import com.mvproject.tvprogramguide.ui.components.views.ChannelSelectableItem
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.action.ChannelsAction
 import com.mvproject.tvprogramguide.ui.theme.dimens
+import kotlinx.collections.immutable.ImmutableList
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun AvailableChannelsPage(
-    selectedChannels: List<SelectionChannel>,
+    selectedChannels: ImmutableList<SelectionChannel>,
     onAction: (action: ChannelsAction) -> Unit,
 ) {
     val listState = rememberLazyListState()

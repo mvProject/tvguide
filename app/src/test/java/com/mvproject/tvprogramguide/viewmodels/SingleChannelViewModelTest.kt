@@ -57,7 +57,7 @@ class SingleChannelViewModelTest : FunSpec({
 
     test("initial selectedPrograms is empty") {
         withClue("selectedPrograms starts empty before coroutine completes") {
-            singleChannelViewModel.selectedPrograms.isEmpty() shouldBe true
+            singleChannelViewModel.selectedPrograms.value.isEmpty() shouldBe true
         }
     }
 
@@ -94,7 +94,7 @@ class SingleChannelViewModelTest : FunSpec({
 
             coVerify(exactly = 1) { getProgramsByChannelUseCase(channelId = testChannelId) }
             withClue("selectedPrograms populated after init") {
-                vm.selectedPrograms.size shouldBe expectedPrograms.size
+                vm.selectedPrograms.value.size shouldBe expectedPrograms.size
             }
         }
     }
@@ -111,12 +111,19 @@ class SingleChannelViewModelTest : FunSpec({
             val day = SingleChannelWithPrograms(date = "2024-01-01", programs = listOf(program))
             val scheduleId = 99L
 
-            singleChannelViewModel.selectedPrograms.add(day)
+            coEvery { getProgramsByChannelUseCase(channelId = testChannelId) } returns listOf(day)
             coEvery {
                 toggleProgramScheduleUseCase(channelName = testChannelName, program = program)
             } returns scheduleId
 
-            singleChannelViewModel.toggleSchedule(testChannelName, program)
+            val vm = SingleChannelViewModel(
+                savedStateHandle = savedStateHandle,
+                getProgramsByChannel = getProgramsByChannelUseCase,
+                toggleProgramSchedule = toggleProgramScheduleUseCase,
+            )
+            advanceUntilIdle()
+
+            vm.toggleSchedule(testChannelName, program)
             advanceUntilIdle()
 
             coVerify(exactly = 1) {

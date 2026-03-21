@@ -23,6 +23,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
@@ -40,6 +41,7 @@ import com.mvproject.tvprogramguide.utils.AppConstants.SELECTED_CHANNELS_PAGE
 import com.mvproject.tvprogramguide.utils.closeScreenAnimation
 import com.mvproject.tvprogramguide.utils.openScreenAnimation
 import com.mvproject.tvprogramguide.utils.slideOutDetailsBoundsTransform
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -53,14 +55,16 @@ fun ChannelSettingsScreen(
     val coroutineScope = rememberCoroutineScope()
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     val selected by viewModel.selected.collectAsStateWithLifecycle()
+    val allChannels by viewModel.allChannels.collectAsStateWithLifecycle()
 
     BackHandler {
         viewModel.applyChanges()
     }
 
+    val currentOnNavigateBack by rememberUpdatedState(onNavigateBack)
     LaunchedEffect(viewState.isComplete) {
         if (viewState.isComplete) {
-            onNavigateBack()
+            currentOnNavigateBack()
         }
     }
 
@@ -171,11 +175,11 @@ fun ChannelSettingsScreen(
                 val channelsList by remember {
                     derivedStateOf {
                         if (viewState.searchString.length > COUNT_ONE) {
-                            viewModel.allChannels.filter {
+                            allChannels.filter {
                                 it.channelName.contains(viewState.searchString, true)
-                            }
+                            }.toImmutableList()
                         } else {
-                            viewModel.allChannels
+                            allChannels
                         }
                     }
                 }

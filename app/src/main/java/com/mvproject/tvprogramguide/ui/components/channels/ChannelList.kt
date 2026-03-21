@@ -23,6 +23,7 @@ import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
 import com.mvproject.tvprogramguide.ui.components.views.ChannelItem
 import com.mvproject.tvprogramguide.ui.components.views.ProgramItem
 import com.mvproject.tvprogramguide.ui.theme.dimens
+import kotlinx.collections.immutable.ImmutableList
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalSharedTransitionApi::class)
 @Composable
@@ -30,7 +31,7 @@ fun ChannelList(
     listState: LazyListState,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
-    singleChannelPrograms: List<SelectedChannelWithPrograms>,
+    singleChannelPrograms: ImmutableList<SelectedChannelWithPrograms>,
     onChannelClick: (SelectionChannel) -> Unit,
     onScheduleClick: (String, Program) -> Unit,
 ) {
@@ -57,7 +58,7 @@ fun ChannelList(
                 }
             }
             if (item.programs.isEmpty()) {
-                item {
+                item(contentType = "empty") {
                     Text(
                         text = stringResource(id = R.string.msg_no_epg_found),
                         modifier = Modifier
@@ -71,6 +72,7 @@ fun ChannelList(
                 items(
                     items = item.programs,
                     key = { program -> program.programId + item.selectedChannel.channelId },
+                    contentType = { "program" },
                 ) { program ->
                     ProgramItem(program = program) {
                         onScheduleClick(item.selectedChannel.channelName, program)

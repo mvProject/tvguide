@@ -1,8 +1,10 @@
 package com.mvproject.tvprogramguide.data.model.domain
 
+import androidx.compose.runtime.Immutable
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.utils.AppConstants.empty
 
+@Immutable
 data class SelectionChannel(
     val channelId: String,
     val programId: String = String.empty,
