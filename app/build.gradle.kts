@@ -102,6 +102,8 @@ fun readProperties(propertiesFile: File) =
     }
 
 dependencies {
+    implementation(project(":core:core-models"))
+
     implementation(libs.dataStore)
 
     implementation(libs.kotlinx.serialization.json)

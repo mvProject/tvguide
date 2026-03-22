@@ -29,3 +29,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "TV Program Guide"
 include(":app")
+include(":core:core-models")

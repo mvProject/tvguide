@@ -44,7 +44,7 @@ class ToggleProgramScheduleUseCase(
                 scheduled
             } else {
                 // Program is already scheduled, cancel the alert
-                val idForCancel = program.scheduledId
+                val idForCancel = requireNotNull(program.scheduledId)
                 programSchedulerHelper.cancelProgramAlarm(schedulerId = idForCancel)
                 program.copy(scheduledId = null)
             }

@@ -101,7 +101,15 @@ internal fun AppSettingsScreen(
             }
 
             val themeOptionsStrings =
-                AppThemeOptions.entries.map { stringResource(id = it.titleRes) }.toImmutableList()
+                AppThemeOptions.entries.map { option ->
+                    stringResource(
+                        id = when (option) {
+                            AppThemeOptions.LIGHT -> R.string.settings_theme_light
+                            AppThemeOptions.DARK -> R.string.settings_theme_dark
+                            AppThemeOptions.SYSTEM -> R.string.settings_theme_system
+                        }
+                    )
+                }.toImmutableList()
 
             ListItem(
                 colors =
