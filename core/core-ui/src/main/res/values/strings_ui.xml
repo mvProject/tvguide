@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TV Program Guide</string>
+    <string name="hint_search">Search channels</string>
+    <string name="msg_no_items_found">No Items Found</string>
+    <string name="msg_no_epg_found">TV program not found</string>
+    <string name="dlg_title_select_custom_user_list">Select channels List</string>
+    <string name="dlg_title_add_new_custom_user_list">Add New List</string>
+    <string name="dlg_hint_new_custom_user_list">type list name</string>
+    <string name="dlg_btn_close">Close</string>
+    <string name="onboard_btn_complete">Complete</string>
+    <string name="onboard_title_user_list_create">Multiple channel lists</string>
+    <string name="onboard_title_user_list_switch">Quickly switch lists</string>
+    <string name="onboard_title_notification">Program Notification</string>
+    <string name="onboard_description_user_list_create">Ability to create multiple lists with different channels for convenience</string>
+    <string name="onboard_description_user_list_switch">Quickly switch between different custom lists</string>
+    <string name="onboard_description_notification">Possibility to set a reminder, so as not to miss watching the program in the future</string>
+</resources>

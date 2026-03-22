@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hint_search">Kanal ara</string>
+    <string name="msg_no_items_found">hiç bir öğe bulunamadı</string>
+    <string name="msg_no_epg_found">TV programı bulunamadı</string>
+    <string name="dlg_title_select_custom_user_list">Kanal listesini seçin</string>
+    <string name="dlg_title_add_new_custom_user_list">Yeni bir liste ekle</string>
+    <string name="dlg_hint_new_custom_user_list">liste için bir isim girin</string>
+    <string name="dlg_btn_close">Kapat</string>
+    <string name="onboard_btn_complete">Tamamlamak</string>
+    <string name="onboard_title_user_list_create">Çoklu kanal listeleri</string>
+    <string name="onboard_title_user_list_switch">Listeler arasında hızla geçiş yapın</string>
+    <string name="onboard_title_notification">Program bildirimi</string>
+    <string name="onboard_description_user_list_create">Kolaylık sağlamak için farklı kanallarla birden fazla liste oluşturabilme</string>
+    <string name="onboard_description_user_list_switch">Farklı kullanıcı listeleri arasında hızla geçiş yapın</string>
+    <string name="onboard_description_notification">Gelecekte programı izlemeyi kaçırmamak için hatırlatıcı ayarlama yeteneği</string>
+</resources>

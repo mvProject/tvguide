@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hint_search">Пошук каналів</string>
+    <string name="msg_no_items_found">Елементів не знайдено</string>
+    <string name="msg_no_epg_found">Телепрограму не знайдено</string>
+    <string name="dlg_title_select_custom_user_list">Виберіть список каналів</string>
+    <string name="dlg_title_add_new_custom_user_list">Додати новий список</string>
+    <string name="dlg_hint_new_custom_user_list">введіть назву списку</string>
+    <string name="dlg_btn_close">Закрити</string>
+    <string name="onboard_btn_complete">Завершити</string>
+    <string name="onboard_title_user_list_create">Кілька списків каналів</string>
+    <string name="onboard_title_user_list_switch">Швидко перемикайте списки</string>
+    <string name="onboard_title_notification">Повідомлення про програму</string>
+    <string name="onboard_description_user_list_create">Можливість створити кілька списків із різними каналами для зручності</string>
+    <string name="onboard_description_user_list_switch">Швидко перемикайтеся між різними списками користувача</string>
+    <string name="onboard_description_notification">Можливість встановити нагадування, щоб не пропустити перегляд програми в майбутньому</string>
+</resources>
