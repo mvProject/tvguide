@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import com.mvproject.tvprogramguide.data.model.domain.Program
+import com.mvproject.tvprogramguide.domain.contract.IProgramScheduler
 import com.mvproject.tvprogramguide.domain.receiver.ProgramReceiver
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.utils.cancelAlarm
@@ -16,7 +17,7 @@ import com.mvproject.tvprogramguide.utils.setExactAlarm
  * @property context The application context, injected using Hilt.
  */
 
-class ProgramSchedulerHelper(private val context: Context) {
+class ProgramSchedulerHelper(private val context: Context) : IProgramScheduler {
     /**
      * Schedules an alarm for a TV program based on its start time.
      *
@@ -24,7 +25,7 @@ class ProgramSchedulerHelper(private val context: Context) {
      * @param channelName The name of the TV channel broadcasting the program.
      */
 
-    fun scheduleProgramAlarm(
+    override fun scheduleProgramAlarm(
         programSchedule: Program,
         channelName: String,
     ) {
@@ -55,7 +56,7 @@ class ProgramSchedulerHelper(private val context: Context) {
      *
      * @param schedulerId The unique identifier of the scheduled program alarm to be canceled.
      */
-    fun cancelProgramAlarm(schedulerId: Long) {
+    override fun cancelProgramAlarm(schedulerId: Long) {
         val receiverIntent = Intent(context, ProgramReceiver::class.java)
         receiverIntent.action = ProgramReceiver.ALARM_ACTION
 

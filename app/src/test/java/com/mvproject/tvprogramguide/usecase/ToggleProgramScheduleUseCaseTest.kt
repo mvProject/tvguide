@@ -2,7 +2,7 @@ package com.mvproject.tvprogramguide.usecase
 
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.domain.contract.IProgramRepository
-import com.mvproject.tvprogramguide.domain.helpers.ProgramSchedulerHelper
+import com.mvproject.tvprogramguide.domain.contract.IProgramScheduler
 import com.mvproject.tvprogramguide.domain.usecases.ToggleProgramScheduleUseCase
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.longs.shouldBeGreaterThan
@@ -23,15 +23,15 @@ import io.mockk.verify
 class ToggleProgramScheduleUseCaseTest : FunSpec({
 
     lateinit var programRepository: IProgramRepository
-    lateinit var programSchedulerHelper: ProgramSchedulerHelper
+    lateinit var programScheduler: IProgramScheduler
     lateinit var useCase: ToggleProgramScheduleUseCase
 
     beforeTest {
         programRepository = mockk()
-        programSchedulerHelper = mockk()
+        programScheduler = mockk()
         useCase = ToggleProgramScheduleUseCase(
             programRepository = programRepository,
-            programSchedulerHelper = programSchedulerHelper,
+            programScheduler = programScheduler,
         )
     }
 
@@ -53,7 +53,7 @@ class ToggleProgramScheduleUseCaseTest : FunSpec({
             val savedProgramSlot = slot<Program>()
 
             every {
-                programSchedulerHelper.scheduleProgramAlarm(
+                programScheduler.scheduleProgramAlarm(
                     any(),
                     channelName = any()
                 )
@@ -73,14 +73,14 @@ class ToggleProgramScheduleUseCaseTest : FunSpec({
 
             // scheduleProgramAlarm must be called with the program that has scheduledId set
             verify(exactly = 1) {
-                programSchedulerHelper.scheduleProgramAlarm(
+                programScheduler.scheduleProgramAlarm(
                     programSchedule = saved,
                     channelName = channelName,
                 )
             }
             coVerify(exactly = 1) { programRepository.updateProgram(program = saved) }
-            verify(exactly = 0) { programSchedulerHelper.cancelProgramAlarm(any()) }
-            confirmVerified(programRepository, programSchedulerHelper)
+            verify(exactly = 0) { programScheduler.cancelProgramAlarm(any()) }
+            confirmVerified(programRepository, programScheduler)
         }
 
         test("when program scheduledId is not null, cancelProgramAlarm is called and updateProgram is called with scheduledId null") {
@@ -96,7 +96,7 @@ class ToggleProgramScheduleUseCaseTest : FunSpec({
             val channelName = "Channel Two"
             val savedProgramSlot = slot<Program>()
 
-            every { programSchedulerHelper.cancelProgramAlarm(schedulerId = existingScheduledId) } just Runs
+            every { programScheduler.cancelProgramAlarm(schedulerId = existingScheduledId) } just Runs
             coEvery { programRepository.updateProgram(program = capture(savedProgramSlot)) } just Runs
 
             val result = useCase(channelName = channelName, program = program)
@@ -108,15 +108,15 @@ class ToggleProgramScheduleUseCaseTest : FunSpec({
             val saved = savedProgramSlot.captured
             saved.scheduledId.shouldBeNull()
 
-            verify(exactly = 1) { programSchedulerHelper.cancelProgramAlarm(schedulerId = existingScheduledId) }
+            verify(exactly = 1) { programScheduler.cancelProgramAlarm(schedulerId = existingScheduledId) }
             coVerify(exactly = 1) { programRepository.updateProgram(program = saved) }
             verify(exactly = 0) {
-                programSchedulerHelper.scheduleProgramAlarm(
+                programScheduler.scheduleProgramAlarm(
                     any(),
                     channelName = any()
                 )
             }
-            confirmVerified(programRepository, programSchedulerHelper)
+            confirmVerified(programRepository, programScheduler)
         }
 
         test("scheduledId is derived from dateTimeStart + dateTimeEnd + title.hashCode + channel.hashCode") {
@@ -136,7 +136,7 @@ class ToggleProgramScheduleUseCaseTest : FunSpec({
             val savedProgramSlot = slot<Program>()
 
             every {
-                programSchedulerHelper.scheduleProgramAlarm(
+                programScheduler.scheduleProgramAlarm(
                     any(),
                     channelName = any()
                 )
@@ -151,14 +151,14 @@ class ToggleProgramScheduleUseCaseTest : FunSpec({
 
             val saved = savedProgramSlot.captured
             verify(exactly = 1) {
-                programSchedulerHelper.scheduleProgramAlarm(
+                programScheduler.scheduleProgramAlarm(
                     programSchedule = saved,
                     channelName = channelName,
                 )
             }
             coVerify(exactly = 1) { programRepository.updateProgram(program = saved) }
-            verify(exactly = 0) { programSchedulerHelper.cancelProgramAlarm(any()) }
-            confirmVerified(programRepository, programSchedulerHelper)
+            verify(exactly = 0) { programScheduler.cancelProgramAlarm(any()) }
+            confirmVerified(programRepository, programScheduler)
         }
     }
 })

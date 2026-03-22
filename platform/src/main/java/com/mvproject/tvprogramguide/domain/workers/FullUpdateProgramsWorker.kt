@@ -9,13 +9,11 @@ import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
-import com.mvproject.tvprogramguide.core.domain.R
 import com.mvproject.tvprogramguide.domain.usecases.UpdateProgramsUseCase
+import com.mvproject.tvprogramguide.platform.R
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.utils.AppConstants.TOTAL_CHANNELS_COUNT
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import timber.log.Timber
 
 /**
@@ -25,9 +23,8 @@ import timber.log.Timber
 class FullUpdateProgramsWorker(
     context: Context,
     params: WorkerParameters,
-) : CoroutineWorker(context, params), KoinComponent {
-
-    private val updateProgramsUseCase: UpdateProgramsUseCase by inject()
+    private val updateProgramsUseCase: UpdateProgramsUseCase,
+) : CoroutineWorker(context, params) {
 
     /**
      * Performs the work of updating TV programs.
@@ -113,5 +110,3 @@ class FullUpdateProgramsWorker(
         private const val NOTIFICATION_UPDATE_INTERVAL = 5
     }
 }
-
-

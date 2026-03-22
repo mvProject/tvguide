@@ -13,10 +13,13 @@ import coil3.memory.MemoryCache
 import coil3.request.CachePolicy
 import coil3.request.crossfade
 import coil3.util.DebugLogger
+import com.mvproject.tvprogramguide.BuildConfig
 import com.mvproject.tvprogramguide.domain.helpers.NotificationHelper.Companion.PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_ID
 import com.mvproject.tvprogramguide.domain.helpers.NotificationHelper.Companion.PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_NAME
 import com.mvproject.tvprogramguide.domain.workers.FullUpdateProgramsWorker.Companion.UPDATE_NOTIFICATION_CHANNEL_ID
 import com.mvproject.tvprogramguide.domain.workers.FullUpdateProgramsWorker.Companion.UPDATE_NOTIFICATION_CHANNEL_NAME
+import com.mvproject.tvprogramguide.infrastructure.di.FirebaseConfig
+import com.mvproject.tvprogramguide.infrastructure.di.initKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.koin.workManagerFactory
@@ -29,10 +32,16 @@ class App :
     override fun onCreate() {
         super.onCreate()
 
-        initKoin {
+        initKoin(
+            firebaseConfig = FirebaseConfig(
+                databaseUrl = BuildConfig.FIREBASE_DATABASE_URL,
+                databaseTable = BuildConfig.FIREBASE_DATABASE_TABLE,
+            )
+        ) {
             androidLogger()
             androidContext(this@App)
             workManagerFactory()
+            modules(viewModelsModule)
         }
 
         Timber.plant(

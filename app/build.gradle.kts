@@ -106,11 +106,11 @@ dependencies {
     implementation(project(":core:core-datastore"))
     implementation(project(":core:core-domain"))
     implementation(project(":core:core-ui"))
+    implementation(project(":platform"))
+    implementation(project(":infrastructure:dependency-injection"))
     implementation(project(":features:feature-settings"))
     implementation(project(":features:feature-channellist"))
     implementation(project(":features:feature-channels"))
-
-    implementation(libs.dataStore)
 
     implementation(libs.kotlinx.coroutines.core)
 
@@ -120,8 +120,6 @@ dependencies {
 
     // navigation (not provided by convention plugin)
     implementation(libs.androidx.compose.navigation)
-
-    implementation(libs.startUp)
 
     implementation(libs.bundles.workManager)
 
@@ -141,6 +139,8 @@ dependencies {
 
     implementation(libs.timber)
 
+    testImplementation(project(":core:core-data"))
+    testImplementation(libs.dataStore)
     testImplementation(libs.testJunit)
     testImplementation(libs.kotlinx.datetime)
     testImplementation(libs.kotlinx.collections.immutable)

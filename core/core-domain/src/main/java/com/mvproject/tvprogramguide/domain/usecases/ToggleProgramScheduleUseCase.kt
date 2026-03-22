@@ -2,17 +2,17 @@ package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.domain.contract.IProgramRepository
-import com.mvproject.tvprogramguide.domain.helpers.ProgramSchedulerHelper
+import com.mvproject.tvprogramguide.domain.contract.IProgramScheduler
 
 /**
  * Use case for toggling the schedule state of a program.
  *
  * @property programRepository The repository for managing program data.
- * @property programSchedulerHelper The helper for scheduling program alarms.
+ * @property programScheduler The scheduler for managing program alarms.
  */
 class ToggleProgramScheduleUseCase(
     private val programRepository: IProgramRepository,
-    private val programSchedulerHelper: ProgramSchedulerHelper,
+    private val programScheduler: IProgramScheduler,
 ) {
     /**
      * Toggles the schedule state of a program, either scheduling it or canceling an existing schedule.
@@ -37,7 +37,7 @@ class ToggleProgramScheduleUseCase(
                 val id =
                     program.dateTimeStart + program.dateTimeEnd + program.title.hashCode() + program.channel.hashCode()
                 val scheduled = program.copy(scheduledId = id)
-                programSchedulerHelper.scheduleProgramAlarm(
+                programScheduler.scheduleProgramAlarm(
                     programSchedule = scheduled,
                     channelName = channelName,
                 )
@@ -45,7 +45,7 @@ class ToggleProgramScheduleUseCase(
             } else {
                 // Program is already scheduled, cancel the alert
                 val idForCancel = requireNotNull(program.scheduledId)
-                programSchedulerHelper.cancelProgramAlarm(schedulerId = idForCancel)
+                programScheduler.cancelProgramAlarm(schedulerId = idForCancel)
                 program.copy(scheduledId = null)
             }
         programRepository.updateProgram(program = selectedProgram)

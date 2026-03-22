@@ -263,66 +263,66 @@ class PreferenceRepositoryTest : FunSpec({
 
     context("setChannelsUpdateLastTime") {
         test("calls dataStore.edit") {
-            coEvery { dataStore.updateData(any()) } returns preferences
+            coEvery { dataStore.updateData(any<suspend (Preferences) -> Preferences>()) } returns preferences
 
             repository.setChannelsUpdateLastTime(12345L)
 
-            coVerify(exactly = 1) { dataStore.updateData(any()) }
+            coVerify(exactly = 1) { dataStore.updateData(any<suspend (Preferences) -> Preferences>()) }
             confirmVerified(dataStore)
         }
     }
 
     context("setProgramsUpdateLastTime") {
         test("calls dataStore.edit") {
-            coEvery { dataStore.updateData(any()) } returns preferences
+            coEvery { dataStore.updateData(any<suspend (Preferences) -> Preferences>()) } returns preferences
 
             repository.setProgramsUpdateLastTime(99999L)
 
-            coVerify(exactly = 1) { dataStore.updateData(any()) }
+            coVerify(exactly = 1) { dataStore.updateData(any<suspend (Preferences) -> Preferences>()) }
             confirmVerified(dataStore)
         }
     }
 
     context("setProgramsCleanTime") {
         test("calls dataStore.edit") {
-            coEvery { dataStore.updateData(any()) } returns preferences
+            coEvery { dataStore.updateData(any<suspend (Preferences) -> Preferences>()) } returns preferences
 
             repository.setProgramsCleanTime(77777L)
 
-            coVerify(exactly = 1) { dataStore.updateData(any()) }
+            coVerify(exactly = 1) { dataStore.updateData(any<suspend (Preferences) -> Preferences>()) }
             confirmVerified(dataStore)
         }
     }
 
     context("setOnBoardState") {
         test("calls dataStore.edit") {
-            coEvery { dataStore.updateData(any()) } returns preferences
+            coEvery { dataStore.updateData(any<suspend (Preferences) -> Preferences>()) } returns preferences
 
             repository.setOnBoardState(true)
 
-            coVerify(exactly = 1) { dataStore.updateData(any()) }
+            coVerify(exactly = 1) { dataStore.updateData(any<suspend (Preferences) -> Preferences>()) }
             confirmVerified(dataStore)
         }
     }
 
     context("setProgramsUpdateRequiredState") {
         test("calls dataStore.edit") {
-            coEvery { dataStore.updateData(any()) } returns preferences
+            coEvery { dataStore.updateData(any<suspend (Preferences) -> Preferences>()) } returns preferences
 
             repository.setProgramsUpdateRequiredState(true)
 
-            coVerify(exactly = 1) { dataStore.updateData(any()) }
+            coVerify(exactly = 1) { dataStore.updateData(any<suspend (Preferences) -> Preferences>()) }
             confirmVerified(dataStore)
         }
     }
 
     context("setAppSettings") {
         test("calls dataStore.edit") {
-            coEvery { dataStore.updateData(any()) } returns preferences
+            coEvery { dataStore.updateData(any<suspend (Preferences) -> Preferences>()) } returns preferences
 
             repository.setAppSettings(AppSettingsModel())
 
-            coVerify(exactly = 1) { dataStore.updateData(any()) }
+            coVerify(exactly = 1) { dataStore.updateData(any<suspend (Preferences) -> Preferences>()) }
             confirmVerified(dataStore)
         }
     }

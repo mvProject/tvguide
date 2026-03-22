@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.di
+package com.mvproject.tvprogramguide.infrastructure.di
 
 import com.mvproject.tvprogramguide.domain.usecases.AddChannelListUseCase
 import com.mvproject.tvprogramguide.domain.usecases.BackupCreateUseCase

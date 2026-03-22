@@ -1,7 +1,7 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
-import com.mvproject.tvprogramguide.data.network.NetworkClient
+import com.mvproject.tvprogramguide.domain.constants.NetworkConstants
 import com.mvproject.tvprogramguide.domain.contract.IAllChannelRepository
 import com.mvproject.tvprogramguide.domain.contract.IPreferenceRepository
 import com.mvproject.tvprogramguide.domain.contract.IProgramDataSource
@@ -24,7 +24,7 @@ class UpdateChannelsInfoUseCase(
         Timber.d("UpdateChannelsInfoUseCase invoke")
         val networkChannels = buildList {
             programDataSource.downloadAndParseChannels(
-                url = NetworkClient.EPG_CHANNELS_URL,
+                url = NetworkConstants.EPG_CHANNELS_URL,
             ) { channel ->
                 add(
                     AvailableChannelResponse(

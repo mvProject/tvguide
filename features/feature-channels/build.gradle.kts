@@ -18,5 +18,4 @@ dependencies {
     implementation(libs.androidx.compose.navigation)
     implementation(platform(libs.koin.bom))
     implementation(libs.bundles.koin)
-    implementation(libs.bundles.workManager)
 }

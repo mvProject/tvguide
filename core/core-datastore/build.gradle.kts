@@ -9,6 +9,7 @@ android {
 
 dependencies {
     implementation(project(":core:core-models"))
+    implementation(project(":core:core-domain"))
     implementation(libs.dataStore)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.coroutines.core)

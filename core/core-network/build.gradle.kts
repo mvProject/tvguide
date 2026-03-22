@@ -13,6 +13,7 @@ android {
 
 dependencies {
     implementation(project(":core:core-models"))
+    implementation(project(":core:core-domain"))
     implementation(libs.bundles.ktor)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.coroutines.core)

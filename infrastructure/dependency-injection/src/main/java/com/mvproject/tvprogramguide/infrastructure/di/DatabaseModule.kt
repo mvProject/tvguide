@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.di
+package com.mvproject.tvprogramguide.infrastructure.di
 
 import com.mvproject.tvprogramguide.data.database.AppDatabase
 import com.mvproject.tvprogramguide.data.database.dao.AllChannelDao

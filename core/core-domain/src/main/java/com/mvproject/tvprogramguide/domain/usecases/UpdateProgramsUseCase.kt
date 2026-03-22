@@ -1,7 +1,7 @@
 package com.mvproject.tvprogramguide.domain.usecases
 
 import com.mvproject.tvprogramguide.data.model.parse.ProgramDTO
-import com.mvproject.tvprogramguide.data.network.NetworkClient.EPG_FILE2
+import com.mvproject.tvprogramguide.domain.constants.NetworkConstants
 import com.mvproject.tvprogramguide.domain.contract.IPreferenceRepository
 import com.mvproject.tvprogramguide.domain.contract.IProgramDataSource
 import com.mvproject.tvprogramguide.domain.contract.IProgramRepository
@@ -38,7 +38,7 @@ class UpdateProgramsUseCase(
         val programsDto = mutableListOf<ProgramDTO>()
         var currentId = String.empty
 
-        programDataSource.downloadAndParseXml(url = EPG_FILE2) { programme ->
+        programDataSource.downloadAndParseXml(url = NetworkConstants.EPG_FILE2) { programme ->
             try {
                 // Parse end first — skip parsing start if the record is already expired
                 val end = parseToInstant(programme.stop)
