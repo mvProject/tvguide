@@ -24,7 +24,7 @@ fun RadioGroupContent(
     onItemClick: (String) -> Unit = {},
 ) {
     val (selectedOption, onOptionSelected) =
-        remember {
+        remember(defaultSelection) {
             mutableStateOf(radioOptions[defaultSelection])
         }
 

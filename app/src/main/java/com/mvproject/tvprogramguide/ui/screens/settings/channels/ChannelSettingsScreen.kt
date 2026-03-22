@@ -21,7 +21,6 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -208,15 +207,13 @@ fun ChannelSettingsContent(
                     }
                 }
 
-                val channelsList by remember {
-                    derivedStateOf {
-                        if (viewState.searchString.length > COUNT_ONE) {
-                            allChannels.filter {
-                                it.channelName.contains(viewState.searchString, true)
-                            }.toImmutableList()
-                        } else {
-                            allChannels
-                        }
+                val channelsList = remember(allChannels, viewState.searchString) {
+                    if (viewState.searchString.length > COUNT_ONE) {
+                        allChannels.filter {
+                            it.channelName.contains(viewState.searchString, true)
+                        }.toImmutableList()
+                    } else {
+                        allChannels
                     }
                 }
 

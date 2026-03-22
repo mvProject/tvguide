@@ -6,10 +6,10 @@ import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.compression.ContentEncoding
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.ANDROID
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
@@ -23,7 +23,7 @@ object NetworkClient {
         return HttpClient(OkHttp).config {
             if (BuildConfig.DEBUG) {
                 install(Logging) {
-                    logger = Logger.SIMPLE
+                    logger = Logger.ANDROID
                     level = LogLevel.ALL
                 }
             }
