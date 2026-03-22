@@ -13,7 +13,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
@@ -108,15 +107,11 @@ class ProgramRepositoryTest : FunSpec({
                 ProgramDTO(202107011300, 202107011400,"Program 2", "Description 2")
             )
 
-            coEvery { programDao.deletePrograms(channelId) } just Runs
-            coEvery { programDao.insertPrograms(any()) } just Runs
+            coEvery { programDao.replacePrograms(channelId, any()) } just Runs
 
             repository.updatePrograms(channelId, programDTOs)
 
-            coVerifyOrder {
-                programDao.deletePrograms(channelId)
-                programDao.insertPrograms(any())
-            }
+            coVerify { programDao.replacePrograms(channelId, any()) }
         }
     }
 

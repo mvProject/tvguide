@@ -320,7 +320,7 @@ class GetSelectedChannelsWithProgramsUseCaseTest : FunSpec({
 
                 coVerify(exactly = 2) { programRepository.loadProgramsForChannels(listOf("prog_ch1")) }
                 verify(exactly = 1) { selectedChannelRepository.loadSelectedChannelsAsFlow() }
-                verify(exactly = 1) { preferenceRepository.loadAppSettings() }
+                verify(exactly = 2) { preferenceRepository.loadAppSettings() }
                 confirmVerified(selectedChannelRepository, programRepository, preferenceRepository)
             }
         }

@@ -112,8 +112,6 @@ dependencies {
 
     implementation(libs.dataStore)
 
-    implementation(libs.kotlinx.serialization.json)
-
     implementation(libs.kotlinx.coroutines.core)
 
     // image
@@ -127,19 +125,7 @@ dependencies {
 
     implementation(libs.bundles.workManager)
 
-    implementation(libs.kotlinx.collections.immutable)
-
-    implementation(libs.kotlinx.datetime)
-
-    // implementation(libs.bundles.playReview)
-//
-    // implementation(libs.bundles.playUpdate)
-
-    implementation(libs.bundles.ksoup)
-
     implementation(libs.bundles.ktor)
-
-    implementation(libs.bundles.credentials)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
@@ -147,13 +133,17 @@ dependencies {
     implementation(platform(libs.koin.bom))
     implementation(libs.bundles.koin)
 
-    // Room Database
+    implementation(libs.accompanist.permissions)
+
+    // Room needed for database builder in DI module
     implementation(libs.bundles.room)
     ksp(libs.room.compiler)
 
-    implementation(libs.accompanist.permissions)
+    implementation(libs.timber)
 
     testImplementation(libs.testJunit)
+    testImplementation(libs.kotlinx.datetime)
+    testImplementation(libs.kotlinx.collections.immutable)
 
     implementation(libs.bundles.kotest)
 

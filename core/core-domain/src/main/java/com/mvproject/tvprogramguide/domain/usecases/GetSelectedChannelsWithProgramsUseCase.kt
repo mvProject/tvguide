@@ -7,7 +7,6 @@ import com.mvproject.tvprogramguide.domain.contract.ISelectedChannelRepository
 import com.mvproject.tvprogramguide.utils.AppConstants.empty
 import com.mvproject.tvprogramguide.utils.ProgramUtils.toSelectedChannelWithPrograms
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -53,7 +52,6 @@ class GetSelectedChannelsWithProgramsUseCase(
                 }
             }
             .map { (_, valid) -> valid }
-            .distinctUntilChanged()
             .flatMapLatest { actualChannels ->
                 // DB query only runs when channels change, not on every settings change
                 val ids = actualChannels.map { it.programId }

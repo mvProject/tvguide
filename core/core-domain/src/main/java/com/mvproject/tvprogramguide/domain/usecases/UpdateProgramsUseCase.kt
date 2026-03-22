@@ -63,7 +63,7 @@ class UpdateProgramsUseCase(
                         if (programsDto.isNotEmpty()) {
                             programRepository.updatePrograms(
                                 channelId = currentId,
-                                programs = programsDto,
+                                programs = programsDto.toList(),
                             )
                         }
                         programsDto.clear()

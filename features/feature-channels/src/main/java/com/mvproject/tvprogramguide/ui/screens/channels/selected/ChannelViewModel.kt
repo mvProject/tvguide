@@ -44,7 +44,6 @@ class ChannelViewModel(
             val listName = allLists.firstOrNull { it.isSelected }?.listName ?: String.empty
             Triple(onboardState, allLists.toImmutableList(), listName)
         }
-            .flowOn(Dispatchers.IO)
             .onEach { (onboardState, playlists, listName) ->
                 _viewState.update { state ->
                     state.copy(
