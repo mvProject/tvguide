@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -14,11 +15,13 @@ fun AppVersion(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val appVersion = try {
-        val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-        packageInfo.versionName ?: String.empty
-    } catch (e: Exception) {
-        String.empty
+    val appVersion = remember(context) {
+        try {
+            val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+            packageInfo.versionName ?: String.empty
+        } catch (e: Exception) {
+            String.empty
+        }
     }
     if (appVersion.isNotBlank()) {
         Text(

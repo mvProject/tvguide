@@ -81,17 +81,20 @@ class FullUpdateProgramsWorker(
         return try {
             updateProgramsUseCase {
                 current += COUNT_ONE
-                val progress = ((current / channelsCount.toFloat()) * 100).toInt()
+                // Throttle notification updates to avoid flooding the notification system
+                if (current % NOTIFICATION_UPDATE_INTERVAL == 0) {
+                    val progress = ((current / channelsCount.toFloat()) * 100).toInt()
 
-                updateNotificationBuilder.apply {
-                    setProgress(channelsCount, current, false)
-                    setContentText("Updating: $progress%")
+                    updateNotificationBuilder.apply {
+                        setProgress(channelsCount, current, false)
+                        setContentText("Updating: $progress%")
+                    }
+
+                    notificationManager.notify(
+                        UPDATE_NOTIFICATION_ID,
+                        updateNotificationBuilder.build()
+                    )
                 }
-
-                notificationManager.notify(
-                    UPDATE_NOTIFICATION_ID,
-                    updateNotificationBuilder.build()
-                )
             }
 
             Timber.d("FullUpdateProgramsWorker end update")
@@ -107,6 +110,7 @@ class FullUpdateProgramsWorker(
         const val UPDATE_NOTIFICATION_CHANNEL_NAME = "Update Notifications"
         const val UPDATE_NOTIFICATION_ID = 1001
         private const val MAX_RUN_ATTEMPTS = 3
+        private const val NOTIFICATION_UPDATE_INTERVAL = 5
     }
 }
 

@@ -1,6 +1,5 @@
 package com.mvproject.tvprogramguide.utils
 
-import android.annotation.SuppressLint
 import com.mvproject.tvprogramguide.data.database.entity.ProgramEntity
 import com.mvproject.tvprogramguide.utils.AppConstants.empty
 import kotlinx.datetime.Clock
@@ -144,7 +143,6 @@ object TimeUtils {
      * @return Rounded time string in "HH:mm" format
      * @throws IllegalArgumentException if hour value is greater than 23
      */
-    @SuppressLint("DefaultLocale")
     fun roundTimeString(time: String): String {
         val (hour, minute) = time.split(":").map { it.toInt() }
         val lastDigit = minute % 10
@@ -153,10 +151,9 @@ object TimeUtils {
             throw IllegalArgumentException()
         } else {
             if (minute >= 57) {
-                return String.format(
-                    "%02d:00",
-                    (hour + 1) % 24
-                ) // Edge case for 57, 58, and 59 minutes
+                return "${
+                    ((hour + 1) % 24).toString().padStart(2, '0')
+                }:00" // Edge case for 57, 58, and 59 minutes
             }
 
             val roundedMinute =
@@ -168,7 +165,9 @@ object TimeUtils {
                 }
 
             // Ensure the rounded minute is formatted properly with leading zero if needed
-            return String.format("%02d:%02d", hour, roundedMinute)
+            return "${hour.toString().padStart(2, '0')}:${
+                roundedMinute.toString().padStart(2, '0')
+            }"
         }
 
     }
@@ -179,13 +178,8 @@ object TimeUtils {
      * @param input String in "yyyyMMddHHmm" format
      * @return Formatted date string in "dd/MM/yyyy" format
      */
-    @SuppressLint("DefaultLocale")
-    fun extractDate(input: String): String {
-        val year = input.substring(0, 4).toInt()
-        val month = input.substring(4, 6).toInt()
-        val day = input.substring(6, 8).toInt()
-        return String.format("%02d/%02d/%04d", day, month, year)
-    }
+    fun extractDate(input: String): String =
+        "${input.substring(6, 8)}/${input.substring(4, 6)}/${input.substring(0, 4)}"
 
     /**
      * Extracts time components from a datetime string.
@@ -193,12 +187,8 @@ object TimeUtils {
      * @param input String in "yyyyMMddHHmm" format
      * @return Formatted time string in "HH:mm" format
      */
-    @SuppressLint("DefaultLocale")
-    fun extractTime(input: String): String {
-        val hour = input.substring(8, 10).toInt()
-        val minute = input.substring(10, 12).toInt()
-        return String.format("%02d:%02d", hour, minute)
-    }
+    fun extractTime(input: String): String =
+        "${input.substring(8, 10)}:${input.substring(10, 12)}"
 
     /**
      * Converts a datetime string to epoch milliseconds.

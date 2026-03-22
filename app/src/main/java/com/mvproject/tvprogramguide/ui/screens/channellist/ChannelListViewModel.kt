@@ -7,8 +7,11 @@ import com.mvproject.tvprogramguide.domain.usecases.AddChannelListUseCase
 import com.mvproject.tvprogramguide.domain.usecases.DeleteChannelListUseCase
 import com.mvproject.tvprogramguide.domain.usecases.SelectChannelListUseCase
 import com.mvproject.tvprogramguide.ui.screens.channellist.action.ChannelListAction
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -24,10 +27,11 @@ class ChannelListViewModel(
 
     val customs by lazy {
         channelListRepository.loadChannelsListsAsFlow()
+            .map { it.toImmutableList() }
             .stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(3000L),
-                emptyList()
+                persistentListOf()
             )
     }
 

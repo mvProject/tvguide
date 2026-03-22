@@ -12,8 +12,6 @@ import com.mvproject.tvprogramguide.data.model.parse.ProgramDTO
 import com.mvproject.tvprogramguide.data.model.response.AvailableChannelResponse
 import com.mvproject.tvprogramguide.utils.AppConstants.empty
 import com.mvproject.tvprogramguide.utils.trimSpaces
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 /**
  * Mappers object contains extension functions for mapping between different data models.
@@ -110,11 +108,10 @@ object Mappers {
      * @param id The channel ID to associate with the program
      * @return the converted [ProgramEntity] object
      */
-    @OptIn(ExperimentalUuidApi::class)
     fun ProgramDTO.asProgramEntity(id: String) =
         with(this) {
             ProgramEntity(
-                programId = Uuid.random().toString(),
+                programId = "${id}_${dateTimeStart}",
                 dateTimeStart = dateTimeStart,
                 dateTimeEnd = dateTimeEnd,
                 title = title,

@@ -39,31 +39,6 @@ class ExtensionsTest : FunSpec({
         }
     }
 
-    context("Long.convertDateToReadableFormat2") {
-        test("converts epoch milliseconds to readable date format") {
-            withClue("for a valid date") {
-                testDateLong.convertDateToReadableFormat2() shouldBe testDateShort
-            }
-
-            withClue("for epoch start") {
-                val millis = 0L // 1970-01-01 00:00:00 UTC
-                millis.convertDateToReadableFormat2() shouldBe "01 01 1970"
-            }
-
-            withClue("parse long date not empty or some") {
-                testDateLong.convertDateToReadableFormat2() shouldNotBe ""
-                testDateLong.convertDateToReadableFormat2() shouldNotBe "Some String"
-            }
-            withClue("parse zero long to date not empty") {
-                0L.convertDateToReadableFormat2() shouldNotBe ""
-            }
-
-            withClue("parse not date long to date not empty") {
-                1000L.convertDateToReadableFormat2() shouldNotBe ""
-            }
-        }
-    }
-
     context("Long.convertTimeToReadableFormat") {
         test("converts epoch milliseconds to readable time format") {
             withClue("for a valid time") {

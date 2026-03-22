@@ -2,8 +2,10 @@ package com.mvproject.tvprogramguide.ui.screens.settings.channels
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Animatable
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Column
@@ -19,27 +21,35 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mvproject.tvprogramguide.R
+import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
+import com.mvproject.tvprogramguide.ui.screens.settings.channels.action.ChannelsAction
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.components.AvailableChannelsPage
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.components.SelectedChannelsPage
+import com.mvproject.tvprogramguide.ui.screens.settings.channels.state.ChannelSettingsState
+import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO_FLOAT
 import com.mvproject.tvprogramguide.utils.AppConstants.SELECTED_CHANNELS_PAGE
-import com.mvproject.tvprogramguide.utils.closeScreenAnimation
-import com.mvproject.tvprogramguide.utils.openScreenAnimation
-import com.mvproject.tvprogramguide.utils.slideOutDetailsBoundsTransform
+import com.mvproject.tvprogramguide.utils.containerTransformBoundsTransform
+import com.mvproject.tvprogramguide.utils.sharedBoundsEnter
+import com.mvproject.tvprogramguide.utils.sharedBoundsExit
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -50,17 +60,46 @@ fun ChannelSettingsScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
     onNavigateBack: () -> Unit = {},
 ) {
-    val coroutineScope = rememberCoroutineScope()
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     val selected by viewModel.selected.collectAsStateWithLifecycle()
+    val allChannels by viewModel.allChannels.collectAsStateWithLifecycle()
 
     BackHandler {
         viewModel.applyChanges()
     }
 
+    ChannelSettingsContent(
+        name = viewModel.name,
+        viewState = viewState,
+        selected = selected,
+        allChannels = allChannels,
+        sharedTransitionScope = sharedTransitionScope,
+        animatedVisibilityScope = animatedVisibilityScope,
+        onNavigateBack = onNavigateBack,
+        onApplyChanges = viewModel::applyChanges,
+        onAction = viewModel::processAction,
+    )
+}
+
+@OptIn(ExperimentalSharedTransitionApi::class)
+@Composable
+fun ChannelSettingsContent(
+    name: String,
+    viewState: ChannelSettingsState,
+    selected: ImmutableList<SelectionChannel>,
+    allChannels: ImmutableList<SelectionChannel>,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
+    onNavigateBack: () -> Unit = {},
+    onApplyChanges: () -> Unit = {},
+    onAction: (ChannelsAction) -> Unit = {},
+) {
+    val coroutineScope = rememberCoroutineScope()
+
+    val currentOnNavigateBack by rememberUpdatedState(onNavigateBack)
     LaunchedEffect(viewState.isComplete) {
         if (viewState.isComplete) {
-            onNavigateBack()
+            currentOnNavigateBack()
         }
     }
 
@@ -89,7 +128,7 @@ fun ChannelSettingsScreen(
         topBar = {
             ToolbarWithBack(
                 title = stringResource(id = R.string.settings_channels_settings_title),
-                onBackClick = { viewModel.applyChanges() },
+                onBackClick = onApplyChanges,
             )
         },
     ) { padding ->
@@ -98,11 +137,11 @@ fun ChannelSettingsScreen(
                 modifier = Modifier
                     .padding(padding)
                     .sharedBounds(
-                        sharedContentState = rememberSharedContentState(key = viewModel.name),
+                        sharedContentState = rememberSharedContentState(key = name),
                         animatedVisibilityScope = animatedVisibilityScope,
-                        enter = openScreenAnimation,
-                        exit = closeScreenAnimation,
-                        boundsTransform = slideOutDetailsBoundsTransform,
+                        enter = sharedBoundsEnter,
+                        exit = sharedBoundsExit,
+                        boundsTransform = containerTransformBoundsTransform,
                     ),
             ) {
                 TabRow(
@@ -168,15 +207,13 @@ fun ChannelSettingsScreen(
                     }
                 }
 
-                val channelsList by remember {
-                    derivedStateOf {
-                        if (viewState.searchString.length > COUNT_ONE) {
-                            viewModel.allChannels.filter {
-                                it.channelName.contains(viewState.searchString, true)
-                            }
-                        } else {
-                            viewModel.allChannels
-                        }
+                val channelsList = remember(allChannels, viewState.searchString) {
+                    if (viewState.searchString.length > COUNT_ONE) {
+                        allChannels.filter {
+                            it.channelName.contains(viewState.searchString, true)
+                        }.toImmutableList()
+                    } else {
+                        allChannels
                     }
                 }
 
@@ -193,18 +230,45 @@ fun ChannelSettingsScreen(
                             SELECTED_CHANNELS_PAGE -> {
                                 SelectedChannelsPage(
                                     selectedChannels = selected,
-                                    onAction = viewModel::processAction,
+                                    onAction = onAction,
                                 )
                             }
 
                             else -> {
                                 AvailableChannelsPage(
                                     selectedChannels = channelsList,
-                                    onAction = viewModel::processAction,
+                                    onAction = onAction,
                                 )
                             }
                         }
                     },
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalSharedTransitionApi::class)
+@PreviewLightDark
+@Composable
+private fun ChannelSettingsContentPreview() {
+    TvGuideTheme {
+        SharedTransitionLayout {
+            AnimatedVisibility(visible = true) {
+                ChannelSettingsContent(
+                    name = "My List",
+                    viewState = ChannelSettingsState(),
+                    selected = persistentListOf(
+                        SelectionChannel(channelId = "1", channelName = "TV1000 Comedy"),
+                        SelectionChannel(channelId = "2", channelName = "Discovery"),
+                    ),
+                    allChannels = persistentListOf(
+                        SelectionChannel(channelId = "1", channelName = "TV1000 Comedy"),
+                        SelectionChannel(channelId = "2", channelName = "Discovery"),
+                        SelectionChannel(channelId = "3", channelName = "National Geographic"),
+                    ),
+                    sharedTransitionScope = this@SharedTransitionLayout,
+                    animatedVisibilityScope = this@AnimatedVisibility,
                 )
             }
         }

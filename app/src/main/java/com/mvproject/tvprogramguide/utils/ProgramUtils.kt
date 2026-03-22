@@ -23,24 +23,14 @@ object ProgramUtils {
         itemsCount: Int = COUNT_ZERO,
     ): List<SelectedChannelWithPrograms> {
         // Group programs by channel
-        val programs =
-            this.groupBy { program ->
-                program.channel
-            }
+        val programs = this.groupBy { program -> program.channel }
 
-        //return buildList {
         return alreadySelected.map { chn ->
-
-                val currentPrograms = programs[chn.programId] ?: emptyList()
-
-               // add(
-                    SelectedChannelWithPrograms(
-                        selectedChannel = chn,
-                        // Take a subset of programs if itemsCount is specified, otherwise take all
-                        programs = currentPrograms.takeIfCountNotEmpty(count = itemsCount),
-                    )
-               // )
-            }
-       // }
+            val currentPrograms = programs[chn.programId] ?: emptyList()
+            SelectedChannelWithPrograms(
+                selectedChannel = chn,
+                programs = currentPrograms.takeIfCountNotEmpty(count = itemsCount),
+            )
+        }
     }
 }

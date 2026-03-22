@@ -5,29 +5,13 @@ import com.mvproject.tvprogramguide.utils.AppConstants.USER_LIST_MAX_LENGTH
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import java.text.SimpleDateFormat
-import java.util.Locale
-
-private const val TARGET_DATE_FORMAT = "dd MM yyyy"
 
 /**
  * Converts a Long timestamp to a readable date format.
  *
  * @return A string representation of the date in the format "dd MM yyyy".
  */
-fun Long.convertDateToReadableFormat(): String =
-    SimpleDateFormat(
-        TARGET_DATE_FORMAT,
-        Locale.getDefault(),
-    ).format(this)
-
-
-/**
- * Converts a Long timestamp to a readable date format.
- *
- * @return A string representation of the date in the format "dd MM yyyy".
- */
-fun Long.convertDateToReadableFormat2(): String {
+fun Long.convertDateToReadableFormat(): String {
     val instant = Instant.fromEpochMilliseconds(this)
     val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
     return "${localDateTime.dayOfMonth.toString().padStart(2, '0')} " +
@@ -90,5 +74,4 @@ fun String.manageLength() =
  *
  * @return A new string with all spaces removed.
  */
-fun String.trimSpaces() =
-    this.replace(" ", "")
+fun String.trimSpaces() = filter { it != ' ' }

@@ -33,6 +33,7 @@ import com.mvproject.tvprogramguide.ui.components.views.ChannelListItem
 import com.mvproject.tvprogramguide.ui.components.views.NoItemsScreen
 import com.mvproject.tvprogramguide.ui.screens.channellist.action.ChannelListAction
 import com.mvproject.tvprogramguide.ui.theme.dimens
+import kotlinx.collections.immutable.ImmutableList
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -60,7 +61,7 @@ fun ChannelListScreen(
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 private fun ChannelListScreen(
-    userLists: List<ChannelList>,
+    userLists: ImmutableList<ChannelList>,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
     onAction: (action: ChannelListAction) -> Unit,
@@ -117,7 +118,7 @@ private fun ChannelListScreen(
                             horizontal = MaterialTheme.dimens.size4,
                         ),
                     ) {
-                        items(userLists) { item ->
+                        items(userLists, key = { it.listName }) { item ->
                             ChannelListItem(
                                 listName = item.listName,
                                 isSelected = item.isSelected,

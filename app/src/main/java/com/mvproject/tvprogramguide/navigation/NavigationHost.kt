@@ -20,6 +20,10 @@ import com.mvproject.tvprogramguide.ui.screens.settings.channels.navigation.navi
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.navigation.settingsChannelScreen
 import com.mvproject.tvprogramguide.ui.screens.settings.general.navigation.navigateToSettingsGeneral
 import com.mvproject.tvprogramguide.ui.screens.settings.general.navigation.settingsGeneralScreen
+import com.mvproject.tvprogramguide.utils.navEnterTransition
+import com.mvproject.tvprogramguide.utils.navExitTransition
+import com.mvproject.tvprogramguide.utils.navPopEnterTransition
+import com.mvproject.tvprogramguide.utils.navPopExitTransition
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -31,6 +35,10 @@ fun NavigationHost(
         NavHost(
             navController = navController,
             startDestination = startScreen,
+            enterTransition = { navEnterTransition },
+            exitTransition = { navExitTransition },
+            popEnterTransition = { navPopEnterTransition },
+            popExitTransition = { navPopExitTransition },
         ) {
             selectedChannelsScreen(
                 sharedTransitionScope = this@SharedTransitionLayout,

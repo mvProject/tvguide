@@ -1,6 +1,5 @@
 package com.mvproject.tvprogramguide.ui.screens.settings.channels
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,6 +12,9 @@ import com.mvproject.tvprogramguide.ui.screens.settings.channels.navigation.Sett
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.state.ChannelSettingsState
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
 import com.mvproject.tvprogramguide.utils.ChannelUtils.updateOrders
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -34,9 +36,10 @@ class ChannelSettingsViewModel(
         ChannelSettingsState()
     )
 
-    val allChannels = mutableStateListOf<SelectionChannel>()
+    private val _allChannels = MutableStateFlow<ImmutableList<SelectionChannel>>(persistentListOf())
+    val allChannels = _allChannels.asStateFlow()
 
-    private val _selected = MutableStateFlow<List<SelectionChannel>>(emptyList())
+    private val _selected = MutableStateFlow<ImmutableList<SelectionChannel>>(persistentListOf())
     val selected = _selected.asStateFlow()
 
     var name = SettingsChannelArgs(savedStateHandle).userListName
@@ -46,15 +49,12 @@ class ChannelSettingsViewModel(
 
     init {
         viewModelScope.launch {
-            _selected.value = getSelectedChannels(listName = name)
+            _selected.value = getSelectedChannels(listName = name).toImmutableList()
         }
 
         viewModelScope.launch {
             val available = getAvailableChannels(listName = name)
-            allChannels.apply {
-                clear()
-                addAll(available)
-            }
+            _allChannels.value = available.toImmutableList()
         }
     }
 
@@ -67,7 +67,7 @@ class ChannelSettingsViewModel(
             }
 
             is ChannelsAction.ChannelsReorder -> {
-                _selected.value = action.selectedChannels.updateOrders()
+                _selected.value = action.selectedChannels.updateOrders().toImmutableList()
             }
 
             is ChannelsAction.ChannelFilter -> {
@@ -93,12 +93,13 @@ class ChannelSettingsViewModel(
         val order = selected.value.size + COUNT_ONE
         val updated = channel.copy(isSelected = true, order = order)
 
-        _selected.value = selected.value.plus(updated)
+        _selected.value = selected.value.plus(updated).toImmutableList()
 
-        allChannels.set(
-            index = allChannels.indexOf(channel),
-            element = updated,
-        )
+        _allChannels.update { list ->
+            list.toMutableList()
+                .also { it[it.indexOfFirst { c -> c.channelId == channel.channelId }] = updated }
+                .toImmutableList()
+        }
 
         channelsForUpdate.add(channel.programId)
     }
@@ -106,12 +107,11 @@ class ChannelSettingsViewModel(
     private fun removeFromSelected(channel: SelectionChannel) {
         val updated = channel.copy(isSelected = false)
 
-        val index = allChannels.indexOfFirst { it.channelId == channel.channelId }
-
-        allChannels.set(
-            index = index,
-            element = updated,
-        )
+        _allChannels.update { list ->
+            list.toMutableList()
+                .also { it[it.indexOfFirst { c -> c.channelId == channel.channelId }] = updated }
+                .toImmutableList()
+        }
 
         _selected.value = removeChannel(removeId = channel.channelId)
         if (channelsForUpdate.isNotEmpty()) {
@@ -120,7 +120,7 @@ class ChannelSettingsViewModel(
         }
     }
 
-    private fun removeChannel(removeId: String): List<SelectionChannel> {
+    private fun removeChannel(removeId: String): ImmutableList<SelectionChannel> {
         val modified =
             selected.value
                 .toMutableList()
@@ -129,11 +129,11 @@ class ChannelSettingsViewModel(
                         it.channelId == removeId
                     }
                 }
-        return modified.updateOrders()
+        return modified.updateOrders().toImmutableList()
     }
 
     fun applyChanges() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             selectedChannelRepository.addChannels(
                 listName = name,
                 selectedChannels = selected.value,

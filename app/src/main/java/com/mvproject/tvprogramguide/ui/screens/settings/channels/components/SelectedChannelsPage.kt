@@ -22,14 +22,15 @@ import com.mvproject.tvprogramguide.ui.components.composables.rememberDragDropSt
 import com.mvproject.tvprogramguide.ui.components.views.ChannelSelectableItem
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.action.ChannelsAction
 import com.mvproject.tvprogramguide.ui.theme.dimens
+import kotlinx.collections.immutable.ImmutableList
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SelectedChannelsPage(
-    selectedChannels: List<SelectionChannel>,
+    selectedChannels: ImmutableList<SelectionChannel>,
     onAction: (action: ChannelsAction) -> Unit,
 ) {
-    var channels by remember { mutableStateOf(selectedChannels) }
+    var channels: List<SelectionChannel> by remember { mutableStateOf(selectedChannels) }
 
     LaunchedEffect(key1 = selectedChannels) {
         channels = selectedChannels

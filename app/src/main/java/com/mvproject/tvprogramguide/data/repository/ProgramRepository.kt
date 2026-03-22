@@ -1,6 +1,5 @@
 package com.mvproject.tvprogramguide.data.repository
 
-import androidx.room.Transaction
 import com.mvproject.tvprogramguide.data.database.dao.ProgramDao
 import com.mvproject.tvprogramguide.data.mappers.Mappers.asProgramEntity
 import com.mvproject.tvprogramguide.data.mappers.Mappers.asProgramFromEntities
@@ -25,11 +24,12 @@ class ProgramRepository(
      * @return List of Program objects for the specified channels.
      */
     override suspend fun loadProgramsForChannels(channelsIds: List<String>): List<Program> {
-        return programDao
-            .getSelectedChannelPrograms(
-                timeStamp = TimeUtils.actualDate,
-                selectedIds = channelsIds
-            )
+        val timeStamp = TimeUtils.actualDate
+        return channelsIds
+            .chunked(500)
+            .flatMap { chunk ->
+                programDao.getSelectedChannelPrograms(timeStamp = timeStamp, selectedIds = chunk)
+            }
             .asProgramFromEntities()
     }
 
@@ -55,21 +55,12 @@ class ProgramRepository(
      * @param channelId ID of the channel to update programs for.
      * @param programs List of ProgramDTO objects containing the new program data.
      */
-    @Transaction
     override suspend fun updatePrograms(
         channelId: String,
         programs: List<ProgramDTO>,
     ) {
-        val entities = programs.map { item ->
-            item
-                .asProgramEntity(id = channelId)
-         //      .correctTimeZone()
-        }
-
-        programDao.apply {
-            deletePrograms(channelId = channelId)
-            insertPrograms(programs = entities)
-        }
+        val entities = programs.map { item -> item.asProgramEntity(id = channelId) }
+        programDao.replacePrograms(channelId = channelId, programs = entities)
     }
 
     /**

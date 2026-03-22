@@ -110,6 +110,7 @@ dependencies {
 
     // image
     implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 
     // navigation (not provided by convention plugin)
     implementation(libs.androidx.compose.navigation)

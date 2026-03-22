@@ -40,36 +40,36 @@ class UpdateProgramsUseCase(
 
         programDataSource.downloadAndParseXml(url = EPG_FILE2) { programme ->
             try {
-                val start = parseToInstant(programme.start)
+                // Parse end first — skip parsing start if the record is already expired
                 val end = parseToInstant(programme.stop)
+                if (end <= currentDate) return@downloadAndParseXml
 
-                if (end > currentDate) {
-                    programmeCount++
-                    val dto = ProgramDTO(
-                        dateTimeStart = start,
-                        dateTimeEnd = end,
-                        title = programme.title,
-                        description = programme.desc ?: String.empty,
-                    )
-                    if (currentId.isBlank()) {
+                val start = parseToInstant(programme.start)
+                programmeCount++
+                val dto = ProgramDTO(
+                    dateTimeStart = start,
+                    dateTimeEnd = end,
+                    title = programme.title,
+                    description = programme.desc ?: String.empty,
+                )
+                if (currentId.isBlank()) {
+                    currentId = programme.channel
+                    onNextId()
+                    programsDto.add(dto)
+                } else {
+                    if (programme.channel == currentId) {
+                        programsDto.add(dto)
+                    } else {
+                        if (programsDto.isNotEmpty()) {
+                            programRepository.updatePrograms(
+                                channelId = currentId,
+                                programs = programsDto,
+                            )
+                        }
+                        programsDto.clear()
                         currentId = programme.channel
                         onNextId()
                         programsDto.add(dto)
-                    } else {
-                        if (programme.channel == currentId) {
-                            programsDto.add(dto)
-                        } else {
-                            if (programsDto.isNotEmpty()) {
-                                programRepository.updatePrograms(
-                                    channelId = currentId,
-                                    programs = programsDto.toList(),
-                                )
-                            }
-                            programsDto.clear()
-                            currentId = programme.channel
-                            onNextId()
-                            programsDto.add(dto)
-                        }
                     }
                 }
                 if (programmeCount > 0 && programmeCount % 10000 == 0) {
@@ -82,7 +82,7 @@ class UpdateProgramsUseCase(
 
         // Flush the last channel's batch — it never triggers the channel-change branch above
         if (programsDto.isNotEmpty()) {
-            programRepository.updatePrograms(channelId = currentId, programs = programsDto.toList())
+            programRepository.updatePrograms(channelId = currentId, programs = programsDto)
         }
 
         if (programmeCount > 0) {

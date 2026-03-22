@@ -34,7 +34,7 @@ fun NumberPicker(
     default: Int = min,
     onValueChange: (Int) -> Unit = {},
 ) {
-    val number = remember { mutableIntStateOf(default) }
+    val number = remember(default) { mutableIntStateOf(default) }
 
     Row(
         modifier =

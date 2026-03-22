@@ -32,15 +32,20 @@ import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.utils.AppConstants.empty
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun ShowSelectFromListDialog(
-    channelLists: List<ChannelList>,
+    channelLists: ImmutableList<ChannelList>,
     defaultSelection: Int = COUNT_ZERO,
     isDialogOpen: MutableState<Boolean>,
     onSelected: (ChannelList) -> Unit = {},
 ) {
-    val selection = channelLists.firstOrNull { it.isSelected }?.listName ?: String.empty
+    val selection = remember(channelLists) {
+        channelLists.firstOrNull { it.isSelected }?.listName ?: String.empty
+    }
 
     var name by remember { mutableStateOf(selection) }
 
@@ -85,8 +90,11 @@ fun ShowSelectFromListDialog(
                                 enabled = true,
                             ),
                     ) {
+                        val radioOptions = remember(channelLists) {
+                            channelLists.map { it.listName }.toImmutableList()
+                        }
                         RadioGroupContent(
-                            radioOptions = channelLists.map { it.listName },
+                            radioOptions = radioOptions,
                             defaultSelection = defaultSelection,
                             onItemClick = { selected ->
                                 name = selected
@@ -131,7 +139,7 @@ fun ShowSelectFromListDialogPreview() {
         }
     TvGuideTheme {
         ShowSelectFromListDialog(
-            channelLists = listOf(ChannelList(1, "1", true), ChannelList(2, "2", false)),
+            channelLists = persistentListOf(ChannelList(1, "1", true), ChannelList(2, "2", false)),
             defaultSelection = 1,
             isDialogOpen = open,
             onSelected = {},

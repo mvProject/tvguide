@@ -7,10 +7,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun RadioGroup(
-    radioOptions: List<String> = listOf(),
+    radioOptions: ImmutableList<String> = persistentListOf(),
     defaultSelection: Int = COUNT_ZERO,
     onItemClick: (String) -> Unit
 ) {
@@ -21,7 +23,7 @@ fun RadioGroup(
         RadioGroupContent(
             radioOptions = radioOptions,
             defaultSelection = defaultSelection,
-            onItemClick = { item -> onItemClick(item) }
+            onItemClick = onItemClick
         )
     }
 }

@@ -3,7 +3,6 @@ package com.mvproject.tvprogramguide.di
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Context
 import android.os.Build
 import coil3.ImageLoader
 import coil3.PlatformContext
@@ -13,6 +12,7 @@ import coil3.disk.directory
 import coil3.memory.MemoryCache
 import coil3.request.CachePolicy
 import coil3.request.crossfade
+import coil3.util.DebugLogger
 import com.mvproject.tvprogramguide.domain.helpers.NotificationHelper.Companion.PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_ID
 import com.mvproject.tvprogramguide.domain.helpers.NotificationHelper.Companion.PROGRAM_SCHEDULED_NOTIFICATION_CHANNEL_NAME
 import com.mvproject.tvprogramguide.domain.workers.FullUpdateProgramsWorker.Companion.UPDATE_NOTIFICATION_CHANNEL_ID
@@ -84,7 +84,7 @@ class App :
                     .directory(cacheDir)
                     .build()
             }
-            // .logger(DebugLogger())
+            .logger(DebugLogger())
             .build()
     }
 }

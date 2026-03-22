@@ -89,12 +89,14 @@ private fun ChannelScreen(
     var isRefreshing by remember { mutableStateOf(false) }
 
     val refreshState = rememberPullToRefreshState()
-    val onRefresh: () -> Unit = {
-        isRefreshing = true
-        scope.launch {
-            onAction(ChannelsViewAction.ReloadChannels)
-            delay(REFRESH_DELAY)
-            isRefreshing = false
+    val onRefresh: () -> Unit = remember(scope) {
+        {
+            isRefreshing = true
+            scope.launch {
+                onAction(ChannelsViewAction.ReloadChannels)
+                delay(REFRESH_DELAY)
+                isRefreshing = false
+            }
         }
     }
 
