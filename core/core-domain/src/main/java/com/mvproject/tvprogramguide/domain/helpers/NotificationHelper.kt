@@ -4,7 +4,7 @@ import android.content.Context
 import android.media.RingtoneManager
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.mvproject.tvprogramguide.R
+import com.mvproject.tvprogramguide.core.domain.R
 import timber.log.Timber
 
 /**

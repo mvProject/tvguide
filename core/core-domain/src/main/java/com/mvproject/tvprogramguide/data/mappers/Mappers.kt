@@ -60,6 +60,7 @@ object Mappers {
                 scheduledId = scheduledId,
             )
         }
+
     /**
      * Maps a List of [ProgramEntity] to a List of [Program].
      *

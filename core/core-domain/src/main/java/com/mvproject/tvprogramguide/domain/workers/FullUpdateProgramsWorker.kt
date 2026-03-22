@@ -9,7 +9,7 @@ import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
-import com.mvproject.tvprogramguide.R
+import com.mvproject.tvprogramguide.core.domain.R
 import com.mvproject.tvprogramguide.domain.usecases.UpdateProgramsUseCase
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ONE
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
