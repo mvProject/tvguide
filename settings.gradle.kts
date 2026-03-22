@@ -31,4 +31,4 @@ rootProject.name = "TV Program Guide"
 include(":app")
 include(":core:core-models")
 include(":core:core-utils")
-
+include(":core:core-database")

@@ -45,9 +45,6 @@ android {
                 "uk",
             )
         }
-        ksp {
-            arg("room.schemaLocation", "$projectDir/schemas")
-        }
         val firebaseProperties = readProperties(file("../firebase.properties"))
         buildConfigField(
             "String",
@@ -104,6 +101,7 @@ fun readProperties(propertiesFile: File) =
 dependencies {
     implementation(project(":core:core-models"))
     implementation(project(":core:core-utils"))
+    implementation(project(":core:core-database"))
 
     implementation(libs.dataStore)
 

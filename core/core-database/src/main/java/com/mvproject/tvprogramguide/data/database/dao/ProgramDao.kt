@@ -17,7 +17,10 @@ interface ProgramDao {
     suspend fun getChannelProgramsById(timeStamp: Long, channelId: String): List<ProgramEntity>
 
     @Query("SELECT * FROM programs WHERE channelId IN (:selectedIds) AND dateTimeEnd > :timeStamp")
-    suspend fun getSelectedChannelPrograms(timeStamp: Long, selectedIds: List<String>): List<ProgramEntity>
+    suspend fun getSelectedChannelPrograms(
+        timeStamp: Long,
+        selectedIds: List<String>
+    ): List<ProgramEntity>
 
     @Query("DELETE FROM programs WHERE channelId = :channelId")
     suspend fun deletePrograms(channelId: String)

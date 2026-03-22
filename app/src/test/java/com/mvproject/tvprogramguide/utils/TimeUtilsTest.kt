@@ -1,7 +1,7 @@
 package com.mvproject.tvprogramguide.utils
 
 import com.mvproject.tvprogramguide.data.database.entity.ProgramEntity
-import com.mvproject.tvprogramguide.utils.TimeUtils.correctTimeZone
+import com.mvproject.tvprogramguide.data.database.entity.correctTimeZone
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec

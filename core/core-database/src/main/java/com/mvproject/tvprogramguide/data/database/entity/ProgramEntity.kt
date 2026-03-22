@@ -13,7 +13,7 @@ import com.mvproject.tvprogramguide.utils.AppConstants.empty
     indices = [Index("channelId"), Index("dateTimeEnd")],
 )
 data class ProgramEntity(
-    val programId:String,
+    val programId: String,
     val dateTimeStart: Long,
     val dateTimeEnd: Long,
     val title: String = String.empty,
