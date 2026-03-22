@@ -1,6 +1,5 @@
 package com.mvproject.tvprogramguide.utils
 
-import com.mvproject.tvprogramguide.data.database.entity.ProgramEntity
 import com.mvproject.tvprogramguide.utils.AppConstants.empty
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -80,36 +79,6 @@ object TimeUtils {
         return progressValue
     }
 
-    /**
-     * Adjusts program times to correct time zone.
-     * Converts times between the current system time zone and Moscow time zone.
-     *
-     * @receiver ProgramEntity The program entity to be adjusted
-     * @return ProgramEntity with corrected start and end times
-     */
-    fun ProgramEntity.correctTimeZone(): ProgramEntity {
-        val startInstant = Instant.fromEpochMilliseconds(this.dateTimeStart)
-        val endInstant = Instant.fromEpochMilliseconds(this.dateTimeEnd)
-
-        val updatedDateTimeStart =
-            startInstant
-                .toLocalDateTime(tzCurrent)
-                .toInstant(tzSourceMoscow)
-                .toEpochMilliseconds()
-
-        val updatedDateTimeEnd =
-            endInstant
-                .toLocalDateTime(tzCurrent)
-                .toInstant(tzSourceMoscow)
-                .toEpochMilliseconds()
-
-        return this.copy(
-            dateTimeStart =
-            updatedDateTimeStart,
-            dateTimeEnd =
-            updatedDateTimeEnd,
-        )
-    }
     /*
         fun parseDateTime(input: String): Pair<Long, Long> {
             // val test = "14/09/2024 18:27-20:19 (112)"

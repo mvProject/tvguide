@@ -4,6 +4,7 @@ import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.domain.SelectedChannelWithPrograms
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
+
 /**
  * Utility object providing helper functions for program-related operations.
  */
