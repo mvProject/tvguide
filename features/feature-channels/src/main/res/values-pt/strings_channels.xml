@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="msg_user_filled_list_empty">Nenhuma lista de canais selecionados encontrada</string>
+    <string name="msg_tap_to_create_list">clique para criar uma lista</string>
+</resources>

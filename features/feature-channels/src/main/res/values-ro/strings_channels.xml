@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="msg_user_filled_list_empty">Nu a fost găsită nicio listă cu canalele selectate</string>
+    <string name="msg_tap_to_create_list">faceți clic pentru a crea o listă</string>
+</resources>

@@ -49,7 +49,9 @@ fun OnBoardScreenView(onComplete: (Boolean) -> Unit = {}) {
     ) {
         HorizontalPager(
             modifier =
-                Modifier.fillMaxWidth().weight(1f),
+                Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
             state = pagerState,
             pageNestedScrollConnection =
                 PagerDefaults.pageNestedScrollConnection(

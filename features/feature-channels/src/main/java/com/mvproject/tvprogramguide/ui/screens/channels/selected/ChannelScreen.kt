@@ -31,7 +31,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.mvproject.tvprogramguide.R
+import com.mvproject.tvprogramguide.feature.channels.R
 import com.mvproject.tvprogramguide.ui.components.channels.ChannelList
 import com.mvproject.tvprogramguide.ui.components.dialogs.ShowSelectFromListDialog
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithOptions
@@ -117,9 +117,9 @@ private fun ChannelScreen(
 
     Scaffold(
         modifier =
-        Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+            Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
         containerColor = MaterialTheme.colorScheme.inverseOnSurface,
         contentColor = MaterialTheme.colorScheme.onSurface,
         topBar = {

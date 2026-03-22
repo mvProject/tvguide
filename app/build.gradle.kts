@@ -107,6 +107,8 @@ dependencies {
     implementation(project(":core:core-domain"))
     implementation(project(":core:core-ui"))
     implementation(project(":features:feature-settings"))
+    implementation(project(":features:feature-channellist"))
+    implementation(project(":features:feature-channels"))
 
     implementation(libs.dataStore)
 

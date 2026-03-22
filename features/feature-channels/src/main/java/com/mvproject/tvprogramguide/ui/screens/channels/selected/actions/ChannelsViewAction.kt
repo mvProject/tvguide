@@ -9,5 +9,6 @@ sealed class ChannelsViewAction {
     data object StopUpdates : ChannelsViewAction()
     data object StartUpdates : ChannelsViewAction()
     data class SelectChannelList(val list: ChannelList) : ChannelsViewAction()
-    data class ToggleScheduleProgram(val channelName:String,val program: Program) : ChannelsViewAction()
+    data class ToggleScheduleProgram(val channelName: String, val program: Program) :
+        ChannelsViewAction()
 }
