@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_all_channels">Všichni</string>
+    <string name="title_selected_channels">Vybraný</string>
+    <string name="title_custom_channels_list">Seznamy kanálů</string>
+    <string name="title_backup_mode_create">Vytvořit</string>
+    <string name="title_backup_mode_restore">Obnovit</string>
+</resources>

@@ -1,0 +1,23 @@
+<resources>
+    <string name="settings_title">Nustatymai</string>
+    <string name="settings_channels_settings_title">Kanalo nustatymai</string>
+    <string name="settings_app_settings_title">Programos nustatymai</string>
+    <string name="settings_backup_settings_title">Atsarginė kopija</string>
+    <string name="btn_backup_create">Sukurti atsarginę kopiją</string>
+    <string name="btn_backup_restore">Atkurti atsarginę kopiją</string>
+    <string name="btn_profile_login">Prisijungti per Google</string>
+    <string name="btn_profile_logout">Atsijungti</string>
+    <string name="btn_profile_login_requirement">Norėdami tęsti, turite prisijungti</string>
+
+    <string name="settings_updates_title">Atnaujinimo laikotarpis (dienomis)</string>
+    <string name="settings_theme_title">Tema</string>
+    <string name="settings_ui_title">Išvaizda</string>
+
+    <string name="settings_channels_update_title">Galimi kanalai</string>
+    <string name="settings_programs_update_title">Televizijos programos</string>
+    <string name="settings_programs_count_title">Rodomų programų skaičius</string>
+
+    <string name="settings_theme_light">Šviesa</string>
+    <string name="settings_theme_dark">Tamsus</string>
+    <string name="settings_theme_system">Sistemos pasirinkimas</string>
+</resources>

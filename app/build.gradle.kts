@@ -106,6 +106,7 @@ dependencies {
     implementation(project(":core:core-datastore"))
     implementation(project(":core:core-domain"))
     implementation(project(":core:core-ui"))
+    implementation(project(":features:feature-settings"))
 
     implementation(libs.dataStore)
 

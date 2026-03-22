@@ -3,10 +3,9 @@ package com.mvproject.tvprogramguide.navigation
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.Lifecycle
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.mvproject.tvprogramguide.BuildConfig
 import com.mvproject.tvprogramguide.ui.screens.channellist.navigation.channelListScreen
 import com.mvproject.tvprogramguide.ui.screens.channellist.navigation.navigateToChannelList
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.navigation.selectedChannelsScreen
@@ -75,17 +74,10 @@ fun NavigationHost(
             )
 
             settingsBackupScreen(
+                webClientId = BuildConfig.WEB_CLIENT_ID,
                 onNavigateBack = navController::navigateToBack,
             )
         }
     }
 }
 
-val NavController.canNavigate: Boolean
-    get() = this.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED
-
-fun NavController.navigateToBack() {
-    if (canNavigate) {
-        navigateUp()
-    }
-}

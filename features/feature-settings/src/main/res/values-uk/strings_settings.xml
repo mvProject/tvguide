@@ -1,0 +1,23 @@
+<resources>
+    <string name="settings_title">Налаштування</string>
+    <string name="settings_channels_settings_title">Налаштування каналів</string>
+    <string name="settings_app_settings_title">Налаштування додатку</string>
+    <string name="settings_backup_settings_title">Резервна копія</string>
+    <string name="btn_backup_create">Створити резервну копію</string>
+    <string name="btn_backup_restore">Відновити резервну копію</string>
+    <string name="btn_profile_login">Увійти через Google</string>
+    <string name="btn_profile_logout">Вийти</string>
+    <string name="btn_profile_login_requirement">Для продовження необхідно увійти в систему</string>
+
+    <string name="settings_updates_title">Період оновлення (днів)</string>
+    <string name="settings_theme_title">Тема</string>
+    <string name="settings_ui_title">Зовнішній вигляд</string>
+
+    <string name="settings_channels_update_title">Доступні канали</string>
+    <string name="settings_programs_update_title">Телевізійні програми</string>
+    <string name="settings_programs_count_title">Кількість відображених програм</string>
+
+    <string name="settings_theme_light">Світла</string>
+    <string name="settings_theme_dark">Темна</string>
+    <string name="settings_theme_system">Вибір Системи</string>
+</resources>

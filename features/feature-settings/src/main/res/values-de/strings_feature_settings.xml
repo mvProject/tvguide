@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_all_channels">Alle von ihnen</string>
+    <string name="title_selected_channels">Ausgewählt</string>
+    <string name="title_custom_channels_list">Senderlisten</string>
+    <string name="title_backup_mode_create">Erstellen</string>
+    <string name="title_backup_mode_restore">Wiederherstellen</string>
+</resources>

@@ -1,0 +1,23 @@
+<resources>
+    <string name="settings_title">Ajustes</string>
+    <string name="settings_channels_settings_title">Configuración de canales</string>
+    <string name="settings_app_settings_title">Configuraciones de la aplicación</string>
+    <string name="settings_backup_settings_title">Copia de seguridad</string>
+    <string name="btn_backup_create">Crear copia de seguridad</string>
+    <string name="btn_backup_restore">Restaurar copia de seguridad</string>
+    <string name="btn_profile_login">Iniciar sesión con Google</string>
+    <string name="btn_profile_logout">Cerrar sesión</string>
+    <string name="btn_profile_login_requirement">Debes iniciar sesión para continuar</string>
+
+    <string name="settings_updates_title">Período de actualización (días)</string>
+    <string name="settings_theme_title">Tema</string>
+    <string name="settings_ui_title">Apariencia</string>
+
+    <string name="settings_channels_update_title">Canales disponibles</string>
+    <string name="settings_programs_update_title">Programas de televisión</string>
+    <string name="settings_programs_count_title">Número de programas mostrados</string>
+
+    <string name="settings_theme_light">Luz</string>
+    <string name="settings_theme_dark">Oscuro</string>
+    <string name="settings_theme_system">Selección del sistema</string>
+</resources>
