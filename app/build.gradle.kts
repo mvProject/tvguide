@@ -103,6 +103,7 @@ dependencies {
     implementation(project(":core:core-utils"))
     implementation(project(":core:core-database"))
     implementation(project(":core:core-network"))
+    implementation(project(":core:core-datastore"))
 
     implementation(libs.dataStore)
 
