@@ -2,4 +2,8 @@
 <resources>
     <string name="msg_user_filled_list_empty">Atlasīto kanālu saraksts nav atrasts</string>
     <string name="msg_tap_to_create_list">noklikšķiniet, lai izveidotu sarakstu</string>
+    <string name="msg_no_epg_found">TV programma nav atrasta</string>
+    <string name="dlg_title_select_custom_user_list">Izvēlieties kanālu sarakstu</string>
+    <string name="dlg_btn_close">Aizveriet</string>
+    <string name="msg_no_items_found">Nav atrasts neviens vienums</string>
 </resources>

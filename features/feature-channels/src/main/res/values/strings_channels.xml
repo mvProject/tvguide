@@ -2,4 +2,8 @@
 <resources>
     <string name="msg_user_filled_list_empty">List with selected channels not found</string>
     <string name="msg_tap_to_create_list">tap to create list</string>
+    <string name="msg_no_epg_found">TV program not found</string>
+    <string name="dlg_title_select_custom_user_list">Select channels List</string>
+    <string name="dlg_btn_close">Close</string>
+    <string name="msg_no_items_found">No Items Found</string>
 </resources>

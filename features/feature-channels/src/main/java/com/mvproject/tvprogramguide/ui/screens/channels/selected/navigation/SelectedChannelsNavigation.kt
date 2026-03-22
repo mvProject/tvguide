@@ -6,16 +6,13 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.mvproject.tvprogramguide.navigation.AppRoutes
-import com.mvproject.tvprogramguide.navigation.canNavigate
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.ChannelScreen
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.ChannelViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 fun NavController.navigateToSelectedChannels() {
-    if (canNavigate) {
-        this.popBackStack()
-        this.navigate(AppRoutes.Channels)
-    }
+    this.popBackStack()
+    this.navigate(AppRoutes.Channels)
 }
 
 @OptIn(ExperimentalSharedTransitionApi::class)

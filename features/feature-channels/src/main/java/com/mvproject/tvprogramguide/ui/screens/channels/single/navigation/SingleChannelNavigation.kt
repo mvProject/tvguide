@@ -9,7 +9,6 @@ import androidx.navigation.compose.composable
 import com.mvproject.tvprogramguide.navigation.AppRoutes
 import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_CHANNEL_ID
 import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_CHANNEL_NAME
-import com.mvproject.tvprogramguide.navigation.canNavigate
 import com.mvproject.tvprogramguide.ui.screens.channels.single.SingleChannelScreen
 import com.mvproject.tvprogramguide.ui.screens.channels.single.SingleChannelViewModel
 import org.koin.compose.viewmodel.koinViewModel
@@ -18,9 +17,7 @@ fun NavController.navigateToSingleChannel(
     channelId: String,
     channelName: String,
 ) {
-    if (canNavigate) {
-        this.navigate(AppRoutes.SingleChannel(channelId = channelId, channelName = channelName))
-    }
+    this.navigate(AppRoutes.SingleChannel(channelId = channelId, channelName = channelName))
 }
 
 internal class SingleChannelArgs(

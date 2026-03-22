@@ -2,4 +2,8 @@
 <resources>
     <string name="msg_user_filled_list_empty">Aucune liste des chaînes sélectionnées n\'a été trouvée</string>
     <string name="msg_tap_to_create_list">cliquez pour créer une liste</string>
+    <string name="msg_no_epg_found">Programme TV introuvable</string>
+    <string name="dlg_title_select_custom_user_list">Sélectionnez la liste des chaînes</string>
+    <string name="dlg_btn_close">Proche</string>
+    <string name="msg_no_items_found">Aucun élément trouvé</string>
 </resources>

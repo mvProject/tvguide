@@ -13,9 +13,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.mvproject.tvprogramguide.feature.settings.R
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
-import com.mvproject.tvprogramguide.ui.components.views.AppVersion
-import com.mvproject.tvprogramguide.ui.components.views.MailText
-import com.mvproject.tvprogramguide.ui.components.views.SettingsMenu
+import com.mvproject.tvprogramguide.ui.screens.settings.general.components.AppVersion
+import com.mvproject.tvprogramguide.ui.screens.settings.general.components.MailText
+import com.mvproject.tvprogramguide.ui.screens.settings.general.components.SettingsMenu
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 

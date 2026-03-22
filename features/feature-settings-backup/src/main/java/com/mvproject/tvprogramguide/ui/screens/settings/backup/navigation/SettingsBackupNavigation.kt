@@ -4,7 +4,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.mvproject.tvprogramguide.navigation.AppRoutes
-import com.mvproject.tvprogramguide.navigation.canNavigate
 import com.mvproject.tvprogramguide.ui.screens.settings.backup.SettingsBackupScreen
 import com.mvproject.tvprogramguide.ui.screens.settings.backup.SettingsBackupViewModel
 import com.mvproject.tvprogramguide.utils.navEnterTransition
@@ -14,9 +13,7 @@ import com.mvproject.tvprogramguide.utils.navPopExitTransition
 import org.koin.compose.viewmodel.koinViewModel
 
 fun NavController.navigateToSettingsBackup() {
-    if (canNavigate) {
-        this.navigate(AppRoutes.SettingsBackup)
-    }
+    this.navigate(AppRoutes.SettingsBackup)
 }
 
 fun NavGraphBuilder.settingsBackupScreen(

@@ -2,4 +2,8 @@
 <resources>
     <string name="msg_user_filled_list_empty">Geen lijst met geselecteerde kanalen gevonden</string>
     <string name="msg_tap_to_create_list">klik om een lijst te maken</string>
+    <string name="msg_no_epg_found">TV-programma niet gevonden</string>
+    <string name="dlg_title_select_custom_user_list">Selecteer de zenderlijst</string>
+    <string name="dlg_btn_close">Dichtbij</string>
+    <string name="msg_no_items_found">Geen items gevonden</string>
 </resources>

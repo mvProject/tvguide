@@ -2,4 +2,8 @@
 <resources>
     <string name="msg_user_filled_list_empty">Seçilen kanalların listesi bulunamadı</string>
     <string name="msg_tap_to_create_list">liste oluşturmak için tıklayın</string>
+    <string name="msg_no_epg_found">TV programı bulunamadı</string>
+    <string name="dlg_title_select_custom_user_list">Kanal listesini seçin</string>
+    <string name="dlg_btn_close">Kapat</string>
+    <string name="msg_no_items_found">hiç bir öğe bulunamadı</string>
 </resources>

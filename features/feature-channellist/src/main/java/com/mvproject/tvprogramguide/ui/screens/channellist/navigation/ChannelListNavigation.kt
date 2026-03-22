@@ -6,15 +6,12 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.mvproject.tvprogramguide.navigation.AppRoutes
-import com.mvproject.tvprogramguide.navigation.canNavigate
 import com.mvproject.tvprogramguide.ui.screens.channellist.ChannelListScreen
 import com.mvproject.tvprogramguide.ui.screens.channellist.ChannelListViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 fun NavController.navigateToChannelList() {
-    if (canNavigate) {
-        this.navigate(AppRoutes.UserCustomList)
-    }
+    this.navigate(AppRoutes.UserCustomList)
 }
 
 @OptIn(ExperimentalSharedTransitionApi::class)

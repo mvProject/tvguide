@@ -27,11 +27,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mvproject.tvprogramguide.data.model.domain.ChannelList
 import com.mvproject.tvprogramguide.feature.channellist.R
-import com.mvproject.tvprogramguide.ui.components.dialogs.ShowAddNewDialog
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
-import com.mvproject.tvprogramguide.ui.components.views.ChannelListItem
 import com.mvproject.tvprogramguide.ui.components.views.NoItemsScreen
 import com.mvproject.tvprogramguide.ui.screens.channellist.action.ChannelListAction
+import com.mvproject.tvprogramguide.ui.screens.channellist.components.ChannelListItem
+import com.mvproject.tvprogramguide.ui.screens.channellist.components.ShowAddNewDialog
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import kotlinx.collections.immutable.ImmutableList
 

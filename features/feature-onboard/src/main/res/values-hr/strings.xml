@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboard_btn_complete">Dovršiti</string>
+    <string name="onboard_title_user_list_create">Višestruki popisi kanala</string>
+    <string name="onboard_title_user_list_switch">Brzo prebacivanje između popisa</string>
+    <string name="onboard_title_notification">Obavijest o programu</string>
+    <string name="onboard_description_user_list_create">Mogućnost stvaranja više popisa s različitim kanalima radi praktičnosti</string>
+    <string name="onboard_description_user_list_switch">Brzo prebacivanje između različitih popisa korisnika</string>
+    <string name="onboard_description_notification">Mogućnost postavljanja podsjetnika kako ubuduće ne biste propustili pogledati program</string>
+</resources>

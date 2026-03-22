@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dlg_title_add_new_custom_user_list">Een nieuwe lijst toevoegen</string>
+    <string name="dlg_hint_new_custom_user_list">voer een naam in voor de lijst</string>
+    <string name="dlg_btn_close">Dichtbij</string>
+    <string name="msg_no_items_found">Geen items gevonden</string>
+</resources>

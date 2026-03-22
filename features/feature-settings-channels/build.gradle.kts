@@ -13,6 +13,8 @@ dependencies {
     implementation(project(":core:core-ui"))
     implementation(project(":core:core-utils"))
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
     implementation(libs.kotlinx.collections.immutable)
     implementation(libs.androidx.compose.navigation)
     implementation(platform(libs.koin.bom))

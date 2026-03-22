@@ -15,17 +15,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import com.mvproject.tvprogramguide.core.ui.R
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.utils.AppConstants.empty
 
 @Composable
 fun NoItemsScreen(
-    title: String = stringResource(id = R.string.msg_no_items_found),
+    title: String,
     navigateTitle: String = String.empty,
     onNavigateClick: () -> Unit = {}
 ) {
@@ -79,7 +77,7 @@ fun NoItemsScreen(
 @Composable
 fun PreviewNoItemsScreen() {
     TvGuideTheme {
-        NoItemsScreen()
+        NoItemsScreen(title = "No Items Found")
     }
 }
 
@@ -87,6 +85,6 @@ fun PreviewNoItemsScreen() {
 @Composable
 fun PreviewDarkNoItemsScreen() {
     TvGuideTheme(darkTheme = true) {
-        NoItemsScreen()
+        NoItemsScreen(title = "No Items Found")
     }
 }

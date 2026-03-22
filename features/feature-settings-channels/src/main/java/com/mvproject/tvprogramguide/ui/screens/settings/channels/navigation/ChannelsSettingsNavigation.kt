@@ -8,15 +8,12 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.mvproject.tvprogramguide.navigation.AppRoutes
 import com.mvproject.tvprogramguide.navigation.NavConstants.ARGUMENT_USER_LIST_NAME
-import com.mvproject.tvprogramguide.navigation.canNavigate
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.ChannelSettingsScreen
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.ChannelSettingsViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 fun NavController.navigateToSettingsChannel(userListName: String) {
-    if (canNavigate) {
-        this.navigate(AppRoutes.ChannelSettings(userListName = userListName))
-    }
+    this.navigate(AppRoutes.ChannelSettings(userListName = userListName))
 }
 
 internal class SettingsChannelArgs(val userListName: String) {

@@ -2,4 +2,8 @@
 <resources>
     <string name="msg_user_filled_list_empty">Nie znaleziono listy wybranych kanałów</string>
     <string name="msg_tap_to_create_list">kliknij, aby utworzyć listę</string>
+    <string name="msg_no_epg_found">Nie znaleziono programu telewizyjnego</string>
+    <string name="dlg_title_select_custom_user_list">Wybierz listę kanałów</string>
+    <string name="dlg_btn_close">Blisko</string>
+    <string name="msg_no_items_found">Nie znaleziono żadnych przedmiotów</string>
 </resources>

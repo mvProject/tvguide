@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboard_btn_complete">Tamamlamak</string>
+    <string name="onboard_title_user_list_create">Çoklu kanal listeleri</string>
+    <string name="onboard_title_user_list_switch">Listeler arasında hızla geçiş yapın</string>
+    <string name="onboard_title_notification">Program bildirimi</string>
+    <string name="onboard_description_user_list_create">Kolaylık sağlamak için farklı kanallarla birden fazla liste oluşturabilme</string>
+    <string name="onboard_description_user_list_switch">Farklı kullanıcı listeleri arasında hızla geçiş yapın</string>
+    <string name="onboard_description_notification">Gelecekte programı izlemeyi kaçırmamak için hatırlatıcı ayarlama yeteneği</string>
+</resources>

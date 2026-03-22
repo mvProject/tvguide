@@ -32,10 +32,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mvproject.tvprogramguide.feature.channels.R
-import com.mvproject.tvprogramguide.ui.components.channels.ChannelList
-import com.mvproject.tvprogramguide.ui.components.dialogs.ShowSelectFromListDialog
-import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithOptions
 import com.mvproject.tvprogramguide.ui.components.views.NoItemsScreen
+import com.mvproject.tvprogramguide.ui.screens.channels.components.ChannelList
+import com.mvproject.tvprogramguide.ui.screens.channels.components.ShowSelectFromListDialog
+import com.mvproject.tvprogramguide.ui.screens.channels.components.ToolbarWithOptions
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.actions.ChannelsViewAction
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.state.ChannelsViewState
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
@@ -163,6 +163,7 @@ private fun ChannelScreen(
             ) {
                 ChannelList(
                     singleChannelPrograms = viewState.channels,
+                    noEpgMessage = stringResource(id = R.string.msg_no_epg_found),
                     listState = listState,
                     sharedTransitionScope = sharedTransitionScope,
                     animatedVisibilityScope = animatedVisibilityScope,

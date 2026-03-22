@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboard_btn_complete">A termina</string>
+    <string name="onboard_title_user_list_create">Liste de canale multiple</string>
+    <string name="onboard_title_user_list_switch">Comutați rapid între liste</string>
+    <string name="onboard_title_notification">Notificare program</string>
+    <string name="onboard_description_user_list_create">Abilitatea de a crea mai multe liste cu canale diferite pentru comoditate</string>
+    <string name="onboard_description_user_list_switch">Comutați rapid între diferite liste de utilizatori</string>
+    <string name="onboard_description_notification">Posibilitatea de a seta mementouri, astfel încât să nu ratați vizionarea programului în viitor</string>
+</resources>

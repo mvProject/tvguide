@@ -86,7 +86,7 @@ class MainViewModel(
     }
 
     private fun startProgramsUpdate() {
-        if (networkHelper.isNetworkConnected() && !isUpdating) {
+        if (networkHelper.isNetworkConnected && !isUpdating) {
             val requestForUpdate = OneTimeWorkRequest
                 .Builder(FullUpdateProgramsWorker::class.java)
                 .build()

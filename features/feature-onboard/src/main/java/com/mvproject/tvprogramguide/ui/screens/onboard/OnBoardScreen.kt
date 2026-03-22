@@ -16,10 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import com.mvproject.tvprogramguide.ui.components.onboard.AnimatedCompleteButton
-import com.mvproject.tvprogramguide.ui.components.onboard.OnBoardingPage
-import com.mvproject.tvprogramguide.ui.components.onboard.PagerIndicator
-import com.mvproject.tvprogramguide.ui.components.onboard.PagerScreen
+import com.mvproject.tvprogramguide.ui.screens.onboard.components.AnimatedCompleteButton
+import com.mvproject.tvprogramguide.ui.screens.onboard.components.OnBoardingPage
+import com.mvproject.tvprogramguide.ui.screens.onboard.components.PagerIndicator
+import com.mvproject.tvprogramguide.ui.screens.onboard.components.PagerScreen
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO

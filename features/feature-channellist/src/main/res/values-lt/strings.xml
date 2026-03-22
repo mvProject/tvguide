@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dlg_title_add_new_custom_user_list">Pridėti naują sąrašą</string>
+    <string name="dlg_hint_new_custom_user_list">įveskite sąrašo pavadinimą</string>
+    <string name="dlg_btn_close">Uždaryti</string>
+    <string name="msg_no_items_found">Elementų nerasta</string>
+</resources>

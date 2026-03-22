@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dlg_title_add_new_custom_user_list">Fügen Sie eine neue Liste hinzu</string>
+    <string name="dlg_hint_new_custom_user_list">Geben Sie einen Namen für die Liste ein</string>
+    <string name="dlg_btn_close">Nah dran</string>
+    <string name="msg_no_items_found">Keine Elemente gefunden</string>
+</resources>

@@ -15,11 +15,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import com.mvproject.tvprogramguide.core.ui.R
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
-import com.mvproject.tvprogramguide.ui.components.composables.DraggableItem
-import com.mvproject.tvprogramguide.ui.components.composables.dragContainer
-import com.mvproject.tvprogramguide.ui.components.composables.rememberDragDropState
-import com.mvproject.tvprogramguide.ui.components.views.ChannelSelectableItem
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.action.ChannelsAction
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import kotlinx.collections.immutable.ImmutableList
@@ -74,6 +72,7 @@ fun SelectedChannelsPage(
                 ChannelSelectableItem(
                     channelLogo = chn.channelIcon,
                     channelName = chn.channelName,
+                    fallbackPainter = painterResource(R.drawable.no_channel_logo),
                     isDragged = isDragging,
                 ) {
                     onAction(ChannelsAction.DeleteSelection(selectedChannel = chn))

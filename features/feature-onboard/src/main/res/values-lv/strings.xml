@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboard_btn_complete">Lai pabeigtu</string>
+    <string name="onboard_title_user_list_create">Vairāki kanālu saraksti</string>
+    <string name="onboard_title_user_list_switch">Ātri pārslēdzieties starp sarakstiem</string>
+    <string name="onboard_title_notification">Programmas paziņojums</string>
+    <string name="onboard_description_user_list_create">Ērtības labad iespēja izveidot vairākus sarakstus ar dažādiem kanāliem</string>
+    <string name="onboard_description_user_list_switch">Ātri pārslēdzieties starp dažādiem lietotāju sarakstiem</string>
+    <string name="onboard_description_notification">Iespēja iestatīt atgādinājumus, lai turpmāk nepalaistu garām programmas apskati</string>
+</resources>

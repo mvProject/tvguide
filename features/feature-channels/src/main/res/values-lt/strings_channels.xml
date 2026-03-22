@@ -2,4 +2,8 @@
 <resources>
     <string name="msg_user_filled_list_empty">Pasirinktų kanalų sąrašas nerastas</string>
     <string name="msg_tap_to_create_list">spustelėkite norėdami sukurti sąrašą</string>
+    <string name="msg_no_epg_found">TV programa nerasta</string>
+    <string name="dlg_title_select_custom_user_list">Pasirinkite kanalų sąrašą</string>
+    <string name="dlg_btn_close">Uždaryti</string>
+    <string name="msg_no_items_found">Elementų nerasta</string>
 </resources>

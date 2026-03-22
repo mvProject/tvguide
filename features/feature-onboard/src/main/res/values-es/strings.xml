@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboard_btn_complete">Completar</string>
+    <string name="onboard_title_user_list_create">Múltiples listas de canales</string>
+    <string name="onboard_title_user_list_switch">Cambiar entre listas rápidamente</string>
+    <string name="onboard_title_notification">Notificación del programa</string>
+    <string name="onboard_description_user_list_create">Capacidad para crear múltiples listas con diferentes canales para mayor comodidad</string>
+    <string name="onboard_description_user_list_switch">Cambiar rápidamente entre diferentes listas de usuarios</string>
+    <string name="onboard_description_notification">Posibilidad de configurar recordatorios para que no se pierda ver el programa en el futuro</string>
+</resources>

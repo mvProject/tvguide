@@ -13,9 +13,9 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import com.mvproject.tvprogramguide.core.ui.R
 import com.mvproject.tvprogramguide.data.model.domain.SelectionChannel
-import com.mvproject.tvprogramguide.ui.components.search.SearchView
-import com.mvproject.tvprogramguide.ui.components.views.ChannelSelectableItem
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.action.ChannelsAction
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import kotlinx.collections.immutable.ImmutableList
@@ -56,6 +56,7 @@ fun AvailableChannelsPage(
                 ChannelSelectableItem(
                     channelLogo = chn.channelIcon,
                     channelName = chn.channelName,
+                    fallbackPainter = painterResource(R.drawable.no_channel_logo),
                     isSelected = chn.isSelected,
                 ) {
                     onAction(ChannelsAction.ToggleSelection(channel = chn))

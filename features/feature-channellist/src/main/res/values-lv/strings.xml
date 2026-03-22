@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dlg_title_add_new_custom_user_list">Pievienojiet jaunu sarakstu</string>
+    <string name="dlg_hint_new_custom_user_list">ievadiet saraksta nosaukumu</string>
+    <string name="dlg_btn_close">Aizveriet</string>
+    <string name="msg_no_items_found">Nav atrasts neviens vienums</string>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboard_btn_complete">Pabaigti</string>
+    <string name="onboard_title_user_list_create">Keli kanalų sąrašai</string>
+    <string name="onboard_title_user_list_switch">Greitai perjunkite sąrašus</string>
+    <string name="onboard_title_notification">Programos pranešimas</string>
+    <string name="onboard_description_user_list_create">Patogumui galimybė sudaryti kelis sąrašus su skirtingais kanalais</string>
+    <string name="onboard_description_user_list_switch">Greitai perjunkite skirtingus vartotojų sąrašus</string>
+    <string name="onboard_description_notification">Galimybė nustatyti priminimus, kad nepraleistumėte programos peržiūros ateityje</string>
+</resources>

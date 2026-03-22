@@ -2,4 +2,8 @@
 <resources>
     <string name="msg_user_filled_list_empty">Nu a fost găsită nicio listă cu canalele selectate</string>
     <string name="msg_tap_to_create_list">faceți clic pentru a crea o listă</string>
+    <string name="msg_no_epg_found">Programul TV nu a fost găsit</string>
+    <string name="dlg_title_select_custom_user_list">Selectați lista de canale</string>
+    <string name="dlg_btn_close">Închide</string>
+    <string name="msg_no_items_found">Nu au fost gasite articolele</string>
 </resources>

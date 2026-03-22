@@ -16,10 +16,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
 import com.mvproject.tvprogramguide.feature.settings.app.R
-import com.mvproject.tvprogramguide.ui.components.pickers.PickerItem
-import com.mvproject.tvprogramguide.ui.components.radio.RadioGroup
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
 import com.mvproject.tvprogramguide.ui.screens.settings.app.action.AppSettingsAction
+import com.mvproject.tvprogramguide.ui.screens.settings.app.components.PickerItem
+import com.mvproject.tvprogramguide.ui.screens.settings.app.components.RadioGroup
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import kotlinx.collections.immutable.toImmutableList
 

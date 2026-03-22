@@ -2,4 +2,8 @@
 <resources>
     <string name="msg_user_filled_list_empty">Nessun elenco di canali selezionati trovato</string>
     <string name="msg_tap_to_create_list">fare clic per creare un elenco</string>
+    <string name="msg_no_epg_found">Programma tv non trovato</string>
+    <string name="dlg_title_select_custom_user_list">Seleziona l\'elenco dei canali</string>
+    <string name="dlg_btn_close">Chiudere</string>
+    <string name="msg_no_items_found">Nessun articolo trovato</string>
 </resources>

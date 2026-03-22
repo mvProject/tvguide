@@ -25,8 +25,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mvproject.tvprogramguide.data.model.domain.Program
 import com.mvproject.tvprogramguide.data.model.domain.SingleChannelWithPrograms
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
-import com.mvproject.tvprogramguide.ui.components.views.DateItem
-import com.mvproject.tvprogramguide.ui.components.views.ProgramItem
+import com.mvproject.tvprogramguide.ui.screens.channels.components.DateItem
+import com.mvproject.tvprogramguide.ui.screens.channels.components.ProgramItem
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
 import com.mvproject.tvprogramguide.ui.theme.dimens
 import com.mvproject.tvprogramguide.utils.containerTransformBoundsTransform

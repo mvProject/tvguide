@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dlg_title_add_new_custom_user_list">Yeni bir liste ekle</string>
+    <string name="dlg_hint_new_custom_user_list">liste için bir isim girin</string>
+    <string name="dlg_btn_close">Kapat</string>
+    <string name="msg_no_items_found">hiç bir öğe bulunamadı</string>
+</resources>

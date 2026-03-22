@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboard_btn_complete">Vervolledigen</string>
+    <string name="onboard_title_user_list_create">Lijsten met meerdere kanalen</string>
+    <string name="onboard_title_user_list_switch">Snel schakelen tussen lijsten</string>
+    <string name="onboard_title_notification">Programmamelding</string>
+    <string name="onboard_description_user_list_create">Mogelijkheid om voor het gemak meerdere lijsten met verschillende kanalen te maken</string>
+    <string name="onboard_description_user_list_switch">Snel schakelen tussen verschillende gebruikerslijsten</string>
+    <string name="onboard_description_notification">Mogelijkheid om herinneringen in te stellen, zodat u het programma in de toekomst niet hoeft te missen</string>
+</resources>

@@ -57,34 +57,34 @@ fun NavigationHost(
 
             singleChannelScreen(
                 sharedTransitionScope = this@SharedTransitionLayout,
-                onNavigateBack = navController::navigateToBack,
+                onNavigateBack = navController::navigateUp,
             )
 
             settingsGeneralScreen(
-                onNavigateBack = navController::navigateToBack,
+                onNavigateBack = navController::navigateUp,
                 onNavigateAppSettings = navController::navigateToSettingsApp,
                 onNavigateChannelSettings = navController::navigateToChannelList,
                 onNavigateBackupSettings = navController::navigateToSettingsBackup,
             )
 
             settingsAppScreen(
-                onNavigateBack = navController::navigateToBack,
+                onNavigateBack = navController::navigateUp,
             )
 
             channelListScreen(
                 sharedTransitionScope = this@SharedTransitionLayout,
-                onNavigateBack = navController::navigateToBack,
+                onNavigateBack = navController::navigateUp,
                 onNavigateItem = navController::navigateToSettingsChannel,
             )
 
             settingsChannelScreen(
                 sharedTransitionScope = this@SharedTransitionLayout,
-                onNavigateBack = navController::navigateToBack,
+                onNavigateBack = navController::navigateUp,
             )
 
             settingsBackupScreen(
                 webClientId = BuildConfig.WEB_CLIENT_ID,
-                onNavigateBack = navController::navigateToBack,
+                onNavigateBack = navController::navigateUp,
             )
         }
     }
