@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_custom_channels_list">Listes de chaînes</string>
+    <string name="msg_user_lists_empty">Aucune liste d\'utilisateurs</string>
+    <string name="msg_tap_to_create_list">cliquez pour créer une liste</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_custom_channels_list">Kanalų sąrašai</string>
+    <string name="msg_user_lists_empty">Nėra vartotojų sąrašų</string>
+    <string name="msg_tap_to_create_list">spustelėkite norėdami sukurti sąrašą</string>
+</resources>

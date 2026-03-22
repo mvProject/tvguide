@@ -25,8 +25,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.mvproject.tvprogramguide.R
 import com.mvproject.tvprogramguide.data.model.domain.ChannelList
+import com.mvproject.tvprogramguide.feature.channellist.R
 import com.mvproject.tvprogramguide.ui.components.dialogs.ShowAddNewDialog
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithBack
 import com.mvproject.tvprogramguide.ui.components.views.ChannelListItem
@@ -96,9 +96,9 @@ private fun ChannelListScreen(
     ) { inner ->
         Column(
             modifier =
-            Modifier
-                .padding(inner)
-                .imePadding(),
+                Modifier
+                    .padding(inner)
+                    .imePadding(),
         ) {
             when {
                 userLists.isEmpty() -> {
@@ -109,14 +109,14 @@ private fun ChannelListScreen(
                     LazyColumn(
                         modifier = Modifier.fillMaxHeight(),
                         verticalArrangement =
-                        Arrangement.spacedBy(
-                            MaterialTheme.dimens.size8,
-                        ),
+                            Arrangement.spacedBy(
+                                MaterialTheme.dimens.size8,
+                            ),
                         contentPadding =
-                        PaddingValues(
-                            vertical = MaterialTheme.dimens.size8,
-                            horizontal = MaterialTheme.dimens.size4,
-                        ),
+                            PaddingValues(
+                                vertical = MaterialTheme.dimens.size8,
+                                horizontal = MaterialTheme.dimens.size4,
+                            ),
                     ) {
                         items(userLists, key = { it.listName }) { item ->
                             ChannelListItem(

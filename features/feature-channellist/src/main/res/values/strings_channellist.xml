@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_custom_channels_list">Channel lists</string>
+    <string name="msg_user_lists_empty">No custom lists</string>
+    <string name="msg_tap_to_create_list">tap to create list</string>
+</resources>
