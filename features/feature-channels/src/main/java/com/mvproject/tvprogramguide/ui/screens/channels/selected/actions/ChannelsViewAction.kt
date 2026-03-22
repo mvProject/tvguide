@@ -4,7 +4,6 @@ import com.mvproject.tvprogramguide.data.model.domain.ChannelList
 import com.mvproject.tvprogramguide.data.model.domain.Program
 
 sealed class ChannelsViewAction {
-    data object CompleteOnBoard : ChannelsViewAction()
     data object ReloadChannels : ChannelsViewAction()
     data object StopUpdates : ChannelsViewAction()
     data object StartUpdates : ChannelsViewAction()

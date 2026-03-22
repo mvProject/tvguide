@@ -13,7 +13,6 @@ import kotlinx.collections.immutable.persistentListOf
 data class ChannelsViewState(
     val listName: String = String.empty,
     val isLoading: Boolean = true,
-    val isOnboard: Boolean = false,
     val playlists: ImmutableList<ChannelList> = persistentListOf(),
     val channels: ImmutableList<SelectedChannelWithPrograms> = persistentListOf(),
 ) {

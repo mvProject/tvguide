@@ -1,4 +1,4 @@
-package com.mvproject.tvprogramguide.ui.screens.channels.selected.components
+package com.mvproject.tvprogramguide.ui.components.onboard
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

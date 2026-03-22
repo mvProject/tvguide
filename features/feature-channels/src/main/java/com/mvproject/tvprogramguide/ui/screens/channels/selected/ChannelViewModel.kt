@@ -17,7 +17,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -37,19 +36,13 @@ class ChannelViewModel(
     private var channelsJob: Job? = null
 
     init {
-        combine(
-            preferenceRepository.loadOnBoardState(),
-            channelListRepository.loadChannelsListsAsFlow()
-        ) { onboardState, allLists ->
-            val listName = allLists.firstOrNull { it.isSelected }?.listName ?: String.empty
-            Triple(onboardState, allLists.toImmutableList(), listName)
-        }
-            .onEach { (onboardState, playlists, listName) ->
+        channelListRepository.loadChannelsListsAsFlow()
+            .onEach { allLists ->
+                val listName = allLists.firstOrNull { it.isSelected }?.listName ?: String.empty
                 _viewState.update { state ->
                     state.copy(
-                        isOnboard = onboardState,
                         listName = listName,
-                        playlists = playlists,
+                        playlists = allLists.toImmutableList(),
                         isLoading = listName.isNotEmpty()
                     )
                 }
@@ -62,7 +55,6 @@ class ChannelViewModel(
             ChannelsViewAction.StopUpdates -> stopProgramsObserving()
             ChannelsViewAction.ReloadChannels -> forceReloadData()
             is ChannelsViewAction.SelectChannelList -> applyList(list = action.list)
-            ChannelsViewAction.CompleteOnBoard -> completeOnBoard()
             is ChannelsViewAction.ToggleScheduleProgram -> toggleSchedule(
                 channelName = action.channelName,
                 program = action.program
@@ -92,12 +84,6 @@ class ChannelViewModel(
         channelsJob = null
     }
 
-
-    private fun completeOnBoard() {
-        viewModelScope.launch(Dispatchers.IO) {
-            preferenceRepository.setOnBoardState(onBoardState = false)
-        }
-    }
 
     private fun forceReloadData() {
         viewModelScope.launch(Dispatchers.IO) {

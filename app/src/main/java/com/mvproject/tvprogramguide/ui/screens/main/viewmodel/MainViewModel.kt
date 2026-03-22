@@ -12,11 +12,14 @@ import com.mvproject.tvprogramguide.domain.helpers.NetworkHelper
 import com.mvproject.tvprogramguide.domain.usecases.CleanProgramsUseCase
 import com.mvproject.tvprogramguide.domain.usecases.UpdateChannelsInfoUseCase
 import com.mvproject.tvprogramguide.domain.workers.FullUpdateProgramsWorker
+import com.mvproject.tvprogramguide.navigation.AppRoutes
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -37,6 +40,16 @@ class MainViewModel(
             .map { settings ->
                 AppThemeOptions.getThemeById(settings.appTheme)
             }
+
+    val startDestination = preferenceRepository.loadOnBoardState()
+        .map { isOnboard ->
+            if (isOnboard) AppRoutes.OnBoard else AppRoutes.Channels
+        }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Eagerly,
+            AppRoutes.Channels
+        )
 
     private var isUpdating = false
 

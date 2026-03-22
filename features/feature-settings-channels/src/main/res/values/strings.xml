@@ -1,0 +1,5 @@
+<resources>
+    <string name="settings_channels_settings_title">Channels Settings</string>
+    <string name="title_all_channels">All</string>
+    <string name="title_selected_channels">Selected</string>
+</resources>

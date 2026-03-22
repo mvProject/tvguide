@@ -37,7 +37,6 @@ import com.mvproject.tvprogramguide.ui.components.dialogs.ShowSelectFromListDial
 import com.mvproject.tvprogramguide.ui.components.toolbars.ToolbarWithOptions
 import com.mvproject.tvprogramguide.ui.components.views.NoItemsScreen
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.actions.ChannelsViewAction
-import com.mvproject.tvprogramguide.ui.screens.channels.selected.components.OnBoardScreenView
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.state.ChannelsViewState
 import com.mvproject.tvprogramguide.utils.AppConstants.COUNT_ZERO
 import com.mvproject.tvprogramguide.utils.AppConstants.REFRESH_DELAY
@@ -153,61 +152,53 @@ private fun ChannelScreen(
         },
     ) { padding ->
 
-        if (viewState.isOnboard) {
-            OnBoardScreenView(
-                onComplete = {
-                    onAction(ChannelsViewAction.CompleteOnBoard)
-                },
-            )
-        } else {
-            PullToRefreshBox(
-                modifier = Modifier.padding(padding),
-                state = refreshState,
-                isRefreshing = isRefreshing,
-                onRefresh = onRefresh,
+        PullToRefreshBox(
+            modifier = Modifier.padding(padding),
+            state = refreshState,
+            isRefreshing = isRefreshing,
+            onRefresh = onRefresh,
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
             ) {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    ChannelList(
-                        singleChannelPrograms = viewState.channels,
-                        listState = listState,
-                        sharedTransitionScope = sharedTransitionScope,
-                        animatedVisibilityScope = animatedVisibilityScope,
-                        onChannelClick = { channel ->
-                            onNavigateSingleChannel(
-                                channel.programId,
-                                channel.channelName,
-                            )
-                        },
-                        onScheduleClick = { name, program ->
-                            onAction(ChannelsViewAction.ToggleScheduleProgram(name, program))
-                        }
-                    )
-                }
-
-                if (viewState.isLoading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center),
-                        color = MaterialTheme.colorScheme.tertiary,
-                    )
-                } else {
-                    if (viewState.listName.isEmpty()) {
-                        NoItemsScreen(
-                            title = stringResource(id = R.string.msg_user_filled_list_empty),
-                            navigateTitle = stringResource(id = R.string.msg_tap_to_create_list),
-                            onNavigateClick = onNavigateChannelsList,
+                ChannelList(
+                    singleChannelPrograms = viewState.channels,
+                    listState = listState,
+                    sharedTransitionScope = sharedTransitionScope,
+                    animatedVisibilityScope = animatedVisibilityScope,
+                    onChannelClick = { channel ->
+                        onNavigateSingleChannel(
+                            channel.programId,
+                            channel.channelName,
                         )
+                    },
+                    onScheduleClick = { name, program ->
+                        onAction(ChannelsViewAction.ToggleScheduleProgram(name, program))
                     }
-                }
+                )
             }
 
-            ShowSelectFromListDialog(
-                channelLists = viewState.playlists,
-                isDialogOpen = isDialogOpen,
-                defaultSelection = viewState.selectedListIndex,
-                onSelected = { selected -> onAction(ChannelsViewAction.SelectChannelList(selected)) },
-            )
+            if (viewState.isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                    color = MaterialTheme.colorScheme.tertiary,
+                )
+            } else {
+                if (viewState.listName.isEmpty()) {
+                    NoItemsScreen(
+                        title = stringResource(id = R.string.msg_user_filled_list_empty),
+                        navigateTitle = stringResource(id = R.string.msg_tap_to_create_list),
+                        onNavigateClick = onNavigateChannelsList,
+                    )
+                }
+            }
         }
+
+        ShowSelectFromListDialog(
+            channelLists = viewState.playlists,
+            isDialogOpen = isDialogOpen,
+            defaultSelection = viewState.selectedListIndex,
+            onSelected = { selected -> onAction(ChannelsViewAction.SelectChannelList(selected)) },
+        )
     }
 }

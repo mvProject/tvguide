@@ -4,6 +4,7 @@ import com.mvproject.tvprogramguide.ui.screens.channellist.ChannelListViewModel
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.ChannelViewModel
 import com.mvproject.tvprogramguide.ui.screens.channels.single.SingleChannelViewModel
 import com.mvproject.tvprogramguide.ui.screens.main.viewmodel.MainViewModel
+import com.mvproject.tvprogramguide.ui.screens.onboard.OnBoardViewModel
 import com.mvproject.tvprogramguide.ui.screens.settings.app.AppSettingsViewModel
 import com.mvproject.tvprogramguide.ui.screens.settings.backup.SettingsBackupViewModel
 import com.mvproject.tvprogramguide.ui.screens.settings.channels.ChannelSettingsViewModel
@@ -18,4 +19,5 @@ val viewModelsModule = module {
     viewModelOf(::AppSettingsViewModel)
     viewModelOf(::ChannelSettingsViewModel)
     viewModelOf(::SettingsBackupViewModel)
+    viewModelOf(::OnBoardViewModel)
 }

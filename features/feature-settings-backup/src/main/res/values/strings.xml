@@ -1,0 +1,10 @@
+<resources>
+    <string name="settings_backup_settings_title">Backup</string>
+    <string name="title_backup_mode_create">Create</string>
+    <string name="title_backup_mode_restore">Restore</string>
+    <string name="btn_backup_create">Create Backup</string>
+    <string name="btn_backup_restore">Restore Backup</string>
+    <string name="btn_profile_login">Sign with Google</string>
+    <string name="btn_profile_logout">Log out</string>
+    <string name="btn_profile_login_requirement">You need to log in, if you want to continue</string>
+</resources>

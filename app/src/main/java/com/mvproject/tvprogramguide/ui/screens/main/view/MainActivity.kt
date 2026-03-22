@@ -22,7 +22,6 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.mvproject.tvprogramguide.data.model.settings.AppThemeOptions
-import com.mvproject.tvprogramguide.navigation.AppRoutes
 import com.mvproject.tvprogramguide.navigation.NavigationHost
 import com.mvproject.tvprogramguide.ui.screens.main.viewmodel.MainViewModel
 import com.mvproject.tvprogramguide.ui.theme.TvGuideTheme
@@ -101,10 +100,11 @@ class MainActivity : ComponentActivity() {
                     darkTheme = isDarkTheme,
                 ) {
                     val navController = rememberNavController()
+                    val startDestination by viewModel.startDestination.collectAsState()
                     Box(modifier = Modifier) {
                         NavigationHost(
                             navController = navController,
-                            startScreen = AppRoutes.Channels,
+                            startScreen = startDestination,
                         )
                     }
                 }

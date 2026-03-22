@@ -109,6 +109,10 @@ dependencies {
     implementation(project(":platform"))
     implementation(project(":infrastructure:dependency-injection"))
     implementation(project(":features:feature-settings"))
+    implementation(project(":features:feature-settings-app"))
+    implementation(project(":features:feature-settings-backup"))
+    implementation(project(":features:feature-settings-channels"))
+    implementation(project(":features:feature-onboard"))
     implementation(project(":features:feature-channellist"))
     implementation(project(":features:feature-channels"))
 

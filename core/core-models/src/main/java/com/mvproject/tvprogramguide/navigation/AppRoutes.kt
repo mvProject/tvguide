@@ -5,6 +5,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class AppRoutes {
     @Serializable
+    data object OnBoard : AppRoutes()
+
+    @Serializable
     data object Channels : AppRoutes()
 
     @Serializable

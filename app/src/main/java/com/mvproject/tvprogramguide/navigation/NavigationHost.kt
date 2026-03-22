@@ -11,6 +11,7 @@ import com.mvproject.tvprogramguide.ui.screens.channellist.navigation.navigateTo
 import com.mvproject.tvprogramguide.ui.screens.channels.selected.navigation.selectedChannelsScreen
 import com.mvproject.tvprogramguide.ui.screens.channels.single.navigation.navigateToSingleChannel
 import com.mvproject.tvprogramguide.ui.screens.channels.single.navigation.singleChannelScreen
+import com.mvproject.tvprogramguide.ui.screens.onboard.navigation.onBoardScreen
 import com.mvproject.tvprogramguide.ui.screens.settings.app.navigation.navigateToSettingsApp
 import com.mvproject.tvprogramguide.ui.screens.settings.app.navigation.settingsAppScreen
 import com.mvproject.tvprogramguide.ui.screens.settings.backup.navigation.navigateToSettingsBackup
@@ -39,6 +40,14 @@ fun NavigationHost(
             popEnterTransition = { navPopEnterTransition },
             popExitTransition = { navPopExitTransition },
         ) {
+            onBoardScreen(
+                onComplete = {
+                    navController.navigate(AppRoutes.Channels) {
+                        popUpTo(AppRoutes.OnBoard) { inclusive = true }
+                    }
+                }
+            )
+
             selectedChannelsScreen(
                 sharedTransitionScope = this@SharedTransitionLayout,
                 onNavigateSingleChannel = navController::navigateToSingleChannel,
