@@ -1,6 +1,6 @@
 package com.mvproject.tvprogramguide.data.network
 
-import com.mvproject.tvprogramguide.BuildConfig
+import com.mvproject.tvprogramguide.core.network.BuildConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.HttpTimeout

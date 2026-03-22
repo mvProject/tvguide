@@ -106,6 +106,7 @@ class ProgramDataSource(
                                         channel = parser.getAttributeValue(null, "channel") ?: ""
                                     )
                                 }
+
                                 else -> currentTag = parser.name
                             }
                         }
